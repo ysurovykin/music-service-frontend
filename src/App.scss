@@ -1,0 +1,15 @@
+@import './user/login/login.page.scss';
+@import './user/registration/registration.page.scss';
+@import './listener/components/song-player.component.scss';
+
+a {
+  color: #ffffff; //#78E46F
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #ffffff80;
+  }
+}

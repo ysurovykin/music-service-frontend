@@ -1,0 +1,13 @@
+.song-player {
+  position: fixed;
+  bottom: 0;
+  min-width: 950px;
+  padding: 10px 0px 10px 20px;
+  width: 100%;
+  background-color: #121212;
+
+  &-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 3fr 0.5fr;
+  }
+}

@@ -1,0 +1,39 @@
+.registration-page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: #121212;
+
+  &-login-link {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  & .form-wrapper {
+    display: grid;
+    grid-template-rows: 0.1fr 3fr 0.1fr 0.1fr;
+    row-gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+    width: 100%;
+    max-width: 400px;
+    height: fit-content;
+    max-height: 550px;
+    border-radius: 30px;
+    background-color: #333333;
+  
+    label {
+      color: white;
+    }
+  }
+
+  &-button {
+    width: 100%;
+  }
+  
+}
