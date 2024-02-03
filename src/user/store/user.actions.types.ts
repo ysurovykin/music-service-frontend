@@ -1,15 +1,10 @@
-import { 
-  ActionFailedError, 
+import { ActionFailedError } from "../../helpers/react/redux.helper";
+import {
   UserLoginData, 
   UserDataWithTokens, 
   UserRegistrationData, 
   UserActionTypes 
 } from "./user.model";
-
-export type ErrorActionType = {
-  type: string;
-  payload: ActionFailedError;
-};
 
 export type LoginStartActionType = {
   type: typeof UserActionTypes.LOGIN;

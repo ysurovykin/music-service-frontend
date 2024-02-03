@@ -1,3 +1,4 @@
+import { ActionFailedError } from "../../helpers/react/redux.helper";
 import { 
   LoginFailedActionType, 
   LoginStartActionType, 
@@ -16,7 +17,6 @@ import {
   RefreshFailedActionType
 } from "./user.actions.types";
 import { 
-  ActionFailedError, 
   UserDataWithTokens, 
   UserLoginData, 
   UserRegistrationData, 
@@ -69,20 +69,20 @@ export const switchUserToListenerAction = ():
   SwitchUserToListenerActionType => ({type: UserActionTypes.SWITCH_USER_TO_LISTENER, payload: undefined});
 
 export const userActions = {
-  loginStart: (loginData: UserLoginData) => loginStartAction(loginData),
+  login: (loginData: UserLoginData) => loginStartAction(loginData),
   loginSuccess: (response: UserDataWithTokens) => loginSuccessAction(response),
   loginFailed: (error: ActionFailedError) => loginFailedAction(error),
-  registrationStart: (registrationData: UserRegistrationData) => registrationStartAction(registrationData),
+  registration: (registrationData: UserRegistrationData) => registrationStartAction(registrationData),
   registrationSuccess: (response: UserDataWithTokens) => registrationSuccessAction(response),
   registrationFailed: (error: ActionFailedError) => registrationFailedAction(error),
-  refreshStart: () => refreshStartAction(),
+  refresh: () => refreshStartAction(),
   refreshSuccess: (response: UserDataWithTokens) => refreshSuccessAction(response),
   refreshFailed: (error: ActionFailedError) => refreshFailedAction(error),
-  logoutStart: () => logoutStartAction(),
+  logout: () => logoutStartAction(),
   logoutSuccess: () => logoutSuccessAction(),
   logoutFailed: (error: ActionFailedError) => logoutFailedAction(error),
   setAvatarAction: (avatar: string) => setAvatarAction(avatar),
-  switchUserToArtistAction: () => switchUserToArtistAction(),
-  switchUserToListenerAction: () => switchUserToListenerAction()
+  switchUserToArtist: () => switchUserToArtistAction(),
+  switchUserToListener: () => switchUserToListenerAction()
 }
 

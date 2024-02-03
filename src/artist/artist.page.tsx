@@ -5,7 +5,7 @@ import { userActions } from "../user/store/user.actions";
 export function ArtistPage() {
 
   const dispatch = useDispatch();
-  const logout = () => dispatch(userActions.logoutStart());
+  const logout = () => dispatch(userActions.logout());
 
   return (
     <div>

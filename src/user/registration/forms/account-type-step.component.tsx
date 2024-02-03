@@ -14,8 +14,8 @@ export function AccountTypeStep({form}: {form?: FormInstance}) {
 
   const dispatch = useDispatch();
   const profileType = useSelector(userSelectors.profileType);
-  const switchUserToArtist = () => dispatch(userActions.switchUserToArtistAction());
-  const switchUserToListener = () => dispatch(userActions.switchUserToListenerAction());
+  const switchUserToArtist = () => dispatch(userActions.switchUserToArtist());
+  const switchUserToListener = () => dispatch(userActions.switchUserToListener());
 
   const userData = [
     'Listen to any artists around the world.',

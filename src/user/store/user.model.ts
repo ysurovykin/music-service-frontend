@@ -1,16 +1,3 @@
-export const userInitialState: UserState = {
-  userId: undefined,
-  isAuthorizationLoading: false,
-  email: undefined,
-  name: undefined,
-  gender: undefined,
-  country: undefined,
-  role: undefined,
-  birthDate: undefined,
-  avatar: undefined,
-  profileType: undefined
-};
-
 export const userState: UserState = {
   userId: undefined,
   isAuthorizationLoading: false,
@@ -57,10 +44,6 @@ export interface UserRegistrationData {
   name: string,
   profileType: ProfileTypeEnum,
   birthDate: BirthDate
-}
-
-export interface ActionFailedError {
-  error: Error
 }
 
 export interface UserLoginData {

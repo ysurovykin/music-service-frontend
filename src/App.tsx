@@ -7,12 +7,13 @@ import { useSelector } from 'react-redux';
 import { userSelectors } from './user/store/user.selectors';
 import { useDispatch } from 'react-redux';
 import { userActions } from './user/store/user.actions';
+import { SongPlayerComponent } from './listener/components/song-player.component';
 
 function App() {
 
   const profileType = useSelector(userSelectors.profileType);
   const dispatch = useDispatch();
-  const refreshUserData = () => dispatch(userActions.refreshStart());
+  const refreshUserData = () => dispatch(userActions.refresh());
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -45,7 +46,10 @@ function App() {
               colorTextQuaternary: listenerProfileTypePalete.base,
             },
             Typography: {
-              colorText: '#ffffff'
+              colorText: '#ffffff',
+              colorTextHeading: '#ffffff',
+              colorLink: listenerProfileTypePalete.base,
+              colorLinkHover: listenerProfileTypePalete.secondary
             },
             Slider: {
               railBg: listenerProfileTypePalete.backgroundAccent,

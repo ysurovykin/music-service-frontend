@@ -10,7 +10,8 @@ export const API_URL = 'http://localhost:5000/'
 
 export const listenerProfileTypePalete = {
   base: '#78E46F',
-  secondary: '#F2C994',
+  secondary: '#98FF8E', 
+  contrast: '#F2C994',
   backgroundBase: '#121212',
   backgroundAccent: '#333333'
 };

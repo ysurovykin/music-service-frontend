@@ -1,14 +1,15 @@
 import { put, takeEvery } from 'redux-saga/effects'
 import { UserActionTypes, UserDataWithTokens } from './user.model';
-import { ErrorActionType, LoginStartActionType, RegistrationStartActionType } from './user.actions.types';
+import { LoginStartActionType, RegistrationStartActionType } from './user.actions.types';
 import AuthService from './user.service';
 import { userActions } from './user.actions';
+import { ErrorActionType } from '../../helpers/react/redux.helper';
 
 export const userEffects = [
   takeEvery(UserActionTypes.LOGIN, login),
   takeEvery(UserActionTypes.LOGIN_FAILED, handleError),
   takeEvery(UserActionTypes.LOGOUT, logout),
-  takeEvery(UserActionTypes.LOGIN_FAILED, handleError),
+  takeEvery(UserActionTypes.LOGOUT_FAILED, handleError),
   takeEvery(UserActionTypes.REGISTRATION, registration),
   takeEvery(UserActionTypes.REGISTRATION_FAILED, handleError),
   takeEvery(UserActionTypes.REFRESH, refresh),

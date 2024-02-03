@@ -21,7 +21,7 @@ export function LoginPage() {
     );
   }, [form, values]);
   const dispatch = useDispatch()
-  const login = (loginData: UserLoginData) => dispatch(userActions.loginStart(loginData));
+  const login = (loginData: UserLoginData) => dispatch(userActions.login(loginData));
   
   const onFinish = (values: any) => {
     login({...values})

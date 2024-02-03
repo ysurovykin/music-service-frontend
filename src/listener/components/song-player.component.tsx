@@ -15,8 +15,13 @@ import {
 import { Avatar, Slider, Typography } from "antd";
 import { listenerProfileTypePalete } from "../../config";
 import { ProfileOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { songActions } from "../song/store/song.actions";
+import { useSelector } from "react-redux";
+import { songSelectors } from "../song/store/song.selectors";
+import { Link as RouterLink} from 'react-router-dom';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 export function SongPlayerComponent() {
 
@@ -25,8 +30,6 @@ export function SongPlayerComponent() {
   // const [index, setIndex] = useState(0);
 
   // const [currentSong] = useState(playlist[index]);
-
-  const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(30);
   const [mute, setMute] = useState(false);
   const [shuffleEnabled, setShuffleEnabled] = useState(false);
@@ -35,31 +38,47 @@ export function SongPlayerComponent() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [playerIntervalId, setPlayerIntervalId] = useState<ReturnType<typeof setInterval>>();
-  // console.log('values', isPlaying, volume, mute, currentTime, duration)
+  
+  const isPlaying = useSelector(songSelectors.isPlaying);
+  const name = useSelector(songSelectors.name);
+  const songUrl = useSelector(songSelectors.songUrl);
+  const coverImageurl = useSelector(songSelectors.coverImageurl);
+  const artists = useSelector(songSelectors.artists);
+
+  const dispatch = useDispatch();
+  const pauseSong = () => dispatch(songActions.pauseSong());
+  const unpauseSong = () => dispatch(songActions.unpauseSong());
+
   useEffect(() => {
     if (isPlaying) {
-      console.log('start', playerIntervalId)
+      if (audioPlayer.current) {
+        audioPlayer.current.play()
+      }
+      if (playerIntervalId) {
+        clearInterval(playerIntervalId);
+      }
       const intervalId = setInterval(() => {
-        console.log('here', playerIntervalId, audioPlayer?.current?.currentTime)
         if (audioPlayer.current) {
           setCurrentTime(audioPlayer?.current?.currentTime);
         }
       }, 1000)
       setPlayerIntervalId(intervalId);
     } else {
-      console.log('playerIntervalId', playerIntervalId)
+      if (audioPlayer.current) {
+        audioPlayer.current.pause()
+      }
       if (playerIntervalId) {
         clearInterval(playerIntervalId);
       }
     }
-  }, [isPlaying]);
+  }, [isPlaying, songUrl]);
 
   useEffect(() => {
     if (audioPlayer.current) {
       const songDuration = Math.floor(audioPlayer.current.duration);
       setDuration(songDuration);
     }
-  }, [audioPlayer?.current?.readyState]);
+  }, [audioPlayer?.current?.readyState, songUrl]);
 
   const changePlayerCurrentTime = (value: number) => {
     if (audioPlayer.current) {
@@ -83,15 +102,6 @@ export function SongPlayerComponent() {
       return `${minutes}:${seconds}`;
     }
     return '0:00';
-  }
-
-  const togglePlay = () => {
-    if (!isPlaying && audioPlayer.current) {
-      audioPlayer.current.play()
-    } else if (audioPlayer.current) {
-      audioPlayer.current.pause()
-    }
-    setIsPlaying(prev => !prev)
   }
 
   const toggleSkipForward = () => {
@@ -137,7 +147,7 @@ export function SongPlayerComponent() {
   return (
     <div className="song-player">
       <audio
-        src="https://firebasestorage.googleapis.com/v0/b/music-service-3d701.appspot.com/o/songs%2FSkryabin%2FThe%20Best%2F%D0%9B%D1%8E%D0%B4%D0%B8%20%D1%8F%D0%BA%20%D0%BA%D0%BE%D1%80%D0%B0%D0%B1%D0%BB%D1%96?alt=media&token=845355d3-1c64-4956-b761-ae019326baad"
+        src={songUrl}
         ref={audioPlayer}
         muted={mute} />
       <div className="song-player-wrapper">
@@ -148,14 +158,14 @@ export function SongPlayerComponent() {
             minWidth: '250px',
             alignItems: 'center'
           }}>
-            <Avatar shape="square" style={{backgroundColor: listenerProfileTypePalete.base}} size={64} icon={<ProfileOutlined/>}/>
+            <Avatar shape="square" size={64} src={coverImageurl} />
             <div style={{
               display: 'flex',
               flexDirection: 'column',
               justifySelf: 'start'
             }}>
-              <Text>Song Name</Text>
-              <Text>Artist</Text>
+              <Title style={{margin: '0px'}} level={5}>{name}</Title>
+              <Text>{artists?.map(artist => <RouterLink to={`/artist/${artist.id}`}>{artist.name}</RouterLink>)}</Text>
             </div>
           </div>
 
@@ -176,8 +186,8 @@ export function SongPlayerComponent() {
                 sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} 
                 onClick={toggleSkipBackward} />
               {!isPlaying
-                ? <PlayArrowOutlined fontSize={'large'} sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={togglePlay} />
-                : <PauseOutlined fontSize={'large'} sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={togglePlay} />
+                ? <PlayArrowOutlined fontSize={'large'} sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={unpauseSong} />
+                : <PauseOutlined fontSize={'large'} sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={pauseSong} />
               }
               <SkipNextOutlined 
                 sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}

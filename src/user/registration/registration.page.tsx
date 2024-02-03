@@ -21,7 +21,7 @@ export function RegistrationPage() {
   
   const profileType = useSelector(userSelectors.profileType);
   const dispatch = useDispatch()
-  const registration = (registrationData: UserRegistrationData) => dispatch(userActions.registrationStart(registrationData));
+  const registration = (registrationData: UserRegistrationData) => dispatch(userActions.registration(registrationData));
   
   const next = () => {
     const formValues = form.getFieldsValue();
