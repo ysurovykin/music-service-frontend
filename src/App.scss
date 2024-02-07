@@ -1,10 +1,10 @@
 @import './user/login/login.page.scss';
 @import './user/registration/registration.page.scss';
-@import './listener/components/song-player.component.scss';
+@import './listener/components/song-player/song-player.component.scss';
 @import './listener/listener.page.scss';
 @import './listener/artist/artist.page.scss';
 @import './listener/album/album.page.scss';
-
+@import './listener/queue/queue.page.scss';
 
 a {
   color: #ffffff; //#78E46F

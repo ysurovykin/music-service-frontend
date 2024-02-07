@@ -14,7 +14,7 @@ export const artistReducer = (state = artistState, action: ArtistActions): Artis
       return {
         ...state,
         isArtistQueueLoading: false,
-        artistsQueue: action.payload
+        artists: action.payload
       }
     }
     case ArtistActionTypes.GET_ARTISTS_FAILED: {

@@ -1,4 +1,5 @@
 import { ArtistShortDataType } from "../../artist/store/artist.model";
+import { SongInfoResponseData } from "../../song/store/song.model";
 
 export const albumState: AlbumState = {
   albums: undefined,
@@ -41,7 +42,7 @@ export type AlbumInfoResponseData = {
 
 export type AlbumFullResponseData = AlbumInfoResponseData & {
   likes?: number,
-  songs?: Array<AlbumSongData>
+  songs?: Array<SongInfoResponseData>
 }
 
 export enum AlbumActionTypes {

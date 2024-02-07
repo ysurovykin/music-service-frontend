@@ -11,7 +11,7 @@ const socialLinks = createSelector(artistState, artist => artist?.socialLinks);
 const followers = createSelector(artistState, artist => artist?.followers);
 const isArtistLoading = createSelector(artistState, artist => artist?.isArtistLoading);
 const isArtistQueueLoading = createSelector(artistState, artist => artist?.isArtistQueueLoading);
-const artistsQueue = createSelector(artistState, artist => artist?.artistsQueue);
+const artists = createSelector(artistState, artist => artist?.artists);
 const albums = createSelector(artistState, artist => artist?.albums);
 
 export const artistSelectors = {
@@ -23,6 +23,6 @@ export const artistSelectors = {
   followers,
   isArtistLoading,
   isArtistQueueLoading,
-  artistsQueue,
+  artists,
   albums
 };

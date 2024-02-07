@@ -1,5 +1,5 @@
 export const artistState: ArtistState = {
-  artistsQueue: undefined,
+  artists: undefined,
   isArtistQueueLoading: false,
   isArtistLoading: false,
   artistId: undefined,
@@ -14,7 +14,7 @@ export const artistState: ArtistState = {
 export interface ArtistState extends ArtistFullResponseDataType {
   isArtistQueueLoading: boolean,
   isArtistLoading: boolean,
-  artistsQueue?: Array<ArtistInfoResponseDataType>
+  artists?: Array<ArtistInfoResponseDataType>
 }
 
 export interface ArtistSocialLinks {

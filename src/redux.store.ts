@@ -27,7 +27,7 @@ function* rootEffects() {
     ...artistEffects,
     ...albumEffects,
     ...songEffects,
-    ...userEffects
+    ...userEffects,
   ]);
 }
 

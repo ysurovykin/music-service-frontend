@@ -5,13 +5,10 @@ import { albumActions } from './store/album.actions';
 import { useSelector } from 'react-redux';
 import { albumSelectors } from './store/album.selectors';
 import { Avatar, Button, List, Typography } from 'antd';
-import { PauseOutlined, PlayArrowOutlined } from '@mui/icons-material';
-import { listenerProfileTypePalete } from '../../config';
-import { songSelectors } from '../song/store/song.selectors';
-import { songActions } from '../song/store/song.actions';
-import { SongShortData } from '../song/store/song.model';
+import { SongComponent } from '../components/song/song.component';
+import { SongInfoResponseData } from '../song/store/song.model';
 
-const { Text, Title, Link } = Typography;
+const { Text, Title } = Typography;
 
 export function AlbumPage() {
   let navigate = useNavigate();
@@ -23,57 +20,15 @@ export function AlbumPage() {
   const albumCoverImageUrl = useSelector(albumSelectors.downloadUrl);
   const likes = useSelector(albumSelectors.likes);
   const songs = useSelector(albumSelectors.songs);
-  const isPlaying = useSelector(songSelectors.isPlaying);
-  const songId = useSelector(songSelectors.songId);
   
   const dispatch = useDispatch()
   const getAlbumData = (albumId: string) => dispatch(albumActions.getAlbumById(albumId));
-  const pauseSong = () => dispatch(songActions.pauseSong());
-  const playSong = (songData: SongShortData) => dispatch(songActions.playSong(songData));
-  const unpauseSong = () => dispatch(songActions.unpauseSong());
 
   useEffect(() => {
     if (albumId) {
       getAlbumData(albumId);
     }
   }, [albumId]);
-
-  const startPlaySong = (id: string, songName: string, songUrl: string) => {
-    playSong({
-      songId: id,
-      name: songName,
-      coverImageurl: albumCoverImageUrl,
-      songUrl,
-      artists: [{id: `${artist?.id}`, name: `${artist?.name}`}]
-    })
-  }
-  
-  const renderPlayButton = (id: string, name: string, downloadUrl: string) => {
-    if (songId === id) {
-      if (isPlaying) {
-        return (
-          <PauseOutlined 
-            fontSize={'large'} 
-            sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} 
-            onClick={pauseSong} />
-        );
-      } else {
-        return (
-          <PlayArrowOutlined 
-            fontSize={'large'} 
-            sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} 
-            onClick={unpauseSong} />
-        );
-      }
-    }
-    return (
-      <PlayArrowOutlined 
-        fontSize={'large'} 
-        sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} 
-        onClick={() => startPlaySong(id, name, downloadUrl)} />
-    );
-        
-  }
 
   return (
     <div className="album-page">
@@ -93,12 +48,7 @@ export function AlbumPage() {
             dataSource={songs}
             renderItem={(song, index) => (
               <List.Item>
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                  {renderPlayButton(song.songId, song.name, song.downloadUrl)}
-                  <Text>{index+1} {song.name}</Text>
-                </div>
-                <Text>{song.plays}</Text>
-                <Text>{song.plays} plays</Text>
+                <SongComponent song={song} index={index+1} songsQueue={songs || []}/>
               </List.Item>
             )}>
           </List>

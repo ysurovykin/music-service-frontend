@@ -10,16 +10,19 @@ import {
   SkipPreviousOutlined,
   RepeatOneOutlined,
   RepeatOutlined,
-  ShuffleOutlined
+  ShuffleOutlined,
+  QueueMusicOutlined
 } from '@mui/icons-material';
 import { Avatar, Slider, Typography } from "antd";
-import { listenerProfileTypePalete } from "../../config";
+import { listenerProfileTypePalete } from "../../../config";
 import { ProfileOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import { songActions } from "../song/store/song.actions";
+import { songActions } from "../../song/store/song.actions";
 import { useSelector } from "react-redux";
-import { songSelectors } from "../song/store/song.selectors";
+import { songSelectors } from "../../song/store/song.selectors";
 import { Link as RouterLink} from 'react-router-dom';
+import { formatTime } from "../../../helpers/react/song-player.helper";
+import { SongShortData } from "../../song/store/song.model";
 
 const { Text, Title } = Typography;
 
@@ -27,27 +30,27 @@ export function SongPlayerComponent() {
 
   const audioPlayer = useRef<HTMLAudioElement>(null)
 
-  // const [index, setIndex] = useState(0);
-
-  // const [currentSong] = useState(playlist[index]);
   const [volume, setVolume] = useState(30);
   const [mute, setMute] = useState(false);
   const [shuffleEnabled, setShuffleEnabled] = useState(false);
   const [repeatOneSong, setRepeatOneSong] = useState(false);
 
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
   const [playerIntervalId, setPlayerIntervalId] = useState<ReturnType<typeof setInterval>>();
   
   const isPlaying = useSelector(songSelectors.isPlaying);
   const name = useSelector(songSelectors.name);
   const songUrl = useSelector(songSelectors.songUrl);
-  const coverImageurl = useSelector(songSelectors.coverImageurl);
+  const coverImageUrl = useSelector(songSelectors.coverImageUrl);
   const artists = useSelector(songSelectors.artists);
+  const duration = useSelector(songSelectors.duration);
+  const songIndex = useSelector(songSelectors.songIndex);
+  const songsQueue = useSelector(songSelectors.songsQueue);
 
   const dispatch = useDispatch();
   const pauseSong = () => dispatch(songActions.pauseSong());
   const unpauseSong = () => dispatch(songActions.unpauseSong());
+  const playSong = (songData: SongShortData) => dispatch(songActions.playSong(songData));
 
   useEffect(() => {
     if (isPlaying) {
@@ -60,6 +63,9 @@ export function SongPlayerComponent() {
       const intervalId = setInterval(() => {
         if (audioPlayer.current) {
           setCurrentTime(audioPlayer?.current?.currentTime);
+          if ((duration! - audioPlayer?.current?.currentTime) < 0.5) {
+            switchToNextSong();
+          }
         }
       }, 1000)
       setPlayerIntervalId(intervalId);
@@ -72,13 +78,6 @@ export function SongPlayerComponent() {
       }
     }
   }, [isPlaying, songUrl]);
-
-  useEffect(() => {
-    if (audioPlayer.current) {
-      const songDuration = Math.floor(audioPlayer.current.duration);
-      setDuration(songDuration);
-    }
-  }, [audioPlayer?.current?.readyState, songUrl]);
 
   const changePlayerCurrentTime = (value: number) => {
     if (audioPlayer.current) {
@@ -94,49 +93,19 @@ export function SongPlayerComponent() {
     }
   }
 
-  const formatTime = (time: number) => {
-    if (time && !isNaN(time)) {
-      const minutes = Math.floor(time / 60) < 10 ? `${Math.floor(time / 60)}` : Math.floor(time / 60);
-      const seconds = Math.floor(time % 60) < 10 ? `0${Math.floor(time % 60)}` : Math.floor(time % 60);
-
-      return `${minutes}:${seconds}`;
-    }
-    return '0:00';
-  }
-
-  const toggleSkipForward = () => {
-    // if(index >= playlist.length - 1) {
-    //     setIndex(0);
-    //     audioPlayer.current.src = playlist[0];
-    //     audioPlayer.current.play();
-    // } else {
-    //     setIndex(prev => prev + 1);
-    //     audioPlayer.current.src = playlist[index + 1];
-    //     audioPlayer.current.play();
-    // }
-  }
-
-  const toggleSkipBackward = () => {
-    // if(index > 0) {
-    //     setIndex(prev => prev - 1);
-    //     audioPlayer.current.src = playlist[index - 1];
-    //     audioPlayer.current.play();
-    // }
-  }
-
-  function renderShuffleIcon() {
+  const renderShuffleIcon = () => {
     return <ShuffleOutlined 
       sx={{ color: shuffleEnabled ? 'white' : listenerProfileTypePalete.base}} 
       onClick={() => setShuffleEnabled(state => !state)} />;
   }
 
-  function renderRepeatIcon() {
+  const renderRepeatIcon = () => {
     return repeatOneSong
       ? <RepeatOneOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={() => setRepeatOneSong(false)} />
       : <RepeatOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={() => setRepeatOneSong(true)} />;
   }
 
-  function renderVolumeIcon() {
+  const renderVolumeIcon = () => {
     return mute
       ? <VolumeOffOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={() => setMute(!mute)} />
       : volume <= 25 ? <VolumeMuteOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={() => setMute(!mute)} />
@@ -144,7 +113,51 @@ export function SongPlayerComponent() {
           : <VolumeUpOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={() => setMute(!mute)} />
   }
 
-  return (
+  const switchToPreviousSong = () => {
+    if (audioPlayer.current && audioPlayer.current.currentTime > 5) {
+      audioPlayer.current.currentTime = 0;
+      setCurrentTime(0);
+      unpauseSong();
+    } else {
+      if (songsQueue && songIndex) {
+        if (playerIntervalId) {
+          clearInterval(playerIntervalId);
+        }
+        const song = songsQueue[songIndex - 1];
+        playSong({
+          songIndex: songIndex - 1,
+          songsQueue,
+          songId: song?.songId,
+          name: song?.name,
+          duration: song?.duration,
+          coverImageUrl: song?.coverImageUrl,
+          songUrl: song?.songUrl,
+          artists: song?.artists
+        })
+      }
+    }
+  }
+
+  const switchToNextSong = () => {
+    if (songsQueue && !isNaN(songIndex!) && (songIndex! < songsQueue.length - 1)) {
+      if (playerIntervalId) {
+        clearInterval(playerIntervalId);
+      }
+      const song = songsQueue[songIndex! + 1];
+      playSong({
+        songIndex: songIndex! + 1,
+        songsQueue,
+        songId: song?.songId,
+        name: song?.name,
+        duration: song?.duration,
+        coverImageUrl: song?.coverImageUrl,
+        songUrl: song?.songUrl,
+        artists: song?.artists
+      })
+    }
+  }
+
+  return ( 
     <div className="song-player">
       <audio
         src={songUrl}
@@ -158,7 +171,7 @@ export function SongPlayerComponent() {
             minWidth: '250px',
             alignItems: 'center'
           }}>
-            <Avatar shape="square" size={64} src={coverImageurl} />
+            <Avatar shape="square" size={64} src={coverImageUrl} />
             <div style={{
               display: 'flex',
               flexDirection: 'column',
@@ -184,14 +197,14 @@ export function SongPlayerComponent() {
               {renderShuffleIcon()}
               <SkipPreviousOutlined 
                 sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} 
-                onClick={toggleSkipBackward} />
+                onClick={() => switchToPreviousSong()} />
               {!isPlaying
                 ? <PlayArrowOutlined fontSize={'large'} sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={unpauseSong} />
                 : <PauseOutlined fontSize={'large'} sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={pauseSong} />
               }
               <SkipNextOutlined 
                 sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
-                onClick={toggleSkipForward} />
+                onClick={() => switchToNextSong()} />
               {renderRepeatIcon()}
             </div>
             <div style={{
@@ -207,7 +220,7 @@ export function SongPlayerComponent() {
                 value={currentTime} 
                 onChange={(value) => changePlayerCurrentTime(value)}
                 max={duration} />
-              <Text>{formatTime(duration)}</Text>
+              <Text>{formatTime(duration || 0)}</Text>
             </div>
           </div>
 
@@ -219,7 +232,9 @@ export function SongPlayerComponent() {
               alignItems: 'center',
               marginRight: '30px'
             }}>
-
+            <RouterLink to='/queue'>
+              <QueueMusicOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
+            </RouterLink>
             {renderVolumeIcon()}
             <Slider
               tooltip={{open: false}} 
@@ -231,4 +246,5 @@ export function SongPlayerComponent() {
       </div>
     </div>
   );
+
 };

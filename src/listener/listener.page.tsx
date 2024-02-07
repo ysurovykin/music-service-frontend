@@ -11,14 +11,14 @@ const { Text, Title } = Typography;
 
 export function ListenerPage() {
   const isArtistQueueLoading = useSelector(artistSelectors.isArtistQueueLoading);
-  const artistsQueue = useSelector(artistSelectors.artistsQueue);
+  const artists = useSelector(artistSelectors.artists);
 
   const dispatch = useDispatch();
   const logout = () => dispatch(userActions.logout());
-  const getArtistsQueueData = () => dispatch(artistActions.getArtists());
+  const getArtistsData = () => dispatch(artistActions.getArtists());
 
   useEffect(() => {
-    getArtistsQueueData();
+    getArtistsData();
   }, []);
 
   return (
@@ -35,7 +35,7 @@ export function ListenerPage() {
           <List
             header={<Text>Artists:</Text>}
             bordered
-            dataSource={artistsQueue}
+            dataSource={artists}
             renderItem={(artist) => (
               <List.Item>
                 <RouterLink to={`/artist/${artist.artistId}`}>{artist.name}</RouterLink>

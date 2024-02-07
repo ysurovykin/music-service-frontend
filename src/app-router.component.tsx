@@ -6,7 +6,8 @@ import { userSelectors } from './user/store/user.selectors';
 import { MainPage } from './main.page';
 import { ArtistPage } from './listener/artist/artist.page';
 import { AlbumPage } from './listener/album/album.page';
-import { SongPlayerComponent } from './listener/components/song-player.component';
+import { SongPlayerComponent } from './listener/components/song-player/song-player.component';
+import { QueuePage } from './listener/queue/queue.page';
 
 export default function AppRouter() {
 
@@ -28,7 +29,8 @@ export default function AppRouter() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/artist/:artistId" element={<ArtistPage />} />
-        <Route path="/artist/:artistId/album/:albumId" element={<AlbumPage />} />
+        <Route path="/album/:albumId" element={<AlbumPage />} />
+        <Route path="/queue" element={<QueuePage />} />
       </Routes>
     );
   };

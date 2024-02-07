@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { userSelectors } from './user/store/user.selectors';
 import { useDispatch } from 'react-redux';
 import { userActions } from './user/store/user.actions';
-import { SongPlayerComponent } from './listener/components/song-player.component';
+import { SongPlayerComponent } from './listener/components/song-player/song-player.component';
 
 function App() {
 

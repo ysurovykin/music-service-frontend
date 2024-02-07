@@ -19,7 +19,8 @@ export const songReducer = (state = songState, action: SongActions): SongState =
         album: action.payload.album,
         plays: action.payload.plays,
         date: action.payload.date,
-        coverImageurl: action.payload.coverImageurl,
+        duration: action.payload.duration,
+        coverImageUrl: action.payload.coverImageUrl,
         songUrl: action.payload.songUrl
       }
     }
@@ -32,9 +33,12 @@ export const songReducer = (state = songState, action: SongActions): SongState =
     case SongActionTypes.PLAY_SONG: {
       return {
         ...state,
+        songIndex: action.payload.songIndex,
+        songsQueue: action.payload.songsQueue,
         songId: action.payload.songId,
         artists: action.payload.artists,
-        coverImageurl: action.payload.coverImageurl,
+        coverImageUrl: action.payload.coverImageUrl,
+        duration: action.payload.duration,
         name: action.payload.name,
         songUrl: action.payload.songUrl,
         isPlaying: true
