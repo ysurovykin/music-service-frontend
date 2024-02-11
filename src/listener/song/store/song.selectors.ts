@@ -11,12 +11,9 @@ const plays = createSelector(songState, song => song?.plays);
 const date = createSelector(songState, song => song?.date);
 const coverImageUrl = createSelector(songState, song => song?.coverImageUrl);
 const songUrl = createSelector(songState, song => song?.songUrl);
-const songsQueue = createSelector(songState, song => song?.songsQueue);
-const isSongsQueueLoading = createSelector(songState, song => song?.isSongsQueueLoading);
 const isSongDataLoading = createSelector(songState, song => song?.isSongDataLoading);
 const isPlaying = createSelector(songState, song => song?.isPlaying);
 const duration = createSelector(songState, song => song?.duration);
-const songIndex = createSelector(songState, song => song?.songIndex);
 
 export const songSelectors = {
   name,
@@ -27,10 +24,7 @@ export const songSelectors = {
   date,
   coverImageUrl,
   songUrl,
-  songsQueue,
-  isSongsQueueLoading,
   isSongDataLoading,
   isPlaying,
-  duration,
-  songIndex
+  duration
 };

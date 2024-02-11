@@ -11,29 +11,22 @@ export const songState: SongState = {
   duration: undefined,
   coverImageUrl: undefined,
   songUrl: undefined,
-  songsQueue: undefined,
-  isSongsQueueLoading: false,
   isSongDataLoading: false,
   isPlaying: false
 };
 
 export interface SongState extends SongInfoResponseData {
-  songIndex?: number,
   isPlaying?: boolean,
   isSongDataLoading?: boolean,
-  isSongsQueueLoading?: boolean, 
-  songsQueue?: Array<SongInfoResponseData>
 }
 
 export type SongShortData = {
-  songIndex?: number,
   songId?: string;
   name?: string;
   artists?: Array<ArtistShortDataType>;
   coverImageUrl?: string;
   songUrl?: string;
   duration?: number;
-  songsQueue?: Array<SongInfoResponseData>
 }
 
 export type SongInfoResponseData = {

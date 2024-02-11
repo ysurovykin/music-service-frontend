@@ -2,17 +2,17 @@ import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Button, List, Typography } from 'antd';
-import { songSelectors } from '../song/store/song.selectors';
 import { formatSongQueue } from '../../helpers/react/song-player.helper';
 import { SongComponent } from '../components/song/song.component';
+import { listenerSelectors } from '../store/listener.selectors';
 
 const { Title } = Typography;
 
 export function QueuePage() {
   let navigate = useNavigate();
   
-  const queue = useSelector(songSelectors.songsQueue);
-  const songIndex = useSelector(songSelectors.songIndex);
+  const queue = useSelector(listenerSelectors.songsQueue);
+  const songIndex = useSelector(listenerSelectors.songIndex);
   
   const formatedQueue = useMemo(() => {
     if (!isNaN(songIndex!) && queue) {

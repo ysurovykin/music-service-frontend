@@ -33,8 +33,6 @@ export const songReducer = (state = songState, action: SongActions): SongState =
     case SongActionTypes.PLAY_SONG: {
       return {
         ...state,
-        songIndex: action.payload.songIndex,
-        songsQueue: action.payload.songsQueue,
         songId: action.payload.songId,
         artists: action.payload.artists,
         coverImageUrl: action.payload.coverImageUrl,

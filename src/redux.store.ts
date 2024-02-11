@@ -14,11 +14,15 @@ import { albumReducer } from "./listener/album/store/album.reducer";
 import { songReducer } from "./listener/song/store/song.reducer";
 import { songEffects } from "./listener/song/store/song.effects";
 import { SongState } from "./listener/song/store/song.model";
+import { ListenerState } from "./listener/store/listener.model";
+import { listenerEffects } from "./listener/store/listener.effects";
+import { listenerReducer } from "./listener/store/listener.reducer";
 
 const rootReducer = combineReducers({
   artist: artistReducer,
   album: albumReducer,
   song: songReducer,
+  listener: listenerReducer,
   user: userReducer,
 });
 
@@ -27,6 +31,7 @@ function* rootEffects() {
     ...artistEffects,
     ...albumEffects,
     ...songEffects,
+    ...listenerEffects,
     ...userEffects,
   ]);
 }
@@ -35,6 +40,7 @@ export interface InitialState {
   artist: ArtistState,
   album: AlbumState,
   song: SongState,
+  listener: ListenerState,
   user: UserState,
 }
 

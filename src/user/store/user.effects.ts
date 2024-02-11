@@ -55,7 +55,7 @@ function* refresh() {
     yield put(userActions.refreshSuccess(refreshResponse));
   } catch (e) {
     const error = e as Error;
-    yield put(userActions.registrationFailed({error}));
+    yield put(userActions.refreshFailed({error}));
   }
 }
 

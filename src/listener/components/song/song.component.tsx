@@ -12,6 +12,10 @@ import { songSelectors } from "../../song/store/song.selectors";
 import { Link as RouterLink} from 'react-router-dom';
 import { formatTime } from "../../../helpers/react/song-player.helper";
 import { SongInfoResponseData, SongShortData } from "../../song/store/song.model";
+import { listenerSelectors } from "../../store/listener.selectors";
+import { listenerActions } from "../../store/listener.actions";
+import { UpdateSongPlayerDataRequest } from "../../store/listener.model";
+import { userSelectors } from "../../../user/store/user.selectors";
 
 const { Text, Title } = Typography;
 
@@ -27,18 +31,27 @@ export function SongComponent({
   const [isHovered, setIsHovered] = useState<boolean>();
 
   const isPlaying = useSelector(songSelectors.isPlaying);
-  const songId = useSelector(songSelectors.songId);
+  const songId = useSelector(listenerSelectors.songId);
+  const userId = useSelector(userSelectors.userId);
   
   const dispatch = useDispatch()
   const pauseSong = () => dispatch(songActions.pauseSong());
   const playSong = (songData: SongShortData) => dispatch(songActions.playSong(songData));
   const unpauseSong = () => dispatch(songActions.unpauseSong());
+  const updateSongPlayerData = (updateSongDataRequest: UpdateSongPlayerDataRequest) => 
+    dispatch(listenerActions.updateSongPlayerData(updateSongDataRequest));
 
   const startPlaySong = () => {
     const songIndex = songsQueue.findIndex(songInQueue => songInQueue.songId === song?.songId);
+    updateSongPlayerData({
+      listenerId: userId!,
+      songData: {
+        songsQueue,
+        songId: song?.songId,
+        songIndex
+      }
+    });
     playSong({
-      songIndex: songIndex,
-      songsQueue,
       songId: song?.songId,
       name: song?.name,
       duration: song?.duration,
