@@ -7,37 +7,111 @@
   height: 80px;
   background-color: #121212;
 
-  &-wrapper {
+  &__wrapper {
     flex-direction: row;
     display: flex;
     justify-content: space-between;
     align-items: center;
     justify-content: center;
-
-    .song-info {
-      display: grid; 
-      grid-template: 'title title'
-                     'artist artist';
-      margin: 0 8px;
-
-      &-wrapper {
-        overflow: hidden;
-
-        &.title {
-          grid-area: title;
-        }
-        
-        &.artist {
-          grid-area: artist;
-        }
-      }
-    }
-
-    .song-name {
-      white-space: nowrap;
-      margin: 0px;
-      transition: all 0.6s ease;
-    }
-
   }
+
+  // song info section
+  &__info {
+    width: 30%;
+    min-width: 200px;
+    padding-inline-start: 8px;
+  }
+
+  &__info-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  &__avatar-wrapper {
+    margin-inline-end: 8px
+  }
+
+  &__credentials {
+    display: grid;
+    grid-template: 'title title'
+      'artist artist';
+    margin: 0 8px;
+  }
+
+  &__credentials-wrapper {
+    overflow: hidden;
+
+    &.title {
+      grid-area: title;
+    }
+
+    &.artist {
+      grid-area: artist;
+    }
+  }
+
+  &__song-title-wrapper,
+  &__song-artists-wrapper {
+    display: flex;
+  }
+
+  &__song-title,
+  &__song-artists {
+    white-space: nowrap;
+    margin: 0px !important;
+    transition: all 0.6s ease;
+  }
+
+  // song player controllers section
+  &__controllers {
+    width: 40%;
+    max-width: 722px;
+  }
+
+  &__controllers-wrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  &__song-time {
+    min-width: 40px;
+  }
+
+  &__song-slider {
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  // song player additional controllers section
+  &__additional-controllers {
+    width: 30%;
+    min-width: 180px;
+  }
+
+  &__additional-controllers-wrapper {
+    display: flex;
+    gap: 5px;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 5px;
+  }
+
+  &__additional-controller {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__volume-slider {
+    width: 100px;
+  }
+
 }

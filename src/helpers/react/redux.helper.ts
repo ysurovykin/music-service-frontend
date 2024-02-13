@@ -1,4 +1,3 @@
-
 export interface ActionFailedError {
   error: Error
 }

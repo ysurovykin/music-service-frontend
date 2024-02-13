@@ -10,7 +10,7 @@ export function MainPage() {
   const profileType = useSelector(userSelectors.profileType);
 
   const profileTypePages = () => {
-    switch(profileType) {
+    switch (profileType) {
       case 'listener': return <ListenerPage />;
       case 'artist': return <ArtistPage />;
       case 'admin': return <AdminPage />;

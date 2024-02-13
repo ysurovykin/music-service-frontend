@@ -6,17 +6,29 @@
   align-items: center;
   background-color: #121212;
 
-  &-forgot-password {
+  &__form {
+    width: 100%;
+    max-width: 300px;
+
+    label {
+      color: white !important;
+    }
+  }
+
+  &__forgot-password-link {
     float: right;
   }
 
-  &-registration-link {
+  &__registration-link {
     display: flex;
     width: 100%;
     justify-content: center;
   }
 
-  & .form-wrapper {
+  &__form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     max-width: 400px;
     padding: 30px 10px;
@@ -24,13 +36,9 @@
     max-height: 500px;
     border-radius: 30px;
     background-color: #333333;
-  
-    label {
-      color: white;
-    }
   }
 
-  &-button {
+  &__confirm-button {
     width: 100%;
   }
 }

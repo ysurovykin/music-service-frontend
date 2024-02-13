@@ -6,7 +6,7 @@ import { renderFieldErrorMessage, renderTextWithToolTip } from '../../../helpers
 
 const { Text } = Typography;
 
-export function PersonalInfoStep({form}: {form: FormInstance}) {
+export function PersonalInfoStep({ form }: { form: FormInstance }) {
   const values = Form.useWatch([], form);
   const [birthDateErrors, setBirthDateError] = useState<Array<string>>([]);
 
@@ -17,7 +17,7 @@ export function PersonalInfoStep({form}: {form: FormInstance}) {
       },
       (formValues) => {
         const formBirthDateErrors = formValues?.errorFields
-          .filter((err: any) => ['day', 'month', 'year'].includes(err?.name.join())); 
+          .filter((err: any) => ['day', 'month', 'year'].includes(err?.name.join()));
         setBirthDateError(formBirthDateErrors.map((err: any) => err.errors.join()));
       },
     );
@@ -44,7 +44,7 @@ export function PersonalInfoStep({form}: {form: FormInstance}) {
         <Col xs={12}>
           <Form.Item
             label={renderTextWithToolTip('Gender', 'We use your gender to help personalize our content recommendations for you.')}
-            name="gender" 
+            name="gender"
             rules={[
               { required: true, message: 'Please input gender' }
             ]}>
@@ -62,7 +62,7 @@ export function PersonalInfoStep({form}: {form: FormInstance}) {
             rules={[
               { required: true, message: 'Please input gender' }
             ]}>
-            <Select 
+            <Select
               showSearch>
               <Select.Option value='Ukraine'>Ukraine</Select.Option>
               <Select.Option value='Italy'>Italy</Select.Option>
@@ -72,45 +72,45 @@ export function PersonalInfoStep({form}: {form: FormInstance}) {
         </Col>
       </Row>
 
-      <Form.Item 
-        required  
+      <Form.Item
+        required
         label={renderTextWithToolTip("BirthDate", "In order to use the the Music Service you need to be older than 13 years of age")}>
         <Row>
           <Row gutter={16}>
             <Col span={5}>
               <Form.Item
                 name="day"
-                style={{marginBottom: '0px'}}
+                className="mb-0"
                 rules={[
                   { required: true, message: 'Day required' },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                        const amountOfDaysInMonth = new Date(getFieldValue('year'), getFieldValue('month'), 0).getDate();
-                        if (+value > +amountOfDaysInMonth) {
-                            return Promise.reject(new Error(`Day of birth must be between 1 and ${amountOfDaysInMonth}`));
-                        }
-                        return Promise.resolve();
+                      const amountOfDaysInMonth = new Date(getFieldValue('year'), getFieldValue('month'), 0).getDate();
+                      if (+value > +amountOfDaysInMonth) {
+                        return Promise.reject(new Error(`Day of birth must be between 1 and ${amountOfDaysInMonth}`));
+                      }
+                      return Promise.resolve();
                     }
                   })
                 ]}
                 help=''
                 dependencies={['month', 'year']}>
-                <Input 
+                <Input
                   maxLength={2}
-                  min={1} 
-                  max={31} 
+                  min={1}
+                  max={31}
                   placeholder="Day" />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
+                className="mb-0"
                 name="month"
-                style={{marginBottom: '0px'}}
                 rules={[
                   { required: true, message: 'Month required' }
                 ]}
                 help=''>
-                <Select 
+                <Select
                   placeholder="Month">
                   <Select.Option value='1'>January</Select.Option>
                   <Select.Option value='2'>February</Select.Option>
@@ -120,8 +120,8 @@ export function PersonalInfoStep({form}: {form: FormInstance}) {
             </Col>
             <Col span={7}>
               <Form.Item
+                className="mb-0"
                 name="year"
-                style={{marginBottom: '0px'}}
                 rules={[
                   { required: true, message: 'Birth year required' },
                   ({ getFieldValue }) => ({
@@ -140,22 +140,22 @@ export function PersonalInfoStep({form}: {form: FormInstance}) {
                 help=''>
                 <Input
                   maxLength={4}
-                  min={1920} 
-                  max={2024} 
+                  min={1920}
+                  max={2024}
                   placeholder="Year" />
               </Form.Item>
             </Col>
           </Row>
         </Row>
-          {birthDateErrors.map(errorMessage => 
-            errorMessage ? <Row gutter={16}>
-              <Col span={24}>
-                <Text type="danger" key={errorMessage}>
-                  <ExclamationCircleOutlined></ExclamationCircleOutlined> {errorMessage}
-                </Text>  
-              </Col>
-            </Row> : null
-          )}
+        {birthDateErrors.map(errorMessage =>
+          errorMessage ? <Row gutter={16}>
+            <Col span={24}>
+              <Text type="danger" key={errorMessage}>
+                <ExclamationCircleOutlined></ExclamationCircleOutlined> {errorMessage}
+              </Text>
+            </Col>
+          </Row> : null
+        )}
       </Form.Item>
     </>
   );

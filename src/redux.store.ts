@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import {configureStore} from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga';
 import { all } from "redux-saga/effects";
 import { userReducer } from "./user/store/user.reducer";
@@ -45,7 +45,7 @@ export interface InitialState {
 }
 
 const sagaMiddleware = createSagaMiddleware();
-const store  = configureStore({
+const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware)
 });

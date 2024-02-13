@@ -22,16 +22,16 @@ export function LoginPage() {
   }, [form, values]);
   const dispatch = useDispatch()
   const login = (loginData: UserLoginData) => dispatch(userActions.login(loginData));
-  
+
   const onFinish = (values: any) => {
-    login({...values})
+    login({ ...values })
   };
 
   return (
     <div className="login-page">
-      <div className="login-page form-wrapper">
+      <div className="login-page__form-wrapper">
         <Form
-          style={{ width: '100%', maxWidth: 300 }}
+          className="login-page__form"
           initialValues={{ remember: true }}
           form={form}
           onFinish={onFinish}
@@ -41,7 +41,7 @@ export function LoginPage() {
             label="Email"
             name="email"
             rules={[
-              { required: true, message: 'Please input your email' }, 
+              { required: true, message: 'Please input your email' },
               { type: 'email', message: 'Email is not valid' }
             ]}>
             <Input />
@@ -57,29 +57,29 @@ export function LoginPage() {
           <Form.Item>
             <Form.Item
               name="remember"
-              valuePropName="checked" 
+              valuePropName="checked"
               noStyle>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
-            <Link 
-              className="login-page-forgot-password"
+            <Link
+              className="login-page__forgot-password-link"
               to={'/reset-password'}>
               Forgot password
             </Link>
           </Form.Item>
 
           <Form.Item >
-            <Button 
-              type="primary" 
-              htmlType="submit" 
+            <Button
+              type="primary"
+              htmlType="submit"
               disabled={isSubmitButtonDisabled}
-              className="login-page-button">
+              className="login-page__confirm-button">
               Log In
             </Button>
           </Form.Item>
 
-          <Link 
-            className="login-page-registration-link"
+          <Link
+            className="login-page__registration-link"
             to={'/registration'}>
             Do not have an account?
           </Link>

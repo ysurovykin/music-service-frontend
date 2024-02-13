@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { songActions } from "../../song/store/song.actions";
 import { useSelector } from "react-redux";
 import { songSelectors } from "../../song/store/song.selectors";
-import { Link as RouterLink} from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { formatTime } from "../../../helpers/react/song-player.helper";
 import { SongInfoResponseData, SongShortData } from "../../song/store/song.model";
 
@@ -49,62 +49,48 @@ export function SongComponent({
       artists: song?.artists
     })
   }
-  
+
   const renderPlayButton = () => {
     if (songId === song?.songId) {
       if (isPlaying) {
         return (
-          <PauseOutlined 
-            sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} 
+          <PauseOutlined
+            sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
             onClick={pauseSong} />
         );
       } else {
         return (
-          <PlayArrowOutlined 
-            sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} 
+          <PlayArrowOutlined
+            sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
             onClick={unpauseSong} />
         );
       }
     }
     return (
-      <PlayArrowOutlined 
-        sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} 
+      <PlayArrowOutlined
+        sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
         onClick={() => startPlaySong()} />
     );
-        
+
   }
 
   return (
-    <div style={{
-        display: 'flex',
-        width: '100%',
-        padding: '12px 0',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}
+    <div
+      className="song"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}>
-        <div style={{
-          display: 'flex',
-          gap: '20px',
-          minWidth: '250px',
-          alignItems: 'center'
-        }}>
-          <div style={{width: '1em', display: 'flex', justifyContent: 'center'}}>
-            {isHovered ? renderPlayButton() : <Text>{index}</Text>}
-          </div>
-          <Avatar shape='square' size={64} src={song?.coverImageUrl}/>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifySelf: 'start'
-          }}>
-            <Title style={{margin: '0px'}} level={5}>{song?.name}</Title>
-            <Text>{song?.artists?.map(artist => (<RouterLink to={`/artist/${artist.id}`}>{artist.name}</RouterLink>))}</Text>
-          </div>
+      <div className="song__wrapper">
+        <div className="song__play-button">
+          {isHovered ? renderPlayButton() : <Text>{index}</Text>}
         </div>
-        <RouterLink to={`/album/${song?.album?.id}`}>{song?.album?.name}</RouterLink>
-        <Text>{formatTime(song?.duration!)}</Text>
+        <Avatar shape='square' size={64} src={song?.coverImageUrl} />
+        <div className="song__credentials">
+          <Title className="m-0" level={5}>{song?.name}</Title>
+          <Text>{song?.artists?.map(artist => (<RouterLink to={`/artist/${artist.id}`}>{artist.name}</RouterLink>))}</Text>
+        </div>
+      </div>
+      <RouterLink to={`/album/${song?.album?.id}`}>{song?.album?.name}</RouterLink>
+      <Text>{formatTime(song?.duration!)}</Text>
     </div>
   );
 };

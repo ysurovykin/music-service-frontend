@@ -18,7 +18,7 @@ function* getArtists() {
     yield put(artistActions.getArtistsSuccess(artists));
   } catch (e) {
     const error = e as Error;
-    yield put(artistActions.getArtistsFailed({error}));
+    yield put(artistActions.getArtistsFailed({ error }));
   }
 }
 
@@ -28,7 +28,7 @@ function* getArtistById(action: GetArtistByIdStartActionType) {
     yield put(artistActions.getArtistByIdSuccess(artist));
   } catch (e) {
     const error = e as Error;
-    yield put(artistActions.getArtistByIdFailed({error}));
+    yield put(artistActions.getArtistByIdFailed({ error }));
   }
 }
 

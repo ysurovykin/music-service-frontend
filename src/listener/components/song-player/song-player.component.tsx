@@ -38,7 +38,7 @@ export function SongPlayerComponent() {
 
   const lastSavedPlayTime: number = +(localStorage.getItem('playTime') || '0');
   const lastSavedSongsQueue: Array<SongInfoResponseData> = JSON.parse(localStorage.getItem('songsQueue') || '[]');
-  const lastSavedRepeatSongState: RepeatSongStateEnum = localStorage.getItem('repeatSongState') as RepeatSongStateEnum || 
+  const lastSavedRepeatSongState: RepeatSongStateEnum = localStorage.getItem('repeatSongState') as RepeatSongStateEnum ||
     JSON.stringify(RepeatSongStateEnum.none);
   const lastSavedSongIndex: number = +(localStorage.getItem('songIndex') || '');
   const lastSavedShuffleEnabled: boolean = JSON.parse(localStorage.getItem('shuffleEnabled') || 'false');
@@ -113,7 +113,7 @@ export function SongPlayerComponent() {
     }
   }, [lastSavedVolume]);
 
-  const startScrollSongText = (songRef: React.RefObject<HTMLDivElement>, songWrapperRef: React.RefObject<HTMLDivElement>, 
+  const startScrollSongText = (songRef: React.RefObject<HTMLDivElement>, songWrapperRef: React.RefObject<HTMLDivElement>,
     isTextScrollLeft: boolean, setIsTextScrollLeft: React.Dispatch<React.SetStateAction<boolean>>, intervalId: NodeJS.Timer | undefined,
     setScrollIntervalIdFunc: React.Dispatch<React.SetStateAction<NodeJS.Timer | undefined>>) => {
     if (!intervalId) {
@@ -154,7 +154,7 @@ export function SongPlayerComponent() {
     }
   }
 
-  const stopScrollSongText = (songRef: React.RefObject<HTMLDivElement>, songWrapperRef: React.RefObject<HTMLDivElement>, 
+  const stopScrollSongText = (songRef: React.RefObject<HTMLDivElement>, songWrapperRef: React.RefObject<HTMLDivElement>,
     isTextScrollLeft: boolean, setIsTextScrollLeft: React.Dispatch<React.SetStateAction<boolean>>, intervalId: NodeJS.Timer | undefined,
     setScrollIntervalIdFunc: React.Dispatch<React.SetStateAction<NodeJS.Timer | undefined>>) => {
     if (!intervalId) {
@@ -271,7 +271,7 @@ export function SongPlayerComponent() {
         const previousSongIndex = songIndex - 1;
         const song = songsQueue[previousSongIndex];
         changeSongData(song?.songId || '', songsQueue, previousSongIndex);
-        
+
         playSong({
           songId: song?.songId,
           name: song?.name,
@@ -304,153 +304,140 @@ export function SongPlayerComponent() {
     }
   }
 
+  const renderSongInfo = () => {
+    return (
+      <div className="song-player__info-wrapper">
+        <div className="song-player__avatar-wrapper">
+          <Avatar
+            shape="square"
+            size={64}
+            src={coverImageUrl} />
+        </div>
+        <div className='song-player__credentials'>
+          <div
+            className='song-player__credentials-wrapper title'
+            ref={songTitleWrapperRef}>
+            <div className='song-player__song-title-wrapper'>
+              <Title
+                className='song-player__song-title'
+                ref={songTitleRef}
+                onMouseEnter={() => stopScrollSongText(songTitleRef, songTitleWrapperRef, isSongTitleScrollLeft,
+                  setIsSongTitleScrollLeft, titleScrollIntervalId, setTitleScrollIntervalId)}
+                onMouseLeave={() => startScrollSongText(songTitleRef, songTitleWrapperRef, isSongTitleScrollLeft,
+                  setIsSongTitleScrollLeft, titleScrollIntervalId, setTitleScrollIntervalId)}
+                level={5}>
+                {name}
+              </Title>
+            </div>
+          </div>
+          <div
+            className='song-player__credentials-wrapper artist'
+            ref={songArtistWrapperRef}>
+            <div className='song-player__song-artists-wrapper'>
+              <Title
+                className='song-player__song-artists'
+                ref={songArtistRef}
+                onMouseEnter={() => stopScrollSongText(songArtistRef, songArtistWrapperRef, isSongArtistScrollLeft,
+                  setIsSongArtistScrollLeft, artistScrollIntervalId, setArtistScrollIntervalId)}
+                onMouseLeave={() => startScrollSongText(songArtistRef, songArtistWrapperRef, isSongArtistScrollLeft,
+                  setIsSongArtistScrollLeft, artistScrollIntervalId, setArtistScrollIntervalId)}
+                level={5}>
+                {artists
+                  ?.map<React.ReactNode>(artist => <RouterLink key={artist.name} to={`/artist/${artist.id}`}>{artist.name}</RouterLink>)
+                  .reduce((prev, curr) => [prev, ', ', curr])}
+              </Title>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderSongControllers = () => {
+    return (
+      <div>
+        <div className="song-player__controllers-wrapper">
+          {renderShuffleIcon()}
+          <SkipPreviousOutlined
+            sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
+            onClick={() => switchToPreviousSong()} />
+          {!isPlaying
+            ? <PlayArrowOutlined
+              fontSize={'large'}
+              sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
+              onClick={unpauseSong} />
+            : <PauseOutlined
+              fontSize={'large'}
+              sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
+              onClick={pauseSong} />
+          }
+          <SkipNextOutlined
+            sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
+            onClick={() => switchToNextSong()} />
+          {renderRepeatIcon()}
+        </div>
+        <div className="song-player__controllers-wrapper">
+          <Text className="song-player__song-time">{formatTime(playTime!)}</Text>
+          <Slider
+            className="song-player__song-slider"
+            tooltip={{ open: false }}
+            value={playTime}
+            onChange={(value) => changePlayerCurrentPlayTime(value)}
+            max={duration} />
+          <Text className="song-player__song-time">{formatTime(duration || 0)}</Text>
+        </div>
+      </div>
+    );
+  };
+
+  const renderSongAdditionalControllers = () => {
+    return (
+      <div
+        className="song-player__additional-controllers-wrapper">
+        <RouterLink
+          className="song-player__additional-controller"
+          to='/lyrics'>
+          <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> {/* FavoriteOutlined */}
+        </RouterLink>
+        <RouterLink
+          className="song-player__additional-controller"
+          to='/lyrics'>
+          <MicOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
+        </RouterLink>
+        <RouterLink
+          className="song-player__additional-controller"
+          to='/queue'>
+          <QueueMusicOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
+        </RouterLink>
+        {renderVolumeIcon()}
+        <Slider
+          className="song-player__volume-slider"
+          tooltip={{ open: false }}
+          value={volume}
+          onChange={(value) => changeSongVolume(value)}
+          onChangeComplete={(value) => localStorage.setItem('volume', JSON.stringify(value))}
+        />
+      </div>
+    );
+  };
+
   return (
     <div className="song-player">
       <audio
         src={songUrl}
         ref={audioPlayer}
         muted={muted} />
-      <div className="song-player-wrapper">
-        <div style={{
-          minWidth: '200px',
-          width: '30%',
-          paddingInlineStart: '8px'
-        }}>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-start'
-          }}>
-            <div style={{ marginInlineEnd: '8px' }}>
-              <Avatar shape="square" size={64} src={coverImageUrl} />
-            </div>
-            <div className='song-info'>
-              <div 
-                ref={songTitleWrapperRef}
-                className='song-info-wrapper title'>
-                <div style={{display: 'flex'}}>
-                  <Title 
-                    ref={songTitleRef}
-                    onMouseEnter={() => stopScrollSongText(songTitleRef, songTitleWrapperRef, isSongTitleScrollLeft, 
-                      setIsSongTitleScrollLeft, titleScrollIntervalId, setTitleScrollIntervalId)}
-                    onMouseLeave={() => startScrollSongText(songTitleRef, songTitleWrapperRef, isSongTitleScrollLeft, 
-                      setIsSongTitleScrollLeft, titleScrollIntervalId, setTitleScrollIntervalId)}
-                    level={5} 
-                    className='song-name'>
-                      {name}
-                  </Title>
-                </div>
-              </div>
-              <div
-                ref={songArtistWrapperRef}
-                className='song-info-wrapper artist'>
-                <div style={{display: 'flex'}}>
-                  <Title 
-                    ref={songArtistRef}
-                    onMouseEnter={() => stopScrollSongText(songArtistRef, songArtistWrapperRef, isSongArtistScrollLeft,
-                      setIsSongArtistScrollLeft, artistScrollIntervalId, setArtistScrollIntervalId)}
-                    onMouseLeave={() => startScrollSongText(songArtistRef, songArtistWrapperRef, isSongArtistScrollLeft,
-                      setIsSongArtistScrollLeft, artistScrollIntervalId, setArtistScrollIntervalId)}
-                    level={5}
-                    className='song-name'>
-                    {artists
-                      ?.map<React.ReactNode>(artist => <RouterLink key={artist.name} to={`/artist/${artist.id}`}>{artist.name}</RouterLink>)
-                      .reduce((prev, curr) => [prev, ', ', curr])}
-                  </Title>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="song-player__wrapper">
+        <div className="song-player__info">
+          {renderSongInfo()}
         </div>
 
-        <div style={{ width: '40%', maxWidth: '722px' }}>
-          <div>
-            <div style={{
-              display: 'flex',
-              width: '100%',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              {renderShuffleIcon()}
-              <SkipPreviousOutlined
-                sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
-                onClick={() => switchToPreviousSong()} />
-              {!isPlaying
-                ? <PlayArrowOutlined fontSize={'large'} sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={unpauseSong} />
-                : <PauseOutlined fontSize={'large'} sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} onClick={pauseSong} />
-              }
-              <SkipNextOutlined
-                sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
-                onClick={() => switchToNextSong()} />
-              {renderRepeatIcon()}
-            </div>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center'
-            }}>
-              <Text style={{minWidth: '40px'}}>{formatTime(playTime!)}</Text>
-              <Slider
-                tooltip={{ open: false }}
-                style={{ width: '100%', marginLeft: '5px', marginRight: '5px' }}
-                value={playTime}
-                onChange={(value) => changePlayerCurrentPlayTime(value)}
-                max={duration} />
-              <Text style={{minWidth: '40px'}}>{formatTime(duration || 0)}</Text>
-            </div>
-          </div>
+        <div className="song-player__controllers">
+          {renderSongControllers()}
         </div>
 
-        <div style={{ width: '30%', minWidth: '180px' }}>
-          <div
-            style={{
-              display: 'flex',
-              gap: '5px',
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              marginRight: '5px'
-            }}>
-            <RouterLink 
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }} 
-              to='/lyrics'>
-              <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> {/* FavoriteOutlined */}
-            </RouterLink>
-            <RouterLink 
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }} 
-              to='/lyrics'>
-              <MicOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
-            </RouterLink>
-            <RouterLink 
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }} 
-              to='/queue'>
-              <QueueMusicOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
-            </RouterLink>
-            {renderVolumeIcon()}
-            <Slider
-              tooltip={{ open: false }}
-              style={{ width: '100px' }}
-              value={volume}
-              onChange={(value) => changeSongVolume(value)}
-              onChangeComplete={(value) => localStorage.setItem('volume', JSON.stringify(value))}
-            />
-          </div>
+        <div className="song-player__additional-controllers">
+          {renderSongAdditionalControllers()}
         </div>
       </div>
     </div>

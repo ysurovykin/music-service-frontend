@@ -12,14 +12,14 @@ const { Text, Title } = Typography;
 export function AlbumPage() {
   let navigate = useNavigate();
 
-  const { albumId } = useParams<{albumId: string}>();
+  const { albumId } = useParams<{ albumId: string }>();
   const name = useSelector(albumSelectors.name);
   const artist = useSelector(albumSelectors.artist);
   const date = useSelector(albumSelectors.date);
   const albumCoverImageUrl = useSelector(albumSelectors.downloadUrl);
   const likes = useSelector(albumSelectors.likes);
   const songs = useSelector(albumSelectors.songs);
-  
+
   const dispatch = useDispatch()
   const getAlbumData = (albumId: string) => dispatch(albumActions.getAlbumById(albumId));
 
@@ -42,15 +42,15 @@ export function AlbumPage() {
         <Title level={4}>Likes: {likes || 0}</Title>
         {albumCoverImageUrl && <Avatar src={albumCoverImageUrl} />}
         <List
-            header={<Text>Songs:</Text>}
-            bordered
-            dataSource={songs}
-            renderItem={(song, index) => (
-              <List.Item key={song.songId}>
-                <SongComponent song={song} index={index+1} songsQueue={songs || []}/>
-              </List.Item>
-            )}>
-          </List>
+          header={<Text>Songs:</Text>}
+          bordered
+          dataSource={songs}
+          renderItem={(song, index) => (
+            <List.Item key={song.songId}>
+              <SongComponent song={song} index={index + 1} songsQueue={songs || []} />
+            </List.Item>
+          )}>
+        </List>
       </div>
     </div>
   );

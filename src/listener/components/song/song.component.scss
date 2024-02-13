@@ -1,0 +1,26 @@
+.song {
+  display: flex;
+  width: 100%;
+  padding: 12px 0;
+  justify-content: space-between;
+  align-items: center;
+
+  &__wrapper {
+    display: flex;
+    gap: 20px;
+    min-width: 250px;
+    align-items: center;
+  }
+
+  &__play-button {
+    width: 1em;
+    display: flex;
+    justify-content: center
+  }
+
+  &__credentials {
+    display: flex;
+    flex-direction: column;
+    justify-self: start;
+  }
+}

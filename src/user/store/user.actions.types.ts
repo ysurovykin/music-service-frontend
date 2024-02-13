@@ -1,9 +1,9 @@
 import { ActionFailedError } from "../../helpers/react/redux.helper";
 import {
-  UserLoginData, 
-  UserDataWithTokens, 
-  UserRegistrationData, 
-  UserActionTypes 
+  UserLoginData,
+  UserDataWithTokens,
+  UserRegistrationData,
+  UserActionTypes
 } from "./user.model";
 
 export type LoginStartActionType = {

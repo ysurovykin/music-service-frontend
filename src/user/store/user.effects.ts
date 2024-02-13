@@ -18,12 +18,12 @@ export const userEffects = [
 
 function* login(action: LoginStartActionType) {
   try {
-    const loginResponse: UserDataWithTokens = yield AuthService.login({...action.payload});
+    const loginResponse: UserDataWithTokens = yield AuthService.login({ ...action.payload });
     localStorage.setItem('token', loginResponse.accessToken);
     yield put(userActions.loginSuccess(loginResponse));
   } catch (e) {
     const error = e as Error;
-    yield put(userActions.loginFailed({error}));
+    yield put(userActions.loginFailed({ error }));
   }
 }
 
@@ -33,18 +33,18 @@ function* logout() {
     yield put(userActions.logoutSuccess());
   } catch (e) {
     const error = e as Error;
-    yield put(userActions.logoutFailed({error}));
+    yield put(userActions.logoutFailed({ error }));
   }
 }
 
 function* registration(action: RegistrationStartActionType) {
   try {
-    const registrationResponse: UserDataWithTokens = yield AuthService.registration({...action.payload});
+    const registrationResponse: UserDataWithTokens = yield AuthService.registration({ ...action.payload });
     localStorage.setItem('token', registrationResponse.accessToken);
     yield put(userActions.registrationSuccess(registrationResponse));
   } catch (e) {
     const error = e as Error;
-    yield put(userActions.registrationFailed({error}));
+    yield put(userActions.registrationFailed({ error }));
   }
 }
 
@@ -55,7 +55,7 @@ function* refresh() {
     yield put(userActions.refreshSuccess(refreshResponse));
   } catch (e) {
     const error = e as Error;
-    yield put(userActions.refreshFailed({error}));
+    yield put(userActions.refreshFailed({ error }));
   }
 }
 

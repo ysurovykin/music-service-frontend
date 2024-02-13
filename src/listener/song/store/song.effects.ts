@@ -16,7 +16,7 @@ function* getSongById(action: GetSongByIdStartActionType) {
     yield put(songActions.getSongByIdSuccess(song));
   } catch (e) {
     const error = e as Error;
-    yield put(songActions.getSongByIdFailed({error}));
+    yield put(songActions.getSongByIdFailed({ error }));
   }
 }
 

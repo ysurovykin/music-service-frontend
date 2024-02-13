@@ -8,10 +8,10 @@ const { Title } = Typography;
 
 export function QueuePage() {
   let navigate = useNavigate();
-  
+
   const queue = JSON.parse(localStorage.getItem('songsQueue') || '[]');
   const songIndex = +(localStorage.getItem('songIndex') || '');
-  
+
   const formatedQueue = useMemo(() => {
     if (!isNaN(songIndex) && queue) {
       return formatSongQueue(songIndex, queue)
@@ -24,21 +24,21 @@ export function QueuePage() {
         onClick={() => navigate(-1)} >
         {'< Back'}
       </Button>
-      <div style={{padding: '20px'}}>
+      <div>
         <Title level={4}>Queue</Title>
         <Title level={5}>Now playing</Title>
-        <SongComponent 
+        <SongComponent
           song={formatedQueue?.[0] || {}}
           index={1}
-          songsQueue={queue}/>
+          songsQueue={queue} />
         <Title level={5}>Next up</Title>
         <List
-            dataSource={formatedQueue}
-            renderItem={(song, index) => (
-              index !== 0 && <List.Item key={song.songId}>
-                <SongComponent song={song} index={index+1} songsQueue={queue || []}/>
-              </List.Item>
-            )}>
+          dataSource={formatedQueue}
+          renderItem={(song, index) => (
+            index !== 0 && <List.Item key={song.songId}>
+              <SongComponent song={song} index={index + 1} songsQueue={queue || []} />
+            </List.Item>
+          )}>
         </List>
       </div>
     </div>

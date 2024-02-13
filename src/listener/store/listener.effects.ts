@@ -1,6 +1,6 @@
 import { put, takeEvery } from 'redux-saga/effects'
 import { ListenerActionTypes, ListenerInfoResponseData } from './listener.model';
-import { 
+import {
   GetListenerByIdStartActionType
 } from './listener.actions.types';
 import ListenerService from './listener.service';
@@ -18,7 +18,7 @@ function* getListenerById(action: GetListenerByIdStartActionType) {
     yield put(listenerActions.getListenerByIdSuccess(listenerResponseData));
   } catch (e) {
     const error = e as Error;
-    yield put(listenerActions.getListenerByIdFailed({error}));
+    yield put(listenerActions.getListenerByIdFailed({ error }));
   }
 }
 

@@ -18,7 +18,7 @@ function* getAlbumsByArtistId(action: GetAlbumsByArtistIdStartActionType) {
     yield put(albumActions.getAlbumsByArtistIdSuccess(albums));
   } catch (e) {
     const error = e as Error;
-    yield put(albumActions.getAlbumsByArtistIdFailed({error}));
+    yield put(albumActions.getAlbumsByArtistIdFailed({ error }));
   }
 }
 
@@ -28,7 +28,7 @@ function* getAlbumById(action: GetAlbumByIdStartActionType) {
     yield put(albumActions.getAlbumByIdSuccess(album));
   } catch (e) {
     const error = e as Error;
-    yield put(albumActions.getAlbumByIdFailed({error}));
+    yield put(albumActions.getAlbumByIdFailed({ error }));
   }
 }
 

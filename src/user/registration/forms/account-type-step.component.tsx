@@ -10,7 +10,7 @@ import { ProfileTypeEnum } from '../../store/user.model';
 
 const { Title } = Typography;
 
-export function AccountTypeStep({form}: {form?: FormInstance}) {
+export function AccountTypeStep({ form }: { form?: FormInstance }) {
 
   const dispatch = useDispatch();
   const profileType = useSelector(userSelectors.profileType);
@@ -23,7 +23,7 @@ export function AccountTypeStep({form}: {form?: FormInstance}) {
     'Get personal recommendations.',
     'Get your music activity statistics.',
   ];
-  
+
   const artistData = [
     'Add your own music.',
     'Create and edit albums.',
@@ -42,21 +42,21 @@ export function AccountTypeStep({form}: {form?: FormInstance}) {
 
   return (
     <>
-      <Row 
-        gutter={16} 
-        style={{ placeContent: 'center'}}> 
-        <Title 
-          style={{ fontWeight: 'normal', color: '#ffffff'}} 
+      <Row
+        className="place-center"
+        gutter={16}>
+        <Title
+          className="account-type-step__title"
           level={5}>
-            Profile type capabilities
+          Profile type capabilities
         </Title>
       </Row>
       <Carousel
+        style={{ marginBottom: '24px' }}
         ref={carouselRef}
         dots={false}
         initialSlide={profileType === ProfileTypeEnum.artist ? 1 : 0}
-        fade={true}
-        style={{marginBottom: '24px'}}>
+        fade={true}>
         <div>
           <List
             bordered
@@ -82,14 +82,15 @@ export function AccountTypeStep({form}: {form?: FormInstance}) {
           />
         </div>
       </Carousel>
-      <Form.Item 
-        style={{placeContent: 'center'}}>
-        <Row gutter={16} style={{ placeContent: 'center'}}> 
-        <Switch
-          checked={profileType === ProfileTypeEnum.artist}
-          onChange={handleSwitchChange}
-          checkedChildren="Artist profile"
-          unCheckedChildren="Listener profile" />
+      <Form.Item className="place-center" >
+        <Row
+          className="place-center"
+          gutter={16}>
+          <Switch
+            checked={profileType === ProfileTypeEnum.artist}
+            onChange={handleSwitchChange}
+            checkedChildren="Artist profile"
+            unCheckedChildren="Listener profile" />
         </Row>
       </Form.Item>
     </>

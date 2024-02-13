@@ -35,7 +35,7 @@ export function ListenerPage() {
       getListenerById(userId);
     }
   }, [userId])
-  
+
   useEffect(() => {
     if (!currentSongId && lastListenedSongId) {
       getSongById(lastListenedSongId);
@@ -44,8 +44,8 @@ export function ListenerPage() {
 
   return (
     <div className="listener-page">
-      <Title 
-        style={{margin: '0px'}}
+      <Title
+        className="m-0"
         level={1}>
         Listener
       </Title>

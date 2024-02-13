@@ -10,7 +10,7 @@ export default class AuthService {
     static async registration(registrationData: UserRegistrationData): Promise<AxiosResponse<UserDataWithTokens>> {
         return api.post<UserDataWithTokens>('/user/registration', { ...registrationData });
     }
-    
+
     static async refresh(): Promise<AxiosResponse<UserDataWithTokens>> {
         return api.post<UserDataWithTokens>('/user/refresh');
     }

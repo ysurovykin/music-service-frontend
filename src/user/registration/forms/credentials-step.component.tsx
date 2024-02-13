@@ -1,14 +1,14 @@
 import React from 'react';
 import { Form, FormInstance, Input } from 'antd';
 
-export function CredentialsStep({form}: {form?: FormInstance}) {
+export function CredentialsStep({ form }: { form?: FormInstance }) {
   return (
     <>
       <Form.Item
         label="Email"
         name="email"
         rules={[
-          { required: true, message: 'Please input your email' }, 
+          { required: true, message: 'Please input your email' },
           { type: 'email', message: 'Email is not valid' }
         ]}>
         <Input />
@@ -22,7 +22,7 @@ export function CredentialsStep({form}: {form?: FormInstance}) {
           { pattern: RegExp(/(?=.*[A-Z])/), message: 'Password must contain at least 1 upper case letter' },
           { pattern: RegExp(/(?=.*\d)/), message: 'Password must contain at least 1 digit' },
           { pattern: RegExp(/(?=.{8,})/), message: 'Password must be at least 8 symbols length' },
-          { 
+          {
             validator(_, value) {
               if (value && value.includes(' ')) {
                 return Promise.reject(new Error('Password must NOT contain spaces'));

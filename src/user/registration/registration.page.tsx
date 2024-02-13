@@ -18,14 +18,14 @@ export function RegistrationPage() {
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
   const [current, setCurrent] = useState(0);
   const [registrationData, setRegistrationData] = useState<UserRegistrationData>();
-  
+
   const profileType = useSelector(userSelectors.profileType);
   const dispatch = useDispatch()
   const registration = (registrationData: UserRegistrationData) => dispatch(userActions.registration(registrationData));
-  
+
   const next = () => {
     const formValues = form.getFieldsValue();
-    setRegistrationData(currentState => ({...currentState, ...formValues}));
+    setRegistrationData(currentState => ({ ...currentState, ...formValues }));
     setCurrent(current + 1);
   };
 
@@ -70,61 +70,63 @@ export function RegistrationPage() {
 
   const onFinish = () => {
     const formValues = form.getFieldsValue();
-    registration({...registrationData!, ...formValues, profileType: profileType as ProfileTypeEnum});
+    registration({ ...registrationData!, ...formValues, profileType: profileType as ProfileTypeEnum });
   };
 
   return (
     <div className="registration-page">
-      <div className="registration-page form-wrapper">
-        <Steps 
-          current={current} 
+      <div className="registration-page__form-wrapper">
+        <Steps
+          current={current}
           items={items}
           size='default'
           labelPlacement='vertical' />
         <Form
-          style={{ width: '100%', justifySelf: 'center', maxWidth: 350 }}
+          className="registration-page__form"
           initialValues={{ remember: true }}
           form={form}
           onFinish={onFinish}
           autoComplete="off"
           layout={current === 0 ? 'horizontal' : 'vertical'}>
-            {steps[current].content()}
-            <Row gutter={16} style={{ placeContent: 'center'}}>
-              <Col>
-                <>
-                  {current < steps.length - 1 && (
-                    <Button 
-                      type="primary" 
-                      disabled={isSubmitButtonDisabled}
-                      onClick={() => next()}>
-                      Next
-                    </Button>
-                  )}
-                  {current === steps.length - 1 && (
-                    <Button 
-                      type="primary" 
-                      disabled={isSubmitButtonDisabled}
-                      htmlType="submit" 
-                      onClick={() => message.success('Processing complete!')}>
-                      Sign Up
-                    </Button>
-                  )}
-                </>
-              </Col>
-              {current > 0 && (
-                <Col>
-                  <Button onClick={() => prev()}>
-                    Previous
+          {steps[current].content()}
+          <Row
+            className="place-center"
+            gutter={16}>
+            <Col>
+              <>
+                {current < steps.length - 1 && (
+                  <Button
+                    type="primary"
+                    disabled={isSubmitButtonDisabled}
+                    onClick={() => next()}>
+                    Next
                   </Button>
-                </Col>
-              )}
-            </Row>
-          </Form>
-          <Link 
-            className="registration-page-login-link"
-            to={'/login'}>
-              Already have an account?
-          </Link>
+                )}
+                {current === steps.length - 1 && (
+                  <Button
+                    type="primary"
+                    disabled={isSubmitButtonDisabled}
+                    htmlType="submit"
+                    onClick={() => message.success('Processing complete!')}>
+                    Sign Up
+                  </Button>
+                )}
+              </>
+            </Col>
+            {current > 0 && (
+              <Col>
+                <Button onClick={() => prev()}>
+                  Previous
+                </Button>
+              </Col>
+            )}
+          </Row>
+        </Form>
+        <Link
+          className="registration-page__login-link"
+          to={'/login'}>
+          Already have an account?
+        </Link>
       </div>
     </div>
   );

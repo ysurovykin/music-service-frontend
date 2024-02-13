@@ -37,8 +37,8 @@ export default function AppRouter() {
 
   return (
     <Router>
-      { userId ? renderAuthorizedRoutes() : renderUnauthorizedRoutes() }
-      { profileType === 'listener' && <SongPlayerComponent /> }
+      {userId ? renderAuthorizedRoutes() : renderUnauthorizedRoutes()}
+      {profileType === 'listener' && <SongPlayerComponent />}
     </Router>
   );
 }

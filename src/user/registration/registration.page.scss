@@ -7,13 +7,23 @@
   align-items: center;
   background-color: #121212;
 
-  &-login-link {
+  &__form {
+    width: 100%;
+    justify-self: center;
+    max-width: 350px;
+
+    label {
+      color: white !important;
+    }
+  }
+
+  &__login-link {
     display: flex;
     width: 100%;
     justify-content: center;
   }
 
-  & .form-wrapper {
+  &__form-wrapper {
     display: grid;
     grid-template-rows: 0.1fr 3fr 0.1fr 0.1fr;
     row-gap: 10px;
@@ -26,14 +36,10 @@
     max-height: 550px;
     border-radius: 30px;
     background-color: #333333;
-  
-    label {
-      color: white;
-    }
+
   }
 
-  &-button {
+  &__confirm-button {
     width: 100%;
   }
-  
 }
