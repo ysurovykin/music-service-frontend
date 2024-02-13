@@ -8,7 +8,6 @@ import { List, Typography } from "antd";
 import { artistActions } from "./artist/store/artist.actions";
 import { listenerActions } from "./store/listener.actions";
 import { userSelectors } from "../user/store/user.selectors";
-import { listenerSelectors } from "./store/listener.selectors";
 import { songActions } from "./song/store/song.actions";
 import { songSelectors } from "./song/store/song.selectors";
 
@@ -19,7 +18,7 @@ export function ListenerPage() {
   const artists = useSelector(artistSelectors.artists);
   const userId = useSelector(userSelectors.userId);
   const currentSongId = useSelector(songSelectors.songId);
-  const lastListenedSongId = useSelector(listenerSelectors.songId);
+  const lastListenedSongId = localStorage.getItem('songId');
 
   const dispatch = useDispatch();
   const logout = () => dispatch(userActions.logout());
@@ -59,7 +58,7 @@ export function ListenerPage() {
             bordered
             dataSource={artists}
             renderItem={(artist) => (
-              <List.Item>
+              <List.Item key={artist.artistId}>
                 <RouterLink to={`/artist/${artist.artistId}`}>{artist.name}</RouterLink>
               </List.Item>
             )}>

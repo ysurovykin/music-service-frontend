@@ -20,11 +20,11 @@ export interface AlbumState extends AlbumFullResponseData {
 }
 
 export type AlbumSongData = {
-  songId: string,
-  name: string,
-  plays: number,
-  coArtistIds: Array<string>,
-  downloadUrl: string
+  songId: string;
+  name: string;
+  plays: number;
+  coArtistIds: Array<string>;
+  downloadUrl: string;
 }
 
 export type AlbumShortDataType = {
@@ -33,16 +33,16 @@ export type AlbumShortDataType = {
 }
 
 export type AlbumInfoResponseData = {
-  albumId?: string,
-  name?: string,
-  date?: Date,
-  downloadUrl?: string,
-  artist?: ArtistShortDataType
+  albumId?: string;
+  name?: string;
+  date?: Date;
+  downloadUrl?: string;
+  artist?: ArtistShortDataType;
 }
 
 export type AlbumFullResponseData = AlbumInfoResponseData & {
-  likes?: number,
-  songs?: Array<SongInfoResponseData>
+  likes?: number;
+  songs?: Array<SongInfoResponseData>;
 }
 
 export enum AlbumActionTypes {

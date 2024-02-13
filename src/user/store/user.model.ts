@@ -11,10 +11,10 @@ export const userState: UserState = {
   profileType: undefined
 };
 
-export interface BirthDate {
-  day: Number,
-  month: Number,
-  year: Number
+export type BirthDate = {
+  day: Number;
+  month: Number;
+  year: Number;
 }
 
 export interface UserState {
@@ -36,22 +36,22 @@ export enum ProfileTypeEnum {
   'admin' = 'admin'
 }
 
-export interface UserRegistrationData {
-  password: string,
-  country: string,
-  email: string,
-  gender: string,
-  name: string,
-  profileType: ProfileTypeEnum,
-  birthDate: BirthDate
+export type UserRegistrationData = {
+  password: string;
+  country: string;
+  email: string;
+  gender: string;
+  name: string;
+  profileType: ProfileTypeEnum;
+  birthDate: BirthDate;
 }
 
-export interface UserLoginData {
-  email: string,
-  password: string
+export type UserLoginData = {
+  email: string;
+  password: string;
 }
 
-export interface UserData {
+export type UserData = {
   userId: string;
   email: string;
   name: string;
@@ -62,7 +62,7 @@ export interface UserData {
   profileType: ProfileTypeEnum;
 }
 
-export interface UserDataWithTokens {
+export type UserDataWithTokens = {
   accessToken: string;
   refreshToken: string;
   user: UserData;

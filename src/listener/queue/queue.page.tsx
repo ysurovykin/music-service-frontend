@@ -1,22 +1,20 @@
 import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Button, List, Typography } from 'antd';
 import { formatSongQueue } from '../../helpers/react/song-player.helper';
 import { SongComponent } from '../components/song/song.component';
-import { listenerSelectors } from '../store/listener.selectors';
 
 const { Title } = Typography;
 
 export function QueuePage() {
   let navigate = useNavigate();
   
-  const queue = useSelector(listenerSelectors.songsQueue);
-  const songIndex = useSelector(listenerSelectors.songIndex);
+  const queue = JSON.parse(localStorage.getItem('songsQueue') || '[]');
+  const songIndex = +(localStorage.getItem('songIndex') || '');
   
   const formatedQueue = useMemo(() => {
-    if (!isNaN(songIndex!) && queue) {
-      return formatSongQueue(songIndex!, queue)
+    if (!isNaN(songIndex) && queue) {
+      return formatSongQueue(songIndex, queue)
     }
   }, [songIndex, queue])
 
@@ -32,12 +30,12 @@ export function QueuePage() {
         <SongComponent 
           song={formatedQueue?.[0] || {}}
           index={1}
-          songsQueue={queue || []}/>
+          songsQueue={queue}/>
         <Title level={5}>Next up</Title>
         <List
             dataSource={formatedQueue}
             renderItem={(song, index) => (
-              index !== 0 && <List.Item>
+              index !== 0 && <List.Item key={song.songId}>
                 <SongComponent song={song} index={index+1} songsQueue={queue || []}/>
               </List.Item>
             )}>

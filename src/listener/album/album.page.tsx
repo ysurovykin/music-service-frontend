@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { albumSelectors } from './store/album.selectors';
 import { Avatar, Button, List, Typography } from 'antd';
 import { SongComponent } from '../components/song/song.component';
-import { SongInfoResponseData } from '../song/store/song.model';
 
 const { Text, Title } = Typography;
 
@@ -47,7 +46,7 @@ export function AlbumPage() {
             bordered
             dataSource={songs}
             renderItem={(song, index) => (
-              <List.Item>
+              <List.Item key={song.songId}>
                 <SongComponent song={song} index={index+1} songsQueue={songs || []}/>
               </List.Item>
             )}>

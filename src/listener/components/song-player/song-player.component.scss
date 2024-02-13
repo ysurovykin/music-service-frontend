@@ -1,13 +1,43 @@
 .song-player {
   position: fixed;
+  display: grid;
   bottom: 0;
-  min-width: 950px;
-  padding: 10px 0px 10px 20px;
+  min-width: 620px;
   width: 100%;
+  height: 80px;
   background-color: #121212;
 
   &-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 3fr 0.5fr;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+
+    .song-info {
+      display: grid; 
+      grid-template: 'title title'
+                     'artist artist';
+      margin: 0 8px;
+
+      &-wrapper {
+        overflow: hidden;
+
+        &.title {
+          grid-area: title;
+        }
+        
+        &.artist {
+          grid-area: artist;
+        }
+      }
+    }
+
+    .song-name {
+      white-space: nowrap;
+      margin: 0px;
+      transition: all 0.6s ease;
+    }
+
   }
 }

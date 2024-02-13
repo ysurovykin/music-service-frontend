@@ -17,17 +17,17 @@ export interface ArtistState extends ArtistFullResponseDataType {
   artists?: Array<ArtistInfoResponseDataType>
 }
 
-export interface ArtistSocialLinks {
-  name: string,
-  link: string
+export type ArtistSocialLinks = {
+  name: string;
+  link: string;
 }
 
 export type ArtistAlbumDataType = {
-  albumId: string,
-  name: string,
-  likes: number,
-  date: Date,
-  downloadUrl: string
+  albumId: string;
+  name: string;
+  likes: number;
+  date: Date;
+  downloadUrl: string;
 }
 
 export type ArtistShortDataType = {
@@ -45,7 +45,7 @@ export type ArtistInfoResponseDataType = {
 }
 
 export type ArtistFullResponseDataType = ArtistInfoResponseDataType & {
-  albums?: Array<ArtistAlbumDataType>
+  albums?: Array<ArtistAlbumDataType>;
 }
 
 export enum ArtistActionTypes {
