@@ -3,14 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { Button, List, Typography } from 'antd';
 import { formatSongQueue } from '../../helpers/react/song-player.helper';
 import { SongComponent } from '../components/song/song.component';
+import { useSelector } from 'react-redux';
+import { songSelectors } from '../song/store/song.selectors';
 
 const { Title } = Typography;
 
 export function QueuePage() {
   let navigate = useNavigate();
 
-  const queue = JSON.parse(localStorage.getItem('songsQueue') || '[]');
-  const songIndex = +(localStorage.getItem('songIndex') || '');
+  const lastSavedQueue = JSON.parse(localStorage.getItem('songsQueue') || '[]');
+  const lastSavedSongIndex = +(localStorage.getItem('songIndex') || '');
+  const queue = useSelector(songSelectors.songsQueue) || lastSavedQueue;
+  const songIndex = useSelector(songSelectors.songIndex) || lastSavedSongIndex;
 
   const formatedQueue = useMemo(() => {
     if (!isNaN(songIndex) && queue) {

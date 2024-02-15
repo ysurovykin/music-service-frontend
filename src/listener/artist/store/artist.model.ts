@@ -27,7 +27,7 @@ export type ArtistAlbumDataType = {
   name: string;
   likes: number;
   date: Date;
-  downloadUrl: string;
+  coverImageUrl: string;
 }
 
 export type ArtistShortDataType = {

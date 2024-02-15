@@ -23,7 +23,7 @@ import { useSelector } from "react-redux";
 import { songSelectors } from "../../song/store/song.selectors";
 import { Link as RouterLink } from 'react-router-dom';
 import { formatTime } from "../../../helpers/react/song-player.helper";
-import { SongInfoResponseData, SongShortData } from "../../song/store/song.model";
+import { SongInfoResponseData, PlaySongtData } from "../../song/store/song.model";
 import { RepeatSongStateEnum } from "../../store/listener.model";
 
 const { Text, Title } = Typography;
@@ -68,7 +68,7 @@ export function SongPlayerComponent() {
   const dispatch = useDispatch();
   const pauseSong = () => dispatch(songActions.pauseSong());
   const unpauseSong = () => dispatch(songActions.unpauseSong());
-  const playSong = (songData: SongShortData) => dispatch(songActions.playSong(songData));
+  const playSong = (songData: PlaySongtData) => dispatch(songActions.playSong(songData));
 
   useEffect(() => {
     if (isPlaying) {
@@ -253,7 +253,7 @@ export function SongPlayerComponent() {
     setSongIndex(newSongIndex);
     setPlayTime(0);
     localStorage.setItem('songId', newSongId || '');
-    localStorage.setItem('songQueue', JSON.stringify(newSongsQueue));
+    localStorage.setItem('songsQueue', JSON.stringify(newSongsQueue));
     localStorage.setItem('songIndex', newSongIndex.toString());
     localStorage.setItem('playTime', JSON.stringify(0));
   }
@@ -278,7 +278,9 @@ export function SongPlayerComponent() {
           duration: song?.duration,
           coverImageUrl: song?.coverImageUrl,
           songUrl: song?.songUrl,
-          artists: song?.artists
+          artists: song?.artists,
+          songsQueue,
+          songIndex: previousSongIndex
         })
       }
     }
@@ -299,7 +301,9 @@ export function SongPlayerComponent() {
         duration: song?.duration,
         coverImageUrl: song?.coverImageUrl,
         songUrl: song?.songUrl,
-        artists: song?.artists
+        artists: song?.artists,
+        songsQueue,
+        songIndex: nextSongIndex
       })
     }
   }

@@ -48,7 +48,7 @@ export function ArtistPage() {
           dataSource={albums}
           renderItem={(album) => (
             <List.Item>
-              <Avatar shape='square' size={64} src={album.downloadUrl} />
+              <Avatar shape='square' size={64} src={album.coverImageUrl} />
               <RouterLink to={`/album/${album.albumId}`}>{album.name}</RouterLink>
               <Text>{album.likes} likes</Text>
             </List.Item>

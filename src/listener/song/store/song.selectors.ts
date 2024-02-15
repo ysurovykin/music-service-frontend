@@ -14,6 +14,8 @@ const songUrl = createSelector(songState, song => song?.songUrl);
 const isSongDataLoading = createSelector(songState, song => song?.isSongDataLoading);
 const isPlaying = createSelector(songState, song => song?.isPlaying);
 const duration = createSelector(songState, song => song?.duration);
+const songsQueue = createSelector(songState, song => song?.songsQueue);
+const songIndex = createSelector(songState, song => song?.songIndex);
 
 export const songSelectors = {
   name,
@@ -26,5 +28,7 @@ export const songSelectors = {
   songUrl,
   isSongDataLoading,
   isPlaying,
-  duration
+  duration,
+  songsQueue,
+  songIndex,
 };

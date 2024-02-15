@@ -39,6 +39,8 @@ export const songReducer = (state = songState, action: SongActions): SongState =
         duration: action.payload.duration,
         name: action.payload.name,
         songUrl: action.payload.songUrl,
+        songsQueue: action.payload.songsQueue,
+        songIndex: action.payload.songIndex,
         isPlaying: true
       }
     }

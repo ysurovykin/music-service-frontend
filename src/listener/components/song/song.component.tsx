@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { songSelectors } from "../../song/store/song.selectors";
 import { Link as RouterLink } from 'react-router-dom';
 import { formatTime } from "../../../helpers/react/song-player.helper";
-import { SongInfoResponseData, SongShortData } from "../../song/store/song.model";
+import { SongInfoResponseData, PlaySongtData } from "../../song/store/song.model";
 
 const { Text, Title } = Typography;
 
@@ -31,7 +31,7 @@ export function SongComponent({
 
   const dispatch = useDispatch()
   const pauseSong = () => dispatch(songActions.pauseSong());
-  const playSong = (songData: SongShortData) => dispatch(songActions.playSong(songData));
+  const playSong = (songData: PlaySongtData) => dispatch(songActions.playSong(songData));
   const unpauseSong = () => dispatch(songActions.unpauseSong());
 
   const startPlaySong = () => {
@@ -46,7 +46,9 @@ export function SongComponent({
       duration: song?.duration,
       coverImageUrl: song?.coverImageUrl,
       songUrl: song?.songUrl,
-      artists: song?.artists
+      artists: song?.artists,
+      songsQueue,
+      songIndex
     })
   }
 

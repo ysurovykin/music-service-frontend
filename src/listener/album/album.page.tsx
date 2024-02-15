@@ -16,7 +16,7 @@ export function AlbumPage() {
   const name = useSelector(albumSelectors.name);
   const artist = useSelector(albumSelectors.artist);
   const date = useSelector(albumSelectors.date);
-  const albumCoverImageUrl = useSelector(albumSelectors.downloadUrl);
+  const albumCoverImageUrl = useSelector(albumSelectors.coverImageUrl);
   const likes = useSelector(albumSelectors.likes);
   const songs = useSelector(albumSelectors.songs);
 

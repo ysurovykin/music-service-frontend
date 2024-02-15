@@ -36,7 +36,7 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
         name: action.payload.name,
         artist: action.payload.artist,
         date: action.payload.date,
-        downloadUrl: action.payload.downloadUrl,
+        coverImageUrl: action.payload.coverImageUrl,
         likes: action.payload.likes,
         songs: action.payload.songs
       }

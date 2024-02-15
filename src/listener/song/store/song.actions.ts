@@ -7,7 +7,7 @@ import {
   PauseSongActionType,
   UnpauseSongActionType
 } from "./song.actions.types";
-import { SongActionTypes, SongInfoResponseData, SongShortData } from "./song.model";
+import { SongActionTypes, SongInfoResponseData, PlaySongtData } from "./song.model";
 
 export const getSongByIdStartAction = (songId: string):
   GetSongByIdStartActionType => ({ type: SongActionTypes.GET_SONG_BY_ID, payload: songId });
@@ -18,7 +18,7 @@ export const getSongByIdSuccessAction = (response: SongInfoResponseData):
 export const getSongByIdFailedAction = (error: ActionFailedError):
   GetSongByIdFailedActionType => ({ type: SongActionTypes.GET_SONG_BY_ID_FAILED, payload: error });
 
-export const playSongAction = (song: SongShortData):
+export const playSongAction = (song: PlaySongtData):
   PlaySongActionType => ({ type: SongActionTypes.PLAY_SONG, payload: song });
 
 export const pauseSongAction = ():
@@ -31,7 +31,7 @@ export const songActions = {
   getSongById: (songId: string) => getSongByIdStartAction(songId),
   getSongByIdSuccess: (response: SongInfoResponseData) => getSongByIdSuccessAction(response),
   getSongByIdFailed: (error: ActionFailedError) => getSongByIdFailedAction(error),
-  playSong: (song: SongShortData) => playSongAction(song),
+  playSong: (song: PlaySongtData) => playSongAction(song),
   pauseSong: () => pauseSongAction(),
   unpauseSong: () => unpauseSongAction(),
 }

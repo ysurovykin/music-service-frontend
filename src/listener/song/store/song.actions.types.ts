@@ -1,5 +1,5 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { SongActionTypes, SongInfoResponseData, SongShortData } from "./song.model";
+import { SongActionTypes, SongInfoResponseData, PlaySongtData } from "./song.model";
 
 export type GetSongByIdStartActionType = {
   type: typeof SongActionTypes.GET_SONG_BY_ID;
@@ -18,7 +18,7 @@ export type GetSongByIdFailedActionType = {
 
 export type PlaySongActionType = {
   type: typeof SongActionTypes.PLAY_SONG;
-  payload: SongShortData;
+  payload: PlaySongtData;
 };
 
 export type PauseSongActionType = {
