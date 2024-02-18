@@ -1,5 +1,35 @@
 @import './user/user.scss';
 @import './listener/listener.scss';
+@import './app-router.component.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root, .App {
+  height: 100%;
+}
+
+.listener-group-page { 
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  border-radius: 8px;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(51,51,51,1) 0%, rgba(33,33,33,1) 75%);
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #707070;
+  }
+}
 
 a {
   color: #ffffff; //#78E46F

@@ -15,7 +15,7 @@ import {
   MicOutlined,
   FavoriteBorder
 } from '@mui/icons-material';
-import { Avatar, Slider, Typography } from "antd";
+import { Avatar, Slider, Tooltip, Typography } from "antd";
 import { listenerProfileTypePalete } from "../../../config";
 import { useDispatch } from "react-redux";
 import { songActions } from "../../song/store/song.actions";
@@ -44,6 +44,8 @@ export function SongPlayerComponent() {
   const lastSavedShuffleEnabled: boolean = JSON.parse(localStorage.getItem('shuffleEnabled') || 'false');
   const lastSavedVolume: number = +(localStorage.getItem('volume') || '30');
   const lastSavedMuted: boolean = JSON.parse(localStorage.getItem('muted') || 'false');
+  const lastListenedSongId = localStorage.getItem('songId');
+
 
   const [playTime, setPlayTime] = useState<number>();
   const [volume, setVolume] = useState<number>();
@@ -64,11 +66,13 @@ export function SongPlayerComponent() {
   const coverImageUrl = useSelector(songSelectors.coverImageUrl);
   const artists = useSelector(songSelectors.artists);
   const duration = useSelector(songSelectors.duration);
+  const currentSongId = useSelector(songSelectors.songId);
 
   const dispatch = useDispatch();
   const pauseSong = () => dispatch(songActions.pauseSong());
   const unpauseSong = () => dispatch(songActions.unpauseSong());
   const playSong = (songData: PlaySongtData) => dispatch(songActions.playSong(songData));
+  const getSongById = (songId: string) => dispatch(songActions.getSongById(songId));
 
   useEffect(() => {
     if (isPlaying) {
@@ -112,6 +116,12 @@ export function SongPlayerComponent() {
       audioPlayer.current.volume = lastSavedVolume / 100;
     }
   }, [lastSavedVolume]);
+
+  useEffect(() => {
+    if (!currentSongId && lastListenedSongId) {
+      getSongById(lastListenedSongId);
+    }
+  }, [lastListenedSongId])
 
   const startScrollSongText = (songRef: React.RefObject<HTMLDivElement>, songWrapperRef: React.RefObject<HTMLDivElement>,
     isTextScrollLeft: boolean, setIsTextScrollLeft: React.Dispatch<React.SetStateAction<boolean>>, intervalId: NodeJS.Timer | undefined,
@@ -361,24 +371,36 @@ export function SongPlayerComponent() {
     return (
       <div>
         <div className="song-player__controllers-wrapper">
-          {renderShuffleIcon()}
-          <SkipPreviousOutlined
-            sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
-            onClick={() => switchToPreviousSong()} />
-          {!isPlaying
-            ? <PlayArrowOutlined
+          <div className="song-player__controller-icon-wrapper">
+            {renderShuffleIcon()}
+          </div>
+          <div className="song-player__controller-icon-wrapper">
+            <SkipPreviousOutlined
               fontSize={'large'}
               sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
-              onClick={unpauseSong} />
-            : <PauseOutlined
+              onClick={() => switchToPreviousSong()} />
+          </div>
+          <div className="song-player__controller-icon-wrapper">
+            {!isPlaying
+              ? <PlayArrowOutlined
+                fontSize={'large'}
+                sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
+                onClick={unpauseSong} />
+              : <PauseOutlined
+                fontSize={'large'}
+                sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
+                onClick={pauseSong} />
+            }
+          </div>
+          <div className="song-player__controller-icon-wrapper">
+            <SkipNextOutlined
               fontSize={'large'}
               sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
-              onClick={pauseSong} />
-          }
-          <SkipNextOutlined
-            sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
-            onClick={() => switchToNextSong()} />
-          {renderRepeatIcon()}
+              onClick={() => switchToNextSong()} />
+          </div>
+          <div className="song-player__controller-icon-wrapper">
+            {renderRepeatIcon()}
+          </div>
         </div>
         <div className="song-player__controllers-wrapper">
           <Text className="song-player__song-time">{formatTime(playTime!)}</Text>
@@ -396,24 +418,39 @@ export function SongPlayerComponent() {
 
   const renderSongAdditionalControllers = () => {
     return (
-      <div
-        className="song-player__additional-controllers-wrapper">
-        <RouterLink
-          className="song-player__additional-controller"
-          to='/lyrics'>
-          <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> {/* FavoriteOutlined */}
-        </RouterLink>
-        <RouterLink
-          className="song-player__additional-controller"
-          to='/lyrics'>
-          <MicOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
-        </RouterLink>
-        <RouterLink
-          className="song-player__additional-controller"
-          to='/queue'>
-          <QueueMusicOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
-        </RouterLink>
-        {renderVolumeIcon()}
+      <div className="song-player__additional-controllers-wrapper">
+        <Tooltip
+          title='Add to playlist'>
+          <div className="song-player__additional-controller-icon-wrapper">
+            <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> {/* FavoriteOutlined */}
+          </div>
+        </Tooltip>
+        <Tooltip
+          title='Lyrics'>
+          <div className="song-player__additional-controller-icon-wrapper">
+            <RouterLink
+              className="song-player__additional-controller"
+              to='/lyrics'>
+              <MicOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
+            </RouterLink>
+          </div>
+        </Tooltip>
+        <Tooltip
+          title='Queue'>
+          <div className="song-player__additional-controller-icon-wrapper">
+            <RouterLink
+              className="song-player__additional-controller"
+              to='/queue'>
+              <QueueMusicOutlined sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
+            </RouterLink>
+          </div>
+        </Tooltip>
+        <Tooltip
+          title={muted ? 'Unmute' : 'Mute'}>
+          <div className="song-player__additional-controller-icon-wrapper">
+            {renderVolumeIcon()}
+          </div>
+        </Tooltip>
         <Slider
           className="song-player__volume-slider"
           tooltip={{ open: false }}
@@ -426,12 +463,12 @@ export function SongPlayerComponent() {
   };
 
   return (
-    <div className="song-player">
+    <div className="song-player__wrapper">
       <audio
         src={songUrl}
         ref={audioPlayer}
         muted={muted} />
-      <div className="song-player__wrapper">
+      <div className="song-player">
         <div className="song-player__info">
           {renderSongInfo()}
         </div>

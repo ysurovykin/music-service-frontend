@@ -1,0 +1,54 @@
+import { SongInfoResponseData } from "../../song/store/song.model";
+
+export const playlistState: PlaylistState = {
+  playlists: undefined,
+  isPlaylistsLoading: false,
+  isPlaylistDataLoading: false,
+  playlistId: undefined,
+  songs: undefined,
+  name: undefined,
+  date: undefined,
+  coverImageUrl: undefined,
+};
+
+export interface PlaylistState extends PlaylistFullResponseData {
+  isPlaylistsLoading: boolean,
+  isPlaylistDataLoading: boolean,
+  playlists?: Array<PlaylistInfoResponseData>
+}
+
+export type CreatePlaylistRequestData = {
+  name: string;
+  listenerId: string;
+  songIds?: Array<string>;
+};
+
+export type PlaylistShortData = {
+  name: string;
+  id: string;
+}
+
+export enum PlaylistTagEnum {
+  'liked' = 'liked'
+}
+
+export type PlaylistInfoResponseData = {
+  playlistId?: string;
+  name?: string;
+  date?: Date;
+  tag?: string;
+  coverImageUrl?: string;
+}
+
+export type PlaylistFullResponseData = PlaylistInfoResponseData & {
+  songs?: Array<SongInfoResponseData>;
+}
+
+export enum PlaylistActionTypes {
+  GET_PLAYLISTS_BY_LISTENER_ID = "GET_PLAYLISTS_BY_LISTENER_ID_START",
+  GET_PLAYLISTS_BY_LISTENER_ID_SUCCESS = "GET_PLAYLISTS_BY_LISTENER_ID_SUCCESS",
+  GET_PLAYLISTS_BY_LISTENER_ID_FAILED = "GET_PLAYLISTS_BY_LISTENER_ID_FAILED",
+  GET_PLAYLIST_BY_ID = "GET_PLAYLIST_BY_ID_START",
+  GET_PLAYLIST_BY_ID_SUCCESS = "GET_PLAYLIST_BY_ID_SUCCESS",
+  GET_PLAYLIST_BY_ID_FAILED = "GET_PLAYLIST_BY_ID_FAILED",
+};

@@ -23,7 +23,7 @@ export function QueuePage() {
   }, [songIndex, queue])
 
   return (
-    <div className="queue-page">
+    <div className="queue-page listener-group-page">
       <Button
         onClick={() => navigate(-1)} >
         {'< Back'}

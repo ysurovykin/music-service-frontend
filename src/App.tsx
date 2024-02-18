@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import AppRouter from './app-router.component';
+import AppRouter from './app.router';
 import { ConfigProvider } from 'antd';
 import './App.scss'
 import { artistProfileTypePalete, listenerProfileTypePalete } from './config';

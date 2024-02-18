@@ -29,7 +29,7 @@ export function ArtistPage() {
   }, [artistId]);
 
   return (
-    <div className="artist-page">
+    <div className="artist-page listener-group-page">
       <Button
         onClick={() => navigate(-1)} >
         {'< Back'}
