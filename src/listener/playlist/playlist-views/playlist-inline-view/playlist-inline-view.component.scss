@@ -1,0 +1,19 @@
+.playlist-inline-view {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+
+  &__title {
+    color: #FFFFFF;
+
+    span {
+      border-radius: 4px;
+      background-color: #52C44875;
+    }
+  }
+
+  &__icon {
+    color: #98FF8E;
+  }
+}

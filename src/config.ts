@@ -9,11 +9,12 @@ export const API_URL = 'http://localhost:5000/'
 // }
 
 export const listenerProfileTypePalete = {
-  base: '#78E46F',
+  base: '#52c448', //78E46F
   secondary: '#98FF8E',
   contrast: '#F2C994',
   backgroundBase: '#121212',
-  backgroundAccent: '#333333'
+  backgroundAccent: '#333333',
+  backgroundAccentLight: '#AAAAAA'
 };
 
 export const artistProfileTypePalete = {

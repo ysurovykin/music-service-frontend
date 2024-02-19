@@ -5,7 +5,7 @@ import { albumActions } from './store/album.actions';
 import { useSelector } from 'react-redux';
 import { albumSelectors } from './store/album.selectors';
 import { Avatar, Button, List, Typography } from 'antd';
-import { SongComponent } from '../components/song/song.component';
+import { SongComponent } from '../song/song.component';
 
 const { Text, Title } = Typography;
 

@@ -1,12 +1,14 @@
 @import './user/user.scss';
 @import './listener/listener.scss';
-@import './app-router.component.scss';
+@import './app.router.scss';
 
 * {
+  margin: 0;
   box-sizing: border-box;
 }
 
 html, body, #root, .App {
+  overflow-x: hidden;
   height: 100%;
 }
 

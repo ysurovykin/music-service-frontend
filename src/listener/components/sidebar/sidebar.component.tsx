@@ -3,16 +3,15 @@ import { Link as RouterLink } from "react-router-dom";
 import {
   LibraryMusicOutlined,
   HomeOutlined,
-  SearchOutlined,
-  Favorite
+  SearchOutlined
 } from "@mui/icons-material";
 import { playlistSelectors } from "../../playlist/store/playlist.selectors";
 import { useSelector } from "react-redux";
-import { Avatar, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import { useDispatch } from "react-redux";
 import { playlistActions } from "../../playlist/store/playlist.actions";
 import { userSelectors } from "../../../user/store/user.selectors";
-import { PlaylistInfoResponseData, PlaylistTagEnum } from "../../playlist/store/playlist.model";
+import { PlaylistIconViewComponent } from "../../playlist/playlist-views/playlist-icon-view/playlist-icon-view.component";
 
 export function SidebarComponent() {
 
@@ -27,30 +26,6 @@ export function SidebarComponent() {
       getPlaylists(userId);
     }
   }, [userId]);
-
-  const renderPlaylistCover = (playlist: PlaylistInfoResponseData) => {
-    if (playlist.coverImageUrl) {
-      return (
-        <RouterLink to={`/playlist/${playlist.playlistId}`}>
-          <Avatar size={48} shape="square" src={playlist.coverImageUrl} />
-        </RouterLink>
-      );
-    }
-
-    switch (playlist.tag as PlaylistTagEnum) {
-      case PlaylistTagEnum.liked: {
-        return (
-          <RouterLink to={`/playlist/${playlist.playlistId}`}>
-            <Avatar
-              className="sidebar__avatar sidebar__avatar--liked"
-              icon={<Favorite />}
-              size={48}
-              shape="square" />
-          </RouterLink>
-        );
-      }
-    }
-  }
 
   return (
     <div className="sidebar">
@@ -77,7 +52,7 @@ export function SidebarComponent() {
             placement="right"
             title={playlist.name}>
             <div className="sidebar__avatar-wrapper">
-              {renderPlaylistCover(playlist)}
+              {<PlaylistIconViewComponent playlist={playlist} />}
             </div>
           </Tooltip>)}
         </div>

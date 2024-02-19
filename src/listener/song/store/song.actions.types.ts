@@ -1,5 +1,5 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { SongActionTypes, SongInfoResponseData, PlaySongtData } from "./song.model";
+import { SongActionTypes, SongInfoResponseData, PlaySongData, EditPlaylistsRequest } from "./song.model";
 
 export type GetSongByIdStartActionType = {
   type: typeof SongActionTypes.GET_SONG_BY_ID;
@@ -18,7 +18,7 @@ export type GetSongByIdFailedActionType = {
 
 export type PlaySongActionType = {
   type: typeof SongActionTypes.PLAY_SONG;
-  payload: PlaySongtData;
+  payload: PlaySongData;
 };
 
 export type PauseSongActionType = {
@@ -31,10 +31,40 @@ export type UnpauseSongActionType = {
   payload: undefined;
 };
 
+export type OpenEditPlaylistsModalActionType = {
+  type: typeof SongActionTypes.OPEN_EDIT_PLAYLISTS_MODAL;
+  payload: string;
+};
+
+export type CloseEditPlaylistsModalActionType = {
+  type: typeof SongActionTypes.CLOSE_EDIT_PLAYLISTS_MODAL;
+  payload: undefined;
+};
+
+export type EditPlaylistsStartActionType = {
+  type: typeof SongActionTypes.EDIT_PLAYLISTS;
+  payload: EditPlaylistsRequest;
+};
+
+export type EditPlaylistsSuccessActionType = {
+  type: typeof SongActionTypes.EDIT_PLAYLISTS_SUCCESS;
+  payload: Array<string>;
+};
+
+export type EditPlaylistsFailedActionType = {
+  type: typeof SongActionTypes.EDIT_PLAYLISTS_FAILED;
+  payload: ActionFailedError;
+};
+
 export type SongActions =
   | GetSongByIdStartActionType
   | GetSongByIdSuccessActionType
   | GetSongByIdFailedActionType
   | PlaySongActionType
   | PauseSongActionType
-  | UnpauseSongActionType;
+  | UnpauseSongActionType
+  | OpenEditPlaylistsModalActionType
+  | CloseEditPlaylistsModalActionType
+  | EditPlaylistsStartActionType
+  | EditPlaylistsSuccessActionType
+  | EditPlaylistsFailedActionType;

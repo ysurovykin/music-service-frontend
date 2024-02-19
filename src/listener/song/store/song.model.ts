@@ -14,17 +14,35 @@ export const songState: SongState = {
   isSongDataLoading: false,
   isPlaying: false,
   songsQueue: undefined,
-  songIndex: undefined
+  songIndex: undefined,
+  isEditPlaylistModalOpen: undefined,
+  playlistIds: undefined,
+  isPlaylistIdsLoading: undefined,
+  editPlaylistsSongId: undefined,
 };
 
 export interface SongState extends SongInfoResponseData {
-  isPlaying?: boolean,
-  isSongDataLoading?: boolean,
-  songsQueue?: Array<SongInfoResponseData>,
-  songIndex?: number
+  isPlaying?: boolean;
+  isSongDataLoading?: boolean;
+  songsQueue?: Array<SongInfoResponseData>;
+  songIndex?: number;
+  isEditPlaylistModalOpen?: boolean;
+  isPlaylistIdsLoading?: boolean;
+  editPlaylistsSongId?: string;
 }
 
-export type PlaySongtData = {
+export type EditedPlaylist = {
+  playlistId: string;
+  added: boolean;
+}
+
+export type EditPlaylistsRequest = {
+  songId: string;
+  editedPlaylists: Array<EditedPlaylist>;
+  playlistIdToUpdate?: string
+}
+
+export type PlaySongData = {
   songId?: string;
   name?: string;
   artists?: Array<ArtistShortDataType>;
@@ -33,6 +51,7 @@ export type PlaySongtData = {
   duration?: number;
   songsQueue?: Array<SongInfoResponseData>;
   songIndex?: number;
+  playlistIds?: Array<string>;
 }
 
 export type SongInfoResponseData = {
@@ -45,6 +64,7 @@ export type SongInfoResponseData = {
   duration?: number;
   coverImageUrl?: string;
   songUrl?: string;
+  playlistIds?: Array<string>;
 }
 
 export enum SongActionTypes {
@@ -55,4 +75,11 @@ export enum SongActionTypes {
   PLAY_SONG = "PLAY_SONG",
   UNPAUSE_SONG = "UNPAUSE_SONG",
   PAUSE_SONG = "PAUSE_SONG",
+
+  OPEN_EDIT_PLAYLISTS_MODAL = "OPEN_EDIT_PLAYLISTS_MODAL",
+  CLOSE_EDIT_PLAYLISTS_MODAL = "CLOSE_EDIT_PLAYLISTS_MODAL",
+
+  EDIT_PLAYLISTS = "EDIT_PLAYLISTS",
+  EDIT_PLAYLISTS_SUCCESS = "EDIT_PLAYLISTS_SUCCESS",
+  EDIT_PLAYLISTS_FAILED = "EDIT_PLAYLISTS_FAILED",
 };

@@ -6,6 +6,7 @@ import { QueuePage } from '../../queue/queue.page';
 import { ListenerPage } from '../../listener.page';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PlaylistPage } from '../../playlist/playlist.page';
+import { EditPlaylistModal } from '../../song/edit-playlists-modal/edit-playlists.modal';
 
 export default function ListenerRouter() {
   return (
@@ -21,6 +22,7 @@ export default function ListenerRouter() {
         </Routes>
       </div>
       <SongPlayerComponent />
+      <EditPlaylistModal />
     </>
   );
 }

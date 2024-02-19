@@ -14,6 +14,7 @@ export const songReducer = (state = songState, action: SongActions): SongState =
       return {
         ...state,
         isSongDataLoading: false,
+        songId: action.payload.songId,
         name: action.payload.name,
         artists: action.payload.artists,
         album: action.payload.album,
@@ -21,7 +22,8 @@ export const songReducer = (state = songState, action: SongActions): SongState =
         date: action.payload.date,
         duration: action.payload.duration,
         coverImageUrl: action.payload.coverImageUrl,
-        songUrl: action.payload.songUrl
+        songUrl: action.payload.songUrl,
+        playlistIds: action.payload.playlistIds
       }
     }
     case SongActionTypes.GET_SONG_BY_ID_FAILED: {
@@ -41,6 +43,7 @@ export const songReducer = (state = songState, action: SongActions): SongState =
         songUrl: action.payload.songUrl,
         songsQueue: action.payload.songsQueue,
         songIndex: action.payload.songIndex,
+        playlistIds: action.payload.playlistIds,
         isPlaying: true
       }
     }
@@ -54,6 +57,38 @@ export const songReducer = (state = songState, action: SongActions): SongState =
       return {
         ...state,
         isPlaying: true
+      }
+    }
+    case SongActionTypes.OPEN_EDIT_PLAYLISTS_MODAL: {
+      return {
+        ...state,
+        isEditPlaylistModalOpen: true,
+        editPlaylistsSongId: action.payload
+      }
+    }
+    case SongActionTypes.CLOSE_EDIT_PLAYLISTS_MODAL: {
+      return {
+        ...state,
+        isEditPlaylistModalOpen: false
+      }
+    }
+    case SongActionTypes.EDIT_PLAYLISTS: {
+      return {
+        ...state,
+        isPlaylistIdsLoading: true
+      }
+    }
+    case SongActionTypes.EDIT_PLAYLISTS_SUCCESS: {
+      return {
+        ...state,
+        playlistIds: action.payload,
+        isPlaylistIdsLoading: false
+      }
+    }
+    case SongActionTypes.EDIT_PLAYLISTS_FAILED: {
+      return {
+        ...state,
+        isPlaylistIdsLoading: false
       }
     }
     default: {

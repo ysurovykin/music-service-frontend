@@ -55,6 +55,11 @@ function App() {
               railHoverBg: listenerProfileTypePalete.backgroundAccent,
               trackBg: '#ffffff',
               trackHoverBg: listenerProfileTypePalete.base
+            },
+            Modal: {
+              contentBg: listenerProfileTypePalete.backgroundAccent,
+              headerBg: listenerProfileTypePalete.backgroundAccent,
+              colorTextHeading: listenerProfileTypePalete.backgroundAccentLight
             }
           },
           token: {

@@ -1,0 +1,50 @@
+.edit-playlists-modal {
+
+  &__cancel-button {
+    color: #ffffff;
+    background: rgb(33, 33, 33);
+
+    &:hover {
+      background: rgb(33, 33, 33) !important;
+    }
+  }
+
+  &__search {
+    display: grid;
+    margin-bottom: 20px;
+    grid-template-columns: auto 1fr auto;
+    gap: 5px;
+    border-radius: 4px;
+    padding: 4px;
+    background-color: #505050;
+  }
+
+  &__search-input {
+    background: transparent;
+    border: none;
+    color: #AAAAAA;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__search-icon {
+    color: #AAAAAA;
+
+    &-wrapper {
+      display: flex;
+      cursor: pointer;
+    }
+  }
+
+  &__playlist-wrapper {
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background: #12121275;
+    }
+  }
+}

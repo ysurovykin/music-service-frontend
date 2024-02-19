@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, List, Typography } from 'antd';
 import { formatSongQueue } from '../../helpers/react/song-player.helper';
-import { SongComponent } from '../components/song/song.component';
+import { SongComponent } from '../song/song.component';
 import { useSelector } from 'react-redux';
 import { songSelectors } from '../song/store/song.selectors';
 

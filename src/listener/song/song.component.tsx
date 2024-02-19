@@ -4,14 +4,14 @@ import {
   PlayArrowOutlined,
 } from '@mui/icons-material';
 import { Avatar, Typography } from "antd";
-import { listenerProfileTypePalete } from "../../../config";
+import { listenerProfileTypePalete } from "../../config";
 import { useDispatch } from "react-redux";
-import { songActions } from "../../song/store/song.actions";
+import { songActions } from "./store/song.actions";
 import { useSelector } from "react-redux";
-import { songSelectors } from "../../song/store/song.selectors";
+import { songSelectors } from "./store/song.selectors";
 import { Link as RouterLink } from 'react-router-dom';
-import { formatTime } from "../../../helpers/react/song-player.helper";
-import { SongInfoResponseData, PlaySongtData } from "../../song/store/song.model";
+import { formatTime } from "../../helpers/react/song-player.helper";
+import { SongInfoResponseData, PlaySongData } from "./store/song.model";
 
 const { Text, Title } = Typography;
 
@@ -29,9 +29,9 @@ export function SongComponent({
   const isPlaying = useSelector(songSelectors.isPlaying);
   const songId = localStorage.getItem('songId');
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const pauseSong = () => dispatch(songActions.pauseSong());
-  const playSong = (songData: PlaySongtData) => dispatch(songActions.playSong(songData));
+  const playSong = (songData: PlaySongData) => dispatch(songActions.playSong(songData));
   const unpauseSong = () => dispatch(songActions.unpauseSong());
 
   const startPlaySong = () => {
@@ -40,6 +40,7 @@ export function SongComponent({
     localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
     localStorage.setItem('songIndex', songIndex.toString());
     localStorage.setItem('playTime', JSON.stringify(0));
+    localStorage.setItem('playlistIds', JSON.stringify(song?.playlistIds || []));
     playSong({
       songId: song?.songId,
       name: song?.name,
@@ -47,6 +48,7 @@ export function SongComponent({
       coverImageUrl: song?.coverImageUrl,
       songUrl: song?.songUrl,
       artists: song?.artists,
+      playlistIds: song?.playlistIds,
       songsQueue,
       songIndex
     })

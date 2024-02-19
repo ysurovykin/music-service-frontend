@@ -13,7 +13,8 @@ import {
   ShuffleOutlined,
   QueueMusicOutlined,
   MicOutlined,
-  FavoriteBorder
+  FavoriteBorder,
+  Favorite
 } from '@mui/icons-material';
 import { Avatar, Slider, Tooltip, Typography } from "antd";
 import { listenerProfileTypePalete } from "../../../config";
@@ -23,7 +24,7 @@ import { useSelector } from "react-redux";
 import { songSelectors } from "../../song/store/song.selectors";
 import { Link as RouterLink } from 'react-router-dom';
 import { formatTime } from "../../../helpers/react/song-player.helper";
-import { SongInfoResponseData, PlaySongtData } from "../../song/store/song.model";
+import { SongInfoResponseData, PlaySongData } from "../../song/store/song.model";
 import { RepeatSongStateEnum } from "../../store/listener.model";
 
 const { Text, Title } = Typography;
@@ -46,7 +47,6 @@ export function SongPlayerComponent() {
   const lastSavedMuted: boolean = JSON.parse(localStorage.getItem('muted') || 'false');
   const lastListenedSongId = localStorage.getItem('songId');
 
-
   const [playTime, setPlayTime] = useState<number>();
   const [volume, setVolume] = useState<number>();
   const [songsQueue, setSongsQueue] = useState<Array<SongInfoResponseData>>(lastSavedSongsQueue);
@@ -67,12 +67,17 @@ export function SongPlayerComponent() {
   const artists = useSelector(songSelectors.artists);
   const duration = useSelector(songSelectors.duration);
   const currentSongId = useSelector(songSelectors.songId);
+  const isEditPlaylistModalOpen = useSelector(songSelectors.isEditPlaylistModalOpen);
+  const playlistIds = useSelector(songSelectors.playlistIds);
+  const songId = useSelector(songSelectors.songId);
 
   const dispatch = useDispatch();
   const pauseSong = () => dispatch(songActions.pauseSong());
   const unpauseSong = () => dispatch(songActions.unpauseSong());
-  const playSong = (songData: PlaySongtData) => dispatch(songActions.playSong(songData));
+  const playSong = (songData: PlaySongData) => dispatch(songActions.playSong(songData));
   const getSongById = (songId: string) => dispatch(songActions.getSongById(songId));
+  const openEditPlaylistsModal = (songId: string) => dispatch(songActions.openEditPlaylistsModal(songId));
+  const closeEditPlaylistsModal = () => dispatch(songActions.closeEditPlaylistsModal());
 
   useEffect(() => {
     if (isPlaying) {
@@ -258,12 +263,14 @@ export function SongPlayerComponent() {
     }
   }
 
-  const changeSongData = (newSongId: string, newSongsQueue: Array<SongInfoResponseData>, newSongIndex: number) => {
+  const changeSongData = (newSongId: string, newSongsQueue: Array<SongInfoResponseData>,
+    playlistIds: Array<string>, newSongIndex: number) => {
     setSongsQueue(newSongsQueue);
     setSongIndex(newSongIndex);
     setPlayTime(0);
     localStorage.setItem('songId', newSongId || '');
     localStorage.setItem('songsQueue', JSON.stringify(newSongsQueue));
+    localStorage.setItem('playlistIds', JSON.stringify(playlistIds));
     localStorage.setItem('songIndex', newSongIndex.toString());
     localStorage.setItem('playTime', JSON.stringify(0));
   }
@@ -280,7 +287,7 @@ export function SongPlayerComponent() {
         }
         const previousSongIndex = songIndex - 1;
         const song = songsQueue[previousSongIndex];
-        changeSongData(song?.songId || '', songsQueue, previousSongIndex);
+        changeSongData(song?.songId || '', songsQueue, song?.playlistIds || [], previousSongIndex);
 
         playSong({
           songId: song?.songId,
@@ -289,6 +296,7 @@ export function SongPlayerComponent() {
           coverImageUrl: song?.coverImageUrl,
           songUrl: song?.songUrl,
           artists: song?.artists,
+          playlistIds: song?.playlistIds,
           songsQueue,
           songIndex: previousSongIndex
         })
@@ -303,7 +311,7 @@ export function SongPlayerComponent() {
       }
       const nextSongIndex = songIndex + 1;
       const song = songsQueue[songIndex + 1];
-      changeSongData(song?.songId || '', songsQueue, nextSongIndex);
+      changeSongData(song?.songId || '', songsQueue, song?.playlistIds || [], nextSongIndex);
 
       playSong({
         songId: song?.songId,
@@ -312,6 +320,7 @@ export function SongPlayerComponent() {
         coverImageUrl: song?.coverImageUrl,
         songUrl: song?.songUrl,
         artists: song?.artists,
+        playlistIds: song?.playlistIds,
         songsQueue,
         songIndex: nextSongIndex
       })
@@ -421,8 +430,13 @@ export function SongPlayerComponent() {
       <div className="song-player__additional-controllers-wrapper">
         <Tooltip
           title='Add to playlist'>
-          <div className="song-player__additional-controller-icon-wrapper">
-            <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> {/* FavoriteOutlined */}
+          <div
+            className="song-player__additional-controller-icon-wrapper"
+            onClick={() => isEditPlaylistModalOpen ? closeEditPlaylistsModal() : openEditPlaylistsModal(songId || '')}>
+            {playlistIds?.length ?
+              <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
+              <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
+            }
           </div>
         </Tooltip>
         <Tooltip
