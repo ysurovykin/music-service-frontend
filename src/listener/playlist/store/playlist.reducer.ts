@@ -38,6 +38,7 @@ export const playlistReducer = (state = playlistState, action: PlaylistActions):
         coverImageUrl: action.payload.coverImageUrl,
         tag: action.payload.tag,
         songs: action.payload.songs,
+        backgroundColor: action.payload.backgroundColor
       }
     }
     case PlaylistActionTypes.GET_PLAYLIST_BY_ID_FAILED: {

@@ -13,6 +13,8 @@ const isArtistLoading = createSelector(artistState, artist => artist?.isArtistLo
 const isArtistQueueLoading = createSelector(artistState, artist => artist?.isArtistQueueLoading);
 const artists = createSelector(artistState, artist => artist?.artists);
 const albums = createSelector(artistState, artist => artist?.albums);
+const backgroundColor = createSelector(artistState, album => album?.backgroundColor);
+const profileImageUrl = createSelector(artistState, album => album?.profileImageUrl);
 
 export const artistSelectors = {
   artistId,
@@ -24,5 +26,7 @@ export const artistSelectors = {
   isArtistLoading,
   isArtistQueueLoading,
   artists,
-  albums
+  albums,
+  backgroundColor,
+  profileImageUrl
 };

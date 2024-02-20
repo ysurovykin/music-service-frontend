@@ -1,11 +1,15 @@
 export const listenerState: ListenerState = {
   isListenerLoading: undefined,
   name: undefined,
+  profileImageUrl: undefined,
+  backgroundColor: undefined
 };
 
 export interface ListenerState {
   isListenerLoading?: boolean,
   name?: string
+  profileImageUrl?: string;
+  backgroundColor?: string;
 }
 
 export enum RepeatSongStateEnum {
@@ -18,6 +22,8 @@ export type RepeatSongStates = 'none' | 'loop' | 'one';
 
 export type ListenerInfoResponseData = {
   name?: string;
+  profileImageUrl?: string;
+  backgroundColor?: string;
 }
 
 export enum ListenerActionTypes {

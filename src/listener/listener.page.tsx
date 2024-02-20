@@ -7,12 +7,14 @@ import { artistActions } from "./artist/store/artist.actions";
 import { artistSelectors } from "./artist/store/artist.selectors";
 import { HeaderComponent } from "./components/header/header.component";
 import { calculateScrollY } from "../helpers/react/listener-page.helper";
+import { listenerSelectors } from "./store/listener.selectors";
 
 export function ListenerPage() {
   const [scrollY, setScrollY] = useState<number>(0);
 
   const userId = useSelector(userSelectors.userId);
   const artists = useSelector(artistSelectors.artists);
+  const backgroundColor = useSelector(listenerSelectors.backgroundColor);
   const pageRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
@@ -31,8 +33,8 @@ export function ListenerPage() {
 
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
-      <div className="listener-page listener-group-page">
-        <HeaderComponent background={'red'} scrollY={scrollY} />
+      <div ref={pageRef} className="listener-page listener-group-page">
+        <HeaderComponent background={backgroundColor} scrollY={scrollY} />
         {artists?.map(artist => (
           <div>
             <RouterLink to={`/artist/${artist.artistId}`}>

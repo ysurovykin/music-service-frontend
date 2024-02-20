@@ -39,7 +39,9 @@ export const artistReducer = (state = artistState, action: ArtistActions): Artis
         description: action.payload.description,
         socialLinks: action.payload.socialLinks,
         followers: action.payload.followers,
-        albums: action.payload.albums
+        albums: action.payload.albums,
+        backgroundColor: action.payload.backgroundColor,
+        profileImageUrl: action.payload.profileImageUrl
       }
     }
     case ArtistActionTypes.GET_ARTIST_BY_ID_FAILED: {

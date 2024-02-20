@@ -38,7 +38,8 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
         date: action.payload.date,
         coverImageUrl: action.payload.coverImageUrl,
         likes: action.payload.likes,
-        songs: action.payload.songs
+        songs: action.payload.songs,
+        backgroundColor: action.payload.backgroundColor
       }
     }
     case AlbumActionTypes.GET_ALBUM_BY_ID_FAILED: {

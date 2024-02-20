@@ -12,6 +12,7 @@ const tag = createSelector(playlistState, playlist => playlist?.tag);
 const isPlaylistDataLoading = createSelector(playlistState, playlist => playlist?.isPlaylistDataLoading);
 const isPlaylistsLoading = createSelector(playlistState, playlist => playlist?.isPlaylistsLoading);
 const songs = createSelector(playlistState, playlist => playlist?.songs);
+const backgroundColor = createSelector(playlistState, album => album?.backgroundColor);
 
 export const playlistSelectors = {
   playlistId,
@@ -22,5 +23,6 @@ export const playlistSelectors = {
   tag,
   isPlaylistDataLoading,
   isPlaylistsLoading,
-  songs
+  songs,
+  backgroundColor
 };

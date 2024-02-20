@@ -22,6 +22,7 @@ export function ArtistPage() {
   const socialLinks = useSelector(artistSelectors.socialLinks);
   const followers = useSelector(artistSelectors.followers);
   const albums = useSelector(artistSelectors.albums);
+  const backgroundColor = useSelector(artistSelectors.backgroundColor);
 
   const pageRef = useRef<HTMLDivElement>(null);
 
@@ -36,8 +37,8 @@ export function ArtistPage() {
 
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
-      <div className="artist-page listener-group-page">
-        <HeaderComponent background={'red'} scrollY={scrollY} />
+      <div ref={pageRef} className="artist-page listener-group-page">
+        <HeaderComponent background={backgroundColor} scrollY={scrollY} />
         <div>
           {name && <Title level={4}>Name: {name}</Title>}
           {country && <Title level={4}>Country: {country}</Title>}

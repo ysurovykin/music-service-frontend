@@ -10,6 +10,7 @@ export const albumState: AlbumState = {
   name: undefined,
   date: undefined,
   coverImageUrl: undefined,
+  backgroundColor: undefined,
   artist: undefined,
 };
 
@@ -24,6 +25,7 @@ export type AlbumSongData = {
   name: string;
   plays: number;
   coArtistIds: Array<string>;
+  backgroundColor?: string;
   coverImageUrl: string;
 }
 
@@ -37,6 +39,7 @@ export type AlbumInfoResponseData = {
   name?: string;
   date?: Date;
   coverImageUrl?: string;
+  backgroundColor?: string;
   artist?: ArtistShortDataType;
 }
 

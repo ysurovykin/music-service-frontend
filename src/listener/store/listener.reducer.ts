@@ -15,6 +15,8 @@ export const listenerReducer = (state = listenerState, action: ListenerActions):
         ...state,
         isListenerLoading: false,
         name: action.payload.name,
+        profileImageUrl: action.payload.profileImageUrl,
+        backgroundColor: action.payload.backgroundColor
       }
     }
     case ListenerActionTypes.GET_LISTENER_BY_ID_FAILED: {

@@ -20,6 +20,7 @@ const isEditPlaylistModalOpen = createSelector(songState, song => song?.isEditPl
 const playlistIds = createSelector(songState, song => song?.playlistIds);
 const isPlaylistIdsLoading = createSelector(songState, song => song?.isPlaylistIdsLoading);
 const editPlaylistsSongId = createSelector(songState, song => song?.editPlaylistsSongId);
+const backgroundColor = createSelector(songState, album => album?.backgroundColor);
 
 export const songSelectors = {
   name,
@@ -38,5 +39,6 @@ export const songSelectors = {
   isEditPlaylistModalOpen,
   playlistIds,
   isPlaylistIdsLoading,
-  editPlaylistsSongId
+  editPlaylistsSongId,
+  backgroundColor
 };

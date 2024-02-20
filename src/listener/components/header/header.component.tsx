@@ -9,10 +9,10 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
 export function HeaderComponent({
   scrollY,
-  background
+  background = 'rgb(33, 33, 33)'
 }: {
   scrollY: number,
-  background: string
+  background?: string
 }) {
   const navigate = useNavigate();
   const userName = useSelector(userSelectors.name);

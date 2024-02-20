@@ -10,6 +10,7 @@ export const songState: SongState = {
   date: undefined,
   duration: undefined,
   coverImageUrl: undefined,
+  backgroundColor: undefined,
   songUrl: undefined,
   isSongDataLoading: false,
   isPlaying: false,
@@ -47,6 +48,7 @@ export type PlaySongData = {
   name?: string;
   artists?: Array<ArtistShortDataType>;
   coverImageUrl?: string;
+  backgroundColor?: string;
   songUrl?: string;
   duration?: number;
   songsQueue?: Array<SongInfoResponseData>;
@@ -63,6 +65,7 @@ export type SongInfoResponseData = {
   date?: Date;
   duration?: number;
   coverImageUrl?: string;
+  backgroundColor?: string;
   songUrl?: string;
   playlistIds?: Array<string>;
 }

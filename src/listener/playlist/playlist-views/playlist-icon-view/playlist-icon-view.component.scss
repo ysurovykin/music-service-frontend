@@ -1,7 +1,8 @@
 .playlist-icon-view {
 
-  
+
   &__avatar {
+
     // border: solid 1px black;
     &-wrapper {
       width: 64px;
@@ -10,18 +11,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
-  
+
       &:hover {
         background: rgb(51, 51, 51) !important;
       }
     }
 
     &--liked {
-      background: linear-gradient(240deg, rgba(65,177,56,1) 0%, rgba(112,219,102,1) 40%, rgba(255,173,66,1) 95%);
+      background: linear-gradient(240deg, rgba(65, 177, 56, 1) 0%, rgba(112, 219, 102, 1) 40%, rgba(255, 173, 66, 1) 95%);
     }
-    
+
     &--default {
-      background: rgba(65,177,56,1);
+      background: rgba(65, 177, 56, 1);
     }
   }
 }

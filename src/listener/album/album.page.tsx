@@ -21,6 +21,7 @@ export function AlbumPage() {
   const albumCoverImageUrl = useSelector(albumSelectors.coverImageUrl);
   const likes = useSelector(albumSelectors.likes);
   const songs = useSelector(albumSelectors.songs);
+  const backgroundColor = useSelector(albumSelectors.backgroundColor);
 
   const dispatch = useDispatch()
   const getAlbumData = (albumId: string) => dispatch(albumActions.getAlbumById(albumId));
@@ -36,7 +37,7 @@ export function AlbumPage() {
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
       <div ref={pageRef} className="album-page listener-group-page">
-        <HeaderComponent background={'red'} scrollY={scrollY} />
+        <HeaderComponent background={backgroundColor} scrollY={scrollY} />
         <div>
           {name && <Title level={4}>Name: {name}</Title>}
           {artist && <Title level={4}>Artist: <RouterLink to={`/artist/${artist.id}`}>{artist.name}</RouterLink></Title>}

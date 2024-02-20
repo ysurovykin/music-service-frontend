@@ -20,6 +20,7 @@ export function PlaylistPage() {
   const date = useSelector(playlistSelectors.date);
   const playlistCoverImageUrl = useSelector(playlistSelectors.coverImageUrl);
   const songs = useSelector(playlistSelectors.songs);
+  const backgroundColor = useSelector(playlistSelectors.backgroundColor);
 
   const pageRef = useRef<HTMLDivElement>(null);
 
@@ -34,8 +35,8 @@ export function PlaylistPage() {
 
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
-      <div className="playlist-page listener-group-page">
-        <HeaderComponent background={'red'} scrollY={scrollY} />
+      <div ref={pageRef} className="playlist-page listener-group-page">
+        <HeaderComponent background={backgroundColor} scrollY={scrollY} />
         <div>
           {name && <Title level={4}>Name: {name}</Title>}
           {date && <Title level={4}>Date: {date.toString()}</Title>}

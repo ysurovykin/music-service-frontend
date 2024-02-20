@@ -8,7 +8,9 @@ export const artistState: ArtistState = {
   description: undefined,
   socialLinks: undefined,
   followers: undefined,
-  albums: undefined
+  albums: undefined,
+  profileImageUrl: undefined,
+  backgroundColor: undefined
 };
 
 export interface ArtistState extends ArtistFullResponseDataType {
@@ -28,6 +30,7 @@ export type ArtistAlbumDataType = {
   likes: number;
   date: Date;
   coverImageUrl: string;
+  backgroundColor: string;
 }
 
 export type ArtistShortDataType = {
@@ -42,6 +45,8 @@ export type ArtistInfoResponseDataType = {
   description?: string;
   socialLinks?: Array<ArtistSocialLinks>;
   followers?: number;
+  profileImageUrl?: string;
+  backgroundColor?: string;
 }
 
 export type ArtistFullResponseDataType = ArtistInfoResponseDataType & {

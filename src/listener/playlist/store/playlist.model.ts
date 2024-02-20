@@ -9,6 +9,7 @@ export const playlistState: PlaylistState = {
   name: undefined,
   date: undefined,
   coverImageUrl: undefined,
+  backgroundColor: undefined
 };
 
 export interface PlaylistState extends PlaylistFullResponseData {
@@ -38,6 +39,7 @@ export type PlaylistInfoResponseData = {
   date?: Date;
   tag?: string;
   coverImageUrl?: string;
+  backgroundColor?: string;
 }
 
 export type PlaylistFullResponseData = PlaylistInfoResponseData & {
