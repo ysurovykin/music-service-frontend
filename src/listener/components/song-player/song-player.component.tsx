@@ -138,7 +138,7 @@ export function SongPlayerComponent() {
           const titleTransformValue = songRef.current.style.transform;
           const titleScrollValue = titleTransformValue.substring(titleTransformValue.indexOf('(') + 1, titleTransformValue.indexOf('px'));
 
-          const expectedTransform = songRef.current.offsetWidth - songWrapperRef.current.offsetWidth; // TODO check equals and then 
+          const expectedTransform = songRef.current.offsetWidth - songWrapperRef.current.offsetWidth;
           const currentTransform = Math.abs(+titleScrollValue);
           const distanceLeft = Math.abs((isScrollLeft ? expectedTransform : 0) - currentTransform);
           const scrollStep = Math.min(2, distanceLeft);

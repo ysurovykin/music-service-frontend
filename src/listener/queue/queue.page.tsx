@@ -9,8 +9,6 @@ import { songSelectors } from '../song/store/song.selectors';
 const { Title } = Typography;
 
 export function QueuePage() {
-  let navigate = useNavigate();
-
   const lastSavedQueue = JSON.parse(localStorage.getItem('songsQueue') || '[]');
   const lastSavedSongIndex = +(localStorage.getItem('songIndex') || '');
   const queue = useSelector(songSelectors.songsQueue) || lastSavedQueue;
@@ -23,11 +21,7 @@ export function QueuePage() {
   }, [songIndex, queue])
 
   return (
-    <div className="queue-page listener-group-page">
-      <Button
-        onClick={() => navigate(-1)} >
-        {'< Back'}
-      </Button>
+    <div className="queue-page">
       <div>
         <Title level={4}>Queue</Title>
         <Title level={5}>Now playing</Title>

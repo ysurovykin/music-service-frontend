@@ -12,7 +12,7 @@ export default function ListenerRouter() {
   return (
     <>
       <SidebarComponent />
-      <div className='listener-router__wrapper'>
+      <div className='listener-router'>
         <Routes>
           <Route path="/" element={<ListenerPage />} />
           <Route path="/artist/:artistId" element={<ArtistPage />} />

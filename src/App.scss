@@ -7,27 +7,26 @@
   box-sizing: border-box;
 }
 
-html, body, #root, .App {
+html,
+body,
+#root,
+.App {
   overflow-x: hidden;
   height: 100%;
 }
 
-.listener-group-page { 
+.custom-scroll {
   overflow-y: scroll;
   scrollbar-gutter: stable;
-  border-radius: 8px;
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(180deg, rgba(51,51,51,1) 0%, rgba(33,33,33,1) 75%);
 
   &::-webkit-scrollbar {
     width: 12px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: transparent;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background-color: #707070;
   }

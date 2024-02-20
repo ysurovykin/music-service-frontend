@@ -60,6 +60,10 @@ function App() {
               contentBg: listenerProfileTypePalete.backgroundAccent,
               headerBg: listenerProfileTypePalete.backgroundAccent,
               colorTextHeading: listenerProfileTypePalete.backgroundAccentLight
+            },
+            Dropdown: {
+              colorBgElevated: listenerProfileTypePalete.backgroundAccent,
+              controlItemBgHover: listenerProfileTypePalete.backgroundAccentSemiLight
             }
           },
           token: {

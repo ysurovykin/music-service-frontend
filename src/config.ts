@@ -13,7 +13,8 @@ export const listenerProfileTypePalete = {
   secondary: '#98FF8E',
   contrast: '#F2C994',
   backgroundBase: '#121212',
-  backgroundAccent: '#333333',
+  backgroundAccent: '#282828',
+  backgroundAccentSemiLight: '#707070',
   backgroundAccentLight: '#AAAAAA'
 };
 

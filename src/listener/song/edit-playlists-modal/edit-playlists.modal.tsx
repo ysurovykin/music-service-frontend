@@ -53,8 +53,9 @@ export function EditPlaylistModal() {
   }
 
   const calculateIsLiked = (playlistId: string): boolean => {
-    if (editedPlaylists.length) {
-      return !!editedPlaylists?.find(editedPlaylist => editedPlaylist.playlistId === playlistId)?.added;
+    const editedPlaylist = editedPlaylists?.find(editedPlaylist => editedPlaylist.playlistId === playlistId);
+    if (editedPlaylist) {
+      return !!editedPlaylist?.added;
     }
     return !!playlistIds?.includes(playlistId);
   };
