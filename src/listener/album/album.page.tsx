@@ -7,6 +7,7 @@ import { albumSelectors } from './store/album.selectors';
 import { Avatar, Button, List, Typography } from 'antd';
 import { SongComponent } from '../song/song.component';
 import { HeaderComponent } from '../components/header/header.component';
+import { calculateScrollY } from '../../helpers/react/listener-page.helper';
 
 const { Text, Title } = Typography;
 
@@ -32,13 +33,9 @@ export function AlbumPage() {
     }
   }, [albumId]);
 
-  const calculateScrollY = () => {
-    return Math.abs((pageRef?.current?.getBoundingClientRect().top || 0) - (pageRef?.current?.offsetTop || 0));
-  }
-
   return (
-    <div className='album-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY())}>
-      <div ref={pageRef} className="album-page">
+    <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
+      <div ref={pageRef} className="album-page listener-group-page">
         <HeaderComponent background={'red'} scrollY={scrollY} />
         <div>
           {name && <Title level={4}>Name: {name}</Title>}

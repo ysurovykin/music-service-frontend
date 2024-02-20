@@ -7,6 +7,7 @@ import { playlistSelectors } from './store/playlist.selectors';
 import { Avatar, List, Typography } from 'antd';
 import { SongComponent } from '../song/song.component';
 import { HeaderComponent } from '../components/header/header.component';
+import { calculateScrollY } from '../../helpers/react/listener-page.helper';
 
 const { Text, Title } = Typography;
 
@@ -25,10 +26,6 @@ export function PlaylistPage() {
   const dispatch = useDispatch()
   const getPlaylistData = (playlistId: string) => dispatch(playlistActions.getPlaylistById(playlistId));
 
-  const calculateScrollY = () => {
-    return Math.abs((pageRef?.current?.getBoundingClientRect().top || 0) - (pageRef?.current?.offsetTop || 0));
-  }
-
   useEffect(() => {
     if (playlistId) {
       getPlaylistData(playlistId);
@@ -36,8 +33,8 @@ export function PlaylistPage() {
   }, [playlistId]);
 
   return (
-    <div className='playlist-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY())}>
-      <div className="playlist-page">
+    <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
+      <div className="playlist-page listener-group-page">
         <HeaderComponent background={'red'} scrollY={scrollY} />
         <div>
           {name && <Title level={4}>Name: {name}</Title>}

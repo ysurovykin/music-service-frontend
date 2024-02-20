@@ -7,6 +7,8 @@ import { ListenerPage } from '../../listener.page';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PlaylistPage } from '../../playlist/playlist.page';
 import { EditPlaylistModal } from '../../song/edit-playlists-modal/edit-playlists.modal';
+import { LyricsPage } from '../../lyrics/lyrics.page';
+import { SearchPage } from '../../search/search.page';
 
 export default function ListenerRouter() {
   return (
@@ -19,6 +21,9 @@ export default function ListenerRouter() {
           <Route path="/album/:albumId" element={<AlbumPage />} />
           <Route path="/playlist/:playlistId" element={<PlaylistPage />} />
           <Route path="/queue" element={<QueuePage />} />
+          <Route path="/library" element={<LyricsPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/lyrics" element={<LyricsPage />} />
         </Routes>
       </div>
       <SongPlayerComponent />
