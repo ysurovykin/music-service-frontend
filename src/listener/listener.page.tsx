@@ -34,7 +34,9 @@ export function ListenerPage() {
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
       <div ref={pageRef} className="listener-page listener-group-page">
-        <HeaderComponent background={backgroundColor} scrollY={scrollY} />
+        <HeaderComponent
+          background={backgroundColor}
+          scrollY={scrollY} />
         {artists?.map(artist => (
           <div>
             <RouterLink to={`/artist/${artist.artistId}`}>

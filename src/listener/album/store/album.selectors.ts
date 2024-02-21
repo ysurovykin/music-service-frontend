@@ -9,11 +9,11 @@ const albums = createSelector(albumState, album => album?.albums);
 const artist = createSelector(albumState, album => album?.artist);
 const date = createSelector(albumState, album => album?.date);
 const coverImageUrl = createSelector(albumState, album => album?.coverImageUrl);
-const likes = createSelector(albumState, album => album?.likes);
 const isAlbumDataLoading = createSelector(albumState, album => album?.isAlbumDataLoading);
 const isAlbumsLoading = createSelector(albumState, album => album?.isAlbumsLoading);
 const songs = createSelector(albumState, album => album?.songs);
 const backgroundColor = createSelector(albumState, album => album?.backgroundColor);
+const backgroundShadow = createSelector(albumState, album => album?.backgroundShadow);
 
 export const albumSelectors = {
   albumId,
@@ -22,9 +22,9 @@ export const albumSelectors = {
   artist,
   date,
   coverImageUrl,
-  likes,
   isAlbumDataLoading,
   isAlbumsLoading,
   songs,
-  backgroundColor
+  backgroundColor,
+  backgroundShadow
 };

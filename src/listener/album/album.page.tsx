@@ -19,7 +19,6 @@ export function AlbumPage() {
   const artist = useSelector(albumSelectors.artist);
   const date = useSelector(albumSelectors.date);
   const albumCoverImageUrl = useSelector(albumSelectors.coverImageUrl);
-  const likes = useSelector(albumSelectors.likes);
   const songs = useSelector(albumSelectors.songs);
   const backgroundColor = useSelector(albumSelectors.backgroundColor);
 
@@ -37,12 +36,14 @@ export function AlbumPage() {
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
       <div ref={pageRef} className="album-page listener-group-page">
-        <HeaderComponent background={backgroundColor} scrollY={scrollY} />
+        <HeaderComponent
+          text={name || ''}
+          background={backgroundColor}
+          scrollY={scrollY} />
         <div>
           {name && <Title level={4}>Name: {name}</Title>}
           {artist && <Title level={4}>Artist: <RouterLink to={`/artist/${artist.id}`}>{artist.name}</RouterLink></Title>}
           {date && <Title level={4}>Date: {date.toString()}</Title>}
-          <Title level={4}>Likes: {likes || 0}</Title>
           {albumCoverImageUrl && <Avatar src={albumCoverImageUrl} />}
           <List
             header={<Text>Songs:</Text>}

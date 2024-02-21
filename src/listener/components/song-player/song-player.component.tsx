@@ -298,6 +298,7 @@ export function SongPlayerComponent() {
           artists: song?.artists,
           playlistIds: song?.playlistIds,
           backgroundColor: song?.backgroundColor,
+          backgroundShadow: song?.backgroundShadow,
           songsQueue,
           songIndex: previousSongIndex
         })
@@ -323,6 +324,7 @@ export function SongPlayerComponent() {
         artists: song?.artists,
         playlistIds: song?.playlistIds,
         backgroundColor: song?.backgroundColor,
+        backgroundShadow: song?.backgroundShadow,
         songsQueue,
         songIndex: nextSongIndex
       })

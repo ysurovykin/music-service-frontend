@@ -36,7 +36,10 @@ export function PlaylistPage() {
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
       <div ref={pageRef} className="playlist-page listener-group-page">
-        <HeaderComponent background={backgroundColor} scrollY={scrollY} />
+        <HeaderComponent
+          text={name || ''}
+          background={backgroundColor}
+          scrollY={scrollY} />
         <div>
           {name && <Title level={4}>Name: {name}</Title>}
           {date && <Title level={4}>Date: {date.toString()}</Title>}

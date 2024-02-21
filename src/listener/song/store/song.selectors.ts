@@ -21,6 +21,7 @@ const playlistIds = createSelector(songState, song => song?.playlistIds);
 const isPlaylistIdsLoading = createSelector(songState, song => song?.isPlaylistIdsLoading);
 const editPlaylistsSongId = createSelector(songState, song => song?.editPlaylistsSongId);
 const backgroundColor = createSelector(songState, album => album?.backgroundColor);
+const backgroundShadow = createSelector(songState, album => album?.backgroundShadow);
 
 export const songSelectors = {
   name,
@@ -40,5 +41,6 @@ export const songSelectors = {
   playlistIds,
   isPlaylistIdsLoading,
   editPlaylistsSongId,
-  backgroundColor
+  backgroundColor,
+  backgroundShadow
 };

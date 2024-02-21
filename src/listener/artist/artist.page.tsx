@@ -38,7 +38,10 @@ export function ArtistPage() {
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
       <div ref={pageRef} className="artist-page listener-group-page">
-        <HeaderComponent background={backgroundColor} scrollY={scrollY} />
+        <HeaderComponent 
+          text={name || ''}
+          background={backgroundColor} 
+          scrollY={scrollY} />
         <div>
           {name && <Title level={4}>Name: {name}</Title>}
           {country && <Title level={4}>Country: {country}</Title>}
@@ -55,7 +58,6 @@ export function ArtistPage() {
               <List.Item>
                 <Avatar shape='square' size={64} src={album.coverImageUrl} />
                 <RouterLink to={`/album/${album.albumId}`}>{album.name}</RouterLink>
-                <Text>{album.likes} likes</Text>
               </List.Item>
             )}>
           </List>

@@ -1,3 +1,5 @@
+import { AlbumWithoutArtistType } from "../../album/store/album.model";
+
 export const artistState: ArtistState = {
   artists: undefined,
   isArtistQueueLoading: false,
@@ -24,15 +26,6 @@ export type ArtistSocialLinks = {
   link: string;
 }
 
-export type ArtistAlbumDataType = {
-  albumId: string;
-  name: string;
-  likes: number;
-  date: Date;
-  coverImageUrl: string;
-  backgroundColor: string;
-}
-
 export type ArtistShortDataType = {
   name: string;
   id: string;
@@ -50,7 +43,7 @@ export type ArtistInfoResponseDataType = {
 }
 
 export type ArtistFullResponseDataType = ArtistInfoResponseDataType & {
-  albums?: Array<ArtistAlbumDataType>;
+  albums?: Array<AlbumWithoutArtistType>;
 }
 
 export enum ArtistActionTypes {
