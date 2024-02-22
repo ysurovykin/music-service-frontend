@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { artistSelectors } from './store/artist.selectors';
 import { Avatar, Button, List, Typography } from 'antd';
 import { HeaderComponent } from '../components/header/header.component';
-import { calculateScrollY } from '../../helpers/react/listener-page.helper';
+import { calculateScrollY, getBackground } from '../../helpers/react/listener-page.helper';
 
 const { Text, Title, Link } = Typography;
 
@@ -37,10 +37,10 @@ export function ArtistPage() {
 
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
-      <div ref={pageRef} className="artist-page listener-group-page">
-        <HeaderComponent 
+      <div ref={pageRef} style={{ background: getBackground(backgroundColor) }} className="artist-page listener-group-page">
+        <HeaderComponent
           text={name || ''}
-          background={backgroundColor} 
+          background={backgroundColor}
           scrollY={scrollY} />
         <div>
           {name && <Title level={4}>Name: {name}</Title>}

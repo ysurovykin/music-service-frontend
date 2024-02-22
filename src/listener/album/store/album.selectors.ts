@@ -13,7 +13,7 @@ const isAlbumDataLoading = createSelector(albumState, album => album?.isAlbumDat
 const isAlbumsLoading = createSelector(albumState, album => album?.isAlbumsLoading);
 const songs = createSelector(albumState, album => album?.songs);
 const backgroundColor = createSelector(albumState, album => album?.backgroundColor);
-const backgroundShadow = createSelector(albumState, album => album?.backgroundShadow);
+const lyricsBackgroundShadow = createSelector(albumState, album => album?.lyricsBackgroundShadow);
 
 export const albumSelectors = {
   albumId,
@@ -26,5 +26,5 @@ export const albumSelectors = {
   isAlbumsLoading,
   songs,
   backgroundColor,
-  backgroundShadow
+  lyricsBackgroundShadow
 };

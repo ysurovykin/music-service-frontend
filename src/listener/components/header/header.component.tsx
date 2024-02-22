@@ -60,7 +60,9 @@ export function HeaderComponent({
 
   return (
     <div className='header-wrapper'>
-      <div className='header__background' style={{ background: background, opacity: headerOpacity }}></div>
+      <div className='header__background' style={{ background: background, opacity: headerOpacity }}>
+        <div className='header__background-shadow'></div>
+      </div>
       <div className='header'>
         <div className='header__navigation-wrapper'>
           <Tooltip title={pageHistoryIndex === 0 ? '' : 'Go back'}>

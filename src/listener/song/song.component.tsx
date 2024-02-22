@@ -50,7 +50,7 @@ export function SongComponent({
       artists: song?.artists,
       playlistIds: song?.playlistIds,
       backgroundColor: song?.backgroundColor,
-      backgroundShadow: song?.backgroundShadow,
+      lyricsBackgroundShadow: song?.lyricsBackgroundShadow,
       songsQueue,
       songIndex
     })

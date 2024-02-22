@@ -6,7 +6,7 @@ import { userSelectors } from "../user/store/user.selectors";
 import { artistActions } from "./artist/store/artist.actions";
 import { artistSelectors } from "./artist/store/artist.selectors";
 import { HeaderComponent } from "./components/header/header.component";
-import { calculateScrollY } from "../helpers/react/listener-page.helper";
+import { calculateScrollY, getBackground } from "../helpers/react/listener-page.helper";
 import { listenerSelectors } from "./store/listener.selectors";
 
 export function ListenerPage() {
@@ -33,7 +33,7 @@ export function ListenerPage() {
 
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
-      <div ref={pageRef} className="listener-page listener-group-page">
+      <div ref={pageRef} style={{background: getBackground(backgroundColor)}} className="listener-page listener-group-page">
         <HeaderComponent
           background={backgroundColor}
           scrollY={scrollY} />

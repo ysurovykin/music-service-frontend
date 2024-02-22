@@ -70,6 +70,7 @@ export function SongPlayerComponent() {
   const isEditPlaylistModalOpen = useSelector(songSelectors.isEditPlaylistModalOpen);
   const playlistIds = useSelector(songSelectors.playlistIds);
   const songId = useSelector(songSelectors.songId);
+  const songsQueueState = useSelector(songSelectors.songsQueue);
 
   const dispatch = useDispatch();
   const pauseSong = () => dispatch(songActions.pauseSong());
@@ -127,6 +128,12 @@ export function SongPlayerComponent() {
       getSongById(lastListenedSongId);
     }
   }, [lastListenedSongId])
+
+  useEffect(() => {
+    if (songsQueueState) {
+      setSongsQueue(songsQueueState);
+    }
+  }, [songsQueueState])
 
   const startScrollSongText = (songRef: React.RefObject<HTMLDivElement>, songWrapperRef: React.RefObject<HTMLDivElement>,
     isTextScrollLeft: boolean, setIsTextScrollLeft: React.Dispatch<React.SetStateAction<boolean>>, intervalId: NodeJS.Timer | undefined,
@@ -276,7 +283,7 @@ export function SongPlayerComponent() {
   }
 
   const switchToPreviousSong = () => {
-    if (audioPlayer.current && audioPlayer.current.currentTime > 5) {
+    if (audioPlayer.current && audioPlayer.current.currentTime > 10) {
       audioPlayer.current.currentTime = 0;
       setPlayTime(0);
       unpauseSong();
@@ -298,7 +305,7 @@ export function SongPlayerComponent() {
           artists: song?.artists,
           playlistIds: song?.playlistIds,
           backgroundColor: song?.backgroundColor,
-          backgroundShadow: song?.backgroundShadow,
+          lyricsBackgroundShadow: song?.lyricsBackgroundShadow,
           songsQueue,
           songIndex: previousSongIndex
         })
@@ -324,7 +331,7 @@ export function SongPlayerComponent() {
         artists: song?.artists,
         playlistIds: song?.playlistIds,
         backgroundColor: song?.backgroundColor,
-        backgroundShadow: song?.backgroundShadow,
+        lyricsBackgroundShadow: song?.lyricsBackgroundShadow,
         songsQueue,
         songIndex: nextSongIndex
       })

@@ -39,7 +39,7 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
         coverImageUrl: action.payload.coverImageUrl,
         songs: action.payload.songs,
         backgroundColor: action.payload.backgroundColor,
-        backgroundShadow: action.payload.backgroundShadow
+        lyricsBackgroundShadow: action.payload.lyricsBackgroundShadow
       }
     }
     case AlbumActionTypes.GET_ALBUM_BY_ID_FAILED: {

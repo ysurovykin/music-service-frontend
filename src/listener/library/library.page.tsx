@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { HeaderComponent } from "../components/header/header.component";
-import { calculateScrollY } from "../../helpers/react/listener-page.helper";
+import { calculateScrollY, getBackground } from "../../helpers/react/listener-page.helper";
 
 export function ListenerPage() {
   const [scrollY, setScrollY] = useState<number>(0);
@@ -9,8 +9,8 @@ export function ListenerPage() {
 
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
-      <div className="library-page listener-group-page">
-        <HeaderComponent background={'red'} scrollY={scrollY} />
+      <div ref={pageRef} style={{ background: getBackground() }} className="library-page listener-group-page">
+        <HeaderComponent scrollY={scrollY} />
         Library
       </div>
     </div>

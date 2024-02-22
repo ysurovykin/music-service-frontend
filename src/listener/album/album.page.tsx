@@ -7,7 +7,7 @@ import { albumSelectors } from './store/album.selectors';
 import { Avatar, Button, List, Typography } from 'antd';
 import { SongComponent } from '../song/song.component';
 import { HeaderComponent } from '../components/header/header.component';
-import { calculateScrollY } from '../../helpers/react/listener-page.helper';
+import { calculateScrollY, getBackground } from '../../helpers/react/listener-page.helper';
 
 const { Text, Title } = Typography;
 
@@ -35,7 +35,7 @@ export function AlbumPage() {
 
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
-      <div ref={pageRef} className="album-page listener-group-page">
+      <div ref={pageRef} style={{background: getBackground(backgroundColor)}} className="album-page listener-group-page">
         <HeaderComponent
           text={name || ''}
           background={backgroundColor}
