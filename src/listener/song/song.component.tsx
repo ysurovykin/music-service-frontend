@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import {
+  Favorite,
+  FavoriteBorder,
   PauseOutlined,
   PlayArrowOutlined,
 } from '@mui/icons-material';
@@ -11,7 +13,7 @@ import { useSelector } from "react-redux";
 import { songSelectors } from "./store/song.selectors";
 import { Link as RouterLink } from 'react-router-dom';
 import { formatTime } from "../../helpers/react/song-player.helper";
-import { SongInfoResponseData, PlaySongData } from "./store/song.model";
+import { SongInfoResponseData, PlaySongData, OpenEditPlaylistsModal } from "./store/song.model";
 
 const { Text, Title } = Typography;
 
@@ -27,9 +29,12 @@ export function SongComponent({
   const [isHovered, setIsHovered] = useState<boolean>();
 
   const isPlaying = useSelector(songSelectors.isPlaying);
-  const songId = localStorage.getItem('songId');
+  const isEditPlaylistModalOpen = useSelector(songSelectors.isEditPlaylistModalOpen);
+  const songId =  useSelector(songSelectors.songId);
 
   const dispatch = useDispatch();
+  const openEditPlaylistsModal = (songInfo: OpenEditPlaylistsModal) => dispatch(songActions.openEditPlaylistsModal(songInfo));
+  const closeEditPlaylistsModal = () => dispatch(songActions.closeEditPlaylistsModal());
   const pauseSong = () => dispatch(songActions.pauseSong());
   const playSong = (songData: PlaySongData) => dispatch(songActions.playSong(songData));
   const unpauseSong = () => dispatch(songActions.unpauseSong());
@@ -92,10 +97,23 @@ export function SongComponent({
         <Avatar shape='square' size={64} src={song?.coverImageUrl} />
         <div className="song__credentials">
           <Title className="m-0" level={5}>{song?.name}</Title>
-          <Text>{song?.artists?.map(artist => (<RouterLink to={`/artist/${artist.id}`}>{artist.name}</RouterLink>))}</Text>
+          <Text>{song?.artists?.map(artist =>
+            (<RouterLink key={artist.id} to={`/artist/${artist.id}`}>{artist.name}</RouterLink>)
+          )}</Text>
         </div>
       </div>
       <RouterLink to={`/album/${song?.album?.id}`}>{song?.album?.name}</RouterLink>
+      <div
+        className="song-player__additional-controller-icon-wrapper"
+        onClick={() => isEditPlaylistModalOpen ? closeEditPlaylistsModal() : openEditPlaylistsModal({
+          editPlaylistsSongId: songId || '',
+          editPlaylistsSongPlaylistIds: song.playlistIds || []
+        })}>
+        {song?.playlistIds?.length ?
+          <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
+          <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
+        }
+      </div>
       <Text>{formatTime(song?.duration!)}</Text>
     </div>
   );

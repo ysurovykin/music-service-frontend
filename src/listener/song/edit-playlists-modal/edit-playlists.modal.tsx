@@ -16,8 +16,8 @@ export function EditPlaylistModal() {
   let location = useLocation();
   const isEditPlaylistModalOpen = useSelector(songSelectors.isEditPlaylistModalOpen);
   const playlists = useSelector(playlistSelectors.playlists);
-  const playlistIds = useSelector(songSelectors.playlistIds);
   const editPlaylistsSongId = useSelector(songSelectors.editPlaylistsSongId);
+  const editPlaylistsSongPlaylistIds = useSelector(songSelectors.editPlaylistsSongPlaylistIds);
   const isPlaylistIdsLoading = useSelector(songSelectors.isPlaylistIdsLoading);
 
   const [playlistIdToUpdate, setPlaylistIdToUpdate] = useState<string>();
@@ -38,11 +38,11 @@ export function EditPlaylistModal() {
 
   const editPlaylist = (playlistId: string) => {
     const editedPlaylist = editedPlaylists?.find(editedPlaylist => editedPlaylist.playlistId === playlistId!);
-    if (editedPlaylist && ((playlistIds?.includes(playlistId) && !editedPlaylist.added) ||
-      (!playlistIds?.includes(playlistId) && editedPlaylist.added))) {
+    if (editedPlaylist && ((editPlaylistsSongPlaylistIds?.includes(playlistId) && !editedPlaylist.added) ||
+      (!editPlaylistsSongPlaylistIds?.includes(playlistId) && editedPlaylist.added))) {
       setEditedPlaylists(state => state ? [...state.filter(playlist => playlist.playlistId !== playlistId)] : state);
     } else if (!editedPlaylist) {
-      const shouldBeAdded = !playlistIds?.includes(playlistId);
+      const shouldBeAdded = !editPlaylistsSongPlaylistIds?.includes(playlistId);
       setEditedPlaylists(state => state ? [...state, { playlistId, added: shouldBeAdded }] : state);
     }
   }
@@ -57,7 +57,7 @@ export function EditPlaylistModal() {
     if (editedPlaylist) {
       return !!editedPlaylist?.added;
     }
-    return !!playlistIds?.includes(playlistId);
+    return !!editPlaylistsSongPlaylistIds?.includes(playlistId);
   };
 
   useEffect(() => {
@@ -111,6 +111,7 @@ export function EditPlaylistModal() {
             .map(playlist => (
               <div
                 className="edit-playlists-modal__playlist-wrapper"
+                key={playlist.playlistId}
                 onClick={() => editPlaylist(playlist.playlistId!)}>
                 <PlaylistInlineViewComponent
                   playlist={playlist}

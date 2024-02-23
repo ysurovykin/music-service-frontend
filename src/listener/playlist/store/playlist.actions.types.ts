@@ -1,5 +1,5 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { PlaylistActionTypes, PlaylistFullResponseData, PlaylistInfoResponseData } from "./playlist.model";
+import { PlaylistActionTypes, PlaylistInfoResponseData } from "./playlist.model";
 
 export type GetPlaylistsByListenerIdStartActionType = {
   type: typeof PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID;
@@ -23,7 +23,7 @@ export type GetPlaylistByIdStartActionType = {
 
 export type GetPlaylistByIdSuccessActionType = {
   type: typeof PlaylistActionTypes.GET_PLAYLIST_BY_ID_SUCCESS;
-  payload: PlaylistFullResponseData;
+  payload: PlaylistInfoResponseData;
 };
 
 export type GetPlaylistByIdFailedActionType = {

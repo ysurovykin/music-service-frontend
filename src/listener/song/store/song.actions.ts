@@ -10,9 +10,13 @@ import {
   CloseEditPlaylistsModalActionType,
   EditPlaylistsStartActionType,
   EditPlaylistsSuccessActionType,
-  EditPlaylistsFailedActionType
+  EditPlaylistsFailedActionType,
+  GetSongsStartActionType,
+  GetSongsSuccessActionType,
+  GetSongsFailedActionType,
+  ClearSongsActionType
 } from "./song.actions.types";
-import { SongActionTypes, SongInfoResponseData, PlaySongData, EditPlaylistsRequest } from "./song.model";
+import { SongActionTypes, SongInfoResponseData, PlaySongData, EditPlaylistsRequest, OpenEditPlaylistsModal, GetSongsRequestData, GetSongsResponseData, EditPlaylistResult } from "./song.model";
 
 export const getSongByIdStartAction = (songId: string):
   GetSongByIdStartActionType => ({ type: SongActionTypes.GET_SONG_BY_ID, payload: songId });
@@ -32,8 +36,8 @@ export const pauseSongAction = ():
 export const unpauseSongAction = ():
   UnpauseSongActionType => ({ type: SongActionTypes.UNPAUSE_SONG, payload: undefined });
 
-export const openEditPlaylistsModalAction = (songId: string):
-  OpenEditPlaylistsModalActionType => ({ type: SongActionTypes.OPEN_EDIT_PLAYLISTS_MODAL, payload: songId });
+export const openEditPlaylistsModalAction = (songInfo: OpenEditPlaylistsModal):
+  OpenEditPlaylistsModalActionType => ({ type: SongActionTypes.OPEN_EDIT_PLAYLISTS_MODAL, payload: songInfo });
 
 export const closeEditPlaylistsModalAction = ():
   CloseEditPlaylistsModalActionType => ({ type: SongActionTypes.CLOSE_EDIT_PLAYLISTS_MODAL, payload: undefined });
@@ -41,11 +45,23 @@ export const closeEditPlaylistsModalAction = ():
 export const editPlaylistsStartAction = (request: EditPlaylistsRequest):
   EditPlaylistsStartActionType => ({ type: SongActionTypes.EDIT_PLAYLISTS, payload: request });
 
-export const editPlaylistsSuccessAction = (playlistIds: Array<string>):
-  EditPlaylistsSuccessActionType => ({ type: SongActionTypes.EDIT_PLAYLISTS_SUCCESS, payload: playlistIds });
+export const editPlaylistsSuccessAction = (result: EditPlaylistResult):
+  EditPlaylistsSuccessActionType => ({ type: SongActionTypes.EDIT_PLAYLISTS_SUCCESS, payload: result });
 
 export const editPlaylistsFailedAction = (error: ActionFailedError):
   EditPlaylistsFailedActionType => ({ type: SongActionTypes.EDIT_PLAYLISTS_FAILED, payload: error });
+
+export const getSongsStartAction = (request: GetSongsRequestData):
+  GetSongsStartActionType => ({ type: SongActionTypes.GET_SONGS, payload: request });
+
+export const getSongsSuccessAction = (response: GetSongsResponseData):
+  GetSongsSuccessActionType => ({ type: SongActionTypes.GET_SONGS_SUCCESS, payload: response });
+
+export const getSongsFailedAction = (error: ActionFailedError):
+  GetSongsFailedActionType => ({ type: SongActionTypes.GET_SONGS_FAILED, payload: error });
+
+export const clearSongs = ():
+  ClearSongsActionType => ({ type: SongActionTypes.CLEAR_SONGS, payload: undefined });
 
 export const songActions = {
   getSongById: (songId: string) => getSongByIdStartAction(songId),
@@ -54,10 +70,14 @@ export const songActions = {
   playSong: (song: PlaySongData) => playSongAction(song),
   pauseSong: () => pauseSongAction(),
   unpauseSong: () => unpauseSongAction(),
-  openEditPlaylistsModal: (songId: string) => openEditPlaylistsModalAction(songId),
+  openEditPlaylistsModal: (songInfo: OpenEditPlaylistsModal) => openEditPlaylistsModalAction(songInfo),
   closeEditPlaylistsModal: () => closeEditPlaylistsModalAction(),
   editPlaylists: (request: EditPlaylistsRequest) => editPlaylistsStartAction(request),
-  editPlaylistsSuccess: (playlistIds: Array<string>) => editPlaylistsSuccessAction(playlistIds),
+  editPlaylistsSuccess: (result: EditPlaylistResult) => editPlaylistsSuccessAction(result),
   editPlaylistsFailed: (error: ActionFailedError) => editPlaylistsFailedAction(error),
+  getSongs: (request: GetSongsRequestData) => getSongsStartAction(request),
+  getSongsSuccess: (response: GetSongsResponseData) => getSongsSuccessAction(response),
+  getSongsFailed: (error: ActionFailedError) => getSongsFailedAction(error),
+  clearSongs: () => clearSongs(),
 }
 

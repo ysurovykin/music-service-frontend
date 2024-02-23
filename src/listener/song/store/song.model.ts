@@ -1,5 +1,5 @@
 import { AlbumShortDataType } from "../../album/store/album.model";
-import { ArtistShortDataType } from "../../artist/store/artist.model";
+import { ArtistShortData } from "../../artist/store/artist.model";
 
 export const songState: SongState = {
   name: undefined,
@@ -21,6 +21,10 @@ export const songState: SongState = {
   playlistIds: undefined,
   isPlaylistIdsLoading: undefined,
   editPlaylistsSongId: undefined,
+  editPlaylistsSongPlaylistIds: undefined,
+  isSongsLoading: undefined,
+  songs: undefined,
+  isMoreSongsForLoading: undefined
 };
 
 export interface SongState extends SongInfoResponseData {
@@ -31,6 +35,10 @@ export interface SongState extends SongInfoResponseData {
   isEditPlaylistModalOpen?: boolean;
   isPlaylistIdsLoading?: boolean;
   editPlaylistsSongId?: string;
+  editPlaylistsSongPlaylistIds?: Array<string>;
+  isSongsLoading?: boolean;
+  songs?: Array<SongInfoResponseData>;
+  isMoreSongsForLoading?: boolean;
 }
 
 export type EditedPlaylist = {
@@ -47,7 +55,7 @@ export type EditPlaylistsRequest = {
 export type PlaySongData = {
   songId?: string;
   name?: string;
-  artists?: Array<ArtistShortDataType>;
+  artists?: Array<ArtistShortData>;
   coverImageUrl?: string;
   backgroundColor?: string;
   lyricsBackgroundShadow?: string;
@@ -61,7 +69,7 @@ export type PlaySongData = {
 export type SongInfoResponseData = {
   songId?: string;
   name?: string;
-  artists?: Array<ArtistShortDataType>;
+  artists?: Array<ArtistShortData>;
   album?: AlbumShortDataType;
   plays?: number;
   date?: Date;
@@ -71,6 +79,34 @@ export type SongInfoResponseData = {
   lyricsBackgroundShadow?: string;
   songUrl?: string;
   playlistIds?: Array<string>;
+}
+
+export type OpenEditPlaylistsModal = {
+  editPlaylistsSongId: string;
+  editPlaylistsSongPlaylistIds: Array<string>;
+};
+
+export type GetSongsRequestData = {
+  options: GetSongsOptions;
+  offset: number;
+  limit: number;
+}
+
+export type GetSongsResponseData = {
+  songs: Array<SongInfoResponseData>;
+  isMoreSongsForLoading: boolean;
+}
+
+export type GetSongsOptions = {
+  albumId?: string;
+  artistId?: string;
+  playlistId?: string;
+}
+
+export type EditPlaylistResult = {
+  playlistIds: Array<string>,
+  songs?: Array<SongInfoResponseData>;
+  songsQueue?: Array<SongInfoResponseData>;
 }
 
 export enum SongActionTypes {
@@ -88,4 +124,10 @@ export enum SongActionTypes {
   EDIT_PLAYLISTS = "EDIT_PLAYLISTS",
   EDIT_PLAYLISTS_SUCCESS = "EDIT_PLAYLISTS_SUCCESS",
   EDIT_PLAYLISTS_FAILED = "EDIT_PLAYLISTS_FAILED",
+
+  GET_SONGS = "GET_SONGS_START",
+  GET_SONGS_SUCCESS = "GET_SONGS_SUCCESS",
+  GET_SONGS_FAILED = "GET_SONGS_FAILED",
+
+  CLEAR_SONGS = "CLEAR_SONGS"
 };

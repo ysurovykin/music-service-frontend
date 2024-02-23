@@ -64,6 +64,15 @@ function App() {
             Dropdown: {
               colorBgElevated: listenerProfileTypePalete.backgroundAccent,
               controlItemBgHover: listenerProfileTypePalete.backgroundAccentSemiLight
+            },
+            Table: {
+              colorBgContainer: 'transparent',
+              colorText: '#ffffff',
+              colorTextHeading: '#ffffff',
+              borderColor: 'transparent',
+              headerSplitColor: 'transparent',
+              headerBorderRadius: 0,
+              headerBg: listenerProfileTypePalete.backgroundAccent
             }
           },
           token: {

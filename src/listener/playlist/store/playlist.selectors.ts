@@ -11,7 +11,6 @@ const coverImageUrl = createSelector(playlistState, playlist => playlist?.coverI
 const tag = createSelector(playlistState, playlist => playlist?.tag);
 const isPlaylistDataLoading = createSelector(playlistState, playlist => playlist?.isPlaylistDataLoading);
 const isPlaylistsLoading = createSelector(playlistState, playlist => playlist?.isPlaylistsLoading);
-const songs = createSelector(playlistState, playlist => playlist?.songs);
 const backgroundColor = createSelector(playlistState, album => album?.backgroundColor);
 
 export const playlistSelectors = {
@@ -23,6 +22,5 @@ export const playlistSelectors = {
   tag,
   isPlaylistDataLoading,
   isPlaylistsLoading,
-  songs,
   backgroundColor
 };

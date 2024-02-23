@@ -1,5 +1,5 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData } from "./album.model";
+import { AlbumActionTypes, AlbumInfoResponseData } from "./album.model";
 
 export type GetAlbumsByArtistIdStartActionType = {
   type: typeof AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID;
@@ -23,7 +23,7 @@ export type GetAlbumByIdStartActionType = {
 
 export type GetAlbumByIdSuccessActionType = {
   type: typeof AlbumActionTypes.GET_ALBUM_BY_ID_SUCCESS;
-  payload: AlbumFullResponseData;
+  payload: AlbumInfoResponseData;
 };
 
 export type GetAlbumByIdFailedActionType = {

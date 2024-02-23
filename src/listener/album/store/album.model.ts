@@ -1,4 +1,4 @@
-import { ArtistShortDataType } from "../../artist/store/artist.model";
+import { ArtistShortData } from "../../artist/store/artist.model";
 import { SongInfoResponseData } from "../../song/store/song.model";
 
 export const albumState: AlbumState = {
@@ -6,7 +6,6 @@ export const albumState: AlbumState = {
   isAlbumsLoading: false,
   isAlbumDataLoading: false,
   albumId: undefined,
-  songs: undefined,
   name: undefined,
   date: undefined,
   coverImageUrl: undefined,
@@ -15,7 +14,7 @@ export const albumState: AlbumState = {
   artist: undefined,
 };
 
-export interface AlbumState extends AlbumFullResponseData {
+export interface AlbumState extends AlbumInfoResponseData {
   isAlbumsLoading: boolean,
   isAlbumDataLoading: boolean,
   albums?: Array<AlbumInfoResponseData>
@@ -46,11 +45,7 @@ export type AlbumWithoutArtistType = {
 }
 
 export type AlbumInfoResponseData = AlbumWithoutArtistType & {
-  artist?: ArtistShortDataType;
-}
-
-export type AlbumFullResponseData = AlbumInfoResponseData & {
-  songs?: Array<SongInfoResponseData>;
+  artist?: ArtistShortData;
 }
 
 export enum AlbumActionTypes {

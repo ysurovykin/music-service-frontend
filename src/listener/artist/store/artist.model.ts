@@ -26,7 +26,7 @@ export type ArtistSocialLinks = {
   link: string;
 }
 
-export type ArtistShortDataType = {
+export type ArtistShortData = {
   name: string;
   id: string;
 }

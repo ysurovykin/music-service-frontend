@@ -38,7 +38,7 @@ export function ListenerPage() {
           background={backgroundColor}
           scrollY={scrollY} />
         {artists?.map(artist => (
-          <div>
+          <div key={artist.artistId}>
             <RouterLink to={`/artist/${artist.artistId}`}>
               {artist.name}
             </RouterLink>

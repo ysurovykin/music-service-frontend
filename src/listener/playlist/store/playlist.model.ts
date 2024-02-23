@@ -5,14 +5,13 @@ export const playlistState: PlaylistState = {
   isPlaylistsLoading: false,
   isPlaylistDataLoading: false,
   playlistId: undefined,
-  songs: undefined,
   name: undefined,
   date: undefined,
   coverImageUrl: undefined,
   backgroundColor: undefined
 };
 
-export interface PlaylistState extends PlaylistFullResponseData {
+export interface PlaylistState extends PlaylistInfoResponseData {
   isPlaylistsLoading: boolean,
   isPlaylistDataLoading: boolean,
   playlists?: Array<PlaylistInfoResponseData>
@@ -40,10 +39,6 @@ export type PlaylistInfoResponseData = {
   tag?: string;
   coverImageUrl?: string;
   backgroundColor?: string;
-}
-
-export type PlaylistFullResponseData = PlaylistInfoResponseData & {
-  songs?: Array<SongInfoResponseData>;
 }
 
 export enum PlaylistActionTypes {

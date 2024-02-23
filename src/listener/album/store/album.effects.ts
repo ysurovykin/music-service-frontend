@@ -1,5 +1,5 @@
 import { put, takeEvery } from 'redux-saga/effects'
-import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData } from './album.model';
+import { AlbumActionTypes, AlbumInfoResponseData } from './album.model';
 import AlbumService from './album.service';
 import { albumActions } from './album.actions';
 import { ErrorActionType } from '../../../helpers/react/redux.helper';
@@ -24,7 +24,7 @@ function* getAlbumsByArtistId(action: GetAlbumsByArtistIdStartActionType) {
 
 function* getAlbumById(action: GetAlbumByIdStartActionType) {
   try {
-    const album: AlbumFullResponseData = yield AlbumService.getAlbumById(action.payload);
+    const album: AlbumInfoResponseData = yield AlbumService.getAlbumById(action.payload);
     yield put(albumActions.getAlbumByIdSuccess(album));
   } catch (e) {
     const error = e as Error;

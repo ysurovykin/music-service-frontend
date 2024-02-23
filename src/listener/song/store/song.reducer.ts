@@ -67,7 +67,8 @@ export const songReducer = (state = songState, action: SongActions): SongState =
       return {
         ...state,
         isEditPlaylistModalOpen: true,
-        editPlaylistsSongId: action.payload
+        editPlaylistsSongId: action.payload.editPlaylistsSongId,
+        editPlaylistsSongPlaylistIds: action.payload.editPlaylistsSongPlaylistIds
       }
     }
     case SongActionTypes.CLOSE_EDIT_PLAYLISTS_MODAL: {
@@ -85,7 +86,9 @@ export const songReducer = (state = songState, action: SongActions): SongState =
     case SongActionTypes.EDIT_PLAYLISTS_SUCCESS: {
       return {
         ...state,
-        playlistIds: action.payload,
+        playlistIds: action.payload.playlistIds,
+        songs: action.payload.songs,
+        songsQueue: action.payload.songsQueue,
         isPlaylistIdsLoading: false
       }
     }
@@ -93,6 +96,34 @@ export const songReducer = (state = songState, action: SongActions): SongState =
       return {
         ...state,
         isPlaylistIdsLoading: false
+      }
+    }
+    case SongActionTypes.GET_SONGS: {
+      return {
+        ...state,
+        isSongsLoading: true
+      }
+    }
+    case SongActionTypes.GET_SONGS_SUCCESS: {
+      return {
+        ...state,
+        songs: action.payload.songs,
+        isMoreSongsForLoading: action.payload.isMoreSongsForLoading,
+        isSongsLoading: false
+      }
+    }
+    case SongActionTypes.GET_SONGS_FAILED: {
+      return {
+        ...state,
+        isSongsLoading: false
+      }
+    }
+    case SongActionTypes.CLEAR_SONGS: {
+      return {
+        ...state,
+        songs: [],
+        isMoreSongsForLoading: true,
+        isSongsLoading: false
       }
     }
     default: {

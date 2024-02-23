@@ -24,7 +24,7 @@ import { useSelector } from "react-redux";
 import { songSelectors } from "../../song/store/song.selectors";
 import { Link as RouterLink } from 'react-router-dom';
 import { formatTime } from "../../../helpers/react/song-player.helper";
-import { SongInfoResponseData, PlaySongData } from "../../song/store/song.model";
+import { SongInfoResponseData, PlaySongData, OpenEditPlaylistsModal } from "../../song/store/song.model";
 import { RepeatSongStateEnum } from "../../store/listener.model";
 
 const { Text, Title } = Typography;
@@ -77,7 +77,7 @@ export function SongPlayerComponent() {
   const unpauseSong = () => dispatch(songActions.unpauseSong());
   const playSong = (songData: PlaySongData) => dispatch(songActions.playSong(songData));
   const getSongById = (songId: string) => dispatch(songActions.getSongById(songId));
-  const openEditPlaylistsModal = (songId: string) => dispatch(songActions.openEditPlaylistsModal(songId));
+  const openEditPlaylistsModal = (songInfo: OpenEditPlaylistsModal) => dispatch(songActions.openEditPlaylistsModal(songInfo));
   const closeEditPlaylistsModal = () => dispatch(songActions.closeEditPlaylistsModal());
 
   useEffect(() => {
@@ -443,7 +443,10 @@ export function SongPlayerComponent() {
           title='Add to playlist'>
           <div
             className="song-player__additional-controller-icon-wrapper"
-            onClick={() => isEditPlaylistModalOpen ? closeEditPlaylistsModal() : openEditPlaylistsModal(songId || '')}>
+            onClick={() => isEditPlaylistModalOpen ? closeEditPlaylistsModal() : openEditPlaylistsModal({
+              editPlaylistsSongId: songId || '',
+              editPlaylistsSongPlaylistIds: playlistIds || []
+            })}>
             {playlistIds?.length ?
               <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
               <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />

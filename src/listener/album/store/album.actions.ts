@@ -7,7 +7,7 @@ import {
   GetAlbumByIdSuccessActionType,
   GetAlbumByIdFailedActionType
 } from "./album.actions.types";
-import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData } from "./album.model";
+import { AlbumActionTypes, AlbumInfoResponseData } from "./album.model";
 
 export const getAlbumsByArtistIdStartAction = (artistId: string):
   GetAlbumsByArtistIdStartActionType => ({ type: AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID, payload: artistId });
@@ -21,7 +21,7 @@ export const getAlbumsByArtistIdFailedAction = (error: ActionFailedError):
 export const getAlbumByIdStartAction = (albumId: string):
   GetAlbumByIdStartActionType => ({ type: AlbumActionTypes.GET_ALBUM_BY_ID, payload: albumId });
 
-export const getAlbumByIdSuccessAction = (response: AlbumFullResponseData):
+export const getAlbumByIdSuccessAction = (response: AlbumInfoResponseData):
   GetAlbumByIdSuccessActionType => ({ type: AlbumActionTypes.GET_ALBUM_BY_ID_SUCCESS, payload: response });
 
 export const getAlbumByIdFailedAction = (error: ActionFailedError):
@@ -32,7 +32,7 @@ export const albumActions = {
   getAlbumsByArtistIdSuccess: (response: Array<AlbumInfoResponseData>) => getAlbumsByArtistIdSuccessAction(response),
   getAlbumsByArtistIdFailed: (error: ActionFailedError) => getAlbumsByArtistIdFailedAction(error),
   getAlbumById: (albumId: string) => getAlbumByIdStartAction(albumId),
-  getAlbumByIdSuccess: (response: AlbumFullResponseData) => getAlbumByIdSuccessAction(response),
+  getAlbumByIdSuccess: (response: AlbumInfoResponseData) => getAlbumByIdSuccessAction(response),
   getAlbumByIdFailed: (error: ActionFailedError) => getAlbumByIdFailedAction(error),
 }
 

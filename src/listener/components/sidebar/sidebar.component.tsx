@@ -49,6 +49,7 @@ export function SidebarComponent() {
       <div className="sidebar__library-section">
         <div className="sidebar__library-pins">
           {playlists?.map(playlist => <Tooltip
+            key={playlist.playlistId}
             placement="right"
             title={playlist.name}>
             <div className="sidebar__avatar-wrapper">

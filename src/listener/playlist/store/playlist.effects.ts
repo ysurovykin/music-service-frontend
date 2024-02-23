@@ -1,5 +1,5 @@
 import { put, takeEvery } from 'redux-saga/effects'
-import { PlaylistActionTypes, PlaylistFullResponseData, PlaylistInfoResponseData } from './playlist.model';
+import { PlaylistActionTypes, PlaylistInfoResponseData } from './playlist.model';
 import PlaylistService from './playlist.service';
 import { playlistActions } from './playlist.actions';
 import { ErrorActionType } from '../../../helpers/react/redux.helper';
@@ -24,7 +24,7 @@ function* getPlaylistsByListenerId(action: GetPlaylistsByListenerIdStartActionTy
 
 function* getPlaylistById(action: GetPlaylistByIdStartActionType) {
   try {
-    const playlist: PlaylistFullResponseData = yield PlaylistService.getPlaylistById(action.payload);
+    const playlist: PlaylistInfoResponseData = yield PlaylistService.getPlaylistById(action.payload);
     yield put(playlistActions.getPlaylistByIdSuccess(playlist));
   } catch (e) {
     const error = e as Error;
