@@ -8,6 +8,8 @@ import { playlistActions } from '../../playlist/store/playlist.actions';
 import { useSelector } from 'react-redux';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { songSelectors } from './song.selectors';
+import { queueSelectors } from '../../queue/store/queue.selectors';
+import { queueActions } from '../../queue/store/queue.actions';
 
 export const songEffects = [
   takeEvery(SongActionTypes.GET_SONG_BY_ID, getSongById),
@@ -55,17 +57,16 @@ function* editPlaylists(action: EditPlaylistsStartActionType) {
     if (songIndex !== -1) {
       songsToEdit[songIndex].playlistIds = editedPlaylistIds;
     }
-    const songsQueue: Array<SongInfoResponseData> = yield select(songSelectors.songsQueue);
+    const songsQueue: Array<SongInfoResponseData> = yield select(queueSelectors.queue);
     const songsQueueToEdit: Array<SongInfoResponseData> = songsQueue?.length ? JSON.parse(JSON.stringify(songsQueue)) : [];
     const songInQueueIndex = songsQueueToEdit.findIndex(songInQueue => songInQueue.songId === action.payload.songId);
     if (songInQueueIndex !== -1) {
       songsQueueToEdit[songInQueueIndex].playlistIds = editedPlaylistIds;
     }
-
+    yield put(queueActions.updateQueueLikes(songsQueueToEdit));
     yield put(songActions.editPlaylistsSuccess({
       playlistIds: editedPlaylistIds,
-      songs: songsToEdit,
-      songsQueue: songsQueueToEdit
+      songs: songsToEdit
     }));
   } catch (e) {
     const error = e as Error;

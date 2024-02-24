@@ -7,25 +7,23 @@ import { useSelector } from 'react-redux';
 import { songSelectors } from '../song/store/song.selectors';
 import { HeaderComponent } from '../components/header/header.component';
 import { calculateScrollY, getBackground } from '../../helpers/react/listener-page.helper';
+import { queueSelectors } from './store/queue.selectors';
 
 const { Title } = Typography;
 
 export function QueuePage() {
-  const lastSavedQueue = JSON.parse(localStorage.getItem('songsQueue') || '[]');
-  const lastSavedSongIndex = +(localStorage.getItem('songIndex') || '');
-
   const [scrollY, setScrollY] = useState<number>(0);
 
-  const queue = useSelector(songSelectors.songsQueue) || lastSavedQueue;
-  const songIndex = useSelector(songSelectors.songIndex) || lastSavedSongIndex;
+  const queue = useSelector(queueSelectors.queue);
+  const songId = useSelector(songSelectors.songId);
 
   const pageRef = useRef<HTMLDivElement>(null);
 
   const formatedQueue = useMemo(() => {
-    if (!isNaN(songIndex) && queue) {
-      return formatSongQueue(songIndex, queue)
+    if (songId && queue) {
+      return formatSongQueue(songId, queue)
     }
-  }, [songIndex, queue])
+  }, [songId, queue])
 
   return (
     <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
@@ -36,14 +34,13 @@ export function QueuePage() {
           <Title level={5}>Now playing</Title>
           <SongComponent
             song={formatedQueue?.[0] || {}}
-            index={1}
-            songsQueue={queue} />
+            index={1} />
           <Title level={5}>Next up</Title>
           <List
             dataSource={formatedQueue}
             renderItem={(song, index) => (
               index !== 0 && <List.Item key={song.songId}>
-                <SongComponent song={song} index={index + 1} songsQueue={queue || []} />
+                <SongComponent song={song} index={index + 1} />
               </List.Item>
             )}>
           </List>

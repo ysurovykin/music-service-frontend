@@ -20,6 +20,9 @@ import { listenerReducer } from "./listener/store/listener.reducer";
 import { PlaylistState } from "./listener/playlist/store/playlist.model";
 import { playlistEffects } from "./listener/playlist/store/playlist.effects";
 import { playlistReducer } from "./listener/playlist/store/playlist.reducer";
+import { QueueState } from "./listener/queue/store/queue.model";
+import { queueReducer } from "./listener/queue/store/queue.reducer";
+import { queueEffects } from "./listener/queue/store/queue.effects";
 
 const rootReducer = combineReducers({
   artist: artistReducer,
@@ -28,6 +31,7 @@ const rootReducer = combineReducers({
   song: songReducer,
   listener: listenerReducer,
   user: userReducer,
+  queue: queueReducer,
 });
 
 function* rootEffects() {
@@ -38,6 +42,7 @@ function* rootEffects() {
     ...songEffects,
     ...listenerEffects,
     ...userEffects,
+    ...queueEffects,
   ]);
 }
 
@@ -48,6 +53,7 @@ export interface InitialState {
   song: SongState,
   listener: ListenerState,
   user: UserState,
+  queue: QueueState,
 }
 
 const sagaMiddleware = createSagaMiddleware();

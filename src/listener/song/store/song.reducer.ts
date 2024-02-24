@@ -43,8 +43,6 @@ export const songReducer = (state = songState, action: SongActions): SongState =
         duration: action.payload.duration,
         name: action.payload.name,
         songUrl: action.payload.songUrl,
-        songsQueue: action.payload.songsQueue,
-        songIndex: action.payload.songIndex,
         playlistIds: action.payload.playlistIds,
         backgroundColor: action.payload.backgroundColor,
         lyricsBackgroundShadow: action.payload.lyricsBackgroundShadow,
@@ -88,7 +86,6 @@ export const songReducer = (state = songState, action: SongActions): SongState =
         ...state,
         playlistIds: action.payload.playlistIds,
         songs: action.payload.songs,
-        songsQueue: action.payload.songsQueue,
         isPlaylistIdsLoading: false
       }
     }

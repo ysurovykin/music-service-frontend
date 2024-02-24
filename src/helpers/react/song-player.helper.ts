@@ -10,7 +10,8 @@ export const formatTime = (time: number): string => {
   return '0:00';
 }
 
-export const formatSongQueue = (songIndex: number, queue: Array<SongInfoResponseData>): Array<SongInfoResponseData> => {
+export const formatSongQueue = (songId: string, queue: Array<SongInfoResponseData>): Array<SongInfoResponseData> => {
+  const songIndex = queue.findIndex(song => song.songId === songId);
   const formatedQueue = queue.slice(songIndex);
   return formatedQueue;
 }

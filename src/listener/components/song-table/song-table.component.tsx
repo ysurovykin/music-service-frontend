@@ -21,6 +21,9 @@ import { useDispatch } from 'react-redux';
 import { songActions } from '../../song/store/song.actions';
 import { listenerProfileTypePalete } from '../../../config';
 import { formatTime } from '../../../helpers/react/song-player.helper';
+import { queueSelectors } from '../../queue/store/queue.selectors';
+import { GenerateQueueRequestData } from '../../queue/store/queue.model';
+import { queueActions } from '../../queue/store/queue.actions';
 
 const { Text, Title } = Typography;
 
@@ -31,17 +34,14 @@ export function SongTableComponent({
   songsSourceOptions: GetSongsOptions,
   isReachedBottom: boolean
 }) {
-  const lastSavedSongsQueue: Array<SongInfoResponseData> = JSON.parse(localStorage.getItem('songsQueue') || '[]');
-
   const [offset, setOffset] = useState(0);
   const [hoveredSongId, setHoveredSongId] = useState<string>('');
-  const [songsQueue, setSongsQueue] = useState<Array<SongInfoResponseData>>(lastSavedSongsQueue);
 
   const songs = useSelector(songSelectors.songs)
   const isLoading = useSelector(songSelectors.isSongsLoading);
   const isMoreSongsForLoading = useSelector(songSelectors.isMoreSongsForLoading);
   const isPlaying = useSelector(songSelectors.isPlaying);
-  const songId = localStorage.getItem('songId');
+  const songId = useSelector(songSelectors.songId);
 
   const isEditPlaylistModalOpen = useSelector(songSelectors.isEditPlaylistModalOpen);
 
@@ -53,6 +53,7 @@ export function SongTableComponent({
   const closeEditPlaylistsModal = () => dispatch(songActions.closeEditPlaylistsModal());
   const getSongs = (request: GetSongsRequestData) => dispatch(songActions.getSongs(request));
   const clearSongs = () => dispatch(songActions.clearSongs());
+  const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
 
   const handleLoadMore = async () => {
     if (typeof isMoreSongsForLoading === 'undefined' || isMoreSongsForLoading) {
@@ -66,12 +67,14 @@ export function SongTableComponent({
   };
 
   const startPlaySong = (currentSong: SongInfoResponseData) => {
-    const songIndex = songsQueue?.findIndex(songInQueue => songInQueue.songId === currentSong?.songId);
     currentSong?.songId && localStorage.setItem('songId', currentSong.songId.toString());
-    songsQueue && localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
-    !isNaN(songIndex) && localStorage.setItem('songIndex', songIndex.toString());
-    currentSong?.playlistIds && localStorage.setItem('playlistIds', JSON.stringify(currentSong.playlistIds));
     localStorage.setItem('playTime', JSON.stringify(0));
+    generateQueue({
+      isNewQueue: true,
+      shuffleEnabled: false,
+      songId: songId || '',
+      options: songsSourceOptions
+    });
     playSong({
       songId: currentSong?.songId,
       name: currentSong?.name,
@@ -81,9 +84,7 @@ export function SongTableComponent({
       artists: currentSong?.artists,
       playlistIds: currentSong?.playlistIds,
       backgroundColor: currentSong?.backgroundColor,
-      lyricsBackgroundShadow: currentSong?.lyricsBackgroundShadow,
-      songsQueue,
-      songIndex
+      lyricsBackgroundShadow: currentSong?.lyricsBackgroundShadow
     })
   }
 

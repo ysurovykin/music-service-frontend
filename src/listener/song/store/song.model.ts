@@ -15,8 +15,6 @@ export const songState: SongState = {
   songUrl: undefined,
   isSongDataLoading: false,
   isPlaying: false,
-  songsQueue: undefined,
-  songIndex: undefined,
   isEditPlaylistModalOpen: undefined,
   playlistIds: undefined,
   isPlaylistIdsLoading: undefined,
@@ -30,8 +28,6 @@ export const songState: SongState = {
 export interface SongState extends SongInfoResponseData {
   isPlaying?: boolean;
   isSongDataLoading?: boolean;
-  songsQueue?: Array<SongInfoResponseData>;
-  songIndex?: number;
   isEditPlaylistModalOpen?: boolean;
   isPlaylistIdsLoading?: boolean;
   editPlaylistsSongId?: string;
@@ -61,8 +57,6 @@ export type PlaySongData = {
   lyricsBackgroundShadow?: string;
   songUrl?: string;
   duration?: number;
-  songsQueue?: Array<SongInfoResponseData>;
-  songIndex?: number;
   playlistIds?: Array<string>;
 }
 
@@ -106,7 +100,6 @@ export type GetSongsOptions = {
 export type EditPlaylistResult = {
   playlistIds: Array<string>,
   songs?: Array<SongInfoResponseData>;
-  songsQueue?: Array<SongInfoResponseData>;
 }
 
 export enum SongActionTypes {

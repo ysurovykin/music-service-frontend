@@ -26,6 +26,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import { formatTime } from "../../../helpers/react/song-player.helper";
 import { SongInfoResponseData, PlaySongData, OpenEditPlaylistsModal } from "../../song/store/song.model";
 import { RepeatSongStateEnum } from "../../store/listener.model";
+import { queueSelectors } from "../../queue/store/queue.selectors";
+import { queueActions } from "../../queue/store/queue.actions";
+import { GenerateQueueRequestData } from "../../queue/store/queue.model";
 
 const { Text, Title } = Typography;
 
@@ -38,10 +41,8 @@ export function SongPlayerComponent() {
   const songArtistWrapperRef = useRef<HTMLDivElement>(null);
 
   const lastSavedPlayTime: number = +(localStorage.getItem('playTime') || '0');
-  const lastSavedSongsQueue: Array<SongInfoResponseData> = JSON.parse(localStorage.getItem('songsQueue') || '[]');
   const lastSavedRepeatSongState: RepeatSongStateEnum = localStorage.getItem('repeatSongState') as RepeatSongStateEnum ||
     JSON.stringify(RepeatSongStateEnum.none);
-  const lastSavedSongIndex: number = +(localStorage.getItem('songIndex') || '');
   const lastSavedShuffleEnabled: boolean = JSON.parse(localStorage.getItem('shuffleEnabled') || 'false');
   const lastSavedVolume: number = +(localStorage.getItem('volume') || '30');
   const lastSavedMuted: boolean = JSON.parse(localStorage.getItem('muted') || 'false');
@@ -49,9 +50,7 @@ export function SongPlayerComponent() {
 
   const [playTime, setPlayTime] = useState<number>();
   const [volume, setVolume] = useState<number>();
-  const [songsQueue, setSongsQueue] = useState<Array<SongInfoResponseData>>(lastSavedSongsQueue);
   const [repeatSongState, setRepeatSongState] = useState<RepeatSongStateEnum>(JSON.parse(lastSavedRepeatSongState));
-  const [songIndex, setSongIndex] = useState<number>(lastSavedSongIndex);
   const [shuffleEnabled, setShuffleEnabled] = useState<boolean>(lastSavedShuffleEnabled);
   const [muted, setMuted] = useState<boolean>(lastSavedMuted);
   const [isSongTitleScrollLeft, setIsSongTitleScrollLeft] = useState(true);
@@ -70,7 +69,7 @@ export function SongPlayerComponent() {
   const isEditPlaylistModalOpen = useSelector(songSelectors.isEditPlaylistModalOpen);
   const playlistIds = useSelector(songSelectors.playlistIds);
   const songId = useSelector(songSelectors.songId);
-  const songsQueueState = useSelector(songSelectors.songsQueue);
+  const songsQueue = useSelector(queueSelectors.queue);
 
   const dispatch = useDispatch();
   const pauseSong = () => dispatch(songActions.pauseSong());
@@ -79,6 +78,8 @@ export function SongPlayerComponent() {
   const getSongById = (songId: string) => dispatch(songActions.getSongById(songId));
   const openEditPlaylistsModal = (songInfo: OpenEditPlaylistsModal) => dispatch(songActions.openEditPlaylistsModal(songInfo));
   const closeEditPlaylistsModal = () => dispatch(songActions.closeEditPlaylistsModal());
+  const getQueue = (songId: string) => dispatch(queueActions.getQueue(songId));
+  const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
 
   useEffect(() => {
     if (isPlaying) {
@@ -126,14 +127,9 @@ export function SongPlayerComponent() {
   useEffect(() => {
     if (!currentSongId && lastListenedSongId) {
       getSongById(lastListenedSongId);
+      getQueue(lastListenedSongId);
     }
   }, [lastListenedSongId])
-
-  useEffect(() => {
-    if (songsQueueState) {
-      setSongsQueue(songsQueueState);
-    }
-  }, [songsQueueState])
 
   const startScrollSongText = (songRef: React.RefObject<HTMLDivElement>, songWrapperRef: React.RefObject<HTMLDivElement>,
     isTextScrollLeft: boolean, setIsTextScrollLeft: React.Dispatch<React.SetStateAction<boolean>>, intervalId: NodeJS.Timer | undefined,
@@ -270,16 +266,28 @@ export function SongPlayerComponent() {
     }
   }
 
-  const changeSongData = (newSongId: string, newSongsQueue: Array<SongInfoResponseData>,
-    playlistIds: Array<string>, newSongIndex: number) => {
-    setSongsQueue(newSongsQueue);
-    setSongIndex(newSongIndex);
+  const changeSongData = (newSongId: string) => {
     setPlayTime(0);
     localStorage.setItem('songId', newSongId || '');
-    localStorage.setItem('songsQueue', JSON.stringify(newSongsQueue));
-    localStorage.setItem('playlistIds', JSON.stringify(playlistIds));
-    localStorage.setItem('songIndex', newSongIndex.toString());
     localStorage.setItem('playTime', JSON.stringify(0));
+  }
+
+  const generateQueueIfNeeded = (songIndex: number) => {
+    if (((songsQueue || []).length - 1) === songIndex) {
+      generateQueue({
+        isNewQueue: false,
+        shuffleEnabled: false,
+        songId: songId || '',
+        extendForward: true
+      });
+    } else if (songIndex === 0) {
+      generateQueue({
+        isNewQueue: false,
+        shuffleEnabled: false,
+        songId: songId || '',
+        extendForward: false
+      });
+    }
   }
 
   const switchToPreviousSong = () => {
@@ -288,14 +296,15 @@ export function SongPlayerComponent() {
       setPlayTime(0);
       unpauseSong();
     } else {
-      if (songsQueue && songIndex) {
+      if (songsQueue) {
         if (playerIntervalId) {
           clearInterval(playerIntervalId);
         }
+        const songIndex = songsQueue.findIndex(song => song.songId === songId);
         const previousSongIndex = songIndex - 1;
         const song = songsQueue[previousSongIndex];
-        changeSongData(song?.songId || '', songsQueue, song?.playlistIds || [], previousSongIndex);
-
+        changeSongData(song?.songId || '');
+        generateQueueIfNeeded(previousSongIndex)
         playSong({
           songId: song?.songId,
           name: song?.name,
@@ -305,23 +314,22 @@ export function SongPlayerComponent() {
           artists: song?.artists,
           playlistIds: song?.playlistIds,
           backgroundColor: song?.backgroundColor,
-          lyricsBackgroundShadow: song?.lyricsBackgroundShadow,
-          songsQueue,
-          songIndex: previousSongIndex
+          lyricsBackgroundShadow: song?.lyricsBackgroundShadow
         })
       }
     }
   }
 
   const switchToNextSong = () => {
-    if (songsQueue && !isNaN(songIndex) && (songIndex < songsQueue.length - 1)) {
+    if (songsQueue) {
       if (playerIntervalId) {
         clearInterval(playerIntervalId);
       }
+      const songIndex = songsQueue.findIndex(song => song.songId === songId);
       const nextSongIndex = songIndex + 1;
       const song = songsQueue[songIndex + 1];
-      changeSongData(song?.songId || '', songsQueue, song?.playlistIds || [], nextSongIndex);
-
+      changeSongData(song?.songId || '');
+      generateQueueIfNeeded(nextSongIndex)
       playSong({
         songId: song?.songId,
         name: song?.name,
@@ -331,9 +339,7 @@ export function SongPlayerComponent() {
         artists: song?.artists,
         playlistIds: song?.playlistIds,
         backgroundColor: song?.backgroundColor,
-        lyricsBackgroundShadow: song?.lyricsBackgroundShadow,
-        songsQueue,
-        songIndex: nextSongIndex
+        lyricsBackgroundShadow: song?.lyricsBackgroundShadow
       })
     }
   }

@@ -14,23 +14,27 @@ import { songSelectors } from "./store/song.selectors";
 import { Link as RouterLink } from 'react-router-dom';
 import { formatTime } from "../../helpers/react/song-player.helper";
 import { SongInfoResponseData, PlaySongData, OpenEditPlaylistsModal } from "./store/song.model";
+import { queueActions } from "../queue/store/queue.actions";
+import { GenerateQueueOptions, GenerateQueueRequestData } from "../queue/store/queue.model";
+import { queueSelectors } from "../queue/store/queue.selectors";
 
 const { Text, Title } = Typography;
 
 export function SongComponent({
   song,
-  songsQueue,
   index,
+  options,
 }: {
   song: SongInfoResponseData,
-  songsQueue: Array<SongInfoResponseData>,
-  index: number
+  index: number,
+  options?: GenerateQueueOptions,
 }) {
   const [isHovered, setIsHovered] = useState<boolean>();
 
   const isPlaying = useSelector(songSelectors.isPlaying);
   const isEditPlaylistModalOpen = useSelector(songSelectors.isEditPlaylistModalOpen);
-  const songId =  useSelector(songSelectors.songId);
+  const songId = useSelector(songSelectors.songId);
+  const queue = useSelector(queueSelectors.queue);
 
   const dispatch = useDispatch();
   const openEditPlaylistsModal = (songInfo: OpenEditPlaylistsModal) => dispatch(songActions.openEditPlaylistsModal(songInfo));
@@ -38,14 +42,29 @@ export function SongComponent({
   const pauseSong = () => dispatch(songActions.pauseSong());
   const playSong = (songData: PlaySongData) => dispatch(songActions.playSong(songData));
   const unpauseSong = () => dispatch(songActions.unpauseSong());
+  const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
 
   const startPlaySong = () => {
-    const songIndex = songsQueue.findIndex(songInQueue => songInQueue.songId === song?.songId);
     localStorage.setItem('songId', song?.songId?.toString() || '');
-    localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
-    localStorage.setItem('songIndex', songIndex.toString());
     localStorage.setItem('playTime', JSON.stringify(0));
-    localStorage.setItem('playlistIds', JSON.stringify(song?.playlistIds || []));
+    const songIndexInQueue = queue?.findIndex(song => song.songId === songId);
+    if (((queue?.length || 0) - 1) === songIndexInQueue) {
+      generateQueue({
+        isNewQueue: false,
+        shuffleEnabled: false,
+        songId: songId || '',
+        options,
+        extendForward: true
+      });
+    } else if (songIndexInQueue === 0) {
+      generateQueue({
+        isNewQueue: false,
+        shuffleEnabled: false,
+        songId: songId || '',
+        options,
+        extendForward: false
+      });
+    }
     playSong({
       songId: song?.songId,
       name: song?.name,
@@ -55,10 +74,8 @@ export function SongComponent({
       artists: song?.artists,
       playlistIds: song?.playlistIds,
       backgroundColor: song?.backgroundColor,
-      lyricsBackgroundShadow: song?.lyricsBackgroundShadow,
-      songsQueue,
-      songIndex
-    })
+      lyricsBackgroundShadow: song?.lyricsBackgroundShadow
+    });
   }
 
   const renderPlayButton = () => {
@@ -83,7 +100,7 @@ export function SongComponent({
         onClick={() => startPlaySong()} />
     );
 
-  }
+  };
 
   return (
     <div

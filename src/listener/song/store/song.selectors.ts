@@ -14,8 +14,6 @@ const songUrl = createSelector(songState, song => song?.songUrl);
 const isSongDataLoading = createSelector(songState, song => song?.isSongDataLoading);
 const isPlaying = createSelector(songState, song => song?.isPlaying);
 const duration = createSelector(songState, song => song?.duration);
-const songsQueue = createSelector(songState, song => song?.songsQueue);
-const songIndex = createSelector(songState, song => song?.songIndex);
 const isEditPlaylistModalOpen = createSelector(songState, song => song?.isEditPlaylistModalOpen);
 const playlistIds = createSelector(songState, song => song?.playlistIds);
 const isPlaylistIdsLoading = createSelector(songState, song => song?.isPlaylistIdsLoading);
@@ -39,8 +37,6 @@ export const songSelectors = {
   isSongDataLoading,
   isPlaying,
   duration,
-  songsQueue,
-  songIndex,
   isEditPlaylistModalOpen,
   playlistIds,
   isPlaylistIdsLoading,
