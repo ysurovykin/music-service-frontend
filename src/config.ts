@@ -1,5 +1,7 @@
 export const API_URL = 'http://localhost:5000/'
 
+export const DOMAIN = 'http://localhost:3000'
+
 // const colours = {
 //   1: '#00663E',
 //   2: '#005335',

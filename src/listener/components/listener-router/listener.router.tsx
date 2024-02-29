@@ -9,6 +9,8 @@ import { PlaylistPage } from '../../playlist/playlist.page';
 import { EditPlaylistModal } from '../../song/edit-playlists-modal/edit-playlists.modal';
 import { LyricsPage } from '../../lyrics/lyrics.page';
 import { SearchPage } from '../../search/search.page';
+import { ProfilePage } from '../../profile/profile.page';
+import { LibraryPage } from '../../library/library.page';
 
 export default function ListenerRouter() {
   return (
@@ -21,13 +23,14 @@ export default function ListenerRouter() {
           <Route path="/album/:albumId" element={<AlbumPage />} />
           <Route path="/playlist/:playlistId" element={<PlaylistPage />} />
           <Route path="/queue" element={<QueuePage />} />
-          <Route path="/library" element={<LyricsPage />} />
+          <Route path="/library" element={<LibraryPage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/lyrics" element={<LyricsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </div>
       <SongPlayerComponent />
       <EditPlaylistModal />
     </>
   );
-}
+}58

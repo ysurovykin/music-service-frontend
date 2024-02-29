@@ -1,16 +1,15 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { HeaderComponent } from "../components/header/header.component";
-import { calculateScrollY, getBackground } from "../../helpers/react/listener-page.helper";
+import { getBackground } from "../../helpers/react/listener-page.helper";
+import { useInView } from "react-intersection-observer";
 
-export function LyricsPage() {
-  const [scrollY, setScrollY] = useState<number>(0);
-
-  const pageRef = useRef<HTMLDivElement>(null);
+export function ProfilePage() {
+  const { ref, inView } = useInView({ threshold: 1 }); //TODO set ref to show header
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
-      <div ref={pageRef} style={{background: getBackground()}} className="lyrics-page listener-group-page">
-        <HeaderComponent scrollY={scrollY} />
+    <div className='listener-group-page__wrapper custom-scroll'>
+      <div style={{ background: getBackground() }} className="lyrics-page listener-group-page">
+        <HeaderComponent showHeader={!inView} />
         Profile
       </div>
     </div>

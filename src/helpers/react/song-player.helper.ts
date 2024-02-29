@@ -1,3 +1,4 @@
+import { QueueSongInfoResponseData } from "../../listener/queue/store/queue.model";
 import { SongInfoResponseData } from "../../listener/song/store/song.model";
 
 export const formatTime = (time: number): string => {
@@ -10,8 +11,8 @@ export const formatTime = (time: number): string => {
   return '0:00';
 }
 
-export const formatSongQueue = (songId: string, queue: Array<SongInfoResponseData>): Array<SongInfoResponseData> => {
-  const songIndex = queue.findIndex(song => song.songId === songId);
+export const formatSongQueue = (songQueueId: string, queue: Array<QueueSongInfoResponseData>): Array<QueueSongInfoResponseData> => {
+  const songIndex = queue.findIndex(song => song.songQueueId === songQueueId);
   const formatedQueue = queue.slice(songIndex);
   return formatedQueue;
 }

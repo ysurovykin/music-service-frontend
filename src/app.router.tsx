@@ -4,10 +4,12 @@ import { RegistrationPage } from './user/registration/registration.page';
 import { useSelector } from 'react-redux';
 import { userSelectors } from './user/store/user.selectors';
 import ListenerRouter from './listener/components/listener-router/listener.router';
+import { PageLoaderComponent } from './listener/components/loader/page-loader';
 
 export default function AppRouter() {
 
   const userId = useSelector(userSelectors.userId);
+  const isAuthorizationLoading = useSelector(userSelectors.isAuthorizationLoading);
   const profileType = useSelector(userSelectors.profileType);
 
   const renderUnauthorizedRoutes = () => {
@@ -32,7 +34,7 @@ export default function AppRouter() {
 
   return (
     <Router>
-      {userId ? renderAuthorizedRoutes() : renderUnauthorizedRoutes()}
+      {isAuthorizationLoading ? <PageLoaderComponent /> : userId ? renderAuthorizedRoutes() : renderUnauthorizedRoutes()}
     </Router>
   );
 }

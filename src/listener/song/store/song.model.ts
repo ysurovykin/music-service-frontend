@@ -2,21 +2,7 @@ import { AlbumShortDataType } from "../../album/store/album.model";
 import { ArtistShortData } from "../../artist/store/artist.model";
 
 export const songState: SongState = {
-  name: undefined,
-  artists: undefined,
-  songId: undefined,
-  album: undefined,
-  plays: undefined,
-  date: undefined,
-  duration: undefined,
-  coverImageUrl: undefined,
-  backgroundColor: undefined,
-  lyricsBackgroundShadow: undefined,
-  songUrl: undefined,
-  isSongDataLoading: false,
-  isPlaying: false,
   isEditPlaylistModalOpen: undefined,
-  playlistIds: undefined,
   isPlaylistIdsLoading: undefined,
   editPlaylistsSongId: undefined,
   editPlaylistsSongPlaylistIds: undefined,
@@ -25,9 +11,7 @@ export const songState: SongState = {
   isMoreSongsForLoading: undefined
 };
 
-export interface SongState extends SongInfoResponseData {
-  isPlaying?: boolean;
-  isSongDataLoading?: boolean;
+export interface SongState {
   isEditPlaylistModalOpen?: boolean;
   isPlaylistIdsLoading?: boolean;
   editPlaylistsSongId?: string;
@@ -46,18 +30,6 @@ export type EditPlaylistsRequest = {
   songId: string;
   editedPlaylists: Array<EditedPlaylist>;
   playlistIdToUpdate?: string
-}
-
-export type PlaySongData = {
-  songId?: string;
-  name?: string;
-  artists?: Array<ArtistShortData>;
-  coverImageUrl?: string;
-  backgroundColor?: string;
-  lyricsBackgroundShadow?: string;
-  songUrl?: string;
-  duration?: number;
-  playlistIds?: Array<string>;
 }
 
 export type SongInfoResponseData = {
@@ -97,30 +69,17 @@ export type GetSongsOptions = {
   playlistId?: string;
 }
 
-export type EditPlaylistResult = {
-  playlistIds: Array<string>,
-  songs?: Array<SongInfoResponseData>;
-}
-
 export enum SongActionTypes {
-  GET_SONG_BY_ID = "GET_SONG_BY_ID_START",
-  GET_SONG_BY_ID_SUCCESS = "GET_SONG_BY_ID_SUCCESS",
-  GET_SONG_BY_ID_FAILED = "GET_SONG_BY_ID_FAILED",
+  OPEN_EDIT_PLAYLISTS_MODAL = "SONG.OPEN_EDIT_PLAYLISTS_MODAL",
+  CLOSE_EDIT_PLAYLISTS_MODAL = "SONG.CLOSE_EDIT_PLAYLISTS_MODAL",
 
-  PLAY_SONG = "PLAY_SONG",
-  UNPAUSE_SONG = "UNPAUSE_SONG",
-  PAUSE_SONG = "PAUSE_SONG",
+  EDIT_PLAYLISTS = "SONG.EDIT_PLAYLISTS",
+  EDIT_PLAYLISTS_SUCCESS = "SONG.EDIT_PLAYLISTS_SUCCESS",
+  EDIT_PLAYLISTS_FAILED = "SONG.EDIT_PLAYLISTS_FAILED",
 
-  OPEN_EDIT_PLAYLISTS_MODAL = "OPEN_EDIT_PLAYLISTS_MODAL",
-  CLOSE_EDIT_PLAYLISTS_MODAL = "CLOSE_EDIT_PLAYLISTS_MODAL",
+  GET_SONGS = "SONG.GET_SONGS_START",
+  GET_SONGS_SUCCESS = "SONG.GET_SONGS_SUCCESS",
+  GET_SONGS_FAILED = "SONG.GET_SONGS_FAILED",
 
-  EDIT_PLAYLISTS = "EDIT_PLAYLISTS",
-  EDIT_PLAYLISTS_SUCCESS = "EDIT_PLAYLISTS_SUCCESS",
-  EDIT_PLAYLISTS_FAILED = "EDIT_PLAYLISTS_FAILED",
-
-  GET_SONGS = "GET_SONGS_START",
-  GET_SONGS_SUCCESS = "GET_SONGS_SUCCESS",
-  GET_SONGS_FAILED = "GET_SONGS_FAILED",
-
-  CLEAR_SONGS = "CLEAR_SONGS"
+  CLEAR_SONGS = "SONG.CLEAR_SONGS"
 };

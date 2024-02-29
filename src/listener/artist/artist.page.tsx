@@ -1,18 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams, useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import { artistActions } from './store/artist.actions';
 import { useSelector } from 'react-redux';
 import { artistSelectors } from './store/artist.selectors';
-import { Avatar, Button, List, Typography } from 'antd';
+import { Avatar, List, Typography } from 'antd';
 import { HeaderComponent } from '../components/header/header.component';
-import { calculateScrollY, getBackground } from '../../helpers/react/listener-page.helper';
+import { getBackground } from '../../helpers/react/listener-page.helper';
+import { useInView } from 'react-intersection-observer';
 
 const { Text, Title, Link } = Typography;
 
 export function ArtistPage() {
 
-  const [scrollY, setScrollY] = useState<number>(0);
+  const { ref, inView } = useInView({ threshold: 1 });
 
   const { artistId } = useParams<{ artistId: string }>();
 
@@ -24,8 +25,6 @@ export function ArtistPage() {
   const albums = useSelector(artistSelectors.albums);
   const backgroundColor = useSelector(artistSelectors.backgroundColor);
 
-  const pageRef = useRef<HTMLDivElement>(null);
-
   const dispatch = useDispatch()
   const getArtistData = (artistId: string) => dispatch(artistActions.getArtistById(artistId));
 
@@ -36,14 +35,14 @@ export function ArtistPage() {
   }, [artistId]);
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
-      <div ref={pageRef} style={{ background: getBackground(backgroundColor) }} className="artist-page listener-group-page">
+    <div className='listener-group-page__wrapper custom-scroll'>
+      <div style={{ background: getBackground(backgroundColor) }} className="artist-page listener-group-page">
         <HeaderComponent
           text={name || ''}
           background={backgroundColor}
-          scrollY={scrollY} />
+          showHeader={!inView} />
         <div>
-          {name && <Title level={4}>Name: {name}</Title>}
+          {name && <Title ref={ref} level={4}>Name: {name}</Title>}
           {country && <Title level={4}>Country: {country}</Title>}
           {description && <Title level={4}>Description: {description}</Title>}
           {socialLinks && socialLinks.map(socialLink =>

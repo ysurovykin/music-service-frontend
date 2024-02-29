@@ -3,33 +3,19 @@ import { GetSongsResponseData, SongActionTypes, SongInfoResponseData } from './s
 import SongService from './song.service';
 import { songActions } from './song.actions';
 import { ErrorActionType } from '../../../helpers/react/redux.helper';
-import { EditPlaylistsStartActionType, GetSongByIdStartActionType, GetSongsStartActionType } from './song.actions.types';
-import { playlistActions } from '../../playlist/store/playlist.actions';
-import { useSelector } from 'react-redux';
+import { EditPlaylistsStartActionType, GetSongsStartActionType } from './song.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { songSelectors } from './song.selectors';
 import { queueSelectors } from '../../queue/store/queue.selectors';
 import { queueActions } from '../../queue/store/queue.actions';
+import { QueueSongInfoResponseData } from '../../queue/store/queue.model';
 
 export const songEffects = [
-  takeEvery(SongActionTypes.GET_SONG_BY_ID, getSongById),
-  takeEvery(SongActionTypes.GET_SONG_BY_ID_FAILED, handleError),
   takeEvery(SongActionTypes.GET_SONGS, getSongs),
   takeEvery(SongActionTypes.GET_SONGS_FAILED, handleError),
   takeEvery(SongActionTypes.EDIT_PLAYLISTS, editPlaylists),
   takeEvery(SongActionTypes.EDIT_PLAYLISTS_FAILED, handleError),
 ];
-
-function* getSongById(action: GetSongByIdStartActionType) {
-  try {
-    const listenerId: string = yield select(userSelectors.userId);
-    const song: SongInfoResponseData = yield SongService.getSongById(listenerId, action.payload);
-    yield put(songActions.getSongByIdSuccess(song));
-  } catch (e) {
-    const error = e as Error;
-    yield put(songActions.getSongByIdFailed({ error }));
-  }
-}
 
 function* getSongs(action: GetSongsStartActionType) {
   try {
@@ -51,23 +37,22 @@ function* editPlaylists(action: EditPlaylistsStartActionType) {
       songId: action.payload.songId,
       editedPlaylists: action.payload.editedPlaylists
     });
+
     const songs: Array<SongInfoResponseData> = yield select(songSelectors.songs);
-    const songsToEdit: Array<SongInfoResponseData> = songs?.length ? JSON.parse(JSON.stringify(songs)) : [];
+    const songsToEdit: Array<SongInfoResponseData> = songs?.length ? structuredClone(songs) : [];
     const songIndex = songsToEdit.findIndex(song => song.songId === action.payload.songId);
     if (songIndex !== -1) {
       songsToEdit[songIndex].playlistIds = editedPlaylistIds;
     }
-    const songsQueue: Array<SongInfoResponseData> = yield select(queueSelectors.queue);
-    const songsQueueToEdit: Array<SongInfoResponseData> = songsQueue?.length ? JSON.parse(JSON.stringify(songsQueue)) : [];
+
+    const songsQueue: Array<QueueSongInfoResponseData> = yield select(queueSelectors.queue);
+    const songsQueueToEdit: Array<QueueSongInfoResponseData> = songsQueue?.length ? structuredClone(songsQueue) : [];
     const songInQueueIndex = songsQueueToEdit.findIndex(songInQueue => songInQueue.songId === action.payload.songId);
     if (songInQueueIndex !== -1) {
       songsQueueToEdit[songInQueueIndex].playlistIds = editedPlaylistIds;
     }
     yield put(queueActions.updateQueueLikes(songsQueueToEdit));
-    yield put(songActions.editPlaylistsSuccess({
-      playlistIds: editedPlaylistIds,
-      songs: songsToEdit
-    }));
+    yield put(songActions.editPlaylistsSuccess(songsToEdit));
   } catch (e) {
     const error = e as Error;
     yield put(songActions.editPlaylistsFailed({ error }));

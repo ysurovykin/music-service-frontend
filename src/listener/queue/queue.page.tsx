@@ -1,46 +1,51 @@
-import React, { useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, List, Typography } from 'antd';
+import React, { useMemo } from 'react';
+import { List, Typography } from 'antd';
 import { formatSongQueue } from '../../helpers/react/song-player.helper';
 import { SongComponent } from '../song/song.component';
 import { useSelector } from 'react-redux';
-import { songSelectors } from '../song/store/song.selectors';
 import { HeaderComponent } from '../components/header/header.component';
-import { calculateScrollY, getBackground } from '../../helpers/react/listener-page.helper';
+import { getBackground } from '../../helpers/react/listener-page.helper';
 import { queueSelectors } from './store/queue.selectors';
+import { useInView } from 'react-intersection-observer';
 
 const { Title } = Typography;
 
 export function QueuePage() {
-  const [scrollY, setScrollY] = useState<number>(0);
+  
+  const { ref, inView } = useInView({ threshold: 1 });
 
   const queue = useSelector(queueSelectors.queue);
-  const songId = useSelector(songSelectors.songId);
-
-  const pageRef = useRef<HTMLDivElement>(null);
+  const songQueueId = useSelector(queueSelectors.songQueueId);
+  const isQueueLoading = useSelector(queueSelectors.isQueueLoading);
 
   const formatedQueue = useMemo(() => {
-    if (songId && queue) {
-      return formatSongQueue(songId, queue)
+    if (songQueueId && queue) {
+      return formatSongQueue(songQueueId, queue)
     }
-  }, [songId, queue])
+  }, [songQueueId, queue])
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll' onScroll={() => setScrollY(calculateScrollY(pageRef))}>
-      <div ref={pageRef} style={{background: getBackground()}} className="queue-page listener-group-page">
-        <HeaderComponent scrollY={scrollY} />
-        <div>
+    <div className='listener-group-page__wrapper custom-scroll' >
+      <div style={{ background: getBackground() }} className="listener-group-page">
+        <HeaderComponent 
+          showHeader={!inView} />
+        <div className='queue-page'>
           <Title level={4}>Queue</Title>
-          <Title level={5}>Now playing</Title>
+          <Title ref={ref} level={5}>Now playing</Title>
           <SongComponent
             song={formatedQueue?.[0] || {}}
+            currentlyPlayingSong={formatedQueue?.[0] || {}}
             index={1} />
           <Title level={5}>Next up</Title>
           <List
+            loading={isQueueLoading}
             dataSource={formatedQueue}
             renderItem={(song, index) => (
               index !== 0 && <List.Item key={song.songId}>
-                <SongComponent song={song} index={index + 1} />
+                <SongComponent
+                  song={song}
+                  currentlyPlayingSong={formatedQueue?.[0] || {}}
+                  index={index + 1} />
               </List.Item>
             )}>
           </List>

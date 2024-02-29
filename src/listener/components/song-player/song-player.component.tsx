@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   VolumeDownOutlined,
   VolumeUpOutlined,
@@ -24,11 +24,11 @@ import { useSelector } from "react-redux";
 import { songSelectors } from "../../song/store/song.selectors";
 import { Link as RouterLink } from 'react-router-dom';
 import { formatTime } from "../../../helpers/react/song-player.helper";
-import { SongInfoResponseData, PlaySongData, OpenEditPlaylistsModal } from "../../song/store/song.model";
+import { OpenEditPlaylistsModal, SongInfoResponseData } from "../../song/store/song.model";
 import { RepeatSongStateEnum } from "../../store/listener.model";
 import { queueSelectors } from "../../queue/store/queue.selectors";
 import { queueActions } from "../../queue/store/queue.actions";
-import { GenerateQueueRequestData } from "../../queue/store/queue.model";
+import { GenerateQueueRequestData, QueueSongInfoResponseData } from "../../queue/store/queue.model";
 
 const { Text, Title } = Typography;
 
@@ -46,7 +46,7 @@ export function SongPlayerComponent() {
   const lastSavedShuffleEnabled: boolean = JSON.parse(localStorage.getItem('shuffleEnabled') || 'false');
   const lastSavedVolume: number = +(localStorage.getItem('volume') || '30');
   const lastSavedMuted: boolean = JSON.parse(localStorage.getItem('muted') || 'false');
-  const lastListenedSongId = localStorage.getItem('songId');
+  const lastListenedSongQueueId = localStorage.getItem('songQueueId');
 
   const [playTime, setPlayTime] = useState<number>();
   const [volume, setVolume] = useState<number>();
@@ -59,77 +59,125 @@ export function SongPlayerComponent() {
   const [titleScrollIntervalId, setTitleScrollIntervalId] = useState<ReturnType<typeof setInterval>>();
   const [artistScrollIntervalId, setArtistScrollIntervalId] = useState<ReturnType<typeof setInterval>>();
 
-  const isPlaying = useSelector(songSelectors.isPlaying);
-  const name = useSelector(songSelectors.name);
-  const songUrl = useSelector(songSelectors.songUrl);
-  const coverImageUrl = useSelector(songSelectors.coverImageUrl);
-  const artists = useSelector(songSelectors.artists);
-  const duration = useSelector(songSelectors.duration);
-  const currentSongId = useSelector(songSelectors.songId);
+  const isPlaying = useSelector(queueSelectors.isPlaying);
   const isEditPlaylistModalOpen = useSelector(songSelectors.isEditPlaylistModalOpen);
-  const playlistIds = useSelector(songSelectors.playlistIds);
-  const songId = useSelector(songSelectors.songId);
   const songsQueue = useSelector(queueSelectors.queue);
+  const songQueueId = useSelector(queueSelectors.songQueueId);
+  const isMoreSongsBehindForLoading = useSelector(queueSelectors.isMoreSongsBehindForLoading);
+  const isMoreSongsForwardForLoading = useSelector(queueSelectors.isMoreSongsForwardForLoading);
 
   const dispatch = useDispatch();
-  const pauseSong = () => dispatch(songActions.pauseSong());
-  const unpauseSong = () => dispatch(songActions.unpauseSong());
-  const playSong = (songData: PlaySongData) => dispatch(songActions.playSong(songData));
-  const getSongById = (songId: string) => dispatch(songActions.getSongById(songId));
+  const pauseSong = () => dispatch(queueActions.pauseSong());
+  const unpauseSong = () => dispatch(queueActions.unpauseSong());
+  const switchSong = (songQueueId: string) => dispatch(queueActions.switchSong(songQueueId));
   const openEditPlaylistsModal = (songInfo: OpenEditPlaylistsModal) => dispatch(songActions.openEditPlaylistsModal(songInfo));
   const closeEditPlaylistsModal = () => dispatch(songActions.closeEditPlaylistsModal());
-  const getQueue = (songId: string) => dispatch(queueActions.getQueue(songId));
+  const getQueue = (songQueueId: string) => dispatch(queueActions.getQueue(songQueueId));
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
+
+  const isSongPlayerLoading = useMemo(() => {
+    return !songQueueId && !songsQueue?.length;
+  }, [songQueueId, songsQueue]);
+
+  const currentlyPlayingSong = useMemo(() => {
+    return songsQueue?.find(song => song.songQueueId === songQueueId);
+  }, [songQueueId, songsQueue]);
+
+  const isAbleToSwitchToPreviousSong = useMemo(() => {
+    if (songsQueue && songQueueId && repeatSongState) {
+      const songIndex = songsQueue.findIndex(song => song.songQueueId === currentlyPlayingSong?.songQueueId);
+      if (songIndex === 0) {
+        if (repeatSongState === RepeatSongStateEnum.none) {
+          return false;
+        } else if (repeatSongState === RepeatSongStateEnum.loop) {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    }
+  }, [songQueueId, songsQueue, repeatSongState]);
+
+  const isAbleToswitchToNextSong = useMemo(() => {
+    if (songsQueue && songQueueId && repeatSongState) {
+      const songIndex = songsQueue.findIndex(song => song.songQueueId === currentlyPlayingSong?.songQueueId);
+      if (songIndex === songsQueue.length - 1) {
+        if (repeatSongState === RepeatSongStateEnum.none) {
+          return false;
+        } else if (repeatSongState === RepeatSongStateEnum.loop) {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    }
+  }, [songQueueId, songsQueue, repeatSongState]);
 
   useEffect(() => {
     if (isPlaying) {
       if (audioPlayer.current) {
-        audioPlayer.current.play()
+        const playPromise = audioPlayer.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(_ => { })
+            .catch(error => { });
+        }
       }
       if (playerIntervalId) {
         clearInterval(playerIntervalId);
       }
       const intervalId = setInterval(() => {
-        if (audioPlayer.current) {
+        if (audioPlayer.current && audioPlayer.current.readyState === audioPlayer.current.HAVE_ENOUGH_DATA) {
           setPlayTime(audioPlayer?.current?.currentTime);
-          // localStorage.setItem('playTime', JSON.stringify(audioPlayer?.current?.currentTime)); //TODO make stable sync
-          if ((duration! - audioPlayer?.current?.currentTime) < 0.5) {
-            localStorage.setItem('playTime', JSON.stringify(0));
-            switchToNextSong();
+          if ((currentlyPlayingSong?.duration! - audioPlayer?.current?.currentTime) < 0.5) {
+            if (repeatSongState !== RepeatSongStateEnum.one) {
+              switchToNextSong();
+            } else {
+              localStorage.setItem('playTime', JSON.stringify(0));
+              audioPlayer.current.currentTime = 0;
+              setPlayTime(0);
+            }
           }
         }
       }, 1000)
       setPlayerIntervalId(intervalId);
     } else {
-      if (audioPlayer.current) {
+      if (audioPlayer.current && audioPlayer.current.currentTime > 0 && !audioPlayer.current.paused &&
+        audioPlayer.current.readyState > audioPlayer.current.HAVE_CURRENT_DATA) {
         audioPlayer.current.pause()
       }
       if (playerIntervalId) {
         clearInterval(playerIntervalId);
       }
     }
-  }, [isPlaying, songUrl]);
+    return () => {
+      if (playerIntervalId) {
+        clearInterval(playerIntervalId);
+      }
+    }
+  }, [isPlaying, currentlyPlayingSong]);
 
   useEffect(() => {
-    if (lastSavedPlayTime && audioPlayer.current) {
-      setPlayTime(lastSavedPlayTime);
-      audioPlayer.current.currentTime = lastSavedPlayTime;
+    if (playTime && audioPlayer?.current?.currentTime) {
+      localStorage.setItem('playTime', JSON.stringify(audioPlayer.current.currentTime));
     }
-  }, [lastSavedPlayTime]);
+  }, [playTime]);
 
   useEffect(() => {
-    if (lastSavedVolume && audioPlayer.current) {
-      setVolume(lastSavedVolume);
-      audioPlayer.current.volume = lastSavedVolume / 100;
+    if (audioPlayer.current) {
+      if (lastSavedPlayTime) {
+        setPlayTime(lastSavedPlayTime);
+        audioPlayer.current.currentTime = lastSavedPlayTime;
+      }
+      if (lastSavedVolume) {
+        setVolume(lastSavedVolume);
+        audioPlayer.current.volume = lastSavedVolume / 100;
+      }
     }
-  }, [lastSavedVolume]);
-
-  useEffect(() => {
-    if (!currentSongId && lastListenedSongId) {
-      getSongById(lastListenedSongId);
-      getQueue(lastListenedSongId);
+    if (lastListenedSongQueueId) {
+      getQueue(lastListenedSongQueueId);
     }
-  }, [lastListenedSongId])
+  }, []);
 
   const startScrollSongText = (songRef: React.RefObject<HTMLDivElement>, songWrapperRef: React.RefObject<HTMLDivElement>,
     isTextScrollLeft: boolean, setIsTextScrollLeft: React.Dispatch<React.SetStateAction<boolean>>, intervalId: NodeJS.Timer | undefined,
@@ -196,16 +244,22 @@ export function SongPlayerComponent() {
       audioPlayer.current.volume = volume! / 100;
     }
   }
+
   const changeShuffleEnabled = (state: boolean) => {
     setShuffleEnabled(state);
+    generateQueue({
+      isNewQueue: true,
+      shuffleEnabled: state,
+      songId: currentlyPlayingSong?.songId || ''
+    });
     localStorage.setItem('shuffleEnabled', JSON.stringify(state))
   }
 
   const renderShuffleIcon = () => {
     return <ShuffleOutlined
       sx={shuffleEnabled ?
-        { color: 'grey', '&:hover': { color: 'white' } } :
-        { color: listenerProfileTypePalete.base, '&:hover': { color: listenerProfileTypePalete.secondary } }}
+        { color: listenerProfileTypePalete.base, '&:hover': { color: listenerProfileTypePalete.secondary } } :
+        { color: 'grey', '&:hover': { color: 'white' } }}
       onClick={() => changeShuffleEnabled(!shuffleEnabled)} />;
   }
 
@@ -266,25 +320,25 @@ export function SongPlayerComponent() {
     }
   }
 
-  const changeSongData = (newSongId: string) => {
+  const changeSongData = (newSongQueueId: string) => {
     setPlayTime(0);
-    localStorage.setItem('songId', newSongId || '');
+    localStorage.setItem('songQueueId', newSongQueueId || '');
     localStorage.setItem('playTime', JSON.stringify(0));
   }
 
-  const generateQueueIfNeeded = (songIndex: number) => {
-    if (((songsQueue || []).length - 1) === songIndex) {
+  const generateQueueIfNeeded = (songIndex: number, song: QueueSongInfoResponseData) => {
+    if (((songsQueue || []).length - 1 === songIndex) && isMoreSongsForwardForLoading) {
       generateQueue({
         isNewQueue: false,
         shuffleEnabled: false,
-        songId: songId || '',
+        songQueueId: song?.songQueueId || '',
         extendForward: true
       });
-    } else if (songIndex === 0) {
+    } else if ((songIndex === 0) && isMoreSongsBehindForLoading) {
       generateQueue({
         isNewQueue: false,
         shuffleEnabled: false,
-        songId: songId || '',
+        songQueueId: song?.songQueueId || '',
         extendForward: false
       });
     }
@@ -300,22 +354,20 @@ export function SongPlayerComponent() {
         if (playerIntervalId) {
           clearInterval(playerIntervalId);
         }
-        const songIndex = songsQueue.findIndex(song => song.songId === songId);
-        const previousSongIndex = songIndex - 1;
+        const songIndex = songsQueue.findIndex(song => song.songQueueId === currentlyPlayingSong?.songQueueId);
+        const expectedPreviousSongIndex = songIndex - 1;
+        let previousSongIndex = expectedPreviousSongIndex;
+        if (expectedPreviousSongIndex < 0) {
+          if (repeatSongState === RepeatSongStateEnum.none) {
+            return;
+          } else if (repeatSongState === RepeatSongStateEnum.loop) {
+            previousSongIndex = songsQueue.length - 1;
+          }
+        }
         const song = songsQueue[previousSongIndex];
-        changeSongData(song?.songId || '');
-        generateQueueIfNeeded(previousSongIndex)
-        playSong({
-          songId: song?.songId,
-          name: song?.name,
-          duration: song?.duration,
-          coverImageUrl: song?.coverImageUrl,
-          songUrl: song?.songUrl,
-          artists: song?.artists,
-          playlistIds: song?.playlistIds,
-          backgroundColor: song?.backgroundColor,
-          lyricsBackgroundShadow: song?.lyricsBackgroundShadow
-        })
+        changeSongData(song?.songQueueId || '');
+        generateQueueIfNeeded(previousSongIndex, song);
+        switchSong(song?.songQueueId || '');
       }
     }
   }
@@ -325,22 +377,20 @@ export function SongPlayerComponent() {
       if (playerIntervalId) {
         clearInterval(playerIntervalId);
       }
-      const songIndex = songsQueue.findIndex(song => song.songId === songId);
-      const nextSongIndex = songIndex + 1;
-      const song = songsQueue[songIndex + 1];
-      changeSongData(song?.songId || '');
-      generateQueueIfNeeded(nextSongIndex)
-      playSong({
-        songId: song?.songId,
-        name: song?.name,
-        duration: song?.duration,
-        coverImageUrl: song?.coverImageUrl,
-        songUrl: song?.songUrl,
-        artists: song?.artists,
-        playlistIds: song?.playlistIds,
-        backgroundColor: song?.backgroundColor,
-        lyricsBackgroundShadow: song?.lyricsBackgroundShadow
-      })
+      const songIndex = songsQueue.findIndex(song => song.songQueueId === currentlyPlayingSong?.songQueueId);
+      const expectedNextSongIndex = songIndex + 1;
+      let nextSongIndex = expectedNextSongIndex;
+      if (expectedNextSongIndex > songsQueue.length - 1) {
+        if (repeatSongState === RepeatSongStateEnum.none) {
+          return;
+        } else if (repeatSongState === RepeatSongStateEnum.loop) {
+          nextSongIndex = 0;
+        }
+      }
+      const song = songsQueue[nextSongIndex];
+      changeSongData(song?.songQueueId || '');
+      generateQueueIfNeeded(nextSongIndex, song);
+      switchSong(song?.songQueueId || '');
     }
   }
 
@@ -351,7 +401,7 @@ export function SongPlayerComponent() {
           <Avatar
             shape="square"
             size={64}
-            src={coverImageUrl} />
+            src={currentlyPlayingSong?.coverImageUrl} />
         </div>
         <div className='song-player__credentials'>
           <div
@@ -366,7 +416,7 @@ export function SongPlayerComponent() {
                 onMouseLeave={() => startScrollSongText(songTitleRef, songTitleWrapperRef, isSongTitleScrollLeft,
                   setIsSongTitleScrollLeft, titleScrollIntervalId, setTitleScrollIntervalId)}
                 level={5}>
-                {name}
+                {currentlyPlayingSong?.name}
               </Title>
             </div>
           </div>
@@ -382,7 +432,7 @@ export function SongPlayerComponent() {
                 onMouseLeave={() => startScrollSongText(songArtistRef, songArtistWrapperRef, isSongArtistScrollLeft,
                   setIsSongArtistScrollLeft, artistScrollIntervalId, setArtistScrollIntervalId)}
                 level={5}>
-                {artists
+                {currentlyPlayingSong?.artists
                   ?.map<React.ReactNode>(artist => <RouterLink key={artist.name} to={`/artist/${artist.id}`}>{artist.name}</RouterLink>)
                   .reduce((prev, curr) => [prev, ', ', curr])}
               </Title>
@@ -403,7 +453,9 @@ export function SongPlayerComponent() {
           <div className="song-player__controller-icon-wrapper">
             <SkipPreviousOutlined
               fontSize={'large'}
-              sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
+              sx={isAbleToSwitchToPreviousSong ?
+                { color: 'white', cursor: 'pointer', '&:hover': { color: listenerProfileTypePalete.base } } :
+                { color: 'grey' }}
               onClick={() => switchToPreviousSong()} />
           </div>
           <div className="song-player__controller-icon-wrapper">
@@ -421,7 +473,9 @@ export function SongPlayerComponent() {
           <div className="song-player__controller-icon-wrapper">
             <SkipNextOutlined
               fontSize={'large'}
-              sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }}
+              sx={isAbleToswitchToNextSong ?
+                { color: 'white', cursor: 'pointer', '&:hover': { color: listenerProfileTypePalete.base } } :
+                { color: 'grey' }}
               onClick={() => switchToNextSong()} />
           </div>
           <div className="song-player__controller-icon-wrapper">
@@ -435,8 +489,8 @@ export function SongPlayerComponent() {
             tooltip={{ open: false }}
             value={playTime}
             onChange={(value) => changePlayerCurrentPlayTime(value)}
-            max={duration} />
-          <Text className="song-player__song-time">{formatTime(duration || 0)}</Text>
+            max={currentlyPlayingSong?.duration} />
+          <Text className="song-player__song-time">{formatTime(currentlyPlayingSong?.duration || 0)}</Text>
         </div>
       </div>
     );
@@ -448,12 +502,12 @@ export function SongPlayerComponent() {
         <Tooltip
           title='Add to playlist'>
           <div
-            className="song-player__additional-controller-icon-wrapper"
+            className="song-player__additional-controller-icon-wrapper cursor-pointer"
             onClick={() => isEditPlaylistModalOpen ? closeEditPlaylistsModal() : openEditPlaylistsModal({
-              editPlaylistsSongId: songId || '',
-              editPlaylistsSongPlaylistIds: playlistIds || []
+              editPlaylistsSongId: currentlyPlayingSong?.songId || '',
+              editPlaylistsSongPlaylistIds: currentlyPlayingSong?.playlistIds || []
             })}>
-            {playlistIds?.length ?
+            {currentlyPlayingSong?.playlistIds?.length ?
               <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
               <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
             }
@@ -461,7 +515,7 @@ export function SongPlayerComponent() {
         </Tooltip>
         <Tooltip
           title='Lyrics'>
-          <div className="song-player__additional-controller-icon-wrapper">
+          <div className="song-player__additional-controller-icon-wrapper cursor-pointer">
             <RouterLink
               className="song-player__additional-controller"
               to='/lyrics'>
@@ -471,7 +525,7 @@ export function SongPlayerComponent() {
         </Tooltip>
         <Tooltip
           title='Queue'>
-          <div className="song-player__additional-controller-icon-wrapper">
+          <div className="song-player__additional-controller-icon-wrapper cursor-pointer">
             <RouterLink
               className="song-player__additional-controller"
               to='/queue'>
@@ -481,7 +535,7 @@ export function SongPlayerComponent() {
         </Tooltip>
         <Tooltip
           title={muted ? 'Unmute' : 'Mute'}>
-          <div className="song-player__additional-controller-icon-wrapper">
+          <div className="song-player__additional-controller-icon-wrapper cursor-pointer">
             {renderVolumeIcon()}
           </div>
         </Tooltip>
@@ -497,9 +551,9 @@ export function SongPlayerComponent() {
   };
 
   return (
-    <div className="song-player__wrapper">
+    <div style={{display: isSongPlayerLoading ? 'none' : 'grid'}} className="song-player__wrapper">
       <audio
-        src={songUrl}
+        src={currentlyPlayingSong?.songUrl}
         ref={audioPlayer}
         muted={muted} />
       <div className="song-player">

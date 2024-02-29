@@ -7,28 +7,31 @@ import { useDispatch } from 'react-redux';
 import { userActions } from '../../../user/store/user.actions';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useMemo } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 const { Text, Title } = Typography;
 
 export function HeaderComponent({
-  scrollY,
+  showHeader,
   text = '',
   background = 'rgb(33, 33, 33)'
 }: {
-  scrollY: number,
+  showHeader?: boolean,
   text?: string,
   background?: string
 }) {
   const navigate = useNavigate();
   const userName = useSelector(userSelectors.name);
+
   const dispatch = useDispatch();
   const logout = () => dispatch(userActions.logout());
+
   const pageHistoryIndex = window?.history?.state?.idx;
   const pagesForwardCount = window?.history?.length - window?.history?.state?.idx;
 
   const items: MenuProps['items'] = [
     {
-      label: <RouterLink to={'profile'}><div className='header__dropdown-item'><p>Profile</p> <Person /></div></RouterLink>,
+      label: <RouterLink to={'/profile'}><div className='header__dropdown-item'><p>Profile</p> <Person /></div></RouterLink>,
       key: '0',
     },
     {
@@ -40,27 +43,9 @@ export function HeaderComponent({
     }
   ];
 
-  const headerOpacity = useMemo(() => {
-    if (scrollY < 50) {
-      return 0;
-    } else if (scrollY < 100) {
-      return (scrollY - 50) / 50;
-    } else {
-      return 1;
-    }
-  }, [scrollY]);
-
-  const headerTextOpacity = useMemo(() => {
-    if (scrollY < 100) {
-      return 0;
-    } else {
-      return 1;
-    }
-  }, [scrollY]);
-
   return (
     <div className='header-wrapper'>
-      <div className='header__background' style={{ background: background, opacity: headerOpacity }}>
+      <div className='header__background' style={{ background: background, opacity: showHeader ? 1 : 0 }}>
         <div className='header__background-shadow'></div>
       </div>
       <div className='header'>
@@ -79,7 +64,7 @@ export function HeaderComponent({
               <ArrowForward fontSize='small' className={`header__icon${(pagesForwardCount <= 2) ? '--disabled' : '--active'}`} />
             </div>
           </Tooltip>
-          <div className='header__title' style={{ opacity: headerTextOpacity }}>
+          <div className='header__title' style={{ opacity: showHeader ? 1 : 0 }}>
             <Title className='m-0' level={4}>{text}</Title>
           </div>
         </div>

@@ -15,6 +15,7 @@ export const queueReducer = (state = queueState, action: QueueActions): QueueSta
         ...state,
         isQueueLoading: false,
         queue: action.payload.queue,
+        songQueueId: action.payload.songQueueId,
         isMoreSongsForwardForLoading: action.payload.isMoreSongsForwardForLoading,
         isMoreSongsBehindForLoading: action.payload.isMoreSongsBehindForLoading
       }
@@ -36,6 +37,7 @@ export const queueReducer = (state = queueState, action: QueueActions): QueueSta
         ...state,
         isQueueLoading: false,
         queue: action.payload.queue,
+        songQueueId: action.payload.songQueueId,
         isMoreSongsForwardForLoading: action.payload.isMoreSongsForwardForLoading,
         isMoreSongsBehindForLoading: action.payload.isMoreSongsBehindForLoading
       }
@@ -50,6 +52,63 @@ export const queueReducer = (state = queueState, action: QueueActions): QueueSta
       return {
         ...state,
         queue: action.payload
+      }
+    }
+    case QueueActionTypes.ADD_SONG_TO_QUEUE: {
+      return {
+        ...state,
+        isQueueLoading: true
+      }
+    }
+    case QueueActionTypes.ADD_SONG_TO_QUEUE_SUCCESS: {
+      return {
+        ...state,
+        isQueueLoading: false,
+        queue: action.payload,
+      }
+    }
+    case QueueActionTypes.ADD_SONG_TO_QUEUE_FAILED: {
+      return {
+        ...state,
+        isQueueLoading: false
+      }
+    }
+    case QueueActionTypes.REMOVE_SONG_FROM_QUEUE: {
+      return {
+        ...state,
+        isQueueLoading: true
+      }
+    }
+    case QueueActionTypes.REMOVE_SONG_FROM_QUEUE_SUCCESS: {
+      return {
+        ...state,
+        isQueueLoading: false,
+        queue: action.payload
+      }
+    }
+    case QueueActionTypes.REMOVE_SONG_FROM_QUEUE_FAILED: {
+      return {
+        ...state,
+        isQueueLoading: false
+      }
+    }
+    case QueueActionTypes.SWITCH_SONG: {
+      return {
+        ...state,
+        songQueueId: action.payload,
+        isPlaying: true
+      }
+    }
+    case QueueActionTypes.PAUSE_SONG: {
+      return {
+        ...state,
+        isPlaying: false
+      }
+    }
+    case QueueActionTypes.UNPAUSE_SONG: {
+      return {
+        ...state,
+        isPlaying: true
       }
     }
     default: {
