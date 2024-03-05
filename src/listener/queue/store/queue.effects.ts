@@ -2,10 +2,11 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import { QueueActionTypes, QueueInfoResponseData, QueueSongInfoResponseData } from './queue.model';
 import QueueService from './queue.service';
 import { queueActions } from './queue.actions';
-import { ErrorActionType } from '../../../helpers/react/redux.helper';
+import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
 import { AddSongToQueueActionType, GenerateQueueStartActionType, GetQueueStartActionType, RemoveSongFromQueueActionType } from './queue.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { queueSelectors } from './queue.selectors';
+import { notification } from 'antd';
 
 export const queueEffects = [
   takeEvery(QueueActionTypes.GET_QUEUE, getQueue),
@@ -88,5 +89,5 @@ function* generateQueue(action: GenerateQueueStartActionType) {
 }
 
 function* handleError(action: ErrorActionType) {
-  yield console.log('error', action.payload.error);
+  yield showNotification('error', action.payload.error.message);
 }

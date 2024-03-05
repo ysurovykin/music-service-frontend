@@ -1,37 +1,9 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
 import {
   SongActionTypes,
-  EditPlaylistsRequest,
-  OpenEditPlaylistsModal,
   GetSongsRequestData,
-  GetSongsResponseData,
-  SongInfoResponseData
+  GetSongsResponseData
 } from "./song.model";
-
-export type OpenEditPlaylistsModalActionType = {
-  type: typeof SongActionTypes.OPEN_EDIT_PLAYLISTS_MODAL;
-  payload: OpenEditPlaylistsModal;
-};
-
-export type CloseEditPlaylistsModalActionType = {
-  type: typeof SongActionTypes.CLOSE_EDIT_PLAYLISTS_MODAL;
-  payload: undefined;
-};
-
-export type EditPlaylistsStartActionType = {
-  type: typeof SongActionTypes.EDIT_PLAYLISTS;
-  payload: EditPlaylistsRequest;
-};
-
-export type EditPlaylistsSuccessActionType = {
-  type: typeof SongActionTypes.EDIT_PLAYLISTS_SUCCESS;
-  payload: Array<SongInfoResponseData>;
-};
-
-export type EditPlaylistsFailedActionType = {
-  type: typeof SongActionTypes.EDIT_PLAYLISTS_FAILED;
-  payload: ActionFailedError;
-};
 
 export type GetSongsStartActionType = {
   type: typeof SongActionTypes.GET_SONGS;
@@ -54,11 +26,6 @@ export type ClearSongsActionType = {
 };
 
 export type SongActions =
-  | OpenEditPlaylistsModalActionType
-  | CloseEditPlaylistsModalActionType
-  | EditPlaylistsStartActionType
-  | EditPlaylistsSuccessActionType
-  | EditPlaylistsFailedActionType
   | GetSongsStartActionType
   | GetSongsSuccessActionType
   | GetSongsFailedActionType

@@ -6,11 +6,13 @@ import { QueuePage } from '../../queue/queue.page';
 import { ListenerPage } from '../../listener.page';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PlaylistPage } from '../../playlist/playlist.page';
-import { EditPlaylistModal } from '../../song/edit-playlists-modal/edit-playlists.modal';
+import { EditSongPlaylistsModal } from '../../playlist/edit-song-playlists-modal/edit-song-playlists.modal';
 import { LyricsPage } from '../../lyrics/lyrics.page';
 import { SearchPage } from '../../search/search.page';
 import { ProfilePage } from '../../profile/profile.page';
 import { LibraryPage } from '../../library/library.page';
+import { CreatePlaylistModal } from '../../playlist/create-playlist-modal/create-playlist.modal';
+import { EditPlaylistModal } from '../../playlist/edit-playlist-modal/edit-playlist.modal';
 
 export default function ListenerRouter() {
   return (
@@ -31,6 +33,8 @@ export default function ListenerRouter() {
       </div>
       <SongPlayerComponent />
       <EditPlaylistModal />
+      <EditSongPlaylistsModal />
+      <CreatePlaylistModal />
     </>
   );
-}58
+}

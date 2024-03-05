@@ -2,8 +2,9 @@ import { put, takeEvery } from 'redux-saga/effects'
 import { AlbumActionTypes, AlbumInfoResponseData } from './album.model';
 import AlbumService from './album.service';
 import { albumActions } from './album.actions';
-import { ErrorActionType } from '../../../helpers/react/redux.helper';
+import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
 import { GetAlbumByIdStartActionType, GetAlbumsByArtistIdStartActionType } from './album.actions.types';
+import { Bounce, toast } from 'react-toastify';
 
 export const albumEffects = [
   takeEvery(AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID, getAlbumsByArtistId),
@@ -33,5 +34,5 @@ function* getAlbumById(action: GetAlbumByIdStartActionType) {
 }
 
 function* handleError(action: ErrorActionType) {
-  yield console.log('error', action.payload.error);
+  yield showNotification('error', action.payload.error.message);
 }

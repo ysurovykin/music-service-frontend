@@ -26,15 +26,15 @@ body,
 }
 
 .custom-scroll {
-  overflow-y: scroll;
-  scrollbar-gutter: stable;
+  overflow-y: auto;
+  scrollbar-gutter: auto;
 
   &::-webkit-scrollbar {
     width: 12px;
   }
 
   &::-webkit-scrollbar-track {
-    background: transparent;
+    background: transparent; //rgb(33, 33, 33)
   }
 
   &::-webkit-scrollbar-thumb {

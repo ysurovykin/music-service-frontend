@@ -7,10 +7,17 @@
 
   &__wrapper {
     padding-left: 10px;
-    display: flex;
+    display: grid;
     gap: 16px;
-    min-width: 250px;
     align-items: center;
+
+    &--with-cover {
+      grid-template-columns: 16px 48px auto;
+    }
+
+    &--without-cover {
+      grid-template-columns: 16px auto;
+    }
   }
 
   &__play-button {
@@ -24,7 +31,14 @@
     justify-self: center;
 
     a {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: unset;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
       text-decoration: none;
+      word-break: break-all;
     }
   }
 
@@ -39,6 +53,18 @@
     display: flex;
     flex-direction: column;
     justify-self: start;
+
+    h5,
+    a {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: unset;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      text-decoration: none;
+      word-break: break-all;
+    }
   }
 
   &__dropdown-item {

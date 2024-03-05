@@ -3,7 +3,8 @@ import { UserActionTypes, UserDataWithTokens } from './user.model';
 import { LoginStartActionType, RegistrationStartActionType } from './user.actions.types';
 import AuthService from './user.service';
 import { userActions } from './user.actions';
-import { ErrorActionType } from '../../helpers/react/redux.helper';
+import { ErrorActionType, showNotification } from '../../helpers/react/redux.helper';
+import { notification } from 'antd';
 
 export const userEffects = [
   takeEvery(UserActionTypes.LOGIN, login),
@@ -60,5 +61,5 @@ function* refresh() {
 }
 
 function* handleError(action: ErrorActionType) {
-  yield console.log('error', action.payload.error);
+  yield showNotification('error', action.payload.error.message);
 }

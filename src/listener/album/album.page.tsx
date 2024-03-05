@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { albumSelectors } from './store/album.selectors';
 import { Avatar, Typography } from 'antd';
 import { HeaderComponent } from '../components/header/header.component';
-import { getBackground } from '../../helpers/react/listener-page.helper';
+import { formatPlaylistTime, getBackground, renderPlaylistIcon } from '../../helpers/react/listener-page.helper';
 import { SongTableComponent } from '../components/song-table/song-table.component';
 import { useInView } from 'react-intersection-observer';
 
@@ -38,13 +38,17 @@ export function AlbumPage() {
           text={name || ''}
           showHeader={!inView}
           background={backgroundColor} />
-        <div>
-          {name && <Title ref={ref} level={4}>Name: {name}</Title>}
-          {artist && <Title level={4}>Artist: <RouterLink to={`/artist/${artist.id}`}>{artist.name}</RouterLink></Title>}
-          {date && <Title level={4}>Date: {date.toString()}</Title>}
-          {albumCoverImageUrl && <Avatar src={albumCoverImageUrl} />}
-          <SongTableComponent songsSourceOptions={{ albumId }} />
+        <div className='album-page__info'>
+          {renderPlaylistIcon(96, albumCoverImageUrl, undefined, backgroundColor, name)}
+          <div>
+            <Title className='m-0' level={5}>Album</Title>
+            <Title className='m-0' ref={ref} level={2}>{name}</Title>
+            <Title className='m-0' level={5}>
+              <RouterLink to={`/artist/${artist?.id}`}>{artist?.name}</RouterLink>, {3} songs, {formatPlaylistTime(120)}
+            </Title>
+          </div>
         </div>
+        <SongTableComponent songsSourceOptions={{ albumId }} />
       </div>
     </div>
   );

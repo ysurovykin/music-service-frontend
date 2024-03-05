@@ -1,0 +1,112 @@
+.playlist-modal {
+
+  &__cancel-button {
+    color: #ffffff;
+    background: rgb(33, 33, 33);
+
+    &:hover {
+      background: rgb(33, 33, 33) !important;
+    }
+  }
+
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 174px 1fr;
+    gap: 20px
+  }
+
+  &__cover {
+    display: flex;
+  }
+
+  &__credits {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__playlist-name {
+    margin-bottom: 20px;
+  }
+
+  &__playlist-description {
+    resize: none !important;
+    height: 120px !important;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent; //rgb(33, 33, 33)
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #707070;
+    }
+  }
+
+  &__edit-cover-button {
+    cursor: pointer;
+
+    &-wrapper {
+      z-index: 1;
+      position: absolute;
+      left: 155px;
+      top: 65px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #70707070;
+    }
+  }
+
+  &__dropdown-item {
+    padding: 2px 0;
+    color: #FFFFFF;
+    display: flex;
+    gap: 10px;
+  }
+
+  &__cover-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__file-input {
+    display: none;
+  }
+
+  &__color-picker {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+
+    &-wrapper {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      &:hover {
+        background-color: #70707050;
+      }
+    }
+
+    &-dropdown {
+      background-color: transparent !important;
+      cursor: pointer !important;
+
+      &-item {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+      }
+    }
+  }
+}

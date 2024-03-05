@@ -19,16 +19,16 @@ import {
 import { Avatar, Slider, Tooltip, Typography } from "antd";
 import { listenerProfileTypePalete } from "../../../config";
 import { useDispatch } from "react-redux";
-import { songActions } from "../../song/store/song.actions";
 import { useSelector } from "react-redux";
-import { songSelectors } from "../../song/store/song.selectors";
 import { Link as RouterLink } from 'react-router-dom';
 import { formatTime } from "../../../helpers/react/song-player.helper";
-import { OpenEditPlaylistsModal, SongInfoResponseData } from "../../song/store/song.model";
 import { RepeatSongStateEnum } from "../../store/listener.model";
 import { queueSelectors } from "../../queue/store/queue.selectors";
 import { queueActions } from "../../queue/store/queue.actions";
 import { GenerateQueueRequestData, QueueSongInfoResponseData } from "../../queue/store/queue.model";
+import { playlistSelectors } from "../../playlist/store/playlist.selectors";
+import { playlistActions } from "../../playlist/store/playlist.actions";
+import { openEditSongPlaylistsModal } from "../../playlist/store/playlist.model";
 
 const { Text, Title } = Typography;
 
@@ -60,7 +60,7 @@ export function SongPlayerComponent() {
   const [artistScrollIntervalId, setArtistScrollIntervalId] = useState<ReturnType<typeof setInterval>>();
 
   const isPlaying = useSelector(queueSelectors.isPlaying);
-  const isEditPlaylistModalOpen = useSelector(songSelectors.isEditPlaylistModalOpen);
+  const isEditSongPlaylistsModalOpen = useSelector(playlistSelectors.isEditSongPlaylistsModalOpen);
   const songsQueue = useSelector(queueSelectors.queue);
   const songQueueId = useSelector(queueSelectors.songQueueId);
   const isMoreSongsBehindForLoading = useSelector(queueSelectors.isMoreSongsBehindForLoading);
@@ -70,8 +70,8 @@ export function SongPlayerComponent() {
   const pauseSong = () => dispatch(queueActions.pauseSong());
   const unpauseSong = () => dispatch(queueActions.unpauseSong());
   const switchSong = (songQueueId: string) => dispatch(queueActions.switchSong(songQueueId));
-  const openEditPlaylistsModal = (songInfo: OpenEditPlaylistsModal) => dispatch(songActions.openEditPlaylistsModal(songInfo));
-  const closeEditPlaylistsModal = () => dispatch(songActions.closeEditPlaylistsModal());
+  const openEditSongPlaylistsModal = (songInfo: openEditSongPlaylistsModal) => dispatch(playlistActions.openEditSongPlaylistsModal(songInfo));
+  const closeEditSongPlaylistsModal = () => dispatch(playlistActions.closeEditSongPlaylistsModal());
   const getQueue = (songQueueId: string) => dispatch(queueActions.getQueue(songQueueId));
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
 
@@ -503,7 +503,7 @@ export function SongPlayerComponent() {
           title='Add to playlist'>
           <div
             className="song-player__additional-controller-icon-wrapper cursor-pointer"
-            onClick={() => isEditPlaylistModalOpen ? closeEditPlaylistsModal() : openEditPlaylistsModal({
+            onClick={() => isEditSongPlaylistsModalOpen ? closeEditSongPlaylistsModal() : openEditSongPlaylistsModal({
               editPlaylistsSongId: currentlyPlayingSong?.songId || '',
               editPlaylistsSongPlaylistIds: currentlyPlayingSong?.playlistIds || []
             })}>

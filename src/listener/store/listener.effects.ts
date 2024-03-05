@@ -5,7 +5,8 @@ import {
 } from './listener.actions.types';
 import ListenerService from './listener.service';
 import { listenerActions } from './listener.actions';
-import { ErrorActionType } from '../../helpers/react/redux.helper';
+import { ErrorActionType, showNotification } from '../../helpers/react/redux.helper';
+import { notification } from 'antd';
 
 export const listenerEffects = [
   takeEvery(ListenerActionTypes.GET_LISTENER_BY_ID, getListenerById),
@@ -23,5 +24,5 @@ function* getListenerById(action: GetListenerByIdStartActionType) {
 }
 
 function* handleError(action: ErrorActionType) {
-  yield console.log('error', action.payload.error);
+  yield showNotification('error', action.payload.error.message);
 }

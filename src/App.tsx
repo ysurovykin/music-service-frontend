@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { userSelectors } from './user/store/user.selectors';
 import { useDispatch } from 'react-redux';
 import { userActions } from './user/store/user.actions';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
@@ -73,6 +75,13 @@ function App() {
               headerSplitColor: 'transparent',
               headerBorderRadius: 0,
               headerBg: listenerProfileTypePalete.backgroundAccent
+            },
+            Input: {
+              colorText: listenerProfileTypePalete.backgroundAccentLight,
+              colorTextPlaceholder: 'grey',
+              hoverBg: listenerProfileTypePalete.backgroundAccentSemiDark,
+              activeBg: listenerProfileTypePalete.backgroundAccentSemiDark,
+              colorBgContainer: listenerProfileTypePalete.backgroundAccentSemiDark
             }
           },
           token: {
@@ -83,6 +92,7 @@ function App() {
         }}>
         <AppRouter />
       </ConfigProvider>
+      <ToastContainer />
     </div>
   );
 }

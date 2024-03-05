@@ -17,6 +17,7 @@ export const listenerProfileTypePalete = {
   backgroundBase: '#121212',
   backgroundAccent: '#282828',
   backgroundAccentSemiLight: '#707070',
+  backgroundAccentSemiDark: '#505050',
   backgroundAccentLight: '#AAAAAA'
 };
 
@@ -26,3 +27,5 @@ export const artistProfileTypePalete = {
   backgroundBase: '#121212',
   backgroundAccent: '#333333'
 };
+
+export const songsLoadingLimit = 10;

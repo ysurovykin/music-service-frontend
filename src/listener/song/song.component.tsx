@@ -15,12 +15,9 @@ import {
 import { Avatar, Dropdown, Typography } from "antd";
 import { DOMAIN, listenerProfileTypePalete } from "../../config";
 import { useDispatch } from "react-redux";
-import { songActions } from "./store/song.actions";
 import { useSelector } from "react-redux";
-import { songSelectors } from "./store/song.selectors";
 import { Link as RouterLink } from 'react-router-dom';
 import { formatTime } from "../../helpers/react/song-player.helper";
-import { OpenEditPlaylistsModal } from "./store/song.model";
 import { queueActions } from "../queue/store/queue.actions";
 import {
   AddSongToQueueRequestData,
@@ -31,6 +28,9 @@ import {
 } from "../queue/store/queue.model";
 import { queueSelectors } from "../queue/store/queue.selectors";
 import { MenuProps } from "antd/lib";
+import { playlistActions } from "../playlist/store/playlist.actions";
+import { playlistSelectors } from "../playlist/store/playlist.selectors";
+import { openEditSongPlaylistsModal } from "../playlist/store/playlist.model";
 
 const { Text, Title } = Typography;
 
@@ -48,14 +48,14 @@ export function SongComponent({
   const [isHovered, setIsHovered] = useState<boolean>();
 
   const isPlaying = useSelector(queueSelectors.isPlaying);
-  const isEditPlaylistModalOpen = useSelector(songSelectors.isEditPlaylistModalOpen);
+  const isEditSongPlaylistsModalOpen = useSelector(playlistSelectors.isEditSongPlaylistsModalOpen);
   const queue = useSelector(queueSelectors.queue);
   const isMoreSongsBehindForLoading = useSelector(queueSelectors.isMoreSongsBehindForLoading);
   const isMoreSongsForwardForLoading = useSelector(queueSelectors.isMoreSongsForwardForLoading);
 
   const dispatch = useDispatch();
-  const openEditPlaylistsModal = (songInfo: OpenEditPlaylistsModal) => dispatch(songActions.openEditPlaylistsModal(songInfo));
-  const closeEditPlaylistsModal = () => dispatch(songActions.closeEditPlaylistsModal());
+  const openEditSongPlaylistsModal = (songInfo: openEditSongPlaylistsModal) => dispatch(playlistActions.openEditSongPlaylistsModal(songInfo));
+  const closeEditSongPlaylistsModal = () => dispatch(playlistActions.closeEditSongPlaylistsModal());
   const pauseSong = () => dispatch(queueActions.pauseSong());
   const switchSong = (songQueueId: string) => dispatch(queueActions.switchSong(songQueueId));
   const unpauseSong = () => dispatch(queueActions.unpauseSong());
@@ -180,11 +180,11 @@ export function SongComponent({
       className="song"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}>
-      <div className="song__wrapper">
+      <div className="song__wrapper song__wrapper--with-cover">
         <div className="song__play-button" style={{ justifyContent: isHovered ? 'normal' : 'end' }}>
           {isHovered ? renderPlayButton() : <Text>{index}</Text>}
         </div>
-        <Avatar shape='square' size={64} src={song?.coverImageUrl} />
+        <Avatar shape='square' size={48} src={song?.coverImageUrl} />
         <div className="song__credentials">
           <Title className="m-0" level={5}>{song?.name}</Title>
           <Text>{song?.artists?.map(artist =>
@@ -198,7 +198,7 @@ export function SongComponent({
       <div className="song__options-block">
         <div
           className="song-player__additional-controller-icon-wrapper cursor-pointer"
-          onClick={() => isEditPlaylistModalOpen ? closeEditPlaylistsModal() : openEditPlaylistsModal({
+          onClick={() => isEditSongPlaylistsModalOpen ? closeEditSongPlaylistsModal() : openEditSongPlaylistsModal({
             editPlaylistsSongId: song.songId || '',
             editPlaylistsSongPlaylistIds: song.playlistIds || []
           })}>

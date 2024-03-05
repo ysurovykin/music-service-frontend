@@ -2,8 +2,9 @@ import { put, takeEvery } from 'redux-saga/effects'
 import { ArtistActionTypes, ArtistFullResponseDataType, ArtistInfoResponseDataType } from './artist.model';
 import ArtistService from './artist.service';
 import { artistActions } from './artist.actions';
-import { ErrorActionType } from '../../../helpers/react/redux.helper';
+import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
 import { GetArtistByIdStartActionType } from './artist.actions.types';
+import { notification } from 'antd';
 
 export const artistEffects = [
   takeEvery(ArtistActionTypes.GET_ARTISTS, getArtists),
@@ -33,5 +34,5 @@ function* getArtistById(action: GetArtistByIdStartActionType) {
 }
 
 function* handleError(action: ErrorActionType) {
-  yield console.log('error', action.payload.error);
+  yield showNotification('error', action.payload.error.message);
 }

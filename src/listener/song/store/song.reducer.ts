@@ -4,39 +4,6 @@ import { SongActions } from './song.actions.types';
 
 export const songReducer = (state = songState, action: SongActions): SongState => {
   switch (action.type) {
-    case SongActionTypes.OPEN_EDIT_PLAYLISTS_MODAL: {
-      return {
-        ...state,
-        isEditPlaylistModalOpen: true,
-        editPlaylistsSongId: action.payload.editPlaylistsSongId,
-        editPlaylistsSongPlaylistIds: action.payload.editPlaylistsSongPlaylistIds
-      }
-    }
-    case SongActionTypes.CLOSE_EDIT_PLAYLISTS_MODAL: {
-      return {
-        ...state,
-        isEditPlaylistModalOpen: false
-      }
-    }
-    case SongActionTypes.EDIT_PLAYLISTS: {
-      return {
-        ...state,
-        isPlaylistIdsLoading: true
-      }
-    }
-    case SongActionTypes.EDIT_PLAYLISTS_SUCCESS: {
-      return {
-        ...state,
-        songs: action.payload,
-        isPlaylistIdsLoading: false
-      }
-    }
-    case SongActionTypes.EDIT_PLAYLISTS_FAILED: {
-      return {
-        ...state,
-        isPlaylistIdsLoading: false
-      }
-    }
     case SongActionTypes.GET_SONGS: {
       return {
         ...state,

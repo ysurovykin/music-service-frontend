@@ -31,8 +31,10 @@
   }
 
   &__library-pins {
-    overflow-y: scroll;
-    scrollbar-gutter: stable;
+    overflow-y: auto;
+    scrollbar-gutter: auto;
+    display: flex;
+    gap: 10px;
     border-radius: 8px;
     height: 100%;
     width: 100%;
