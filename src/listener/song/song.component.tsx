@@ -12,7 +12,7 @@ import {
   PlayArrowOutlined,
   PlaylistAddOutlined,
 } from '@mui/icons-material';
-import { Avatar, Dropdown, Typography } from "antd";
+import { Avatar, Dropdown, Tooltip, Typography } from "antd";
 import { DOMAIN, listenerProfileTypePalete } from "../../config";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -66,26 +66,28 @@ export function SongComponent({
   const items: MenuProps['items'] = [
     {
       label: <div
-        className='song__dropdown-item'
+        className='dropdown-item'
         onClick={() => addSongToQueue({ songId: song.songId || '', currentSongQueueId: currentlyPlayingSong.songQueueId || '' })}>
         <PlaylistAddOutlined /><p>Add to queue</p>
       </div>,
       key: '0',
     },
-    {
-      label: <div
-        className='song__dropdown-item'
-        onClick={() => removeSongFromQueue({ songQueueId: song.songQueueId || '' })}>
-        <DeleteOutlineOutlined /><p>Remove from queue</p>
-      </div>,
-      key: '1',
-    },
+    index === 1 ?
+      null :
+      {
+        label: <div
+          className='dropdown-item'
+          onClick={() => removeSongFromQueue({ songQueueId: song.songQueueId || '' })}>
+          <DeleteOutlineOutlined /><p>Remove from queue</p>
+        </div>,
+        key: '1',
+      },
     {
       type: 'divider',
     },
     {
       label: <RouterLink to={'/'}>
-        <div className='song__dropdown-item'>
+        <div className='dropdown-item'>
           <CastOutlined /><p>Generate playlist by song</p>
         </div>
       </RouterLink>,
@@ -93,7 +95,7 @@ export function SongComponent({
     },
     {
       label: <RouterLink to={`/artist/${song?.artists?.[0].id}`}>
-        <div className='song__dropdown-item'>
+        <div className='dropdown-item'>
           <PersonOutlineOutlined /><p>Go to artist</p>
         </div>
       </RouterLink>,
@@ -101,7 +103,7 @@ export function SongComponent({
     },
     {
       label: <RouterLink to={`/album/${song?.album?.id}`}>
-        <div className='song__dropdown-item'>
+        <div className='dropdown-item'>
           <AlbumOutlined /> <p>Go to album</p>
         </div>
       </RouterLink>,
@@ -112,15 +114,12 @@ export function SongComponent({
     },
     {
       label: <div
-        className='song__dropdown-item'
+        className='dropdown-item'
         onClick={() => copySongLink()}>
         <ContentCopyOutlined /><p>Copy song link</p>
       </div>,
       key: '5',
-    },
-    {
-      type: 'divider',
-    },
+    }
   ];
 
   const startPlaySong = () => {
@@ -196,27 +195,31 @@ export function SongComponent({
         <RouterLink to={`/album/${song?.album?.id}`}>{song?.album?.name}</RouterLink>
       </div>
       <div className="song__options-block">
-        <div
-          className="song-player__additional-controller-icon-wrapper cursor-pointer"
-          onClick={() => isEditSongPlaylistsModalOpen ? closeEditSongPlaylistsModal() : openEditSongPlaylistsModal({
-            editPlaylistsSongId: song.songId || '',
-            editPlaylistsSongPlaylistIds: song.playlistIds || []
-          })}>
-          {song?.playlistIds?.length ?
-            <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
-            isHovered ?
-              <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> :
-              <div></div>
-          }
-        </div>
+        <Tooltip title={`Add song ${song.name} to playlist`}>
+          <div
+            className="song-player__additional-controller-icon-wrapper cursor-pointer"
+            onClick={() => isEditSongPlaylistsModalOpen ? closeEditSongPlaylistsModal() : openEditSongPlaylistsModal({
+              editPlaylistsSongId: song.songId || '',
+              editPlaylistsSongPlaylistIds: song.playlistIds || []
+            })}>
+            {song?.playlistIds?.length ?
+              <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
+              isHovered ?
+                <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> :
+                <div></div>
+            }
+          </div>
+        </Tooltip>
         <div className="song-player__additional-controller-icon-wrapper">
           <Text>{formatTime(song?.duration!)}</Text>
         </div>
-        <div className="song-player__additional-controller-icon-wrapper cursor-pointer">
-          {isHovered ? <Dropdown menu={{ items }} trigger={['click']}>
-            <MoreHoriz sx={{ color: 'white' }} />
-          </Dropdown> : <div></div>}
-        </div>
+        <Tooltip title={`More options for song ${song.name}`}>
+          <div className="song-player__additional-controller-icon-wrapper cursor-pointer">
+            {isHovered ? <Dropdown menu={{ items }} trigger={['click']}>
+              <MoreHoriz sx={{ color: 'white' }} />
+            </Dropdown> : <div></div>}
+          </div>
+        </Tooltip>
       </div>
     </div>
   );

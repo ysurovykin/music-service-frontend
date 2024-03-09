@@ -69,3 +69,10 @@ a {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.dropdown-item {
+  padding: 2px 0;
+  color: #FFFFFF;
+  display: flex;
+  gap: 10px;
+}

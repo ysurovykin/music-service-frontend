@@ -38,13 +38,26 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
         date: action.payload.date,
         coverImageUrl: action.payload.coverImageUrl,
         backgroundColor: action.payload.backgroundColor,
-        lyricsBackgroundShadow: action.payload.lyricsBackgroundShadow
+        lyricsBackgroundShadow: action.payload.lyricsBackgroundShadow,
+        isAddedToLibrary: action.payload.isAddedToLibrary
       }
     }
     case AlbumActionTypes.GET_ALBUM_BY_ID_FAILED: {
       return {
         ...state,
         isAlbumDataLoading: false
+      }
+    }
+    case AlbumActionTypes.ADD_ALBUM_TO_LIBRARY_SUCCESS: {
+      return {
+        ...state,
+        isAddedToLibrary: true
+      }
+    }
+    case AlbumActionTypes.REMOVE_ALBUM_FROM_LIBRARY: {
+      return {
+        ...state,
+        isAddedToLibrary: false
       }
     }
     default: {

@@ -1,4 +1,4 @@
-import { ArrowBack, ArrowForward, Logout, Person } from '@mui/icons-material';
+import { ArrowBack, ArrowForward, Logout, Person, PlayArrow } from '@mui/icons-material';
 import { Avatar, Dropdown, MenuProps, Tooltip, Typography } from 'antd';
 import { useSelector } from 'react-redux';
 import { userSelectors } from '../../../user/store/user.selectors';
@@ -6,19 +6,20 @@ import { listenerProfileTypePalete } from '../../../config';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../../user/store/user.actions';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { useMemo } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { GenerateQueueOptions } from '../../queue/store/queue.model';
 
 const { Text, Title } = Typography;
 
 export function HeaderComponent({
   showHeader,
   text = '',
-  background = 'rgb(33, 33, 33)'
+  background = 'rgb(33, 33, 33)',
+  songsSourceOptions
 }: {
   showHeader?: boolean,
   text?: string,
-  background?: string
+  background?: string,
+  songsSourceOptions?: GenerateQueueOptions
 }) {
   const navigate = useNavigate();
   const userName = useSelector(userSelectors.name);
@@ -67,6 +68,14 @@ export function HeaderComponent({
           <div className='header__title' style={{ opacity: showHeader ? 1 : 0 }}>
             <Title className='m-0' level={4}>{text}</Title>
           </div>
+          {songsSourceOptions && <div style={{ opacity: showHeader ? 1 : 0 }}>
+            <Tooltip title='Play'>
+              <Avatar
+                className='header__play-button cursor-pointer'
+                style={{ background: listenerProfileTypePalete.base }}
+                icon={<PlayArrow sx={{ color: 'black' }} />} />
+            </Tooltip>
+          </div>}
         </div>
         <Dropdown overlayStyle={{ width: '130px' }} menu={{ items }} trigger={['click']}>
           <div className='header__icon-wrapper--active'>

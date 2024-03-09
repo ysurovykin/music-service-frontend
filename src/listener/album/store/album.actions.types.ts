@@ -31,10 +31,46 @@ export type GetAlbumByIdFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type AddAlbumToLibraryStartActionType = {
+  type: typeof AlbumActionTypes.ADD_ALBUM_TO_LIBRARY;
+  payload: string;
+};
+
+export type AddAlbumToLibrarySuccessActionType = {
+  type: typeof AlbumActionTypes.ADD_ALBUM_TO_LIBRARY_SUCCESS;
+  payload: undefined;
+};
+
+export type AddAlbumToLibraryFailedActionType = {
+  type: typeof AlbumActionTypes.ADD_ALBUM_TO_LIBRARY_FAILED;
+  payload: ActionFailedError;
+};
+
+export type RemoveAlbumFromLibraryStartActionType = {
+  type: typeof AlbumActionTypes.REMOVE_ALBUM_FROM_LIBRARY;
+  payload: string;
+};
+
+export type RemoveAlbumFromLibrarySuccessActionType = {
+  type: typeof AlbumActionTypes.REMOVE_ALBUM_FROM_LIBRARY_SUCCESS;
+  payload: undefined;
+};
+
+export type RemoveAlbumFromLibraryFailedActionType = {
+  type: typeof AlbumActionTypes.REMOVE_ALBUM_FROM_LIBRARY_FAILED;
+  payload: ActionFailedError;
+};
+
 export type AlbumActions =
   | GetAlbumsByArtistIdStartActionType
   | GetAlbumsByArtistIdSuccessActionType
   | GetAlbumsByArtistIdFailedActionType
   | GetAlbumByIdStartActionType
   | GetAlbumByIdSuccessActionType
-  | GetAlbumByIdFailedActionType;
+  | GetAlbumByIdFailedActionType
+  | AddAlbumToLibraryStartActionType
+  | AddAlbumToLibrarySuccessActionType
+  | AddAlbumToLibraryFailedActionType
+  | RemoveAlbumFromLibraryStartActionType
+  | RemoveAlbumFromLibrarySuccessActionType
+  | RemoveAlbumFromLibraryFailedActionType;

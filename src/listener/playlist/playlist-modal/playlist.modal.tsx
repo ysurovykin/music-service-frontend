@@ -127,7 +127,7 @@ export const PlaylistModal = memo(function PlaylistModal({
   const items: MenuProps['items'] = [
     {
       label: <div
-        className='playlist-modal__dropdown-item'
+        className='dropdown-item'
         onClick={() => startCoverImageSelecting()}>
         <Photo /><p>Change cover image</p>
         <input
@@ -140,7 +140,7 @@ export const PlaylistModal = memo(function PlaylistModal({
     },
     {
       label: <div
-        className='playlist-modal__dropdown-item'
+        className='dropdown-item'
         onClick={() => deleteCoverImage()}>
         <Delete /><p>Delete cover image</p>
       </div>,
@@ -148,7 +148,7 @@ export const PlaylistModal = memo(function PlaylistModal({
     },
     {
       label: <div
-        className='playlist-modal__dropdown-item'
+        className='dropdown-item'
         onClick={() => { }}>
         <FormatColorFill /><p>Choose cover fill color</p>
       </div>,

@@ -1,12 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   AccessTime,
+  AlbumOutlined,
+  CastOutlined,
+  ContentCopyOutlined,
+  DeleteOutlineOutlined,
   Favorite,
   FavoriteBorder,
+  MoreHoriz,
   PauseOutlined,
-  PlayArrowOutlined
+  PersonOutlineOutlined,
+  PlayArrowOutlined,
+  PlaylistAddOutlined
 } from '@mui/icons-material';
-import { Avatar, Table, TableColumnsType, Typography } from 'antd';
+import { Avatar, Dropdown, Table, TableColumnsType, Tooltip, Typography } from 'antd';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   GetSongsOptions,
@@ -17,10 +24,10 @@ import { useSelector } from 'react-redux';
 import { songSelectors } from '../../song/store/song.selectors';
 import { useDispatch } from 'react-redux';
 import { songActions } from '../../song/store/song.actions';
-import { listenerProfileTypePalete, songsLoadingLimit } from '../../../config';
+import { DOMAIN, listenerProfileTypePalete, songsLoadingLimit } from '../../../config';
 import { formatTime } from '../../../helpers/react/song-player.helper';
 import { queueSelectors } from '../../queue/store/queue.selectors';
-import { GenerateQueueRequestData } from '../../queue/store/queue.model';
+import { AddSongToQueueRequestData, GenerateQueueRequestData, QueueSongInfoResponseData, RemoveSongFromQueueRequestData } from '../../queue/store/queue.model';
 import { queueActions } from '../../queue/store/queue.actions';
 import { useInView } from 'react-intersection-observer';
 import { ColumnProps, ColumnsType } from 'antd/es/table';
@@ -29,6 +36,7 @@ import moment from 'moment';
 import { playlistActions } from '../../playlist/store/playlist.actions';
 import { playlistSelectors } from '../../playlist/store/playlist.selectors';
 import { openEditSongPlaylistsModal } from '../../playlist/store/playlist.model';
+import { MenuProps } from 'antd/lib';
 
 const { Text, Title } = Typography;
 
@@ -38,8 +46,11 @@ export function SongTableComponent({
   songsSourceOptions: GetSongsOptions;
 }) {
   const [offset, setOffset] = useState(0);
+  const [shouldShowAlbumColumn, setShouldShowAlbumColumn] = useState<boolean>(window.innerWidth > 950);
   const [hoveredSongId, setHoveredSongId] = useState<string>('');
+
   const { ref, inView } = useInView({ threshold: 0 });
+
   const songs = useSelector(songSelectors.songs)
   const isSongsLoading = useSelector(songSelectors.isSongsLoading);
   const isMoreSongsForLoading = useSelector(songSelectors.isMoreSongsForLoading);
@@ -57,6 +68,7 @@ export function SongTableComponent({
   const getSongs = (request: GetSongsRequestData) => dispatch(songActions.getSongs(request));
   const clearSongs = () => dispatch(songActions.clearSongs());
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
+  const addSongToQueue = (request: AddSongToQueueRequestData) => dispatch(queueActions.addSongToQueue(request));
 
   const currentlyPlayingSong = useMemo(() => {
     return songsQueue?.find(song => song.songQueueId === songQueueId);
@@ -133,7 +145,26 @@ export function SongTableComponent({
     };
   }, []);
 
-  const renderTableColumns = (): ColumnsType<SongInfoResponseData> => {
+  const copySongLink = (albumId: string, songId: string) => {
+    navigator.clipboard.writeText(`${DOMAIN}/album/${albumId}?songId=${songId}`);
+  }
+
+  const updateShouldShowAlbumColumnState = () => {
+    if (window.innerWidth > 950) {
+      setShouldShowAlbumColumn(true);
+    } else {
+      setShouldShowAlbumColumn(false);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', updateShouldShowAlbumColumnState);
+    return () => {
+      window.removeEventListener('resize', updateShouldShowAlbumColumnState);
+    }
+  }, []);
+
+  const renderTableColumns = (): { [columnName: string]: ColumnProps<SongInfoResponseData> } => {
     const titleColumn: ColumnProps<SongInfoResponseData> = {
       title: <p style={{ paddingLeft: '16px' }}>Title</p>,
       dataIndex: 'name',
@@ -169,7 +200,7 @@ export function SongTableComponent({
     const albumColumn: ColumnProps<SongInfoResponseData> = {
       title: 'Album',
       align: 'left',
-      width: '30%',
+      width: '25%',
       render: (value, record) => <div className='song__album-wrapper'>
         <RouterLink to={`/album/${record.album?.id}`}>{record.album?.name}</RouterLink>
       </div>,
@@ -188,19 +219,23 @@ export function SongTableComponent({
     const renderLikeButton = (record: SongInfoResponseData) => {
       if (songsSourceOptions.playlistId) {
         return (
-          hoveredSongId === record.songId ?
-            record.playlistIds?.length ?
-              <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
-              <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> :
-            <div></div>
+          <Tooltip title={`Add song ${record.name} to playlist`}>
+            {hoveredSongId === record.songId ?
+              record.playlistIds?.length ?
+                <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
+                <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> :
+              <div></div>}
+          </Tooltip>
         );
       }
       return (
-        record.playlistIds?.length ?
-          <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
-          hoveredSongId === record.songId ?
-            <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> :
-            <div></div>
+        <Tooltip title={`Add song ${record.name} to playlist`}>
+          {record.playlistIds?.length ?
+            <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
+            hoveredSongId === record.songId ?
+              <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> :
+              <div></div>}
+        </Tooltip>
       );
     }
 
@@ -222,12 +257,99 @@ export function SongTableComponent({
     const durationColumn: ColumnProps<SongInfoResponseData> = {
       title: <AccessTime fontSize='small' />,
       align: 'center',
-      width: '10%',
+      width: '75px',
       dataIndex: 'duration',
       render: (value, record) => formatTime(record.duration || 0),
       key: 'duration'
     };
 
+    const generateMenuItems = (record: QueueSongInfoResponseData): MenuProps['items'] => {
+      return [
+        {
+          label: <div
+            className='dropdown-item'
+            onClick={() => addSongToQueue({ songId: record?.songId || '', currentSongQueueId: currentlyPlayingSong?.songQueueId || '' })}>
+            <PlaylistAddOutlined /><p>Add to queue</p>
+          </div>,
+          key: '0',
+        },
+        {
+          type: 'divider',
+        },
+        {
+          label: <RouterLink to={'/'}>
+            <div className='dropdown-item'>
+              <CastOutlined /><p>Generate playlist by song</p>
+            </div>
+          </RouterLink>,
+          key: '1',
+        },
+        {
+          label: <RouterLink to={`/artist/${record?.artists?.[0].id}`}>
+            <div className='dropdown-item'>
+              <PersonOutlineOutlined /><p>Go to artist</p>
+            </div>
+          </RouterLink>,
+          key: '2',
+        },
+        {
+          label: <RouterLink to={`/album/${record?.album?.id}`}>
+            <div className='dropdown-item'>
+              <AlbumOutlined /> <p>Go to album</p>
+            </div>
+          </RouterLink>,
+          key: '3',
+        },
+        {
+          type: 'divider',
+        },
+        {
+          label: <div
+            className='dropdown-item'
+            onClick={() => copySongLink(record?.album?.id || '', record?.songId || '')}>
+            <ContentCopyOutlined /><p>Copy song link</p>
+          </div>,
+          key: '4',
+        }
+      ]
+    };
+
+    const menuColumn: ColumnProps<SongInfoResponseData> = {
+      align: 'center',
+      width: '75px',
+      dataIndex: 'duration',
+      render: (value, record) =>
+        <Tooltip title={`More options for song ${record.name}`}>
+          <div className="song-player__additional-controller-icon-wrapper cursor-pointer">
+            {hoveredSongId === record.songId ? <Dropdown menu={{ items: generateMenuItems(record) }} trigger={['click']}>
+              <MoreHoriz sx={{ color: 'white' }} />
+            </Dropdown> : <div></div>}
+          </div>
+        </Tooltip>,
+      key: 'duration'
+    };
+
+    return {
+      titleColumn,
+      playsColumn,
+      albumColumn,
+      dateColumn,
+      likeColumn,
+      durationColumn,
+      menuColumn
+    };
+  }
+
+  const renderTableColumnsOnBigDevice = (): ColumnsType<SongInfoResponseData> => {
+    const {
+      titleColumn,
+      playsColumn,
+      albumColumn,
+      dateColumn,
+      likeColumn,
+      durationColumn,
+      menuColumn
+    } = renderTableColumns();
 
     if (songsSourceOptions.playlistId) {
       return [
@@ -235,21 +357,51 @@ export function SongTableComponent({
         albumColumn,
         dateColumn,
         likeColumn,
-        durationColumn
+        durationColumn,
+        menuColumn
       ];
     }
     return [
       titleColumn,
       playsColumn,
       likeColumn,
-      durationColumn
+      durationColumn,
+      menuColumn
     ];
-  }
+  };
+
+  const renderTableColumnsOnSmallDevice = (): ColumnsType<SongInfoResponseData> => {
+    const {
+      titleColumn,
+      playsColumn,
+      dateColumn,
+      likeColumn,
+      durationColumn,
+      menuColumn
+    } = renderTableColumns();
+
+    if (songsSourceOptions.playlistId) {
+      return [
+        titleColumn,
+        dateColumn,
+        likeColumn,
+        durationColumn,
+        menuColumn
+      ];
+    }
+    return [
+      titleColumn,
+      playsColumn,
+      likeColumn,
+      durationColumn,
+      menuColumn
+    ];
+  };
 
   return (
     <Table
       dataSource={songs?.map(song => ({ ...song, key: song.songId }))}
-      columns={renderTableColumns()}
+      columns={shouldShowAlbumColumn ? renderTableColumnsOnBigDevice() : renderTableColumnsOnSmallDevice()}
       onRow={(record) => ({
         onMouseEnter: () => setHoveredSongId(record.songId || ''),
         onMouseLeave: () => setHoveredSongId('')

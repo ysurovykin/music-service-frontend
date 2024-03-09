@@ -551,7 +551,7 @@ export function SongPlayerComponent() {
   };
 
   return (
-    <div style={{display: isSongPlayerLoading ? 'none' : 'grid'}} className="song-player__wrapper">
+    <div style={{ display: isSongPlayerLoading ? 'none' : 'grid' }} className="song-player__wrapper">
       <audio
         src={currentlyPlayingSong?.songUrl}
         ref={audioPlayer}
