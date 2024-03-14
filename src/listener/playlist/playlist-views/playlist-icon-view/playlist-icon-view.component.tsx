@@ -11,9 +11,11 @@ export function PlaylistIconViewComponent({
   containLink?: boolean
 }) {
 
-  return containLink ?
-    (<RouterLink to={`/playlist/${playlist.playlistId}`}>
-      {renderPlaylistIcon(48, playlist.coverImageUrl, playlist.tag as PlaylistTagEnum, playlist.backgroundColor, playlist.name)}
-    </RouterLink >) :
-    renderPlaylistIcon(48, playlist.coverImageUrl, playlist.tag as PlaylistTagEnum, playlist.backgroundColor, playlist.name);
+  return <div className="playlist-icon-view__side-bar-icon">
+    {containLink ?
+      (<RouterLink to={`/playlist/${playlist.playlistId}`}>
+        {renderPlaylistIcon(48, playlist.coverImageUrl, playlist.tag as PlaylistTagEnum, playlist.backgroundColor, playlist.name)}
+      </RouterLink >) :
+      renderPlaylistIcon(48, playlist.coverImageUrl, playlist.tag as PlaylistTagEnum, playlist.backgroundColor, playlist.name)}
+  </div>
 }

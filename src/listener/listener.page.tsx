@@ -32,7 +32,7 @@ export function ListenerPage() {
   }, []);
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll'>
+    <div className='listener-group-page__wrapper custom-scroll-y'>
       <div style={{background: getBackground(backgroundColor)}} className="listener-page listener-group-page">
         <HeaderComponent
           background={backgroundColor}

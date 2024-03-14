@@ -4,6 +4,8 @@ import { SongInfoResponseData } from "../../song/store/song.model";
 export const albumState: AlbumState = {
   albums: undefined,
   isAlbumsLoading: false,
+  albumsArtistAppearsIn: undefined,
+  isAlbumsArtistAppearsInLoading: false,
   isAlbumDataLoading: false,
   albumId: undefined,
   name: undefined,
@@ -13,12 +15,16 @@ export const albumState: AlbumState = {
   lyricsBackgroundShadow: undefined,
   artist: undefined,
   isAddedToLibrary: undefined,
+  songsCount: undefined,
+  songsTimeDuration: undefined
 };
 
-export interface AlbumState extends AlbumInfoResponseData {
+export interface AlbumState extends AlbumFullResponseData {
   isAlbumsLoading: boolean,
   isAlbumDataLoading: boolean,
   albums?: Array<AlbumInfoResponseData>
+  albumsArtistAppearsIn?: Array<AlbumInfoResponseData>
+  isAlbumsArtistAppearsInLoading: boolean,
 }
 
 export type AlbumSongData = {
@@ -50,10 +56,19 @@ export type AlbumInfoResponseData = AlbumWithoutArtistType & {
   isAddedToLibrary?: boolean;
 }
 
+export type AlbumFullResponseData = AlbumInfoResponseData & {
+  songsCount?: number;
+  songsTimeDuration?: number;
+}
+
 export enum AlbumActionTypes {
   GET_ALBUMS_BY_ARTIST_ID = "ALBUM.GET_ALBUMS_BY_ARTIST_ID_START",
   GET_ALBUMS_BY_ARTIST_ID_SUCCESS = "ALBUM.GET_ALBUMS_BY_ARTIST_ID_SUCCESS",
   GET_ALBUMS_BY_ARTIST_ID_FAILED = "ALBUM.GET_ALBUMS_BY_ARTIST_ID_FAILED",
+
+  GET_ALBUMS_WHERE_ARTIST_APPEARS = "ALBUM.GET_ALBUMS_WHERE_ARTIST_APPEARS_START",
+  GET_ALBUMS_WHERE_ARTIST_APPEARS_SUCCESS = "ALBUM.GET_ALBUMS_WHERE_ARTIST_APPEARS_SUCCESS",
+  GET_ALBUMS_WHERE_ARTIST_APPEARS_FAILED = "ALBUM.GET_ALBUMS_WHERE_ARTIST_APPEARS_FAILED",
 
   GET_ALBUM_BY_ID = "ALBUM.GET_ALBUM_BY_ID_START",
   GET_ALBUM_BY_ID_SUCCESS = "ALBUM.GET_ALBUM_BY_ID_SUCCESS",
@@ -66,4 +81,6 @@ export enum AlbumActionTypes {
   REMOVE_ALBUM_FROM_LIBRARY = "ALBUM.REMOVE_ALBUM_FROM_LIBRARY_START",
   REMOVE_ALBUM_FROM_LIBRARY_SUCCESS = "ALBUM.REMOVE_ALBUM_FROM_LIBRARY_SUCCESS",
   REMOVE_ALBUM_FROM_LIBRARY_FAILED = "ALBUM.REMOVE_ALBUM_FROM_LIBRARY_FAILED",
+
+  UPDATE_ALBUMS_INFO = "ALBUM.UPDATE_ALBUMS_INFO",
 };

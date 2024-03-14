@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import AppRouter from './app.router';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, Spin } from 'antd';
 import './App.scss'
 import { artistProfileTypePalete, listenerProfileTypePalete } from './config';
 import { useSelector } from 'react-redux';
@@ -25,6 +25,7 @@ function App() {
   return (
     <div className="App">
       <ConfigProvider
+        renderEmpty={() => <Spin />}
         theme={{
           components: {
             Steps: {
@@ -50,7 +51,8 @@ function App() {
               colorText: '#ffffff',
               colorTextHeading: '#ffffff',
               colorLink: listenerProfileTypePalete.base,
-              colorLinkHover: listenerProfileTypePalete.secondary
+              colorLinkHover: listenerProfileTypePalete.secondary,
+              colorLinkActive: listenerProfileTypePalete.secondary
             },
             Slider: {
               railBg: listenerProfileTypePalete.backgroundAccent,
@@ -82,6 +84,9 @@ function App() {
               hoverBg: listenerProfileTypePalete.backgroundAccentSemiDark,
               activeBg: listenerProfileTypePalete.backgroundAccentSemiDark,
               colorBgContainer: listenerProfileTypePalete.backgroundAccentSemiDark
+            },
+            Button: {
+              colorText: '#ffffff'
             }
           },
           token: {

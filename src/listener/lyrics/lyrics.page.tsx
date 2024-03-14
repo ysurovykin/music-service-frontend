@@ -7,7 +7,7 @@ export function LyricsPage() {
   const { ref, inView } = useInView({ threshold: 1 }); //TODO set ref to show header
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll'>
+    <div className='listener-group-page__wrapper custom-scroll-y'>
       <div style={{background: getBackground()}} className="lyrics-page listener-group-page">
         <HeaderComponent showHeader={!inView} />
         Lyrics

@@ -28,4 +28,13 @@ export const artistProfileTypePalete = {
   backgroundAccent: '#333333'
 };
 
+export const GENRES: { [key: string]: { label: string, color: string } } = {
+  'alternative_rock': { label: 'Alternative Rock', color: 'rgba(65, 105, 225, 0.7)' },
+  'alternative_metal': { label: 'Alternative Metal', color: 'rgba(220, 20, 60, 0.7)' },
+  'hard_rock': { label: 'Hard Rock', color: 'rgba(191, 85, 236, 0.7)' },
+  'post_grunge': { label: 'Post Grunge', color: 'rgba(46, 204, 113, 0.7)' },
+  'indie_rock': { label: 'Indie Rock', color: 'rgba(255, 215, 0, 0.7)' },
+  'nu_metal': { label: 'Nu Metal', color: 'rgba(52, 58, 64, 0.7)' }
+};
+
 export const songsLoadingLimit = 10;

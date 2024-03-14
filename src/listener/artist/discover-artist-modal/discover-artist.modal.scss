@@ -1,0 +1,48 @@
+.discover-artist-modal {
+
+  &__info-section {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    padding-right: 20px;
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 20px;
+
+    &-wrapper {
+      display: grid;
+      gap: 40px;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+    }
+  }
+
+  &__listeners {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  &__releases {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  &__stat {
+    background-color: #50505050;
+    border-radius: 6px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+}

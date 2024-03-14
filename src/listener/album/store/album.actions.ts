@@ -3,6 +3,9 @@ import {
   GetAlbumsByArtistIdFailedActionType,
   GetAlbumsByArtistIdStartActionType,
   GetAlbumsByArtistIdSuccessActionType,
+  GetAlbumsWhereArtistAppearsStartActionType,
+  GetAlbumsWhereArtistAppearsSuccessActionType,
+  GetAlbumsWhereArtistAppearsFailedActionType,
   GetAlbumByIdStartActionType,
   GetAlbumByIdSuccessActionType,
   GetAlbumByIdFailedActionType,
@@ -12,8 +15,9 @@ import {
   RemoveAlbumFromLibraryStartActionType,
   RemoveAlbumFromLibrarySuccessActionType,
   RemoveAlbumFromLibraryFailedActionType,
+  UpdateAlbumsInfoActionType,
 } from "./album.actions.types";
-import { AlbumActionTypes, AlbumInfoResponseData } from "./album.model";
+import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData } from "./album.model";
 
 export const getAlbumsByArtistIdStartAction = (artistId: string):
   GetAlbumsByArtistIdStartActionType => ({ type: AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID, payload: artistId });
@@ -24,10 +28,19 @@ export const getAlbumsByArtistIdSuccessAction = (response: Array<AlbumInfoRespon
 export const getAlbumsByArtistIdFailedAction = (error: ActionFailedError):
   GetAlbumsByArtistIdFailedActionType => ({ type: AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID_FAILED, payload: error });
 
+export const getAlbumsWhereArtistAppearsStartAction = (artistId: string):
+  GetAlbumsWhereArtistAppearsStartActionType => ({ type: AlbumActionTypes.GET_ALBUMS_WHERE_ARTIST_APPEARS, payload: artistId });
+
+export const getAlbumsWhereArtistAppearsSuccessAction = (response: Array<AlbumInfoResponseData>):
+  GetAlbumsWhereArtistAppearsSuccessActionType => ({ type: AlbumActionTypes.GET_ALBUMS_WHERE_ARTIST_APPEARS_SUCCESS, payload: response });
+
+export const getAlbumsWhereArtistAppearsFailedAction = (error: ActionFailedError):
+  GetAlbumsWhereArtistAppearsFailedActionType => ({ type: AlbumActionTypes.GET_ALBUMS_WHERE_ARTIST_APPEARS_FAILED, payload: error });
+
 export const getAlbumByIdStartAction = (albumId: string):
   GetAlbumByIdStartActionType => ({ type: AlbumActionTypes.GET_ALBUM_BY_ID, payload: albumId });
 
-export const getAlbumByIdSuccessAction = (response: AlbumInfoResponseData):
+export const getAlbumByIdSuccessAction = (response: AlbumFullResponseData):
   GetAlbumByIdSuccessActionType => ({ type: AlbumActionTypes.GET_ALBUM_BY_ID_SUCCESS, payload: response });
 
 export const getAlbumByIdFailedAction = (error: ActionFailedError):
@@ -51,12 +64,18 @@ export const removeAlbumFromLibrarySuccessAction = ():
 export const removeAlbumFromLibraryFailedAction = (error: ActionFailedError):
   RemoveAlbumFromLibraryFailedActionType => ({ type: AlbumActionTypes.REMOVE_ALBUM_FROM_LIBRARY_FAILED, payload: error });
 
+export const updateAlbumsInfoAction = (albums: Array<AlbumInfoResponseData>):
+  UpdateAlbumsInfoActionType => ({ type: AlbumActionTypes.UPDATE_ALBUMS_INFO, payload: albums });
+
 export const albumActions = {
   getAlbumsByArtistId: (artistId: string) => getAlbumsByArtistIdStartAction(artistId),
   getAlbumsByArtistIdSuccess: (response: Array<AlbumInfoResponseData>) => getAlbumsByArtistIdSuccessAction(response),
   getAlbumsByArtistIdFailed: (error: ActionFailedError) => getAlbumsByArtistIdFailedAction(error),
+  getAlbumsWhereArtistAppears: (artistId: string) => getAlbumsWhereArtistAppearsStartAction(artistId),
+  getAlbumsWhereArtistAppearsSuccess: (response: Array<AlbumInfoResponseData>) => getAlbumsWhereArtistAppearsSuccessAction(response),
+  getAlbumsWhereArtistAppearsFailed: (error: ActionFailedError) => getAlbumsWhereArtistAppearsFailedAction(error),
   getAlbumById: (albumId: string) => getAlbumByIdStartAction(albumId),
-  getAlbumByIdSuccess: (response: AlbumInfoResponseData) => getAlbumByIdSuccessAction(response),
+  getAlbumByIdSuccess: (response: AlbumFullResponseData) => getAlbumByIdSuccessAction(response),
   getAlbumByIdFailed: (error: ActionFailedError) => getAlbumByIdFailedAction(error),
   addAlbumToLibrary: (albumId: string) => addAlbumToLibraryStartAction(albumId),
   addAlbumToLibrarySuccess: () => addAlbumToLibrarySuccessAction(),
@@ -64,5 +83,6 @@ export const albumActions = {
   removeAlbumFromLibrary: (albumId: string) => removeAlbumFromLibraryStartAction(albumId),
   removeAlbumFromLibrarySuccess: () => removeAlbumFromLibrarySuccessAction(),
   removeAlbumFromLibraryFailed: (error: ActionFailedError) => removeAlbumFromLibraryFailedAction(error),
+  updateAlbumsInfo: (albums: Array<AlbumInfoResponseData>) => updateAlbumsInfoAction(albums),
 }
 

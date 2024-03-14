@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import {
+  AddCircleOutline,
   AlbumOutlined,
   CastOutlined,
   ContentCopyOutlined,
@@ -31,21 +32,28 @@ import { MenuProps } from "antd/lib";
 import { playlistActions } from "../playlist/store/playlist.actions";
 import { playlistSelectors } from "../playlist/store/playlist.selectors";
 import { openEditSongPlaylistsModal } from "../playlist/store/playlist.model";
+import { showNotification } from "../../helpers/react/redux.helper";
+import { GetSongsSortingOptions } from "./store/song.model";
 
 const { Text, Title } = Typography;
 
-export function SongComponent({
+export const SongComponent = memo(function SongComponent({
   song,
   currentlyPlayingSong,
   index,
-  options,
+  artistId,
+  showPlaysInfo,
+  showAlbumInfo
 }: {
   song: QueueSongInfoResponseData,
   currentlyPlayingSong: QueueSongInfoResponseData,
   index: number,
-  options?: GenerateQueueOptions,
+  artistId?: string,
+  showPlaysInfo?: boolean,
+  showAlbumInfo?: boolean
 }) {
   const [isHovered, setIsHovered] = useState<boolean>();
+  const [shouldShowAdditionalColumn, setShouldShowAdditionalColumn] = useState<boolean>(window.innerWidth > 950);
 
   const isPlaying = useSelector(queueSelectors.isPlaying);
   const isEditSongPlaylistsModalOpen = useSelector(playlistSelectors.isEditSongPlaylistsModalOpen);
@@ -67,10 +75,21 @@ export function SongComponent({
     {
       label: <div
         className='dropdown-item'
+        onClick={() => openEditSongPlaylistsModal({
+          editPlaylistsSongId: song.songId || '',
+          editPlaylistsSongPlaylistIds: song.playlistIds || []
+        })}>
+        <AddCircleOutline /><p>Add to playlist</p>
+      </div>,
+      key: '0',
+    },
+    {
+      label: <div
+        className='dropdown-item'
         onClick={() => addSongToQueue({ songId: song.songId || '', currentSongQueueId: currentlyPlayingSong.songQueueId || '' })}>
         <PlaylistAddOutlined /><p>Add to queue</p>
       </div>,
-      key: '0',
+      key: '1',
     },
     index === 1 ?
       null :
@@ -80,7 +99,7 @@ export function SongComponent({
           onClick={() => removeSongFromQueue({ songQueueId: song.songQueueId || '' })}>
           <DeleteOutlineOutlined /><p>Remove from queue</p>
         </div>,
-        key: '1',
+        key: '2',
       },
     {
       type: 'divider',
@@ -91,7 +110,7 @@ export function SongComponent({
           <CastOutlined /><p>Generate playlist by song</p>
         </div>
       </RouterLink>,
-      key: '2',
+      key: '3',
     },
     {
       label: <RouterLink to={`/artist/${song?.artists?.[0].id}`}>
@@ -99,7 +118,7 @@ export function SongComponent({
           <PersonOutlineOutlined /><p>Go to artist</p>
         </div>
       </RouterLink>,
-      key: '3',
+      key: '4',
     },
     {
       label: <RouterLink to={`/album/${song?.album?.id}`}>
@@ -107,7 +126,7 @@ export function SongComponent({
           <AlbumOutlined /> <p>Go to album</p>
         </div>
       </RouterLink>,
-      key: '4',
+      key: '5',
     },
     {
       type: 'divider',
@@ -118,36 +137,59 @@ export function SongComponent({
         onClick={() => copySongLink()}>
         <ContentCopyOutlined /><p>Copy song link</p>
       </div>,
-      key: '5',
+      key: '6',
     }
   ];
 
-  const startPlaySong = () => {
-    localStorage.setItem('songQueueId', song?.songQueueId?.toString() || '');
-    localStorage.setItem('playTime', JSON.stringify(0));
-    const songIndexInQueue = queue?.findIndex(song => song.songQueueId === currentlyPlayingSong?.songQueueId);
-    if (((queue?.length || 0) - 1) === songIndexInQueue && isMoreSongsForwardForLoading) {
-      generateQueue({
-        isNewQueue: false,
-        shuffleEnabled: false,
-        songQueueId: song.songQueueId || '',
-        options,
-        extendForward: true
-      });
-    } else if (songIndexInQueue === 0 && isMoreSongsBehindForLoading) {
-      generateQueue({
-        isNewQueue: false,
-        shuffleEnabled: false,
-        songQueueId: song.songQueueId || '',
-        options,
-        extendForward: false
-      });
+  const updateShouldShowAdditionalColumnState = () => {
+    if (window.innerWidth > 950) {
+      setShouldShowAdditionalColumn(true);
+    } else {
+      setShouldShowAdditionalColumn(false);
     }
-    switchSong(song.songQueueId || '');
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', updateShouldShowAdditionalColumnState);
+    return () => {
+      window.removeEventListener('resize', updateShouldShowAdditionalColumnState);
+    }
+  }, []);
+
+  const startPlaySong = () => {
+    if (artistId) {
+      generateQueue({
+        isNewQueue: true,
+        shuffleEnabled: false,
+        options: { artistId: artistId },
+        sortingOptions: { plays: -1 }
+      });
+    } else {
+      localStorage.setItem('songQueueId', song?.songQueueId?.toString() || '');
+      localStorage.setItem('playTime', JSON.stringify(0));
+      const songIndexInQueue = queue?.findIndex(song => song.songQueueId === currentlyPlayingSong?.songQueueId);
+      if (((queue?.length || 0) - 1) === songIndexInQueue && isMoreSongsForwardForLoading) {
+        generateQueue({
+          isNewQueue: false,
+          shuffleEnabled: false,
+          songQueueId: song.songQueueId || '',
+          extendForward: true
+        });
+      } else if (songIndexInQueue === 0 && isMoreSongsBehindForLoading) {
+        generateQueue({
+          isNewQueue: false,
+          shuffleEnabled: false,
+          songQueueId: song.songQueueId || '',
+          extendForward: false
+        });
+      }
+      switchSong(song.songQueueId || '');
+    }
   }
 
   const copySongLink = () => {
     navigator.clipboard.writeText(`${DOMAIN}/album/${song?.album?.id}?songId=${song?.songId}`);
+    showNotification('success', 'Song link copied to clipboard');
   }
 
   const renderPlayButton = () => {
@@ -176,7 +218,7 @@ export function SongComponent({
 
   return (
     <div
-      className="song"
+      className={`song ${(showPlaysInfo && showAlbumInfo && shouldShowAdditionalColumn) ? 'song--show-additional-column' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}>
       <div className="song__wrapper song__wrapper--with-cover">
@@ -191,9 +233,12 @@ export function SongComponent({
           )}</Text>
         </div>
       </div>
-      <div className="song__album-wrapper">
+      {(showAlbumInfo && shouldShowAdditionalColumn) && <div className="song__album-wrapper">
         <RouterLink to={`/album/${song?.album?.id}`}>{song?.album?.name}</RouterLink>
-      </div>
+      </div>}
+      {showPlaysInfo && <div className="song__plays-wrapper">
+        <Text>{song.plays}</Text>
+      </div>}
       <div className="song__options-block">
         <Tooltip title={`Add song ${song.name} to playlist`}>
           <div
@@ -223,4 +268,4 @@ export function SongComponent({
       </div>
     </div>
   );
-};
+});

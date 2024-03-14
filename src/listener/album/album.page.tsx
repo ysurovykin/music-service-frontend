@@ -14,6 +14,8 @@ import { queueActions } from '../queue/store/queue.actions';
 import { ContentCopyOutlined, Favorite, FavoriteBorder, MoreHoriz, PlayArrow, PlaylistAdd, PlaylistAddCheck } from '@mui/icons-material';
 import { DOMAIN, listenerProfileTypePalete } from '../../config';
 import { MenuProps } from 'antd/lib';
+import { showNotification } from '../../helpers/react/redux.helper';
+import { songSelectors } from '../song/store/song.selectors';
 
 const { Title } = Typography;
 
@@ -29,6 +31,9 @@ export function AlbumPage() {
   const albumCoverImageUrl = useSelector(albumSelectors.coverImageUrl);
   const backgroundColor = useSelector(albumSelectors.backgroundColor);
   const isAddedToLibrary = useSelector(albumSelectors.isAddedToLibrary);
+  const songs = useSelector(songSelectors.songs);
+  const songsCount = useSelector(albumSelectors.songsCount);
+  const songsTimeDuration = useSelector(albumSelectors.songsTimeDuration);
 
   const dispatch = useDispatch()
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
@@ -38,12 +43,14 @@ export function AlbumPage() {
 
   useEffect(() => {
     if (albumId) {
+      localStorage.setItem('currentSourceId', albumId);
       getAlbumData(albumId);
     }
   }, [albumId]);
 
   const copyAlbumLink = () => {
     navigator.clipboard.writeText(`${DOMAIN}/album/${albumId}`);
+    showNotification('success', 'Album link copied to clipboard');
   }
 
   const items: MenuProps['items'] = [
@@ -71,7 +78,7 @@ export function AlbumPage() {
   ];
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll'>
+    <div className='listener-group-page__wrapper custom-scroll-y'>
       <div style={{ background: getBackground(backgroundColor) }} className="album-page listener-group-page">
         <HeaderComponent
           text={name || ''}
@@ -80,26 +87,26 @@ export function AlbumPage() {
           songsSourceOptions={{ albumId }} />
         <div className='album-page__info'>
           <div
-            className='album-page__cover-wrapper cursor-pointer'
-            onClick={() => generateQueue({
+            className={`album-page__cover-wrapper ${isCoverImageHovered ? 'cursor-pointer' : ''}`}
+            onClick={() => isCoverImageHovered && generateQueue({
               isNewQueue: true,
               shuffleEnabled: false,
               options: {
                 albumId
               }
             })}
-            onMouseEnter={() => setIsCoverImageHovered(true)}
+            onMouseEnter={() => setIsCoverImageHovered(!!songs?.length && true)}
             onMouseLeave={() => setIsCoverImageHovered(false)}>
-            {renderPlaylistIcon(96, albumCoverImageUrl, undefined, backgroundColor, name)}
+            {renderPlaylistIcon(160, albumCoverImageUrl, undefined, backgroundColor, name)}
             {isCoverImageHovered && <div className='album-page__cover-shadow'></div>}
             {isCoverImageHovered && <PlayArrow sx={{ color: listenerProfileTypePalete.base }} className='album-page__play-button' />}
           </div>
-          <div>
+          <div className='album-page__credits'>
             <Title className='m-0' level={5}>Album</Title>
-            <Title className='m-0' ref={ref} level={2}>{name}</Title>
+            <Title className='m-0' ref={ref} level={1}>{name}</Title>
             <div className='album-page__info-section'>
               <Title className='m-0' level={5}>
-                <RouterLink to={`/artist/${artist?.id}`}>{artist?.name}</RouterLink>, {3} songs, {formatPlaylistTime(120)}
+                <RouterLink to={`/artist/${artist?.id}`}>{artist?.name}</RouterLink>, {songsCount} songs, {formatPlaylistTime(songsTimeDuration!)}
               </Title>
               <Tooltip title={isAddedToLibrary ? `Remove album ${name} from your library` : `Save album ${name} to your library`}>
                 <div

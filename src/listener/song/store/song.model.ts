@@ -28,15 +28,30 @@ export type SongInfoResponseData = {
   playlistIds?: Array<string>;
 }
 
+export type GetSongByIdRequestData = {
+  songId: string;
+  playlistId?: string;
+}
+
 export type GetSongsRequestData = {
   options: GetSongsOptions;
   offset: number;
   limit: number;
+  onlyLiked?: boolean;
+  sortingOptions?: GetSongsSortingOptions;
 }
 
 export type GetSongsResponseData = {
   songs: Array<SongInfoResponseData>;
   isMoreSongsForLoading: boolean;
+}
+
+export type GetSongsSortingOptions = {
+  name?: number,
+  album?: number,
+  plays?: number,
+  duration?: number,
+  date?: number
 }
 
 export type GetSongsOptions = {
@@ -46,9 +61,19 @@ export type GetSongsOptions = {
 }
 
 export enum SongActionTypes {
+  GET_SONG_BY_ID = "SONG.GET_SONG_BY_ID",
+  GET_SONG_BY_ID_SUCCESS = "SONG.GET_SONG_BY_ID_SUCCESS",
+  GET_SONG_BY_ID_FAILED = "SONG.GET_SONG_BY_ID_FAILED",
+
   GET_SONGS = "SONG.GET_SONGS_START",
   GET_SONGS_SUCCESS = "SONG.GET_SONGS_SUCCESS",
   GET_SONGS_FAILED = "SONG.GET_SONGS_FAILED",
 
-  CLEAR_SONGS = "SONG.CLEAR_SONGS"
+  LOAD_MORE_SONGS = "SONG.LOAD_MORE_SONGS_START",
+  LOAD_MORE_SONGS_SUCCESS = "SONG.LOAD_MORE_SONGS_SUCCESS",
+  LOAD_MORE_SONGS_FAILED = "SONG.LOAD_MORE_SONGS_FAILED",
+
+  CLEAR_SONGS = "SONG.CLEAR_SONGS",
+
+  EDIT_SONG_PLAYLISTS = "SONG.EDIT_SONG_PLAYLISTS"
 };

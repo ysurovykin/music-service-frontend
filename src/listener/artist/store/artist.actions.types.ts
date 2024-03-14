@@ -1,5 +1,6 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { ArtistActionTypes, ArtistFullResponseDataType, ArtistInfoResponseDataType } from "./artist.model";
+import { AlbumFullResponseData } from "../../album/store/album.model";
+import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData } from "./artist.model";
 
 export type GetArtistsStartActionType = {
   type: typeof ArtistActionTypes.GET_ARTISTS;
@@ -8,7 +9,7 @@ export type GetArtistsStartActionType = {
 
 export type GetArtistsSuccessActionType = {
   type: typeof ArtistActionTypes.GET_ARTISTS_SUCCESS;
-  payload: Array<ArtistInfoResponseDataType>;
+  payload: Array<ArtistInfoResponseData>;
 };
 
 export type GetArtistsFailedActionType = {
@@ -23,12 +24,82 @@ export type GetArtistByIdStartActionType = {
 
 export type GetArtistByIdSuccessActionType = {
   type: typeof ArtistActionTypes.GET_ARTIST_BY_ID_SUCCESS;
-  payload: ArtistFullResponseDataType;
+  payload: ArtistFullResponseData;
 };
 
 export type GetArtistByIdFailedActionType = {
   type: typeof ArtistActionTypes.GET_ARTIST_BY_ID_FAILED;
   payload: ActionFailedError;
+};
+
+export type FollowArtistStartActionType = {
+  type: typeof ArtistActionTypes.FOLLOW_ARTIST;
+  payload: string;
+};
+
+export type FollowArtistSuccessActionType = {
+  type: typeof ArtistActionTypes.FOLLOW_ARTIST_SUCCESS;
+  payload: void;
+};
+
+export type FollowArtistFailedActionType = {
+  type: typeof ArtistActionTypes.FOLLOW_ARTIST_FAILED;
+  payload: ActionFailedError;
+};
+
+export type UnfollowArtistStartActionType = {
+  type: typeof ArtistActionTypes.UNFOLLOW_ARTIST;
+  payload: string;
+};
+
+export type UnfollowArtistSuccessActionType = {
+  type: typeof ArtistActionTypes.UNFOLLOW_ARTIST_SUCCESS;
+  payload: void;
+};
+
+export type UnfollowArtistFailedActionType = {
+  type: typeof ArtistActionTypes.UNFOLLOW_ARTIST_FAILED;
+  payload: ActionFailedError;
+};
+
+export type GetGenresStartActionType = {
+  type: typeof ArtistActionTypes.GET_GENRES;
+  payload: string;
+};
+
+export type GetGenresSuccessActionType = {
+  type: typeof ArtistActionTypes.GET_GENRES_SUCCESS;
+  payload: Array<ArtistGenres>;
+};
+
+export type GetGenresFailedActionType = {
+  type: typeof ArtistActionTypes.GET_GENRES_FAILED;
+  payload: ActionFailedError;
+};
+
+export type GetMostRecentReleaseStartActionType = {
+  type: typeof ArtistActionTypes.GET_MOST_RECENT_RELEASE;
+  payload: string;
+};
+
+export type GetMostRecentReleaseSuccessActionType = {
+  type: typeof ArtistActionTypes.GET_MOST_RECENT_RELEASE_SUCCESS;
+  payload: AlbumFullResponseData;
+};
+
+export type GetMostRecentReleaseFailedActionType = {
+  type: typeof ArtistActionTypes.GET_MOST_RECENT_RELEASE_FAILED;
+  payload: ActionFailedError;
+};
+
+export type OpenDiscoverArtistModalActionType = {
+  type: typeof ArtistActionTypes.OPEN_DISCOVER_ARTIST_MODAL;
+  payload: undefined;
+};
+
+export type CloseDiscoverArtistModalActionType = {
+  type: typeof ArtistActionTypes.CLOSE_DISCOVER_ARTIST_MODAL;
+  payload: undefined;
 };
 
 export type ArtistActions =
@@ -37,4 +108,18 @@ export type ArtistActions =
   | GetArtistsFailedActionType
   | GetArtistByIdStartActionType
   | GetArtistByIdSuccessActionType
-  | GetArtistByIdFailedActionType;
+  | GetArtistByIdFailedActionType
+  | FollowArtistStartActionType
+  | FollowArtistSuccessActionType
+  | FollowArtistFailedActionType
+  | UnfollowArtistStartActionType
+  | UnfollowArtistSuccessActionType
+  | UnfollowArtistFailedActionType
+  | OpenDiscoverArtistModalActionType
+  | CloseDiscoverArtistModalActionType
+  | GetGenresStartActionType
+  | GetGenresSuccessActionType
+  | GetGenresFailedActionType
+  | GetMostRecentReleaseStartActionType
+  | GetMostRecentReleaseSuccessActionType
+  | GetMostRecentReleaseFailedActionType;

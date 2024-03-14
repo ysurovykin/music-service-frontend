@@ -3,8 +3,8 @@ import { AxiosResponse } from "axios";
 import { GetSongsRequestData, GetSongsResponseData, SongInfoResponseData } from "./song.model";
 
 export default class SongService {
-    static async getSongById(listenerId: string, songId: string): Promise<AxiosResponse<SongInfoResponseData>> {
-        return await api.get<SongInfoResponseData>(`/song/${songId}`, { params: { listenerId } });
+    static async getSongById(listenerId: string, songId: string, playlistId?: string): Promise<AxiosResponse<SongInfoResponseData>> {
+        return await api.get<SongInfoResponseData>(`/song/${songId}`, { params: { listenerId, playlistId } });
     }
 
     static async getSongs(listenerId: string, request: GetSongsRequestData): Promise<AxiosResponse<GetSongsResponseData>> {

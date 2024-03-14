@@ -5,6 +5,10 @@
   grid-template-columns: 1fr 1fr auto;
   align-items: center;
 
+  &--show-additional-column {
+    grid-template-columns: 1fr 1fr 1fr auto;
+  }
+
   &__wrapper {
     padding-left: 10px;
     display: grid;
@@ -47,6 +51,11 @@
     justify-content: space-around;
     align-items: center;
     gap: 20px
+  }
+
+  &__plays-wrapper {
+    align-self: center;
+    justify-self: center;
   }
 
   &__credentials {

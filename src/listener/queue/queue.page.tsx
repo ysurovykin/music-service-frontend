@@ -25,7 +25,7 @@ export function QueuePage() {
   }, [songQueueId, queue])
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll' >
+    <div className='listener-group-page__wrapper custom-scroll-y' >
       <div style={{ background: getBackground() }} className="listener-group-page">
         <HeaderComponent 
           showHeader={!inView} />
@@ -35,6 +35,7 @@ export function QueuePage() {
           <SongComponent
             song={formatedQueue?.[0] || {}}
             currentlyPlayingSong={formatedQueue?.[0] || {}}
+            showAlbumInfo={true}
             index={1} />
           <Title level={5}>Next up</Title>
           <List
@@ -45,6 +46,7 @@ export function QueuePage() {
                 <SongComponent
                   song={song}
                   currentlyPlayingSong={formatedQueue?.[0] || {}}
+                  showAlbumInfo={true}
                   index={index + 1} />
               </List.Item>
             )}>

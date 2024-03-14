@@ -8,7 +8,7 @@ export function SearchPage() {
   const { ref, inView } = useInView({ threshold: 1 }); //TODO set ref to show header
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll'>
+    <div className='listener-group-page__wrapper custom-scroll-y'>
       <div style={{background: getBackground()}} className="search-page listener-group-page">
         <HeaderComponent showHeader={!inView} />
         Search

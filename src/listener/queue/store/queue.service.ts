@@ -4,7 +4,7 @@ import { AddSongToQueueRequestData, GenerateQueueRequestData, QueueInfoResponseD
 
 export default class QueueService {
     static async getQueue(songQueueId: string, listenerId: string): Promise<AxiosResponse<QueueInfoResponseData>> {
-        return await api.get<QueueInfoResponseData>('/queue/', { params: { songQueueId, listenerId } });
+        return await api.get<QueueInfoResponseData>('/queue', { params: { songQueueId, listenerId } });
     }
 
     static async addSongToQueue(request: AddSongToQueueRequestData, listenerId: string): Promise<AxiosResponse<QueueSongInfoResponseData>> {

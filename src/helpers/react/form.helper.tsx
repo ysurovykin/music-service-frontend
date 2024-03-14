@@ -1,7 +1,8 @@
 import { ExclamationCircleOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { Tooltip, Typography } from "antd";
+import { TitleProps } from "antd/lib/typography/Title";
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 export function renderFieldErrorMessage(errorMessages: Array<string>) {
   return (
@@ -19,5 +20,15 @@ export function renderTextWithToolTip(text: string, tooltipText: string) {
       {text}
       <Tooltip title={tooltipText}> <QuestionCircleOutlined /></Tooltip>
     </Text>
+  );
+};
+
+export function renderTitleWithToolTip(text: string, tooltipText: string, level: 1 | 2 | 3 | 4 | 5 | undefined = 3,
+  removeMargin: boolean) {
+  return (
+    <Title className={removeMargin ? 'm-0' : ''} level={level} style={{ color: 'white' }}>
+      {text}
+      <Tooltip title={tooltipText}> <QuestionCircleOutlined /></Tooltip>
+    </Title>
   );
 };

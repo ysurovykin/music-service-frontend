@@ -30,6 +30,7 @@ import {
   openEditSongPlaylistsModal,
   CreatePlaylistRequestData,
   EditPlaylistRequestData,
+  PlaylistFullResponseData,
 } from "./playlist.model";
 export const getPlaylistsByListenerIdStartAction = (listenerId: string):
   GetPlaylistsByListenerIdStartActionType => ({ type: PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID, payload: listenerId });
@@ -43,7 +44,7 @@ export const getPlaylistsByListenerIdFailedAction = (error: ActionFailedError):
 export const getPlaylistByIdStartAction = (playlistId: string):
   GetPlaylistByIdStartActionType => ({ type: PlaylistActionTypes.GET_PLAYLIST_BY_ID, payload: playlistId });
 
-export const getPlaylistByIdSuccessAction = (response: PlaylistInfoResponseData):
+export const getPlaylistByIdSuccessAction = (response: PlaylistFullResponseData):
   GetPlaylistByIdSuccessActionType => ({ type: PlaylistActionTypes.GET_PLAYLIST_BY_ID_SUCCESS, payload: response });
 
 export const getPlaylistByIdFailedAction = (error: ActionFailedError):
@@ -59,8 +60,8 @@ export const closeEditPlaylistsModalAction = ():
 export const editSongPlaylistsStartAction = (request: EditPlaylistsRequest):
   EditSongPlaylistsStartActionType => ({ type: PlaylistActionTypes.EDIT_SONG_PLAYLISTS, payload: request });
 
-export const editSongPlaylistsSuccessAction = (updatedSongs: Array<SongInfoResponseData>):
-  EditSongPlaylistsSuccessActionType => ({ type: PlaylistActionTypes.EDIT_SONG_PLAYLISTS_SUCCESS, payload: updatedSongs });
+export const editSongPlaylistsSuccessAction = ():
+  EditSongPlaylistsSuccessActionType => ({ type: PlaylistActionTypes.EDIT_SONG_PLAYLISTS_SUCCESS, payload: undefined });
 
 export const editSongPlaylistsFailedAction = (error: ActionFailedError):
   EditSongPlaylistsFailedActionType => ({ type: PlaylistActionTypes.EDIT_SONG_PLAYLISTS_FAILED, payload: error });
@@ -100,12 +101,12 @@ export const playlistActions = {
   getPlaylistsByListenerIdSuccess: (response: Array<PlaylistInfoResponseData>) => getPlaylistsByListenerIdSuccessAction(response),
   getPlaylistsByListenerIdFailed: (error: ActionFailedError) => getPlaylistsByListenerIdFailedAction(error),
   getPlaylistById: (playlistId: string) => getPlaylistByIdStartAction(playlistId),
-  getPlaylistByIdSuccess: (response: PlaylistInfoResponseData) => getPlaylistByIdSuccessAction(response),
+  getPlaylistByIdSuccess: (response: PlaylistFullResponseData) => getPlaylistByIdSuccessAction(response),
   getPlaylistByIdFailed: (error: ActionFailedError) => getPlaylistByIdFailedAction(error),
   openEditSongPlaylistsModal: (songInfo: openEditSongPlaylistsModal) => openEditPlaylistsModalAction(songInfo),
   closeEditSongPlaylistsModal: () => closeEditPlaylistsModalAction(),
   editSongPlaylists: (request: EditPlaylistsRequest) => editSongPlaylistsStartAction(request),
-  editSongPlaylistsSuccess: (updatedSongs: Array<SongInfoResponseData>) => editSongPlaylistsSuccessAction(updatedSongs),
+  editSongPlaylistsSuccess: () => editSongPlaylistsSuccessAction(),
   editSongPlaylistsFailed: (error: ActionFailedError) => editSongPlaylistsFailedAction(error),
   openCreatePlaylistModal: () => openCreatePlaylistModalAction(),
   closeCreatePlaylistModal: () => closeCreatePlaylistModalAction(),

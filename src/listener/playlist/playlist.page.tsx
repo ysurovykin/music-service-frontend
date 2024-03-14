@@ -11,11 +11,11 @@ import { SongTableComponent } from '../components/song-table/song-table.componen
 import { useInView } from 'react-intersection-observer';
 import { PlaylistTagEnum } from './store/playlist.model';
 import { showNotification } from '../../helpers/react/redux.helper';
-import { ContentCopyOutlined, PlayArrow, PlayArrowOutlined, PlayCircleOutline, PlaylistAdd } from '@mui/icons-material';
-import { DOMAIN, listenerProfileTypePalete } from '../../config';
+import { PlayArrow } from '@mui/icons-material';
+import { listenerProfileTypePalete } from '../../config';
 import { queueActions } from '../queue/store/queue.actions';
 import { GenerateQueueRequestData } from '../queue/store/queue.model';
-import { MenuProps } from 'antd/lib';
+import { songSelectors } from '../song/store/song.selectors';
 
 const { Title } = Typography;
 
@@ -33,6 +33,9 @@ export function PlaylistPage() {
   const playlistCoverImageUrl = useSelector(playlistSelectors.coverImageUrl);
   const backgroundColor = useSelector(playlistSelectors.backgroundColor);
   const editable = useSelector(playlistSelectors.editable);
+  const songs = useSelector(songSelectors.songs);
+  const songsCount = useSelector(playlistSelectors.songsCount);
+  const songsTimeDuration = useSelector(playlistSelectors.songsTimeDuration);
 
   const dispatch = useDispatch()
   const getPlaylistData = (playlistId: string) => dispatch(playlistActions.getPlaylistById(playlistId));
@@ -45,12 +48,13 @@ export function PlaylistPage() {
 
   useEffect(() => {
     if (playlistId) {
+      localStorage.setItem('currentSourceId', playlistId);
       getPlaylistData(playlistId);
     }
   }, [playlistId]);
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll'>
+    <div className='listener-group-page__wrapper custom-scroll-y'>
       <div style={{ background: getBackground(backgroundColor) }} className="playlist-page listener-group-page">
         <HeaderComponent
           text={name || ''}
@@ -58,27 +62,28 @@ export function PlaylistPage() {
           showHeader={!inView} />
         <div className='playlist-page__info'>
           <div
-            className='playlist-page__cover-wrapper cursor-pointer'
-            onClick={() => generateQueue({
+            className={`playlist-page__cover-wrapper ${isCoverImageHovered ? 'cursor-pointer' : ''}`}
+            onClick={() => isCoverImageHovered && generateQueue({
               isNewQueue: true,
               shuffleEnabled: false,
               options: {
                 playlistId
               }
+              //TODO write when needed sortingOptions={{ }} 
             })}
-            onMouseEnter={() => setIsCoverImageHovered(true)}
+            onMouseEnter={() => setIsCoverImageHovered(!!songs?.length && true)}
             onMouseLeave={() => setIsCoverImageHovered(false)}>
-            {renderPlaylistIcon(96, playlistCoverImageUrl, tag as PlaylistTagEnum, backgroundColor, name)}
+            {renderPlaylistIcon(160, playlistCoverImageUrl, tag as PlaylistTagEnum, backgroundColor, name)}
             {isCoverImageHovered && <div className='playlist-page__cover-shadow'></div>}
             {isCoverImageHovered && <PlayArrow sx={{ color: listenerProfileTypePalete.base }} className='playlist-page__play-button' />}
           </div>
-          <div>
+          <div className='playlist-page__credits'>
             <Title
               className='m-0'
               level={5}>Playlist</Title>
             <Title
               className={`m-0 ${editable ? 'cursor-pointer' : ''}`}
-              level={2}
+              level={1}
               style={{ width: 'fit-content' }}
               ref={ref}
               onClick={() => editable ?
@@ -88,7 +93,7 @@ export function PlaylistPage() {
             <Title
               className='m-0'
               level={5}>
-              {3} songs, {formatPlaylistTime(120)}
+              {songsCount} songs, {formatPlaylistTime(songsTimeDuration!)}
             </Title>
           </div>
         </div>

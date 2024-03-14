@@ -23,6 +23,25 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
         isAlbumsLoading: false
       }
     }
+    case AlbumActionTypes.GET_ALBUMS_WHERE_ARTIST_APPEARS: {
+      return {
+        ...state,
+        isAlbumsArtistAppearsInLoading: true
+      }
+    }
+    case AlbumActionTypes.GET_ALBUMS_WHERE_ARTIST_APPEARS_SUCCESS: {
+      return {
+        ...state,
+        isAlbumsArtistAppearsInLoading: false,
+        albumsArtistAppearsIn: action.payload
+      }
+    }
+    case AlbumActionTypes.GET_ALBUMS_WHERE_ARTIST_APPEARS_FAILED: {
+      return {
+        ...state,
+        isAlbumsArtistAppearsInLoading: false
+      }
+    }
     case AlbumActionTypes.GET_ALBUM_BY_ID: {
       return {
         ...state,
@@ -39,7 +58,9 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
         coverImageUrl: action.payload.coverImageUrl,
         backgroundColor: action.payload.backgroundColor,
         lyricsBackgroundShadow: action.payload.lyricsBackgroundShadow,
-        isAddedToLibrary: action.payload.isAddedToLibrary
+        isAddedToLibrary: action.payload.isAddedToLibrary,
+        songsCount: action.payload.songsCount,
+        songsTimeDuration: action.payload.songsTimeDuration,
       }
     }
     case AlbumActionTypes.GET_ALBUM_BY_ID_FAILED: {
@@ -58,6 +79,12 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
       return {
         ...state,
         isAddedToLibrary: false
+      }
+    }
+    case AlbumActionTypes.UPDATE_ALBUMS_INFO: {
+      return {
+        ...state,
+        albums: action.payload
       }
     }
     default: {

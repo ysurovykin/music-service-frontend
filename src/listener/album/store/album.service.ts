@@ -9,6 +9,12 @@ export default class AlbumService {
         });
     }
 
+    static async getAlbumsWhereArtistAppears(listenerId: string, artistId: string): Promise<AxiosResponse<Array<AlbumInfoResponseData>>> {
+        return await api.get<Array<AlbumInfoResponseData>>(`/album/albums/artist-appears/${artistId}`, {
+            params: { listenerId }
+        });
+    }
+
     static async getAlbumById(listenerId: string, albumId: string): Promise<AxiosResponse<AlbumInfoResponseData>> {
         return await api.get<AlbumInfoResponseData>(`/album/${albumId}`, {
             params: { listenerId }

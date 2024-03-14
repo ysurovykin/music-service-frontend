@@ -39,7 +39,9 @@ export const playlistReducer = (state = playlistState, action: PlaylistActions):
         editable: action.payload.editable,
         coverImageUrl: action.payload.coverImageUrl,
         tag: action.payload.tag,
-        backgroundColor: action.payload.backgroundColor
+        backgroundColor: action.payload.backgroundColor,
+        songsTimeDuration: action.payload.songsTimeDuration,
+        songsCount: action.payload.songsCount,
       }
     }
     case PlaylistActionTypes.GET_PLAYLIST_BY_ID_FAILED: {

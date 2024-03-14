@@ -1,7 +1,11 @@
 @import './components/listener-components.scss';
 @import './listener.page.scss';
 @import './artist/artist.page.scss';
+@import './artist/artist-songs/artist-songs.page.scss';
+@import './artist/artist-liked-songs/artist-liked-songs.page.scss';
+@import './artist/discover-artist-modal/discover-artist.modal.scss';
 @import './album/album.page.scss';
+@import './album/album-card/album-card.component.scss';
 @import './queue/queue.page.scss';
 @import './song/song.component.scss';
 @import './playlist/playlist.page.scss';

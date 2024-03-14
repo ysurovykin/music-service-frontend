@@ -1,5 +1,5 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { AlbumActionTypes, AlbumInfoResponseData } from "./album.model";
+import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData } from "./album.model";
 
 export type GetAlbumsByArtistIdStartActionType = {
   type: typeof AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID;
@@ -16,6 +16,21 @@ export type GetAlbumsByArtistIdFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type GetAlbumsWhereArtistAppearsStartActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS_WHERE_ARTIST_APPEARS;
+  payload: string;
+};
+
+export type GetAlbumsWhereArtistAppearsSuccessActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS_WHERE_ARTIST_APPEARS_SUCCESS;
+  payload: Array<AlbumInfoResponseData>;
+};
+
+export type GetAlbumsWhereArtistAppearsFailedActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS_WHERE_ARTIST_APPEARS_FAILED;
+  payload: ActionFailedError;
+};
+
 export type GetAlbumByIdStartActionType = {
   type: typeof AlbumActionTypes.GET_ALBUM_BY_ID;
   payload: string;
@@ -23,7 +38,7 @@ export type GetAlbumByIdStartActionType = {
 
 export type GetAlbumByIdSuccessActionType = {
   type: typeof AlbumActionTypes.GET_ALBUM_BY_ID_SUCCESS;
-  payload: AlbumInfoResponseData;
+  payload: AlbumFullResponseData;
 };
 
 export type GetAlbumByIdFailedActionType = {
@@ -61,10 +76,18 @@ export type RemoveAlbumFromLibraryFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type UpdateAlbumsInfoActionType = {
+  type: typeof AlbumActionTypes.UPDATE_ALBUMS_INFO;
+  payload: Array<AlbumInfoResponseData>;
+};
+
 export type AlbumActions =
   | GetAlbumsByArtistIdStartActionType
   | GetAlbumsByArtistIdSuccessActionType
   | GetAlbumsByArtistIdFailedActionType
+  | GetAlbumsWhereArtistAppearsStartActionType
+  | GetAlbumsWhereArtistAppearsSuccessActionType
+  | GetAlbumsWhereArtistAppearsFailedActionType
   | GetAlbumByIdStartActionType
   | GetAlbumByIdSuccessActionType
   | GetAlbumByIdFailedActionType
@@ -73,4 +96,5 @@ export type AlbumActions =
   | AddAlbumToLibraryFailedActionType
   | RemoveAlbumFromLibraryStartActionType
   | RemoveAlbumFromLibrarySuccessActionType
-  | RemoveAlbumFromLibraryFailedActionType;
+  | RemoveAlbumFromLibraryFailedActionType
+  | UpdateAlbumsInfoActionType;

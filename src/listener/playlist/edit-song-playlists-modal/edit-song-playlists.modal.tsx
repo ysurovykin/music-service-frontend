@@ -22,7 +22,6 @@ export function EditSongPlaylistsModal() {
   const editPlaylistsSongPlaylistIds = useSelector(playlistSelectors.editPlaylistsSongPlaylistIds);
   const isEditSongPlaylistsLoading = useSelector(playlistSelectors.isEditSongPlaylistsLoading);
 
-  const [playlistIdToUpdate, setPlaylistIdToUpdate] = useState<string>();
   const [editedPlaylists, setEditedPlaylists] = useState<Array<EditedPlaylist>>([]);
   const [playlistSearch, setPlaylistSearch] = useState<string>('');
 
@@ -36,7 +35,6 @@ export function EditSongPlaylistsModal() {
     closeEditSongPlaylistsModal();
     setEditedPlaylists([])
     setPlaylistSearch('');
-    setPlaylistIdToUpdate('');
   }
 
   const editPlaylist = (playlistId: string) => {
@@ -51,6 +49,11 @@ export function EditSongPlaylistsModal() {
   }
 
   const editPlaylistsDone = () => {
+    const path = location.pathname;
+    let playlistIdToUpdate: string = '';
+    if (path.includes('playlist')) {
+      playlistIdToUpdate = path.split('/')[2];
+    }
     editSongPlaylists(editPlaylistsSongId || '', editedPlaylists, playlistIdToUpdate);
     closeModal();
   }
@@ -62,13 +65,6 @@ export function EditSongPlaylistsModal() {
     }
     return !!editPlaylistsSongPlaylistIds?.includes(playlistId);
   };
-
-  useEffect(() => {
-    const path = location.pathname;
-    if (path.includes('playlist')) {
-      setPlaylistIdToUpdate(path.split('/')[2]);
-    }
-  }, [location])
 
   return (
     <Modal
@@ -107,7 +103,7 @@ export function EditSongPlaylistsModal() {
           <Text>New playlist</Text>
         </div>
         <Divider className="m-0" />
-        <div className="edit-playlists-modal__playlist-list-wrapper custom-scroll">
+        <div className="edit-playlists-modal__playlist-list-wrapper custom-scroll-y">
           <div className="edit-playlists-modal__playlist-list">
             {playlists && playlists
               .filter(playlist => !playlistSearch || playlist.name?.toLowerCase()?.includes(playlistSearch.toLowerCase()))

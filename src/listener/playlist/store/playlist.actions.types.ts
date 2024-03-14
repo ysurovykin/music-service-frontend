@@ -1,5 +1,4 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { SongInfoResponseData } from "../../song/store/song.model";
 import {
   PlaylistActionTypes,
   PlaylistInfoResponseData,
@@ -7,6 +6,7 @@ import {
   openEditSongPlaylistsModal,
   CreatePlaylistRequestData,
   EditPlaylistRequestData,
+  PlaylistFullResponseData,
 } from "./playlist.model";
 
 export type GetPlaylistsByListenerIdStartActionType = {
@@ -31,7 +31,7 @@ export type GetPlaylistByIdStartActionType = {
 
 export type GetPlaylistByIdSuccessActionType = {
   type: typeof PlaylistActionTypes.GET_PLAYLIST_BY_ID_SUCCESS;
-  payload: PlaylistInfoResponseData;
+  payload: PlaylistFullResponseData;
 };
 
 export type GetPlaylistByIdFailedActionType = {
@@ -106,7 +106,7 @@ export type EditSongPlaylistsStartActionType = {
 
 export type EditSongPlaylistsSuccessActionType = {
   type: typeof PlaylistActionTypes.EDIT_SONG_PLAYLISTS_SUCCESS;
-  payload: Array<SongInfoResponseData>;
+  payload: undefined;
 };
 
 export type EditSongPlaylistsFailedActionType = {

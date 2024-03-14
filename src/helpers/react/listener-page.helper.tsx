@@ -5,13 +5,13 @@ import { Favorite } from "@mui/icons-material";
 const { Title } = Typography
 
 export const getBackground = (color: string = 'rgba(70, 70, 70, 1)') => {
-  return `linear-gradient(180deg, ${color}, rgba(33, 33, 33, 1) 250px, rgba(33, 33, 33, 1) 400px)`;
+  return `linear-gradient(180deg, ${color}, rgba(33, 33, 33, 1) 300px, rgba(33, 33, 33, 1) 400px)`;
 }
 
-export const formatPlaylistTime = (totalMinutes: number) => {
+export const formatPlaylistTime = (totalSeconds: number) => {
   const moment = require('moment');
 
-  const duration = moment.duration(totalMinutes, 'minutes');
+  const duration = moment.duration(totalSeconds, 'seconds');
 
   const hours = duration.asHours();
   const minutes = duration.minutes();
@@ -23,7 +23,7 @@ export const formatPlaylistTime = (totalMinutes: number) => {
 export const renderPlaylistIcon = (size: number, coverImageUrl?: string, tag?: PlaylistTagEnum, backgroundColor?: string,
   name?: string) => {
   if (!!coverImageUrl) {
-    return <Avatar size={size} shape="square" src={coverImageUrl} />;
+    return <Avatar style={{ position: 'absolute' }} size={size} shape="square" src={coverImageUrl} />;
   }
 
   if (!tag) {
@@ -32,6 +32,7 @@ export const renderPlaylistIcon = (size: number, coverImageUrl?: string, tag?: P
         size={size}
         style={{
           display: 'flex',
+          position: 'absolute',
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: backgroundColor,
@@ -46,7 +47,8 @@ export const renderPlaylistIcon = (size: number, coverImageUrl?: string, tag?: P
       return (
         <Avatar
           className="playlist-icon-view__avatar playlist-icon-view__avatar--liked"
-          icon={<Favorite fontSize={size < 64 ? 'medium' : 'large'} />}
+          style={{ position: 'absolute' }}
+          icon={<Favorite style={{ fontSize: size < 64 ? '22px' : '64px' }} />}
           size={size}
           shape="square" />
       );
@@ -54,6 +56,7 @@ export const renderPlaylistIcon = (size: number, coverImageUrl?: string, tag?: P
     return (
       <Avatar
         className="playlist-icon-view__avatar playlist-icon-view__avatar--default"
+        style={{ position: 'absolute' }}
         size={size}
         shape="square">
         {name?.split('')[0]?.toUpperCase()}

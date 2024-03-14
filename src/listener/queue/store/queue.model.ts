@@ -1,4 +1,4 @@
-import { SongInfoResponseData } from "../../song/store/song.model";
+import { GetSongsSortingOptions, SongInfoResponseData } from "../../song/store/song.model";
 
 export const queueState: QueueState = {
   queue: undefined,
@@ -46,6 +46,8 @@ export type GenerateQueueRequestData = {
   extendForward?: boolean; //define if isNewQueue === false
   songId?: string; //define if isNewQueue === true
   options?: GenerateQueueOptions; //define if isNewQueue === true
+  onlyLiked?: boolean;
+  sortingOptions?: GetSongsSortingOptions;
 }
 
 export type GenerateQueueOptions = {

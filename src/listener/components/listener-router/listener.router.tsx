@@ -13,6 +13,9 @@ import { ProfilePage } from '../../profile/profile.page';
 import { LibraryPage } from '../../library/library.page';
 import { CreatePlaylistModal } from '../../playlist/create-playlist-modal/create-playlist.modal';
 import { EditPlaylistModal } from '../../playlist/edit-playlist-modal/edit-playlist.modal';
+import { ArtistSongsPage } from '../../artist/artist-songs/artist-songs.page';
+import { ArtistLikedSongsPage } from '../../artist/artist-liked-songs/artist-liked-songs.page';
+import { DiscoverArtistModal } from '../../artist/discover-artist-modal/discover-artist.modal';
 
 export default function ListenerRouter() {
   return (
@@ -22,6 +25,8 @@ export default function ListenerRouter() {
         <Routes>
           <Route path="/" element={<ListenerPage />} />
           <Route path="/artist/:artistId" element={<ArtistPage />} />
+          <Route path="/artist/all-songs/:artistId" element={<ArtistSongsPage />} />
+          <Route path="/artist/liked-songs/:artistId" element={<ArtistLikedSongsPage />} />
           <Route path="/album/:albumId" element={<AlbumPage />} />
           <Route path="/playlist/:playlistId" element={<PlaylistPage />} />
           <Route path="/queue" element={<QueuePage />} />
@@ -35,6 +40,7 @@ export default function ListenerRouter() {
       <EditPlaylistModal />
       <EditSongPlaylistsModal />
       <CreatePlaylistModal />
+      <DiscoverArtistModal />
     </>
   );
 }

@@ -20,9 +20,11 @@ export const playlistState: PlaylistState = {
   isEditSongPlaylistsLoading: undefined,
   editPlaylistsSongId: undefined,
   editPlaylistsSongPlaylistIds: undefined,
+  songsTimeDuration: undefined,
+  songsCount: undefined
 };
 
-export interface PlaylistState extends PlaylistInfoResponseData {
+export interface PlaylistState extends PlaylistFullResponseData {
   isPlaylistsLoading: boolean,
   isPlaylistDataLoading: boolean,
   playlists?: Array<PlaylistInfoResponseData>,
@@ -65,6 +67,11 @@ export type PlaylistInfoResponseData = {
   tag?: string;
   coverImageUrl?: string;
   backgroundColor?: string;
+}
+
+export type PlaylistFullResponseData = PlaylistInfoResponseData & {
+  songsTimeDuration?: number;
+  songsCount?: number;
 }
 
 export type openEditSongPlaylistsModal = {

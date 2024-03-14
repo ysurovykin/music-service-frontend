@@ -1,16 +1,33 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
 import {
+  GetSongByIdStartActionType,
+  GetSongByIdSuccessActionType,
+  GetSongByIdFailedActionType,
   GetSongsStartActionType,
   GetSongsSuccessActionType,
   GetSongsFailedActionType,
-  ClearSongsActionType
+  ClearSongsActionType,
+  EditSongPlaylistsActionType,
+  LoadMoreSongsStartActionType,
+  LoadMoreSongsSuccessActionType,
+  LoadMoreSongsFailedActionType
 } from "./song.actions.types";
 import {
   SongActionTypes,
   SongInfoResponseData,
   GetSongsRequestData,
-  GetSongsResponseData
+  GetSongsResponseData,
+  GetSongByIdRequestData
 } from "./song.model";
+
+export const getSongByIdStartAction = (request: GetSongByIdRequestData):
+  GetSongByIdStartActionType => ({ type: SongActionTypes.GET_SONG_BY_ID, payload: request });
+
+export const getSongByIdSuccessAction = (updatedSongs: Array<SongInfoResponseData>):
+  GetSongByIdSuccessActionType => ({ type: SongActionTypes.GET_SONG_BY_ID_SUCCESS, payload: updatedSongs });
+
+export const getSongByIdFailedAction = (error: ActionFailedError):
+  GetSongByIdFailedActionType => ({ type: SongActionTypes.GET_SONG_BY_ID_FAILED, payload: error });
 
 export const getSongsStartAction = (request: GetSongsRequestData):
   GetSongsStartActionType => ({ type: SongActionTypes.GET_SONGS, payload: request });
@@ -21,13 +38,32 @@ export const getSongsSuccessAction = (response: GetSongsResponseData):
 export const getSongsFailedAction = (error: ActionFailedError):
   GetSongsFailedActionType => ({ type: SongActionTypes.GET_SONGS_FAILED, payload: error });
 
-export const clearSongs = ():
+export const loadMoreSongsStartAction = (request: GetSongsRequestData):
+  LoadMoreSongsStartActionType => ({ type: SongActionTypes.LOAD_MORE_SONGS, payload: request });
+
+export const loadMoreSongsSuccessAction = (updatedSongs: GetSongsResponseData):
+  LoadMoreSongsSuccessActionType => ({ type: SongActionTypes.LOAD_MORE_SONGS_SUCCESS, payload: updatedSongs });
+
+export const loadMoreSongsFailedAction = (error: ActionFailedError):
+  LoadMoreSongsFailedActionType => ({ type: SongActionTypes.LOAD_MORE_SONGS_FAILED, payload: error });
+
+export const clearSongsAction = ():
   ClearSongsActionType => ({ type: SongActionTypes.CLEAR_SONGS, payload: undefined });
 
+export const editSongPlaylistsAction = (updatedSongs: Array<SongInfoResponseData>):
+  EditSongPlaylistsActionType => ({ type: SongActionTypes.EDIT_SONG_PLAYLISTS, payload: updatedSongs });
+
 export const songActions = {
+  getSongById: (request: GetSongByIdRequestData) => getSongByIdStartAction(request),
+  getSongByIdSuccess: (updatedSongs: Array<SongInfoResponseData>) => getSongByIdSuccessAction(updatedSongs),
+  getSongByIdFailed: (error: ActionFailedError) => getSongByIdFailedAction(error),
   getSongs: (request: GetSongsRequestData) => getSongsStartAction(request),
   getSongsSuccess: (response: GetSongsResponseData) => getSongsSuccessAction(response),
   getSongsFailed: (error: ActionFailedError) => getSongsFailedAction(error),
-  clearSongs: () => clearSongs(),
+  loadMoreSongs: (request: GetSongsRequestData) => loadMoreSongsStartAction(request),
+  loadMoreSongsSuccess: (response: GetSongsResponseData) => loadMoreSongsSuccessAction(response),
+  loadMoreSongsFailed: (error: ActionFailedError) => loadMoreSongsFailedAction(error),
+  editSongPlaylists: (updatedSongs: Array<SongInfoResponseData>) => editSongPlaylistsAction(updatedSongs),
+  clearSongs: () => clearSongsAction(),
 }
 
