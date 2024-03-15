@@ -23,18 +23,24 @@ export const artistState: ArtistState = {
   isGenresLoading: false,
   isMostRecentReleaseLoading: false,
   albumsCount: undefined,
-  albumsWhereAppearsCount: undefined
+  albumsWhereAppearsCount: undefined,
+  followedArtists: undefined,
+  isFollowedArtistsLoading: false,
+  isMoreFollowedArtistsForLoading: undefined
 };
 
 export interface ArtistState extends ArtistFullResponseData {
   isArtistQueueLoading: boolean,
   isArtistLoading: boolean,
-  artists?: Array<ArtistInfoResponseData>
+  artists?: Array<ArtistInfoResponseData>,
   isDiscoverArtistModalOpen: boolean,
   genres?: Array<ArtistGenres>,
   isGenresLoading: boolean,
   mostRecentRelease?: AlbumFullResponseData,
   isMostRecentReleaseLoading: boolean,
+  followedArtists?: Array<ArtistInfoResponseData>,
+  isFollowedArtistsLoading: boolean,
+  isMoreFollowedArtistsForLoading?: boolean,
 }
 
 export type ArtistSocialLinks = {
@@ -73,6 +79,16 @@ export type ArtistGenres = {
   percentage: number;
 }
 
+export type GetArtistsInListenerLibraryRequest = {
+  offset: number;
+  limit: number;
+}
+
+export type GetArtistsInListenerLibraryResponse = {
+  followedArtists: Array<ArtistInfoResponseData>;
+  isMoreFollowedArtistsForLoading: boolean;
+}
+
 export enum ArtistActionTypes {
   GET_ARTISTS = "ARTIST.GET_ARTISTS_START",
   GET_ARTISTS_SUCCESS = "ARTIST.GET_ARTISTS_SUCCESS",
@@ -99,5 +115,13 @@ export enum ArtistActionTypes {
   GET_MOST_RECENT_RELEASE_FAILED = "ARTIST.GET_MOST_RECENT_RELEASE_FAILED",
 
   OPEN_DISCOVER_ARTIST_MODAL = "ARTIST.OPEN_DISCOVER_ARTIST_MODAL",
-  CLOSE_DISCOVER_ARTIST_MODAL = "ARTIST.CLOSE_DISCOVER_ARTIST_MODAL"
+  CLOSE_DISCOVER_ARTIST_MODAL = "ARTIST.CLOSE_DISCOVER_ARTIST_MODAL",
+
+  GET_ARTISTS_IN_LISTENER_LIBRARY = "ARTIST.GET_ARTISTS_IN_LISTENER_LIBRARY_START",
+  GET_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS = "ARTIST.GET_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS",
+  GET_ARTISTS_IN_LISTENER_LIBRARY_FAILED = "ARTIST.GET_ARTISTS_IN_LISTENER_LIBRARY_FAILED",
+
+  LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY = "ARTIST.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY",
+  LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS = "ARTIST.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS",
+  LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED = "ARTIST.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED",
 };

@@ -21,8 +21,14 @@ import {
   GetMostRecentReleaseStartActionType,
   GetMostRecentReleaseSuccessActionType,
   GetMostRecentReleaseFailedActionType,
+  GetArtistsInListenerLibraryStartActionType,
+  GetArtistsInListenerLibrarySuccessActionType,
+  GetArtistsInListenerLibraryFailedActionType,
+  LoadMoreArtistsInListenerLibraryStartActionType,
+  LoadMoreArtistsInListenerLibrarySuccessActionType,
+  LoadMoreArtistsInListenerLibraryFailedActionType
 } from "./artist.actions.types";
-import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData } from "./artist.model";
+import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse } from "./artist.model";
 
 export const getArtistsStartAction = ():
   GetArtistsStartActionType => ({ type: ArtistActionTypes.GET_ARTISTS, payload: undefined });
@@ -84,6 +90,24 @@ export const openDiscoverArtistModalAction = ():
 export const closeDiscoverArtistModalAction = ():
   CloseDiscoverArtistModalActionType => ({ type: ArtistActionTypes.CLOSE_DISCOVER_ARTIST_MODAL, payload: undefined });
 
+export const getArtistsInListenerLibraryStartAction = (request: GetArtistsInListenerLibraryRequest):
+  GetArtistsInListenerLibraryStartActionType => ({ type: ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY, payload: request });
+
+export const getArtistsInListenerLibrarySuccessAction = (response: GetArtistsInListenerLibraryResponse):
+  GetArtistsInListenerLibrarySuccessActionType => ({ type: ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS, payload: response });
+
+export const getArtistsInListenerLibraryFailedAction = (error: ActionFailedError):
+  GetArtistsInListenerLibraryFailedActionType => ({ type: ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY_FAILED, payload: error });
+
+export const loadMoreArtistsInListenerLibraryStartAction = (request: GetArtistsInListenerLibraryRequest):
+  LoadMoreArtistsInListenerLibraryStartActionType => ({ type: ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY, payload: request });
+
+export const loadMoreArtistsInListenerLibrarySuccessAction = (response: GetArtistsInListenerLibraryResponse):
+  LoadMoreArtistsInListenerLibrarySuccessActionType => ({ type: ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS, payload: response });
+
+export const loadMoreArtistsInListenerLibraryFailedAction = (error: ActionFailedError):
+  LoadMoreArtistsInListenerLibraryFailedActionType => ({ type: ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED, payload: error });
+
 export const artistActions = {
   getArtists: () => getArtistsStartAction(),
   getArtistsSuccess: (response: Array<ArtistInfoResponseData>) => getArtistsSuccessAction(response),
@@ -105,5 +129,11 @@ export const artistActions = {
   getMostRecentReleaseFailed: (error: ActionFailedError) => getMostRecentReleaseFailedAction(error),
   openDiscoverArtistModal: () => openDiscoverArtistModalAction(),
   closeDiscoverArtistModal: () => closeDiscoverArtistModalAction(),
+  getArtistsInListenerLibrary: (request: GetArtistsInListenerLibraryRequest) => getArtistsInListenerLibraryStartAction(request),
+  getArtistsInListenerLibrarySuccess: (response: GetArtistsInListenerLibraryResponse) => getArtistsInListenerLibrarySuccessAction(response),
+  getArtistsInListenerLibraryFailed: (error: ActionFailedError) => getArtistsInListenerLibraryFailedAction(error),
+  loadMoreArtistsInListenerLibrary: (request: GetArtistsInListenerLibraryRequest) => loadMoreArtistsInListenerLibraryStartAction(request),
+  loadMoreArtistsInListenerLibrarySuccess: (response: GetArtistsInListenerLibraryResponse) => loadMoreArtistsInListenerLibrarySuccessAction(response),
+  loadMoreArtistsInListenerLibraryFailed: (error: ActionFailedError) => loadMoreArtistsInListenerLibraryFailedAction(error),
 }
 

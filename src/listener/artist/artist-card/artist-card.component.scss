@@ -1,4 +1,4 @@
-.album-card {
+.artist-card {
   width: 160px;
   background-color: #282828;
   border-radius: 6px;
@@ -23,15 +23,4 @@
     }
   }
 
-  &__artist-info-wrapper {
-    width: 128px;
-  }
-
-  &__info {
-    margin-top: 4px;
-    width: 128px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
 }

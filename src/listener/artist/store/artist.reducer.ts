@@ -117,6 +117,46 @@ export const artistReducer = (state = artistState, action: ArtistActions): Artis
         isDiscoverArtistModalOpen: false
       }
     }
+    case ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY: {
+      return {
+        ...state,
+        isFollowedArtistsLoading: true
+      }
+    }
+    case ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS: {
+      return {
+        ...state,
+        isFollowedArtistsLoading: false,
+        followedArtists: action.payload.followedArtists,
+        isMoreFollowedArtistsForLoading: action.payload.isMoreFollowedArtistsForLoading,
+      }
+    }
+    case ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY_FAILED: {
+      return {
+        ...state,
+        isFollowedArtistsLoading: false
+      }
+    }
+    case ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY: {
+      return {
+        ...state,
+        isFollowedArtistsLoading: true
+      }
+    }
+    case ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS: {
+      return {
+        ...state,
+        isFollowedArtistsLoading: false,
+        followedArtists: action.payload.followedArtists,
+        isMoreFollowedArtistsForLoading: action.payload.isMoreFollowedArtistsForLoading,
+      }
+    }
+    case ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED: {
+      return {
+        ...state,
+        isFollowedArtistsLoading: false
+      }
+    }
     default: {
       return { ...state }
     }

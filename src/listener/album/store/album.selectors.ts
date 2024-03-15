@@ -18,6 +18,9 @@ const lyricsBackgroundShadow = createSelector(albumState, album => album?.lyrics
 const isAddedToLibrary = createSelector(albumState, album => album?.isAddedToLibrary);
 const songsCount = createSelector(albumState, album => album?.songsCount);
 const songsTimeDuration = createSelector(albumState, album => album?.songsTimeDuration);
+const likedAlbums = createSelector(albumState, album => album?.likedAlbums);
+const isLikedAlbumsLoading = createSelector(albumState, album => album?.isLikedAlbumsLoading);
+const isMoreLikedAlbumsForLoading = createSelector(albumState, album => album?.isMoreLikedAlbumsForLoading);
 
 export const albumSelectors = {
   albumId,
@@ -34,5 +37,8 @@ export const albumSelectors = {
   lyricsBackgroundShadow,
   isAddedToLibrary,
   songsCount,
-  songsTimeDuration
+  songsTimeDuration,
+  likedAlbums,
+  isLikedAlbumsLoading,
+  isMoreLikedAlbumsForLoading
 };

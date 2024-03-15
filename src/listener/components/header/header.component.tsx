@@ -13,7 +13,7 @@ const { Text, Title } = Typography;
 export function HeaderComponent({
   showHeader,
   text = '',
-  background = 'rgb(33, 33, 33)',
+  background = listenerProfileTypePalete.backgroundAccentLight,
   songsSourceOptions
 }: {
   showHeader?: boolean,

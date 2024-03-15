@@ -97,7 +97,7 @@ export function AlbumPage() {
             })}
             onMouseEnter={() => setIsCoverImageHovered(!!songs?.length && true)}
             onMouseLeave={() => setIsCoverImageHovered(false)}>
-            {renderPlaylistIcon(160, albumCoverImageUrl, undefined, backgroundColor, name)}
+            {renderPlaylistIcon(160, 'absolute', albumCoverImageUrl, undefined, backgroundColor, name)}
             {isCoverImageHovered && <div className='album-page__cover-shadow'></div>}
             {isCoverImageHovered && <PlayArrow sx={{ color: listenerProfileTypePalete.base }} className='album-page__play-button' />}
           </div>

@@ -16,7 +16,10 @@ export const albumState: AlbumState = {
   artist: undefined,
   isAddedToLibrary: undefined,
   songsCount: undefined,
-  songsTimeDuration: undefined
+  songsTimeDuration: undefined,
+  likedAlbums: undefined,
+  isLikedAlbumsLoading: false,
+  isMoreLikedAlbumsForLoading: undefined,
 };
 
 export interface AlbumState extends AlbumFullResponseData {
@@ -25,6 +28,9 @@ export interface AlbumState extends AlbumFullResponseData {
   albums?: Array<AlbumInfoResponseData>
   albumsArtistAppearsIn?: Array<AlbumInfoResponseData>
   isAlbumsArtistAppearsInLoading: boolean,
+  likedAlbums?: Array<AlbumInfoResponseData>,
+  isLikedAlbumsLoading: boolean,
+  isMoreLikedAlbumsForLoading?: boolean;
 }
 
 export type AlbumSongData = {
@@ -56,6 +62,16 @@ export type AlbumInfoResponseData = AlbumWithoutArtistType & {
   isAddedToLibrary?: boolean;
 }
 
+export type GetAlbumsInListenerLibraryRequest = {
+  offset: number;
+  limit: number;
+}
+
+export type GetAlbumsInListenerLibraryResponse = {
+  likedAlbums: Array<AlbumInfoResponseData>;
+  isMoreLikedAlbumsForLoading: boolean;
+}
+
 export type AlbumFullResponseData = AlbumInfoResponseData & {
   songsCount?: number;
   songsTimeDuration?: number;
@@ -73,14 +89,22 @@ export enum AlbumActionTypes {
   GET_ALBUM_BY_ID = "ALBUM.GET_ALBUM_BY_ID_START",
   GET_ALBUM_BY_ID_SUCCESS = "ALBUM.GET_ALBUM_BY_ID_SUCCESS",
   GET_ALBUM_BY_ID_FAILED = "ALBUM.GET_ALBUM_BY_ID_FAILED",
-  
+
   ADD_ALBUM_TO_LIBRARY = "ALBUM.ADD_ALBUM_TO_LIBRARY_START",
   ADD_ALBUM_TO_LIBRARY_SUCCESS = "ALBUM.ADD_ALBUM_TO_LIBRARY_SUCCESS",
   ADD_ALBUM_TO_LIBRARY_FAILED = "ALBUM.ADD_ALBUM_TO_LIBRARY_FAILED",
-  
+
   REMOVE_ALBUM_FROM_LIBRARY = "ALBUM.REMOVE_ALBUM_FROM_LIBRARY_START",
   REMOVE_ALBUM_FROM_LIBRARY_SUCCESS = "ALBUM.REMOVE_ALBUM_FROM_LIBRARY_SUCCESS",
   REMOVE_ALBUM_FROM_LIBRARY_FAILED = "ALBUM.REMOVE_ALBUM_FROM_LIBRARY_FAILED",
 
   UPDATE_ALBUMS_INFO = "ALBUM.UPDATE_ALBUMS_INFO",
+
+  GET_ALBUMS_IN_LISTENER_LIBRARY = "ALBUM.GET_ALBUMS_IN_LISTENER_LIBRARY_START",
+  GET_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS = "ALBUM.GET_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS",
+  GET_ALBUMS_IN_LISTENER_LIBRARY_FAILED = "ALBUM.GET_ALBUMS_IN_LISTENER_LIBRARY_FAILED",
+
+  LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY = "ALBUM.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_START",
+  LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS = "ALBUM.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS",
+  LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED = "ALBUM.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED",
 };

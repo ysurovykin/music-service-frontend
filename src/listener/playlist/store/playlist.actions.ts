@@ -32,8 +32,8 @@ import {
   EditPlaylistRequestData,
   PlaylistFullResponseData,
 } from "./playlist.model";
-export const getPlaylistsByListenerIdStartAction = (listenerId: string):
-  GetPlaylistsByListenerIdStartActionType => ({ type: PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID, payload: listenerId });
+export const getPlaylistsByListenerIdStartAction = ():
+  GetPlaylistsByListenerIdStartActionType => ({ type: PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID, payload: undefined });
 
 export const getPlaylistsByListenerIdSuccessAction = (response: Array<PlaylistInfoResponseData>):
   GetPlaylistsByListenerIdSuccessActionType => ({ type: PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID_SUCCESS, payload: response });
@@ -97,7 +97,7 @@ export const editPlaylistFailedAction = (error: ActionFailedError):
   EditPlaylistFailedActionType => ({ type: PlaylistActionTypes.EDIT_PLAYLIST_FAILED, payload: error });
 
 export const playlistActions = {
-  getPlaylistsByListenerId: (listenerId: string) => getPlaylistsByListenerIdStartAction(listenerId),
+  getPlaylistsByListenerId: () => getPlaylistsByListenerIdStartAction(),
   getPlaylistsByListenerIdSuccess: (response: Array<PlaylistInfoResponseData>) => getPlaylistsByListenerIdSuccessAction(response),
   getPlaylistsByListenerIdFailed: (error: ActionFailedError) => getPlaylistsByListenerIdFailedAction(error),
   getPlaylistById: (playlistId: string) => getPlaylistByIdStartAction(playlistId),

@@ -1,6 +1,6 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
 import { AlbumFullResponseData } from "../../album/store/album.model";
-import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData } from "./artist.model";
+import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse } from "./artist.model";
 
 export type GetArtistsStartActionType = {
   type: typeof ArtistActionTypes.GET_ARTISTS;
@@ -102,6 +102,36 @@ export type CloseDiscoverArtistModalActionType = {
   payload: undefined;
 };
 
+export type GetArtistsInListenerLibraryStartActionType = {
+  type: typeof ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY;
+  payload: GetArtistsInListenerLibraryRequest;
+};
+
+export type GetArtistsInListenerLibrarySuccessActionType = {
+  type: typeof ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS;
+  payload: GetArtistsInListenerLibraryResponse;
+};
+
+export type GetArtistsInListenerLibraryFailedActionType = {
+  type: typeof ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY_FAILED;
+  payload: ActionFailedError;
+};
+
+export type LoadMoreArtistsInListenerLibraryStartActionType = {
+  type: typeof ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY;
+  payload: GetArtistsInListenerLibraryRequest;
+};
+
+export type LoadMoreArtistsInListenerLibrarySuccessActionType = {
+  type: typeof ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS;
+  payload: GetArtistsInListenerLibraryResponse;
+};
+
+export type LoadMoreArtistsInListenerLibraryFailedActionType = {
+  type: typeof ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED;
+  payload: ActionFailedError;
+};
+
 export type ArtistActions =
   | GetArtistsStartActionType
   | GetArtistsSuccessActionType
@@ -122,4 +152,10 @@ export type ArtistActions =
   | GetGenresFailedActionType
   | GetMostRecentReleaseStartActionType
   | GetMostRecentReleaseSuccessActionType
-  | GetMostRecentReleaseFailedActionType;
+  | GetMostRecentReleaseFailedActionType
+  | GetArtistsInListenerLibraryStartActionType
+  | GetArtistsInListenerLibrarySuccessActionType
+  | GetArtistsInListenerLibraryFailedActionType
+  | LoadMoreArtistsInListenerLibraryStartActionType
+  | LoadMoreArtistsInListenerLibrarySuccessActionType
+  | LoadMoreArtistsInListenerLibraryFailedActionType;

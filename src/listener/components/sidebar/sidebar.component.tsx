@@ -16,16 +16,13 @@ import { PlaylistIconViewComponent } from "../../playlist/playlist-views/playlis
 export function SidebarComponent() {
 
   const playlists = useSelector(playlistSelectors.playlists);
-  const userId = useSelector(userSelectors.userId);
 
   const dispatch = useDispatch();
-  const getPlaylists = (userId: string) => dispatch(playlistActions.getPlaylistsByListenerId(userId));
+  const getPlaylists = () => dispatch(playlistActions.getPlaylistsByListenerId());
 
   useEffect(() => {
-    if (userId) {
-      getPlaylists(userId);
-    }
-  }, [userId]);
+    getPlaylists();
+  }, []);
 
   return (
     <div className="sidebar">

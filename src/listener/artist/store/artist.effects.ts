@@ -1,11 +1,12 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData } from './artist.model';
+import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryResponse } from './artist.model';
 import ArtistService from './artist.service';
 import { artistActions } from './artist.actions';
 import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
-import { FollowArtistStartActionType, GetArtistByIdStartActionType, GetGenresStartActionType, GetMostRecentReleaseStartActionType, UnfollowArtistStartActionType } from './artist.actions.types';
+import { FollowArtistStartActionType, GetArtistByIdStartActionType, GetArtistsInListenerLibraryStartActionType, GetGenresStartActionType, GetMostRecentReleaseStartActionType, LoadMoreArtistsInListenerLibraryStartActionType, UnfollowArtistStartActionType } from './artist.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { AlbumFullResponseData } from '../../album/store/album.model';
+import { artistSelectors } from './artist.selectors';
 
 export const artistEffects = [
   takeEvery(ArtistActionTypes.GET_ARTISTS, getArtists),
@@ -19,7 +20,11 @@ export const artistEffects = [
   takeEvery(ArtistActionTypes.GET_GENRES, getGenres),
   takeEvery(ArtistActionTypes.GET_GENRES_FAILED, handleError),
   takeEvery(ArtistActionTypes.GET_MOST_RECENT_RELEASE, getMostRecentRelease),
-  takeEvery(ArtistActionTypes.GET_MOST_RECENT_RELEASE_FAILED, handleError)
+  takeEvery(ArtistActionTypes.GET_MOST_RECENT_RELEASE_FAILED, handleError),
+  takeEvery(ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY, getArtistsInListenerLibrary),
+  takeEvery(ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY_FAILED, handleError),
+  takeEvery(ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY, loadMoreArtistsInListenerLibrary),
+  takeEvery(ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED, handleError),
 ];
 
 function* getArtists() {
@@ -83,6 +88,33 @@ function* getMostRecentRelease(action: GetMostRecentReleaseStartActionType) {
   } catch (e) {
     const error = e as Error;
     yield put(artistActions.getMostRecentReleaseFailed({ error }));
+  }
+}
+
+function* getArtistsInListenerLibrary(action: GetArtistsInListenerLibraryStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetArtistsInListenerLibraryResponse = yield ArtistService.getArtistsInListenerLibrary(listenerId, action.payload);
+    yield put(artistActions.getArtistsInListenerLibrarySuccess(response));
+  } catch (e) {
+    const error = e as Error;
+    yield put(artistActions.getArtistsInListenerLibraryFailed({ error }));
+  }
+}
+
+function* loadMoreArtistsInListenerLibrary(action: LoadMoreArtistsInListenerLibraryStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetArtistsInListenerLibraryResponse = yield ArtistService.getArtistsInListenerLibrary(listenerId, action.payload);
+    const currentFollowedArtists: Array<ArtistInfoResponseData> = yield select(artistSelectors.followedArtists);
+    const followedArtists: Array<ArtistInfoResponseData> = (currentFollowedArtists || []).concat(...response.followedArtists);
+    yield put(artistActions.loadMoreArtistsInListenerLibrarySuccess({
+      followedArtists: followedArtists,
+      isMoreFollowedArtistsForLoading: response.isMoreFollowedArtistsForLoading
+    }));
+  } catch (e) {
+    const error = e as Error;
+    yield put(artistActions.loadMoreArtistsInListenerLibraryFailed({ error }));
   }
 }
 

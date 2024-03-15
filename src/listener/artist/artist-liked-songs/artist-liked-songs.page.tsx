@@ -61,7 +61,7 @@ export function ArtistLikedSongsPage() {
             })}
             onMouseEnter={() => setIsCoverImageHovered(true)}
             onMouseLeave={() => setIsCoverImageHovered(false)}>
-            {renderPlaylistIcon(160, profileImageUrl, undefined, backgroundColor, name)}
+            {renderPlaylistIcon(160, 'absolute', profileImageUrl, undefined, backgroundColor, name)}
             {isCoverImageHovered && <div className='artist-songs-page__cover-shadow'></div>}
             {isCoverImageHovered && <PlayArrow sx={{ color: listenerProfileTypePalete.base }} className='artist-songs-page__play-button' />}
           </div>

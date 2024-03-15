@@ -73,7 +73,7 @@ export function PlaylistPage() {
             })}
             onMouseEnter={() => setIsCoverImageHovered(!!songs?.length && true)}
             onMouseLeave={() => setIsCoverImageHovered(false)}>
-            {renderPlaylistIcon(160, playlistCoverImageUrl, tag as PlaylistTagEnum, backgroundColor, name)}
+            {renderPlaylistIcon(160, 'absolute', playlistCoverImageUrl, tag as PlaylistTagEnum, backgroundColor, name)}
             {isCoverImageHovered && <div className='playlist-page__cover-shadow'></div>}
             {isCoverImageHovered && <PlayArrow sx={{ color: listenerProfileTypePalete.base }} className='playlist-page__play-button' />}
           </div>

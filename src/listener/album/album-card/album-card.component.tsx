@@ -12,10 +12,14 @@ const { Text, Title, Link } = Typography;
 
 export function AlbumCardComponent({
   album,
-  showArtistInfo
+  showArtistInfo,
+  showLikeButton,
+  reference
 }: {
   album: AlbumInfoResponseData;
   showArtistInfo?: boolean;
+  showLikeButton?: boolean;
+  reference?: ((node?: Element | null | undefined) => void) | null
 }) {
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -34,19 +38,20 @@ export function AlbumCardComponent({
   return (
     <div
       className="album-card cursor-pointer"
+      ref={reference}
       onClick={() => navigate(`/album/${album.albumId}`)}>
       <Avatar shape='square' size={128} src={album.coverImageUrl} />
       <div className="album-card__title-wrapper">
         <Title className="album-card__title m-0" level={5}>{album.name}</Title>
       </div>
-      {showArtistInfo ? <div className="album-card__title-wrapper">
+      {showArtistInfo ? <div className="album-card__artist-info-wrapper">
         <Text className="album-card__title m-0">
           <RouterLink onClick={(event) => event.stopPropagation()} key={album.artist?.id} to={`/artist/${album.artist?.id}`}>{album.artist?.name}</RouterLink>
         </Text>
       </div> : null}
       <div className="album-card__info">
         <Text>{moment(album.date).year()}</Text>
-        <Tooltip title={album.isAddedToLibrary ? `Remove album ${album.name} from your library` : `Save album ${album.name} to your library`}>
+        {showLikeButton ? <Tooltip title={album.isAddedToLibrary ? `Remove album ${album.name} from your library` : `Save album ${album.name} to your library`}>
           <div
             className='cursor-pointer'
             onClick={(event) => changeAlbumPresenceInLibrary(event)}>
@@ -54,7 +59,7 @@ export function AlbumCardComponent({
               <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
               <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />}
           </div>
-        </Tooltip>
+        </Tooltip> : null}
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import {
 
 export type GetPlaylistsByListenerIdStartActionType = {
   type: typeof PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID;
-  payload: string;
+  payload: undefined;
 };
 
 export type GetPlaylistsByListenerIdSuccessActionType = {

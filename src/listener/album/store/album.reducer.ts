@@ -87,6 +87,46 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
         albums: action.payload
       }
     }
+    case AlbumActionTypes.GET_ALBUMS_IN_LISTENER_LIBRARY: {
+      return {
+        ...state,
+        isLikedAlbumsLoading: true
+      }
+    }
+    case AlbumActionTypes.GET_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS: {
+      return {
+        ...state,
+        isLikedAlbumsLoading: false,
+        likedAlbums: action.payload.likedAlbums,
+        isMoreLikedAlbumsForLoading: action.payload.isMoreLikedAlbumsForLoading,
+      }
+    }
+    case AlbumActionTypes.GET_ALBUMS_IN_LISTENER_LIBRARY_FAILED: {
+      return {
+        ...state,
+        isLikedAlbumsLoading: false
+      }
+    }
+    case AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY: {
+      return {
+        ...state,
+        isLikedAlbumsLoading: true
+      }
+    }
+    case AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS: {
+      return {
+        ...state,
+        isLikedAlbumsLoading: false,
+        likedAlbums: action.payload.likedAlbums,
+        isMoreLikedAlbumsForLoading: action.payload.isMoreLikedAlbumsForLoading,
+      }
+    }
+    case AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED: {
+      return {
+        ...state,
+        isLikedAlbumsLoading: false
+      }
+    }
     default: {
       return { ...state }
     }

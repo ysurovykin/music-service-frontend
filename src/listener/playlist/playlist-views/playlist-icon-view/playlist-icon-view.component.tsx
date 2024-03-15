@@ -5,17 +5,23 @@ import { renderPlaylistIcon } from "../../../../helpers/react/listener-page.help
 
 export function PlaylistIconViewComponent({
   playlist,
-  containLink = true
+  containLink = true,
+  size = 48,
+  position = 'absolute'
 }: {
   playlist: PlaylistInfoResponseData
   containLink?: boolean
+  size?: number
+  position?: 'absolute' | 'relative'
 }) {
 
-  return <div className="playlist-icon-view__side-bar-icon">
+  return <div
+    className="playlist-icon-view__side-bar-icon"
+    style={{ height: size, width: size }}>
     {containLink ?
       (<RouterLink to={`/playlist/${playlist.playlistId}`}>
-        {renderPlaylistIcon(48, playlist.coverImageUrl, playlist.tag as PlaylistTagEnum, playlist.backgroundColor, playlist.name)}
+        {renderPlaylistIcon(size, position, playlist.coverImageUrl, playlist.tag as PlaylistTagEnum, playlist.backgroundColor, playlist.name)}
       </RouterLink >) :
-      renderPlaylistIcon(48, playlist.coverImageUrl, playlist.tag as PlaylistTagEnum, playlist.backgroundColor, playlist.name)}
+      renderPlaylistIcon(size, position, playlist.coverImageUrl, playlist.tag as PlaylistTagEnum, playlist.backgroundColor, playlist.name)}
   </div>
 }

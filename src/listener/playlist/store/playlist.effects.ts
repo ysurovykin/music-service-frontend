@@ -32,9 +32,10 @@ export const playlistEffects = [
   takeEvery(PlaylistActionTypes.EDIT_PLAYLIST_FAILED, handleError),
 ];
 
-function* getPlaylistsByListenerId(action: GetPlaylistsByListenerIdStartActionType) {
+function* getPlaylistsByListenerId() {
   try {
-    const playlists: Array<PlaylistInfoResponseData> = yield PlaylistService.getPlaylistsByListenerId(action.payload);
+    const listenerId: string = yield select(userSelectors.userId);
+    const playlists: Array<PlaylistInfoResponseData> = yield PlaylistService.getPlaylistsByListenerId(listenerId);
     yield put(playlistActions.getPlaylistsByListenerIdSuccess(playlists));
   } catch (e) {
     const error = e as Error;
@@ -110,7 +111,7 @@ function* createPlaylist(action: CreatePlaylistStartActionType) {
     yield PlaylistService.createPlaylist(listenerId, formData);
 
     yield put(playlistActions.createPlaylistSuccess());
-    yield put(playlistActions.getPlaylistsByListenerId(listenerId));
+    yield put(playlistActions.getPlaylistsByListenerId());
   } catch (e) {
     const error = e as Error;
     yield put(playlistActions.createPlaylistFailed({ error }));
@@ -134,7 +135,7 @@ function* editPlaylist(action: EditPlaylistStartActionType) {
     yield PlaylistService.editPlaylist(listenerId, formData);
 
     yield put(playlistActions.editPlaylistSuccess());
-    yield put(playlistActions.getPlaylistsByListenerId(listenerId));
+    yield put(playlistActions.getPlaylistsByListenerId());
     yield put(playlistActions.getPlaylistById(action.payload.playlistId));
   } catch (e) {
     const error = e as Error;

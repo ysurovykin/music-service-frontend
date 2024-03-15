@@ -1,4 +1,4 @@
-.album-card {
+.playlist-card {
   width: 160px;
   background-color: #282828;
   border-radius: 6px;
@@ -18,13 +18,9 @@
     white-space: nowrap;
 
     &-wrapper {
-      margin-top: 8px;
       width: 128px;
+      margin-top: 8px;
     }
-  }
-
-  &__artist-info-wrapper {
-    width: 128px;
   }
 
   &__info {

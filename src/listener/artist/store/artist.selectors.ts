@@ -26,6 +26,9 @@ const mostRecentRelease = createSelector(artistState, artist => artist?.mostRece
 const isMostRecentReleaseLoading = createSelector(artistState, artist => artist?.isMostRecentReleaseLoading);
 const albumsCount = createSelector(artistState, artist => artist?.albumsCount);
 const albumsWhereAppearsCount = createSelector(artistState, artist => artist?.albumsWhereAppearsCount);
+const followedArtists = createSelector(artistState, artist => artist?.followedArtists);
+const isFollowedArtistsLoading = createSelector(artistState, artist => artist?.isFollowedArtistsLoading);
+const isMoreFollowedArtistsForLoading = createSelector(artistState, artist => artist?.isMoreFollowedArtistsForLoading);
 
 export const artistSelectors = {
   artistId,
@@ -50,5 +53,8 @@ export const artistSelectors = {
   mostRecentRelease,
   isMostRecentReleaseLoading,
   albumsCount,
-  albumsWhereAppearsCount
+  albumsWhereAppearsCount,
+  followedArtists,
+  isFollowedArtistsLoading,
+  isMoreFollowedArtistsForLoading
 };

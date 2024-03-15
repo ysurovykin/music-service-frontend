@@ -1,5 +1,5 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { AlbumActionTypes, AlbumInfoResponseData } from './album.model';
+import { AlbumActionTypes, AlbumInfoResponseData, GetAlbumsInListenerLibraryResponse } from './album.model';
 import AlbumService from './album.service';
 import { albumActions } from './album.actions';
 import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
@@ -7,7 +7,9 @@ import {
   AddAlbumToLibraryStartActionType,
   GetAlbumByIdStartActionType,
   GetAlbumsByArtistIdStartActionType,
+  GetAlbumsInListenerLibraryStartActionType,
   GetAlbumsWhereArtistAppearsStartActionType,
+  LoadMoreAlbumsInListenerLibraryStartActionType,
   RemoveAlbumFromLibraryStartActionType
 } from './album.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
@@ -23,7 +25,11 @@ export const albumEffects = [
   takeEvery(AlbumActionTypes.ADD_ALBUM_TO_LIBRARY, addAlbumToLibrary),
   takeEvery(AlbumActionTypes.ADD_ALBUM_TO_LIBRARY_FAILED, handleError),
   takeEvery(AlbumActionTypes.REMOVE_ALBUM_FROM_LIBRARY, removeAlbumFromLibrary),
-  takeEvery(AlbumActionTypes.REMOVE_ALBUM_FROM_LIBRARY_FAILED, handleError)
+  takeEvery(AlbumActionTypes.REMOVE_ALBUM_FROM_LIBRARY_FAILED, handleError),
+  takeEvery(AlbumActionTypes.GET_ALBUMS_IN_LISTENER_LIBRARY, getAlbumsInListenerLibrary),
+  takeEvery(AlbumActionTypes.GET_ALBUMS_IN_LISTENER_LIBRARY_FAILED, handleError),
+  takeEvery(AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY, loadMoreAlbumsInListenerLibrary),
+  takeEvery(AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED, handleError),
 ];
 
 function* getAlbumsByArtistId(action: GetAlbumsByArtistIdStartActionType) {
@@ -92,6 +98,33 @@ function* removeAlbumFromLibrary(action: RemoveAlbumFromLibraryStartActionType) 
   } catch (e) {
     const error = e as Error;
     yield put(albumActions.removeAlbumFromLibraryFailed({ error }));
+  }
+}
+
+function* getAlbumsInListenerLibrary(action: GetAlbumsInListenerLibraryStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetAlbumsInListenerLibraryResponse = yield AlbumService.getAlbumsInListenerLibrary(listenerId, action.payload);
+    yield put(albumActions.getAlbumsInListenerLibrarySuccess(response));
+  } catch (e) {
+    const error = e as Error;
+    yield put(albumActions.getAlbumsInListenerLibraryFailed({ error }));
+  }
+}
+
+function* loadMoreAlbumsInListenerLibrary(action: LoadMoreAlbumsInListenerLibraryStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetAlbumsInListenerLibraryResponse = yield AlbumService.getAlbumsInListenerLibrary(listenerId, action.payload);
+    const currentLikedAlbums: Array<AlbumInfoResponseData> = yield select(albumSelectors.likedAlbums);
+    const likedAlbums: Array<AlbumInfoResponseData> = (currentLikedAlbums || []).concat(...response.likedAlbums);
+    yield put(albumActions.loadMoreAlbumsInListenerLibrarySuccess({
+      likedAlbums: likedAlbums,
+      isMoreLikedAlbumsForLoading: response.isMoreLikedAlbumsForLoading
+    }));
+  } catch (e) {
+    const error = e as Error;
+    yield put(albumActions.loadMoreAlbumsInListenerLibraryFailed({ error }));
   }
 }
 

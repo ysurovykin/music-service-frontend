@@ -1,5 +1,5 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData } from "./album.model";
+import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse } from "./album.model";
 
 export type GetAlbumsByArtistIdStartActionType = {
   type: typeof AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID;
@@ -81,6 +81,36 @@ export type UpdateAlbumsInfoActionType = {
   payload: Array<AlbumInfoResponseData>;
 };
 
+export type GetAlbumsInListenerLibraryStartActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS_IN_LISTENER_LIBRARY;
+  payload: GetAlbumsInListenerLibraryRequest;
+};
+
+export type GetAlbumsInListenerLibrarySuccessActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS;
+  payload: GetAlbumsInListenerLibraryResponse;
+};
+
+export type GetAlbumsInListenerLibraryFailedActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS_IN_LISTENER_LIBRARY_FAILED;
+  payload: ActionFailedError;
+};
+
+export type LoadMoreAlbumsInListenerLibraryStartActionType = {
+  type: typeof AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY;
+  payload: GetAlbumsInListenerLibraryRequest;
+};
+
+export type LoadMoreAlbumsInListenerLibrarySuccessActionType = {
+  type: typeof AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS;
+  payload: GetAlbumsInListenerLibraryResponse;
+};
+
+export type LoadMoreAlbumsInListenerLibraryFailedActionType = {
+  type: typeof AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED;
+  payload: ActionFailedError;
+};
+
 export type AlbumActions =
   | GetAlbumsByArtistIdStartActionType
   | GetAlbumsByArtistIdSuccessActionType
@@ -97,4 +127,10 @@ export type AlbumActions =
   | RemoveAlbumFromLibraryStartActionType
   | RemoveAlbumFromLibrarySuccessActionType
   | RemoveAlbumFromLibraryFailedActionType
-  | UpdateAlbumsInfoActionType;
+  | UpdateAlbumsInfoActionType
+  | GetAlbumsInListenerLibraryStartActionType
+  | GetAlbumsInListenerLibrarySuccessActionType
+  | GetAlbumsInListenerLibraryFailedActionType
+  | LoadMoreAlbumsInListenerLibraryStartActionType
+  | LoadMoreAlbumsInListenerLibrarySuccessActionType
+  | LoadMoreAlbumsInListenerLibraryFailedActionType;

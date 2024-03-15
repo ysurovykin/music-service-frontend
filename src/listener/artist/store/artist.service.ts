@@ -1,6 +1,6 @@
 import api from "../../../helpers/http/api.helper";
 import { AxiosResponse } from "axios";
-import { ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData } from "./artist.model";
+import { ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse } from "./artist.model";
 import { AlbumFullResponseData } from "../../album/store/album.model";
 
 export default class ArtistService {
@@ -33,6 +33,12 @@ export default class ArtistService {
     static async getMostRecentRelease(listenerId: string, artistId: string): Promise<AxiosResponse<AlbumFullResponseData>> {
         return await api.get<AlbumFullResponseData>(`/artist/most-recent-release/${artistId}`, {
             params: { listenerId }
+        });
+    }
+
+    static async getArtistsInListenerLibrary(listenerId: string, request: GetArtistsInListenerLibraryRequest): Promise<AxiosResponse<GetArtistsInListenerLibraryResponse>> {
+        return await api.get<GetArtistsInListenerLibraryResponse>(`/artist/artists-in-library/${listenerId}`, {
+            params: { ...request }
         });
     }
 }
