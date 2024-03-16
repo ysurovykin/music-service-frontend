@@ -14,7 +14,8 @@ export const artistReducer = (state = artistState, action: ArtistActions): Artis
       return {
         ...state,
         isArtistQueueLoading: false,
-        artists: action.payload
+        artists: action.payload.artists,
+        isMoreArtistsForLoading: action.payload.isMoreArtistsForLoading
       }
     }
     case ArtistActionTypes.GET_ARTISTS_FAILED: {
@@ -26,13 +27,13 @@ export const artistReducer = (state = artistState, action: ArtistActions): Artis
     case ArtistActionTypes.GET_ARTIST_BY_ID: {
       return {
         ...state,
-        isArtistLoading: true
+        isArtistsLoading: true
       }
     }
     case ArtistActionTypes.GET_ARTIST_BY_ID_SUCCESS: {
       return {
         ...state,
-        isArtistLoading: false,
+        isArtistsLoading: false,
         artistId: action.payload.artistId,
         name: action.payload.name,
         country: action.payload.country,
@@ -52,7 +53,7 @@ export const artistReducer = (state = artistState, action: ArtistActions): Artis
     case ArtistActionTypes.GET_ARTIST_BY_ID_FAILED: {
       return {
         ...state,
-        isArtistLoading: false
+        isArtistsLoading: false
       }
     }
     case ArtistActionTypes.FOLLOW_ARTIST_SUCCESS: {

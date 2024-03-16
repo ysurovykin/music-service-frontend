@@ -35,8 +35,8 @@ function* getSongs(action: GetSongsStartActionType) {
     const listenerId: string = yield select(userSelectors.userId);
     const response: GetSongsResponseData = yield SongService.getSongs(listenerId, action.payload);
     const callSourceId = localStorage.getItem('currentSourceId');
-    const mostRecentCall = callSourceId === action.payload.options.albumId ||
-      callSourceId === action.payload.options.artistId || callSourceId === action.payload.options.playlistId;
+    const mostRecentCall = callSourceId === action.payload.options?.albumId ||
+      callSourceId === action.payload.options?.artistId || callSourceId === action.payload.options?.playlistId || action.payload.search;
     const currentSongs: Array<SongInfoResponseData> = yield select(songSelectors.songs);
     const songs: Array<SongInfoResponseData> = mostRecentCall ? response.songs : currentSongs;
     yield put(songActions.getSongsSuccess({ songs: songs, isMoreSongsForLoading: response.isMoreSongsForLoading }));

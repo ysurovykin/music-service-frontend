@@ -127,6 +127,47 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
         isLikedAlbumsLoading: false
       }
     }
+    
+    case AlbumActionTypes.GET_ALBUMS: {
+      return {
+        ...state,
+        isAlbumsLoading: true
+      }
+    }
+    case AlbumActionTypes.GET_ALBUMS_SUCCESS: {
+      return {
+        ...state,
+        isAlbumsLoading: false,
+        albums: action.payload.albums,
+        isMoreAlbumsForLoading: action.payload.isMoreAlbumsForLoading,
+      }
+    }
+    case AlbumActionTypes.GET_ALBUMS_FAILED: {
+      return {
+        ...state,
+        isAlbumsLoading: false
+      }
+    }
+    case AlbumActionTypes.LOAD_MORE_ALBUMS: {
+      return {
+        ...state,
+        isAlbumsLoading: true
+      }
+    }
+    case AlbumActionTypes.LOAD_MORE_ALBUMS_SUCCESS: {
+      return {
+        ...state,
+        isAlbumsLoading: false,
+        albums: action.payload.albums,
+        isMoreAlbumsForLoading: action.payload.isMoreAlbumsForLoading,
+      }
+    }
+    case AlbumActionTypes.LOAD_MORE_ALBUMS_FAILED: {
+      return {
+        ...state,
+        isAlbumsLoading: false
+      }
+    }
     default: {
       return { ...state }
     }

@@ -1,15 +1,31 @@
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  height: 100%;
+  padding: 15px 20px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
 
   &-wrapper {
-    z-index: 1;
-    height: 64px;
-    position: sticky;
-    top: 0;
+
+    &--one-row {
+      z-index: 1;
+      height: 64px;
+      position: sticky;
+      top: 0;
+    }
+
+    &--two-rows {
+      z-index: 1;
+      height: 100px;
+      position: sticky;
+      top: 0;
+    }
   }
 
   &__background {
@@ -27,7 +43,9 @@
   }
 
   &__icon-wrapper {
-    &--active, &--disabled {
+
+    &--active,
+    &--disabled {
       width: 32px;
       height: 32px;
       border-radius: 50%;

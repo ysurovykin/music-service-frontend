@@ -4,6 +4,9 @@ import {
   GetArtistsFailedActionType,
   GetArtistsStartActionType,
   GetArtistsSuccessActionType,
+  LoadMoreArtistsStartActionType,
+  LoadMoreArtistsSuccessActionType,
+  LoadMoreArtistsFailedActionType,
   GetArtistByIdStartActionType,
   GetArtistByIdSuccessActionType,
   GetArtistByIdFailedActionType,
@@ -28,16 +31,25 @@ import {
   LoadMoreArtistsInListenerLibrarySuccessActionType,
   LoadMoreArtistsInListenerLibraryFailedActionType
 } from "./artist.actions.types";
-import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse } from "./artist.model";
+import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse, GetArtistsRequest, GetArtistsResponse } from "./artist.model";
 
-export const getArtistsStartAction = ():
-  GetArtistsStartActionType => ({ type: ArtistActionTypes.GET_ARTISTS, payload: undefined });
+export const getArtistsStartAction = (request: GetArtistsRequest):
+  GetArtistsStartActionType => ({ type: ArtistActionTypes.GET_ARTISTS, payload: request });
 
-export const getArtistsSuccessAction = (response: Array<ArtistInfoResponseData>):
+export const getArtistsSuccessAction = (response: GetArtistsResponse):
   GetArtistsSuccessActionType => ({ type: ArtistActionTypes.GET_ARTISTS_SUCCESS, payload: response });
 
 export const getArtistsFailedAction = (error: ActionFailedError):
   GetArtistsFailedActionType => ({ type: ArtistActionTypes.GET_ARTISTS_FAILED, payload: error });
+
+export const loadMoreArtistsStartAction = (request: GetArtistsRequest):
+  LoadMoreArtistsStartActionType => ({ type: ArtistActionTypes.LOAD_MORE_ARTISTS, payload: request });
+
+export const loadMoreArtistsSuccessAction = (response: GetArtistsResponse):
+  LoadMoreArtistsSuccessActionType => ({ type: ArtistActionTypes.LOAD_MORE_ARTISTS_SUCCESS, payload: response });
+
+export const loadMoreArtistsFailedAction = (error: ActionFailedError):
+  LoadMoreArtistsFailedActionType => ({ type: ArtistActionTypes.LOAD_MORE_ARTISTS_FAILED, payload: error });
 
 export const getArtistByIdStartAction = (artistId: string):
   GetArtistByIdStartActionType => ({ type: ArtistActionTypes.GET_ARTIST_BY_ID, payload: artistId });
@@ -109,9 +121,12 @@ export const loadMoreArtistsInListenerLibraryFailedAction = (error: ActionFailed
   LoadMoreArtistsInListenerLibraryFailedActionType => ({ type: ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED, payload: error });
 
 export const artistActions = {
-  getArtists: () => getArtistsStartAction(),
-  getArtistsSuccess: (response: Array<ArtistInfoResponseData>) => getArtistsSuccessAction(response),
+  getArtists: (request: GetArtistsRequest) => getArtistsStartAction(request),
+  getArtistsSuccess: (response: GetArtistsResponse) => getArtistsSuccessAction(response),
   getArtistsFailed: (error: ActionFailedError) => getArtistsFailedAction(error),
+  loadMoreArtists: (request: GetArtistsRequest) => loadMoreArtistsStartAction(request),
+  loadMoreArtistsSuccess: (response: GetArtistsResponse) => loadMoreArtistsSuccessAction(response),
+  loadMoreArtistsFailed: (error: ActionFailedError) => loadMoreArtistsFailedAction(error),
   getArtistById: (artistId: string) => getArtistByIdStartAction(artistId),
   getArtistByIdSuccess: (response: ArtistFullResponseData) => getArtistByIdSuccessAction(response),
   getArtistByIdFailed: (error: ActionFailedError) => getArtistByIdFailedAction(error),

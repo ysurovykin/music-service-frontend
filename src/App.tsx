@@ -79,11 +79,11 @@ function App() {
               headerBg: listenerProfileTypePalete.backgroundAccent
             },
             Input: {
-              colorText: listenerProfileTypePalete.backgroundAccentLight,
+              colorText: '#ffffff',
               colorTextPlaceholder: 'grey',
-              hoverBg: listenerProfileTypePalete.backgroundAccentSemiDark,
-              activeBg: listenerProfileTypePalete.backgroundAccentSemiDark,
-              colorBgContainer: listenerProfileTypePalete.backgroundAccentSemiDark
+              hoverBg: listenerProfileTypePalete.backgroundAccent,
+              activeBg: listenerProfileTypePalete.backgroundAccent,
+              colorBgContainer: listenerProfileTypePalete.backgroundAccent
             },
             Button: {
               colorText: '#ffffff'

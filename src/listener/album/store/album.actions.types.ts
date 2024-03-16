@@ -1,5 +1,5 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse } from "./album.model";
+import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse } from "./album.model";
 
 export type GetAlbumsByArtistIdStartActionType = {
   type: typeof AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID;
@@ -111,6 +111,36 @@ export type LoadMoreAlbumsInListenerLibraryFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type GetAlbumsStartActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS;
+  payload: GetAlbumsRequest;
+};
+
+export type GetAlbumsSuccessActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS_SUCCESS;
+  payload: GetAlbumsResponse;
+};
+
+export type GetAlbumsFailedActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS_FAILED;
+  payload: ActionFailedError;
+};
+
+export type LoadMoreAlbumsStartActionType = {
+  type: typeof AlbumActionTypes.LOAD_MORE_ALBUMS;
+  payload: GetAlbumsRequest;
+};
+
+export type LoadMoreAlbumsSuccessActionType = {
+  type: typeof AlbumActionTypes.LOAD_MORE_ALBUMS_SUCCESS;
+  payload: GetAlbumsResponse;
+};
+
+export type LoadMoreAlbumsFailedActionType = {
+  type: typeof AlbumActionTypes.LOAD_MORE_ALBUMS_FAILED;
+  payload: ActionFailedError;
+};
+
 export type AlbumActions =
   | GetAlbumsByArtistIdStartActionType
   | GetAlbumsByArtistIdSuccessActionType
@@ -133,4 +163,10 @@ export type AlbumActions =
   | GetAlbumsInListenerLibraryFailedActionType
   | LoadMoreAlbumsInListenerLibraryStartActionType
   | LoadMoreAlbumsInListenerLibrarySuccessActionType
-  | LoadMoreAlbumsInListenerLibraryFailedActionType;
+  | LoadMoreAlbumsInListenerLibraryFailedActionType
+  | GetAlbumsStartActionType
+  | GetAlbumsSuccessActionType
+  | GetAlbumsFailedActionType
+  | LoadMoreAlbumsStartActionType
+  | LoadMoreAlbumsSuccessActionType
+  | LoadMoreAlbumsFailedActionType;

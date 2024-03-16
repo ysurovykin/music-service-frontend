@@ -21,9 +21,15 @@ import {
   GetAlbumsInListenerLibraryFailedActionType,
   LoadMoreAlbumsInListenerLibraryStartActionType,
   LoadMoreAlbumsInListenerLibrarySuccessActionType,
-  LoadMoreAlbumsInListenerLibraryFailedActionType
+  LoadMoreAlbumsInListenerLibraryFailedActionType,
+  GetAlbumsStartActionType,
+  GetAlbumsSuccessActionType,
+  GetAlbumsFailedActionType,
+  LoadMoreAlbumsStartActionType,
+  LoadMoreAlbumsSuccessActionType,
+  LoadMoreAlbumsFailedActionType,
 } from "./album.actions.types";
-import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse } from "./album.model";
+import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse } from "./album.model";
 
 export const getAlbumsByArtistIdStartAction = (artistId: string):
   GetAlbumsByArtistIdStartActionType => ({ type: AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID, payload: artistId });
@@ -91,6 +97,25 @@ export const loadMoreAlbumsInListenerLibrarySuccessAction = (response: GetAlbums
 export const loadMoreAlbumsInListenerLibraryFailedAction = (error: ActionFailedError):
   LoadMoreAlbumsInListenerLibraryFailedActionType => ({ type: AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED, payload: error });
 
+export const getAlbumsStartAction = (request: GetAlbumsRequest):
+  GetAlbumsStartActionType => ({ type: AlbumActionTypes.GET_ALBUMS, payload: request });
+
+export const getAlbumsSuccessAction = (response: GetAlbumsResponse):
+  GetAlbumsSuccessActionType => ({ type: AlbumActionTypes.GET_ALBUMS_SUCCESS, payload: response });
+
+export const getAlbumsFailedAction = (error: ActionFailedError):
+  GetAlbumsFailedActionType => ({ type: AlbumActionTypes.GET_ALBUMS_FAILED, payload: error });
+
+export const loadMoreAlbumsStartAction = (request: GetAlbumsRequest):
+  LoadMoreAlbumsStartActionType => ({ type: AlbumActionTypes.LOAD_MORE_ALBUMS, payload: request });
+
+export const loadMoreAlbumsSuccessAction = (response: GetAlbumsResponse):
+  LoadMoreAlbumsSuccessActionType => ({ type: AlbumActionTypes.LOAD_MORE_ALBUMS_SUCCESS, payload: response });
+
+export const loadMoreAlbumsFailedAction = (error: ActionFailedError):
+  LoadMoreAlbumsFailedActionType => ({ type: AlbumActionTypes.LOAD_MORE_ALBUMS_FAILED, payload: error });
+
+
 export const albumActions = {
   getAlbumsByArtistId: (artistId: string) => getAlbumsByArtistIdStartAction(artistId),
   getAlbumsByArtistIdSuccess: (response: Array<AlbumInfoResponseData>) => getAlbumsByArtistIdSuccessAction(response),
@@ -114,5 +139,11 @@ export const albumActions = {
   loadMoreAlbumsInListenerLibrary: (request: GetAlbumsInListenerLibraryRequest) => loadMoreAlbumsInListenerLibraryStartAction(request),
   loadMoreAlbumsInListenerLibrarySuccess: (response: GetAlbumsInListenerLibraryResponse) => loadMoreAlbumsInListenerLibrarySuccessAction(response),
   loadMoreAlbumsInListenerLibraryFailed: (error: ActionFailedError) => loadMoreAlbumsInListenerLibraryFailedAction(error),
+  getAlbums: (request: GetAlbumsRequest) => getAlbumsStartAction(request),
+  getAlbumsSuccess: (response: GetAlbumsResponse) => getAlbumsSuccessAction(response),
+  getAlbumsFailed: (error: ActionFailedError) => getAlbumsFailedAction(error),
+  loadMoreAlbums: (request: GetAlbumsRequest) => loadMoreAlbumsStartAction(request),
+  loadMoreAlbumsSuccess: (response: GetAlbumsResponse) => loadMoreAlbumsSuccessAction(response),
+  loadMoreAlbumsFailed: (error: ActionFailedError) => loadMoreAlbumsFailedAction(error),
 }
 

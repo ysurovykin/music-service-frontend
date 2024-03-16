@@ -48,6 +48,7 @@ export type GenerateQueueRequestData = {
   options?: GenerateQueueOptions; //define if isNewQueue === true
   onlyLiked?: boolean;
   sortingOptions?: GetSongsSortingOptions;
+  search?: string;
 }
 
 export type GenerateQueueOptions = {

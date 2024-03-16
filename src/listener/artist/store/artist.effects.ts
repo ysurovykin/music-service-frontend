@@ -1,9 +1,9 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryResponse } from './artist.model';
+import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryResponse, GetArtistsResponse } from './artist.model';
 import ArtistService from './artist.service';
 import { artistActions } from './artist.actions';
 import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
-import { FollowArtistStartActionType, GetArtistByIdStartActionType, GetArtistsInListenerLibraryStartActionType, GetGenresStartActionType, GetMostRecentReleaseStartActionType, LoadMoreArtistsInListenerLibraryStartActionType, UnfollowArtistStartActionType } from './artist.actions.types';
+import { FollowArtistStartActionType, GetArtistByIdStartActionType, GetArtistsInListenerLibraryStartActionType, GetArtistsStartActionType, GetGenresStartActionType, GetMostRecentReleaseStartActionType, LoadMoreArtistsInListenerLibraryStartActionType, UnfollowArtistStartActionType } from './artist.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { AlbumFullResponseData } from '../../album/store/album.model';
 import { artistSelectors } from './artist.selectors';
@@ -11,6 +11,8 @@ import { artistSelectors } from './artist.selectors';
 export const artistEffects = [
   takeEvery(ArtistActionTypes.GET_ARTISTS, getArtists),
   takeEvery(ArtistActionTypes.GET_ARTISTS_FAILED, handleError),
+  takeEvery(ArtistActionTypes.LOAD_MORE_ARTISTS, loadMoreArtists),
+  takeEvery(ArtistActionTypes.LOAD_MORE_ARTISTS_FAILED, handleError),
   takeEvery(ArtistActionTypes.GET_ARTIST_BY_ID, getArtistById),
   takeEvery(ArtistActionTypes.GET_ARTIST_BY_ID_FAILED, handleError),
   takeEvery(ArtistActionTypes.FOLLOW_ARTIST, followArtist),
@@ -27,13 +29,28 @@ export const artistEffects = [
   takeEvery(ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED, handleError),
 ];
 
-function* getArtists() {
+function* getArtists(action: GetArtistsStartActionType) {
   try {
-    const artists: Array<ArtistInfoResponseData> = yield ArtistService.getArtists();
-    yield put(artistActions.getArtistsSuccess(artists));
+    const response: GetArtistsResponse = yield ArtistService.getArtists(action.payload);
+    yield put(artistActions.getArtistsSuccess(response));
   } catch (e) {
     const error = e as Error;
     yield put(artistActions.getArtistsFailed({ error }));
+  }
+}
+
+function* loadMoreArtists(action: GetArtistsStartActionType) {
+  try {
+    const response: GetArtistsResponse = yield ArtistService.getArtists(action.payload);
+    const currentArtists: Array<ArtistInfoResponseData> = yield select(artistSelectors.artists);
+    const artists: Array<ArtistInfoResponseData> = (currentArtists || []).concat(...response.artists);
+    yield put(artistActions.loadMoreArtistsSuccess({
+      artists: artists,
+      isMoreArtistsForLoading: response.isMoreArtistsForLoading
+    }));
+  } catch (e) {
+    const error = e as Error;
+    yield put(artistActions.loadMoreArtistsFailed({ error }));
   }
 }
 

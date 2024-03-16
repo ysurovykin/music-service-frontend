@@ -7,6 +7,7 @@ export const albumState: AlbumState = {
   albumsArtistAppearsIn: undefined,
   isAlbumsArtistAppearsInLoading: false,
   isAlbumDataLoading: false,
+  isMoreAlbumsForLoading: undefined,
   albumId: undefined,
   name: undefined,
   date: undefined,
@@ -25,6 +26,7 @@ export const albumState: AlbumState = {
 export interface AlbumState extends AlbumFullResponseData {
   isAlbumsLoading: boolean,
   isAlbumDataLoading: boolean,
+  isMoreAlbumsForLoading?: boolean,
   albums?: Array<AlbumInfoResponseData>
   albumsArtistAppearsIn?: Array<AlbumInfoResponseData>
   isAlbumsArtistAppearsInLoading: boolean,
@@ -67,6 +69,17 @@ export type GetAlbumsInListenerLibraryRequest = {
   limit: number;
 }
 
+export type GetAlbumsRequest = {
+  search?: string;
+  offset: number;
+  limit: number;
+}
+
+export type GetAlbumsResponse = {
+  albums: Array<AlbumInfoResponseData>;
+  isMoreAlbumsForLoading: boolean;
+}
+
 export type GetAlbumsInListenerLibraryResponse = {
   likedAlbums: Array<AlbumInfoResponseData>;
   isMoreLikedAlbumsForLoading: boolean;
@@ -107,4 +120,12 @@ export enum AlbumActionTypes {
   LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY = "ALBUM.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_START",
   LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS = "ALBUM.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS",
   LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED = "ALBUM.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED",
+
+  GET_ALBUMS = "ALBUM.GET_ALBUMS_START",
+  GET_ALBUMS_SUCCESS = "ALBUM.GET_ALBUMS_SUCCESS",
+  GET_ALBUMS_FAILED = "ALBUM.GET_ALBUMS_FAILED",
+
+  LOAD_MORE_ALBUMS = "ALBUM.LOAD_MORE_ALBUMS_START",
+  LOAD_MORE_ALBUMS_SUCCESS = "ALBUM.LOAD_MORE_ALBUMS_SUCCESS",
+  LOAD_MORE_ALBUMS_FAILED = "ALBUM.LOAD_MORE_ALBUMS_FAILED",
 };

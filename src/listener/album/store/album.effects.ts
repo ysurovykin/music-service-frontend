@@ -1,5 +1,5 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { AlbumActionTypes, AlbumInfoResponseData, GetAlbumsInListenerLibraryResponse } from './album.model';
+import { AlbumActionTypes, AlbumInfoResponseData, GetAlbumsInListenerLibraryResponse, GetAlbumsResponse } from './album.model';
 import AlbumService from './album.service';
 import { albumActions } from './album.actions';
 import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
@@ -8,6 +8,7 @@ import {
   GetAlbumByIdStartActionType,
   GetAlbumsByArtistIdStartActionType,
   GetAlbumsInListenerLibraryStartActionType,
+  GetAlbumsStartActionType,
   GetAlbumsWhereArtistAppearsStartActionType,
   LoadMoreAlbumsInListenerLibraryStartActionType,
   RemoveAlbumFromLibraryStartActionType
@@ -30,6 +31,10 @@ export const albumEffects = [
   takeEvery(AlbumActionTypes.GET_ALBUMS_IN_LISTENER_LIBRARY_FAILED, handleError),
   takeEvery(AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY, loadMoreAlbumsInListenerLibrary),
   takeEvery(AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED, handleError),
+  takeEvery(AlbumActionTypes.GET_ALBUMS, getAlbums),
+  takeEvery(AlbumActionTypes.GET_ALBUMS_FAILED, handleError),
+  takeEvery(AlbumActionTypes.LOAD_MORE_ALBUMS, loadMoreAlbums),
+  takeEvery(AlbumActionTypes.LOAD_MORE_ALBUMS_FAILED, handleError),
 ];
 
 function* getAlbumsByArtistId(action: GetAlbumsByArtistIdStartActionType) {
@@ -125,6 +130,31 @@ function* loadMoreAlbumsInListenerLibrary(action: LoadMoreAlbumsInListenerLibrar
   } catch (e) {
     const error = e as Error;
     yield put(albumActions.loadMoreAlbumsInListenerLibraryFailed({ error }));
+  }
+}
+
+function* getAlbums(action: GetAlbumsStartActionType) {
+  try {
+    const response: GetAlbumsResponse = yield AlbumService.getAlbums(action.payload);
+    yield put(albumActions.getAlbumsSuccess(response));
+  } catch (e) {
+    const error = e as Error;
+    yield put(albumActions.getAlbumsFailed({ error }));
+  }
+}
+
+function* loadMoreAlbums(action: GetAlbumsStartActionType) {
+  try {
+    const response: GetAlbumsResponse = yield AlbumService.getAlbums(action.payload);
+    const currentAlbums: Array<AlbumInfoResponseData> = yield select(albumSelectors.albums);
+    const albums: Array<AlbumInfoResponseData> = (currentAlbums || []).concat(...response.albums);
+    yield put(albumActions.loadMoreAlbumsSuccess({
+      albums: albums,
+      isMoreAlbumsForLoading: response.isMoreAlbumsForLoading
+    }));
+  } catch (e) {
+    const error = e as Error;
+    yield put(albumActions.loadMoreAlbumsFailed({ error }));
   }
 }
 

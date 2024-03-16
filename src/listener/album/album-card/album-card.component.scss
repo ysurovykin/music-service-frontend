@@ -7,6 +7,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 8px;
+  position: relative;
 
   &:hover {
     background-color: #505050;
@@ -33,5 +34,24 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  &__close-icon-wrapper {
+    display: none;
+  }
+
+  &:hover > &__close-icon-wrapper {
+    display: block;
+    cursor: pointer;
+    width: 24px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 1;
   }
 }

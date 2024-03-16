@@ -1,19 +1,34 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
 import { AlbumFullResponseData } from "../../album/store/album.model";
-import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse } from "./artist.model";
+import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse, GetArtistsRequest, GetArtistsResponse } from "./artist.model";
 
 export type GetArtistsStartActionType = {
   type: typeof ArtistActionTypes.GET_ARTISTS;
-  payload: undefined;
+  payload: GetArtistsRequest;
 };
 
 export type GetArtistsSuccessActionType = {
   type: typeof ArtistActionTypes.GET_ARTISTS_SUCCESS;
-  payload: Array<ArtistInfoResponseData>;
+  payload: GetArtistsResponse;
 };
 
 export type GetArtistsFailedActionType = {
   type: typeof ArtistActionTypes.GET_ARTISTS_FAILED;
+  payload: ActionFailedError;
+};
+
+export type LoadMoreArtistsStartActionType = {
+  type: typeof ArtistActionTypes.LOAD_MORE_ARTISTS;
+  payload: GetArtistsRequest;
+};
+
+export type LoadMoreArtistsSuccessActionType = {
+  type: typeof ArtistActionTypes.LOAD_MORE_ARTISTS_SUCCESS;
+  payload: GetArtistsResponse;
+};
+
+export type LoadMoreArtistsFailedActionType = {
+  type: typeof ArtistActionTypes.LOAD_MORE_ARTISTS_FAILED;
   payload: ActionFailedError;
 };
 
@@ -136,6 +151,9 @@ export type ArtistActions =
   | GetArtistsStartActionType
   | GetArtistsSuccessActionType
   | GetArtistsFailedActionType
+  | LoadMoreArtistsStartActionType
+  | LoadMoreArtistsSuccessActionType
+  | LoadMoreArtistsFailedActionType
   | GetArtistByIdStartActionType
   | GetArtistByIdSuccessActionType
   | GetArtistByIdFailedActionType

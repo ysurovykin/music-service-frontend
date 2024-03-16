@@ -3,8 +3,9 @@ import { AlbumFullResponseData } from "../../album/store/album.model";
 export const artistState: ArtistState = {
   artists: undefined,
   isArtistQueueLoading: false,
-  isArtistLoading: false,
+  isArtistsLoading: false,
   artistId: undefined,
+  isMoreArtistsForLoading: undefined,
   name: undefined,
   country: undefined,
   description: undefined,
@@ -31,8 +32,9 @@ export const artistState: ArtistState = {
 
 export interface ArtistState extends ArtistFullResponseData {
   isArtistQueueLoading: boolean,
-  isArtistLoading: boolean,
+  isArtistsLoading: boolean,
   artists?: Array<ArtistInfoResponseData>,
+  isMoreArtistsForLoading?: boolean,
   isDiscoverArtistModalOpen: boolean,
   genres?: Array<ArtistGenres>,
   isGenresLoading: boolean,
@@ -84,15 +86,30 @@ export type GetArtistsInListenerLibraryRequest = {
   limit: number;
 }
 
+export type GetArtistsResponse = {
+  artists: Array<ArtistInfoResponseData>;
+  isMoreArtistsForLoading: boolean;
+}
+
 export type GetArtistsInListenerLibraryResponse = {
   followedArtists: Array<ArtistInfoResponseData>;
   isMoreFollowedArtistsForLoading: boolean;
+}
+
+export type GetArtistsRequest = {
+  search?: string;
+  offset: number;
+  limit: number;
 }
 
 export enum ArtistActionTypes {
   GET_ARTISTS = "ARTIST.GET_ARTISTS_START",
   GET_ARTISTS_SUCCESS = "ARTIST.GET_ARTISTS_SUCCESS",
   GET_ARTISTS_FAILED = "ARTIST.GET_ARTISTS_FAILED",
+
+  LOAD_MORE_ARTISTS = "ARTIST.LOAD_MORE_ARTISTS",
+  LOAD_MORE_ARTISTS_SUCCESS = "ARTIST.LOAD_MORE_ARTISTS_SUCCESS",
+  LOAD_MORE_ARTISTS_FAILED = "ARTIST.LOAD_MORE_ARTISTS_FAILED",
 
   GET_ARTIST_BY_ID = "ARTIST.GET_ARTIST_BY_ID_START",
   GET_ARTIST_BY_ID_SUCCESS = "ARTIST.GET_ARTIST_BY_ID_SUCCESS",

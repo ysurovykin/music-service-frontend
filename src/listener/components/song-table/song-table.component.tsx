@@ -33,13 +33,11 @@ import { AddSongToQueueRequestData, GenerateQueueRequestData, QueueSongInfoRespo
 import { queueActions } from '../../queue/store/queue.actions';
 import { useInView } from 'react-intersection-observer';
 import { ColumnProps, ColumnsType } from 'antd/es/table';
-import { platform } from 'os';
 import moment from 'moment';
 import { playlistActions } from '../../playlist/store/playlist.actions';
 import { playlistSelectors } from '../../playlist/store/playlist.selectors';
 import { openEditSongPlaylistsModal } from '../../playlist/store/playlist.model';
 import { MenuProps } from 'antd/lib';
-import { PageLoaderComponent } from '../loader/page-loader';
 import { showNotification } from '../../../helpers/react/redux.helper';
 
 const { Text, Title } = Typography;
@@ -47,11 +45,15 @@ const { Text, Title } = Typography;
 export function SongTableComponent({
   songsSourceOptions,
   sortingOptions,
-  onlyLiked
+  onlyLiked,
+  search,
+  offsetHeader = 64
 }: {
-  songsSourceOptions: GetSongsOptions;
+  songsSourceOptions?: GetSongsOptions;
   sortingOptions?: GetSongsSortingOptions;
   onlyLiked?: boolean;
+  search?: string;
+  offsetHeader?: number;
 }) {
   const [offset, setOffset] = useState(0);
   const [shouldShowAlbumColumn, setShouldShowAlbumColumn] = useState<boolean>(window.innerWidth > 950);
@@ -90,7 +92,8 @@ export function SongTableComponent({
         offset,
         limit: songsLoadingLimit,
         onlyLiked: onlyLiked,
-        sortingOptions: sortingOptions
+        sortingOptions: sortingOptions,
+        search: search
       });
       setOffset(state => state + 1);
     }
@@ -104,7 +107,8 @@ export function SongTableComponent({
         songId: currentSong?.songId || '',
         onlyLiked: onlyLiked,
         sortingOptions: sortingOptions,
-        options: songsSourceOptions
+        options: songsSourceOptions,
+        search: search
       });
     }
   }
@@ -140,17 +144,18 @@ export function SongTableComponent({
 
   useEffect(() => {
     clearSongs();
-    if (songsSourceOptions) {
+    if (songsSourceOptions || search) {
       getSongs({
         options: songsSourceOptions,
         offset: 0,
         limit: songsLoadingLimit,
         onlyLiked: onlyLiked,
-        sortingOptions: sortingOptions
+        sortingOptions: sortingOptions,
+        search
       });
       setOffset(state => state + 1);
     }
-  }, [songsSourceOptions.albumId, songsSourceOptions.playlistId, songsSourceOptions.artistId])
+  }, [songsSourceOptions?.albumId, songsSourceOptions?.playlistId, songsSourceOptions?.artistId, search])
 
   useEffect(() => {
     return () => {
@@ -233,7 +238,7 @@ export function SongTableComponent({
     };
 
     const renderLikeButton = (record: SongInfoResponseData) => {
-      if (songsSourceOptions.playlistId) {
+      if (songsSourceOptions?.playlistId) {
         return (
           <Tooltip title={`Add song ${record.name} to playlist`}>
             {hoveredSongId === record.songId ?
@@ -378,11 +383,19 @@ export function SongTableComponent({
       menuColumn
     } = renderTableColumns();
 
-    if (songsSourceOptions.playlistId) {
+    if (songsSourceOptions?.playlistId) {
       return [
         titleColumn,
         albumColumn,
         dateColumn,
+        likeColumn,
+        durationColumn,
+        menuColumn
+      ];
+    } else if (search) {
+      return [
+        titleColumn,
+        albumColumn,
         likeColumn,
         durationColumn,
         menuColumn
@@ -401,16 +414,25 @@ export function SongTableComponent({
     const {
       titleColumn,
       playsColumn,
+      albumColumn,
       dateColumn,
       likeColumn,
       durationColumn,
       menuColumn
     } = renderTableColumns();
 
-    if (songsSourceOptions.playlistId) {
+    if (songsSourceOptions?.playlistId) {
       return [
         titleColumn,
         dateColumn,
+        likeColumn,
+        durationColumn,
+        menuColumn
+      ];
+    } else if (search) {
+      return [
+        titleColumn,
+        albumColumn,
         likeColumn,
         durationColumn,
         menuColumn
@@ -435,6 +457,6 @@ export function SongTableComponent({
       })}
       pagination={false}
       bordered={false}
-      sticky={{ offsetHeader: 64 }} />
+      sticky={{ offsetHeader }} />
   );
 }

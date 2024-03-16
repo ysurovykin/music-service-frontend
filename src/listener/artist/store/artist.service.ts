@@ -1,11 +1,20 @@
 import api from "../../../helpers/http/api.helper";
 import { AxiosResponse } from "axios";
-import { ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse } from "./artist.model";
+import {
+    ArtistFullResponseData,
+    ArtistGenres,
+    GetArtistsInListenerLibraryRequest,
+    GetArtistsInListenerLibraryResponse,
+    GetArtistsRequest,
+    GetArtistsResponse
+} from "./artist.model";
 import { AlbumFullResponseData } from "../../album/store/album.model";
 
 export default class ArtistService {
-    static async getArtists(): Promise<AxiosResponse<Array<ArtistInfoResponseData>>> {
-        return await api.get<Array<ArtistInfoResponseData>>('/artist/artists');
+    static async getArtists(request: GetArtistsRequest): Promise<AxiosResponse<GetArtistsResponse>> {
+        return await api.get<GetArtistsResponse>('/artist/artists', {
+            params: { ...request }
+        });
     }
 
     static async getArtistById(listenerId: string, artistId: string): Promise<AxiosResponse<ArtistFullResponseData>> {
@@ -25,7 +34,7 @@ export default class ArtistService {
             params: { listenerId }
         });
     }
-    
+
     static async getGenres(artistId: string): Promise<AxiosResponse<Array<ArtistGenres>>> {
         return await api.get<Array<ArtistGenres>>(`/artist/genres/${artistId}`);
     }

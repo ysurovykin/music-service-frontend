@@ -34,11 +34,12 @@ export type GetSongByIdRequestData = {
 }
 
 export type GetSongsRequestData = {
-  options: GetSongsOptions;
+  options?: GetSongsOptions;
   offset: number;
   limit: number;
   onlyLiked?: boolean;
   sortingOptions?: GetSongsSortingOptions;
+  search?: string;
 }
 
 export type GetSongsResponseData = {

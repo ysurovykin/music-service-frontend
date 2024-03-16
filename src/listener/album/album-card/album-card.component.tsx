@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Avatar, Tooltip, Typography } from "antd";
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Cancel, Close, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { AlbumInfoResponseData } from "../store/album.model";
 import moment from "moment";
 import { useDispatch } from "react-redux";
@@ -14,12 +14,20 @@ export function AlbumCardComponent({
   album,
   showArtistInfo,
   showLikeButton,
-  reference
+  showYear = true,
+  reference,
+  onClickFunction,
+  showCancelButton,
+  onCancelFunction
 }: {
   album: AlbumInfoResponseData;
   showArtistInfo?: boolean;
   showLikeButton?: boolean;
-  reference?: ((node?: Element | null | undefined) => void) | null
+  showYear?: boolean;
+  reference?: ((node?: Element | null | undefined) => void) | null;
+  onClickFunction?: () => void;
+  showCancelButton?: boolean;
+  onCancelFunction?: () => void;
 }) {
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -35,11 +43,33 @@ export function AlbumCardComponent({
     }
   };
 
+  const onClick = () => {
+    navigate(`/album/${album.albumId}`)
+    if (onClickFunction) {
+      onClickFunction();
+    }
+  }
+
+  const onCancel = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation();
+    if (onCancelFunction) {
+      onCancelFunction();
+    }
+  }
+
   return (
     <div
       className="album-card cursor-pointer"
       ref={reference}
-      onClick={() => navigate(`/album/${album.albumId}`)}>
+      onClick={() => onClick()}>
+      {showCancelButton ?
+        <div
+          className="album-card__close-icon-wrapper"
+          onClick={(event) => onCancel(event)}>
+          <Close sx={{ color: '#ffffff' }} />
+        </div> :
+        null
+      }
       <Avatar shape='square' size={128} src={album.coverImageUrl} />
       <div className="album-card__title-wrapper">
         <Title className="album-card__title m-0" level={5}>{album.name}</Title>
@@ -50,7 +80,7 @@ export function AlbumCardComponent({
         </Text>
       </div> : null}
       <div className="album-card__info">
-        <Text>{moment(album.date).year()}</Text>
+        {showYear ? <Text>{moment(album.date).year()}</Text> : null}
         {showLikeButton ? <Tooltip title={album.isAddedToLibrary ? `Remove album ${album.name} from your library` : `Save album ${album.name} to your library`}>
           <div
             className='cursor-pointer'

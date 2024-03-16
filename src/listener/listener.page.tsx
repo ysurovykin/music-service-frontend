@@ -9,6 +9,8 @@ import { HeaderComponent } from "./components/header/header.component";
 import { getBackground } from "../helpers/react/listener-page.helper";
 import { listenerSelectors } from "./store/listener.selectors";
 import { useInView } from "react-intersection-observer";
+import { request } from "http";
+import { GetArtistsRequest } from "./artist/store/artist.model";
 
 export function ListenerPage() {
   const { ref, inView } = useInView({ threshold: 1 }); //TODO set ref to show header
@@ -19,7 +21,7 @@ export function ListenerPage() {
 
   const dispatch = useDispatch();
   const getListenerById = (listenerId: string) => dispatch(listenerActions.getListenerById(listenerId));
-  const getArtists = () => dispatch(artistActions.getArtists());
+  const getArtists = (request: GetArtistsRequest) => dispatch(artistActions.getArtists(request));
 
   useEffect(() => {
     if (userId) {
@@ -28,7 +30,10 @@ export function ListenerPage() {
   }, [userId])
 
   useEffect(() => {
-    getArtists();
+    getArtists({
+      offset: 0,
+      limit: 10
+    });
   }, []);
 
   return (

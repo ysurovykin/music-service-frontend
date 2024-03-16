@@ -9,7 +9,8 @@ const country = createSelector(artistState, artist => artist?.country);
 const description = createSelector(artistState, artist => artist?.description);
 const socialLinks = createSelector(artistState, artist => artist?.socialLinks);
 const followers = createSelector(artistState, artist => artist?.followers);
-const isArtistLoading = createSelector(artistState, artist => artist?.isArtistLoading);
+const isArtistsLoading = createSelector(artistState, artist => artist?.isArtistsLoading);
+const isMoreArtistsForLoading = createSelector(artistState, artist => artist?.isMoreArtistsForLoading);
 const isArtistQueueLoading = createSelector(artistState, artist => artist?.isArtistQueueLoading);
 const artists = createSelector(artistState, artist => artist?.artists);
 const backgroundColor = createSelector(artistState, artist => artist?.backgroundColor);
@@ -37,7 +38,8 @@ export const artistSelectors = {
   description,
   socialLinks,
   followers,
-  isArtistLoading,
+  isArtistsLoading,
+  isMoreArtistsForLoading,
   isArtistQueueLoading,
   artists,
   backgroundColor,
