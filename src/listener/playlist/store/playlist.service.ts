@@ -32,4 +32,16 @@ export default class PlaylistService {
     static async editSongPlaylists(listenerId: string, request: EditPlaylistsRequest): Promise<AxiosResponse<Array<string>>> {
         return await api.post<Array<string>>('/playlist/edit-song-paylists', request, { params: { listenerId } });
     }
+
+    static async pinPlaylist(listenerId: string, playlistId: string): Promise<AxiosResponse<void>> {
+        return await api.post<void>('/playlist/pin', { playlistId: playlistId }, {
+            params: { listenerId }
+        });
+    }
+
+    static async unpinPlaylist(listenerId: string, playlistId: string): Promise<AxiosResponse<void>> {
+        return await api.post<void>('/playlist/unpin', { playlistId: playlistId }, {
+            params: { listenerId }
+        });
+    }
 }

@@ -21,7 +21,13 @@ import {
   EditPlaylistSuccessActionType,
   EditPlaylistFailedActionType,
   OpenEditPlaylistModalActionType,
-  CloseEditPlaylistModalActionType
+  CloseEditPlaylistModalActionType,
+  PinPlaylistStartActionType,
+  PinPlaylistSuccessActionType,
+  PinPlaylistFailedActionType,
+  UnpinPlaylistStartActionType,
+  UnpinPlaylistSuccessActionType,
+  UnpinPlaylistFailedActionType
 } from "./playlist.actions.types";
 import {
   PlaylistActionTypes,
@@ -96,6 +102,24 @@ export const editPlaylistSuccessAction = ():
 export const editPlaylistFailedAction = (error: ActionFailedError):
   EditPlaylistFailedActionType => ({ type: PlaylistActionTypes.EDIT_PLAYLIST_FAILED, payload: error });
 
+export const pinPlaylistStartAction = (playlistId: string):
+  PinPlaylistStartActionType => ({ type: PlaylistActionTypes.PIN_PLAYLIST, payload: playlistId });
+
+export const pinPlaylistSuccessAction = ():
+  PinPlaylistSuccessActionType => ({ type: PlaylistActionTypes.PIN_PLAYLIST_SUCCESS, payload: undefined });
+
+export const pinPlaylistFailedAction = (error: ActionFailedError):
+  PinPlaylistFailedActionType => ({ type: PlaylistActionTypes.PIN_PLAYLIST_FAILED, payload: error });
+
+export const unpinPlaylistStartAction = (playlistId: string):
+  UnpinPlaylistStartActionType => ({ type: PlaylistActionTypes.UNPIN_PLAYLIST, payload: playlistId });
+
+export const unpinPlaylistSuccessAction = ():
+  UnpinPlaylistSuccessActionType => ({ type: PlaylistActionTypes.UNPIN_PLAYLIST_SUCCESS, payload: undefined });
+
+export const unpinPlaylistFailedAction = (error: ActionFailedError):
+  UnpinPlaylistFailedActionType => ({ type: PlaylistActionTypes.UNPIN_PLAYLIST_FAILED, payload: error });
+
 export const playlistActions = {
   getPlaylistsByListenerId: () => getPlaylistsByListenerIdStartAction(),
   getPlaylistsByListenerIdSuccess: (response: Array<PlaylistInfoResponseData>) => getPlaylistsByListenerIdSuccessAction(response),
@@ -118,5 +142,11 @@ export const playlistActions = {
   editPlaylist: (request: EditPlaylistRequestData) => editPlaylistStartAction(request),
   editPlaylistSuccess: () => editPlaylistSuccessAction(),
   editPlaylistFailed: (error: ActionFailedError) => editPlaylistFailedAction(error),
+  pinPlaylist: (playlistId: string) => pinPlaylistStartAction(playlistId),
+  pinPlaylistSuccess: () => pinPlaylistSuccessAction(),
+  pinPlaylistFailed: (error: ActionFailedError) => pinPlaylistFailedAction(error),
+  unpinPlaylist: (playlistId: string) => unpinPlaylistStartAction(playlistId),
+  unpinPlaylistSuccess: () => unpinPlaylistSuccessAction(),
+  unpinPlaylistFailed: (error: ActionFailedError) => unpinPlaylistFailedAction(error),
 }
 

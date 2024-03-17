@@ -12,7 +12,7 @@ import { useInView } from "react-intersection-observer";
 import { request } from "http";
 import { GetArtistsRequest } from "./artist/store/artist.model";
 
-export function ListenerPage() {
+export function HomePage() {
   const { ref, inView } = useInView({ threshold: 1 }); //TODO set ref to show header
 
   const userId = useSelector(userSelectors.userId);
@@ -38,7 +38,7 @@ export function ListenerPage() {
 
   return (
     <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{background: getBackground(backgroundColor)}} className="listener-page listener-group-page">
+      <div style={{background: getBackground(backgroundColor)}} className="home-page listener-group-page">
         <HeaderComponent
           background={backgroundColor}
           showHeader={!inView} />

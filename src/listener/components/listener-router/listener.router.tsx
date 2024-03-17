@@ -3,7 +3,7 @@ import { SongPlayerComponent } from '../song-player/song-player.component';
 import { ArtistPage } from '../../artist/artist.page';
 import { AlbumPage } from '../../album/album.page';
 import { QueuePage } from '../../queue/queue.page';
-import { ListenerPage } from '../../listener.page';
+import { HomePage } from '../../home.page';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PlaylistPage } from '../../playlist/playlist.page';
 import { EditSongPlaylistsModal } from '../../playlist/edit-song-playlists-modal/edit-song-playlists.modal';
@@ -26,7 +26,7 @@ export default function ListenerRouter() {
       <SidebarComponent />
       <div className='listener-router'>
         <Routes>
-          <Route path="/" element={<ListenerPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/artist/:artistId" element={<ArtistPage />} />
           <Route path="/artist/all-songs/:artistId" element={<ArtistSongsPage />} />
           <Route path="/artist/liked-songs/:artistId" element={<ArtistLikedSongsPage />} />

@@ -114,6 +114,36 @@ export type EditSongPlaylistsFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type PinPlaylistStartActionType = {
+  type: typeof PlaylistActionTypes.PIN_PLAYLIST;
+  payload: string;
+};
+
+export type PinPlaylistSuccessActionType = {
+  type: typeof PlaylistActionTypes.PIN_PLAYLIST_SUCCESS;
+  payload: undefined;
+};
+
+export type PinPlaylistFailedActionType = {
+  type: typeof PlaylistActionTypes.PIN_PLAYLIST_FAILED;
+  payload: ActionFailedError;
+};
+
+export type UnpinPlaylistStartActionType = {
+  type: typeof PlaylistActionTypes.UNPIN_PLAYLIST;
+  payload: string;
+};
+
+export type UnpinPlaylistSuccessActionType = {
+  type: typeof PlaylistActionTypes.UNPIN_PLAYLIST_SUCCESS;
+  payload: undefined;
+};
+
+export type UnpinPlaylistFailedActionType = {
+  type: typeof PlaylistActionTypes.UNPIN_PLAYLIST_FAILED;
+  payload: ActionFailedError;
+};
+
 export type PlaylistActions =
   | GetPlaylistsByListenerIdStartActionType
   | GetPlaylistsByListenerIdSuccessActionType
@@ -135,4 +165,10 @@ export type PlaylistActions =
   | EditSongPlaylistsSuccessActionType
   | EditSongPlaylistsFailedActionType
   | OpenEditPlaylistModalActionType
-  | CloseEditPlaylistModalActionType;
+  | CloseEditPlaylistModalActionType
+  | PinPlaylistStartActionType
+  | PinPlaylistSuccessActionType
+  | PinPlaylistFailedActionType
+  | UnpinPlaylistStartActionType
+  | UnpinPlaylistSuccessActionType
+  | UnpinPlaylistFailedActionType;

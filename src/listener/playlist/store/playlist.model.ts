@@ -7,6 +7,7 @@ export const playlistState: PlaylistState = {
   playlistId: undefined,
   name: undefined,
   editable: undefined,
+  pinned: undefined,
   description: undefined,
   tag: undefined,
   date: undefined,
@@ -64,6 +65,7 @@ export type PlaylistInfoResponseData = {
   description?: string;
   date?: Date;
   editable?: boolean;
+  pinned?: boolean;
   tag?: string;
   coverImageUrl?: string;
   backgroundColor?: string;
@@ -121,4 +123,11 @@ export enum PlaylistActionTypes {
   EDIT_SONG_PLAYLISTS_SUCCESS = "PLAYLIST.EDIT_SONG_PLAYLISTS_SUCCESS",
   EDIT_SONG_PLAYLISTS_FAILED = "PLAYLIST.EDIT_SONG_PLAYLISTS_FAILED",
 
+  PIN_PLAYLIST = "PLAYLIST.PIN_PLAYLIST",
+  PIN_PLAYLIST_SUCCESS = "PLAYLIST.PIN_PLAYLIST_SUCCESS",
+  PIN_PLAYLIST_FAILED = "PLAYLIST.PIN_PLAYLISTS_FAILED",
+
+  UNPIN_PLAYLIST = "PLAYLIST.UNPIN_PLAYLIST",
+  UNPIN_PLAYLIST_SUCCESS = "PLAYLIST.UNPIN_PLAYLIST_SUCCESS",
+  UNPIN_PLAYLIST_FAILED = "PLAYLIST.UNPIN_PLAYLIST_FAILED",
 };

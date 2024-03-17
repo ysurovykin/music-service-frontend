@@ -68,13 +68,13 @@ export function LibraryPage() {
       limit: 10,
       offset: 0
     });
-    setArtistOffset(state => state + 1);
+    setArtistOffset(1);
 
     getAlbumsInListenerLibrary({
       limit: 10,
       offset: 0
     });
-    setAlbumOffset(state => state + 1);
+    setAlbumOffset(1);
 
     getPlaylistsByListenerId();
   }, [])

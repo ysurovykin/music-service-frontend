@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { userSelectors } from "./user/store/user.selectors";
-import { ListenerPage } from "./listener/listener.page";
+import { ListenerPage } from "./listener/home.page";
 import { ArtistPage } from "./artist/artist.page";
 import { AdminPage } from "./admin/admin.page";
 

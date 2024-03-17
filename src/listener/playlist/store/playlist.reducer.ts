@@ -37,6 +37,7 @@ export const playlistReducer = (state = playlistState, action: PlaylistActions):
         date: action.payload.date,
         description: action.payload.description,
         editable: action.payload.editable,
+        pinned: action.payload.pinned,
         coverImageUrl: action.payload.coverImageUrl,
         tag: action.payload.tag,
         backgroundColor: action.payload.backgroundColor,

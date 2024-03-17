@@ -21,6 +21,7 @@ const editPlaylistsSongPlaylistIds = createSelector(playlistState, playlist => p
 const isEditPlaylistLoading = createSelector(playlistState, playlist => playlist?.isEditPlaylistLoading);
 const isEditPlaylistModalOpen = createSelector(playlistState, playlist => playlist?.isEditPlaylistModalOpen);
 const editable = createSelector(playlistState, playlist => playlist?.editable);
+const pinned = createSelector(playlistState, playlist => playlist?.pinned);
 const songsCount = createSelector(playlistState, playlist => playlist?.songsCount);
 const songsTimeDuration = createSelector(playlistState, playlist => playlist?.songsTimeDuration);
 
@@ -43,6 +44,7 @@ export const playlistSelectors = {
   isEditPlaylistLoading,
   isEditPlaylistModalOpen,
   editable,
+  pinned,
   songsCount,
   songsTimeDuration
 };

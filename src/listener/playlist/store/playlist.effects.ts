@@ -8,7 +8,9 @@ import {
   EditSongPlaylistsStartActionType,
   GetPlaylistByIdStartActionType,
   GetPlaylistsByListenerIdStartActionType,
-  EditPlaylistStartActionType
+  EditPlaylistStartActionType,
+  PinPlaylistStartActionType,
+  UnpinPlaylistStartActionType
 } from './playlist.actions.types';
 import { notification } from 'antd';
 import { userSelectors } from '../../../user/store/user.selectors';
@@ -30,6 +32,10 @@ export const playlistEffects = [
   takeEvery(PlaylistActionTypes.CREATE_PLAYLIST_FAILED, handleError),
   takeEvery(PlaylistActionTypes.EDIT_PLAYLIST, editPlaylist),
   takeEvery(PlaylistActionTypes.EDIT_PLAYLIST_FAILED, handleError),
+  takeEvery(PlaylistActionTypes.PIN_PLAYLIST, pinPlaylist),
+  takeEvery(PlaylistActionTypes.PIN_PLAYLIST_FAILED, handleError),
+  takeEvery(PlaylistActionTypes.UNPIN_PLAYLIST, unpinPlaylist),
+  takeEvery(PlaylistActionTypes.UNPIN_PLAYLIST_FAILED, handleError),
 ];
 
 function* getPlaylistsByListenerId() {
@@ -140,6 +146,30 @@ function* editPlaylist(action: EditPlaylistStartActionType) {
   } catch (e) {
     const error = e as Error;
     yield put(playlistActions.editPlaylistFailed({ error }));
+  }
+}
+
+function* pinPlaylist(action: PinPlaylistStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    yield PlaylistService.pinPlaylist(listenerId, action.payload);
+    yield put(playlistActions.getPlaylistsByListenerId());
+    yield put(playlistActions.pinPlaylistSuccess());
+  } catch (e) {
+    const error = e as Error;
+    yield put(playlistActions.pinPlaylistFailed({ error }));
+  }
+}
+
+function* unpinPlaylist(action: UnpinPlaylistStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    yield PlaylistService.unpinPlaylist(listenerId, action.payload);
+    yield put(playlistActions.getPlaylistsByListenerId());
+    yield put(playlistActions.unpinPlaylistSuccess());
+  } catch (e) {
+    const error = e as Error;
+    yield put(playlistActions.unpinPlaylistFailed({ error }));
   }
 }
 

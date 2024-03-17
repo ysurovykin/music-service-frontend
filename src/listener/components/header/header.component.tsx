@@ -54,7 +54,7 @@ export function HeaderComponent({
       <div className='header__background' style={{ background: background, opacity: showHeader ? 1 : 0 }}>
         <div className='header__background-shadow'></div>
       </div>
-      <div className='header'>
+      <div className={`header${secondRow ? '--two-rows' : '--one-row'}`}>
         <div className='header__content'>
           <div className='header__navigation-wrapper'>
             <Tooltip title={pageHistoryIndex === 0 ? '' : 'Go back'}>
