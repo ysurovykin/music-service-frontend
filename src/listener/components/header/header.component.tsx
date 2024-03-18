@@ -17,14 +17,16 @@ export function HeaderComponent({
   background = listenerProfileTypePalete.backgroundAccentLight,
   songsSourceOptions,
   element,
-  secondRow
+  secondRow,
+  isHomePage
 }: {
   showHeader?: boolean,
   text?: string,
   background?: string,
   songsSourceOptions?: GenerateQueueOptions,
   element?: ReactNode,
-  secondRow?: ReactNode
+  secondRow?: ReactNode,
+  isHomePage?: boolean,
 }) {
   const navigate = useNavigate();
   const userName = useSelector(userSelectors.name);
@@ -51,7 +53,9 @@ export function HeaderComponent({
 
   return (
     <div className={`header-wrapper${secondRow ? '--two-rows' : '--one-row'}`}>
-      <div className='header__background' style={{ background: background, opacity: showHeader ? 1 : 0 }}>
+      <div
+        className={`header__background${isHomePage ? '--home-page' : ''}`}
+        style={{ background: background, opacity: showHeader ? 1 : 0 }}>
         <div className='header__background-shadow'></div>
       </div>
       <div className={`header${secondRow ? '--two-rows' : '--one-row'}`}>

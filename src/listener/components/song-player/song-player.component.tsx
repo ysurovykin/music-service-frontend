@@ -20,7 +20,7 @@ import { Avatar, Slider, Tooltip, Typography } from "antd";
 import { listenerProfileTypePalete } from "../../../config";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { formatTime } from "../../../helpers/react/song-player.helper";
 import { RepeatSongStateEnum } from "../../store/listener.model";
 import { queueSelectors } from "../../queue/store/queue.selectors";
@@ -39,6 +39,8 @@ export function SongPlayerComponent() {
   const songTitleWrapperRef = useRef<HTMLDivElement>(null);
   const songArtistRef = useRef<HTMLDivElement>(null);
   const songArtistWrapperRef = useRef<HTMLDivElement>(null);
+
+  const navigate = useNavigate();
 
   const lastSavedPlayTime: number = +(localStorage.getItem('playTime') || '0');
   const lastSavedRepeatSongState: RepeatSongStateEnum = localStorage.getItem('repeatSongState') as RepeatSongStateEnum ||
@@ -400,6 +402,8 @@ export function SongPlayerComponent() {
         <div className="song-player__avatar-wrapper">
           <Avatar
             shape="square"
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate(`/album/${currentlyPlayingSong?.album?.id}`)}
             size={64}
             src={currentlyPlayingSong?.coverImageUrl} />
         </div>
@@ -411,6 +415,7 @@ export function SongPlayerComponent() {
               <Title
                 className='song-player__song-title'
                 ref={songTitleRef}
+                onClick={() => navigate(`/album/${currentlyPlayingSong?.album?.id}`)}
                 onMouseEnter={() => stopScrollSongText(songTitleRef, songTitleWrapperRef, isSongTitleScrollLeft,
                   setIsSongTitleScrollLeft, titleScrollIntervalId, setTitleScrollIntervalId)}
                 onMouseLeave={() => startScrollSongText(songTitleRef, songTitleWrapperRef, isSongTitleScrollLeft,

@@ -1,22 +1,30 @@
 @import './components/listener-components.scss';
-@import './listener.page.scss';
+
+@import './home.page.scss';
+
 @import './artist/artist.page.scss';
 @import './artist/artist-songs/artist-songs.page.scss';
 @import './artist/artist-liked-songs/artist-liked-songs.page.scss';
 @import './artist/discover-artist-modal/discover-artist.modal.scss';
 @import './artist/artist-card/artist-card.component.scss';
+
 @import './album/album.page.scss';
 @import './album/album-card/album-card.component.scss';
+
 @import './queue/queue.page.scss';
+
 @import './song/song.component.scss';
+
 @import './playlist/playlist.page.scss';
 @import './playlist/playlist-views/playlist-icon-view/playlist-icon-view.component.scss';
 @import './playlist/playlist-views/playlist-inline-view/playlist-inline-view.component.scss';
 @import './playlist/playlist-views/playlist-card/playlist-card.component.scss';
 @import './playlist/playlist-modal/playlist.modal.scss';
 @import './playlist/edit-song-playlists-modal/edit-song-playlists.modal.scss';
+
 @import './library/library.page.scss';
 @import './library/library-playlists/library-playlists.page.scss';
 @import './library/library-albums/library-albums.page.scss';
 @import './library/library-artists/library-artists.page.scss';
+
 @import './search/search.page.scss';

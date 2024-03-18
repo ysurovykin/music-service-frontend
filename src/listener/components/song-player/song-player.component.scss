@@ -63,6 +63,14 @@
     transition: all 0.6s ease;
   }
 
+  &__song-title {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   // song player controllers section
   &__controllers {
     width: 40%;

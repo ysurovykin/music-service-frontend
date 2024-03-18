@@ -21,9 +21,9 @@ export const formatPlaylistTime = (totalSeconds: number) => {
 }
 
 export const renderPlaylistIcon = (size: number, position: 'absolute' | 'relative', coverImageUrl?: string, tag?: PlaylistTagEnum, backgroundColor?: string,
-  name?: string) => {
+  name?: string, borderRadius: string = '6px') => {
   if (!!coverImageUrl) {
-    return <Avatar style={{ position: position }} size={size} shape="square" src={coverImageUrl} />;
+    return <Avatar style={{ borderRadius, position: position }} size={size} shape="square" src={coverImageUrl} />;
   }
 
   if (!tag) {
@@ -31,6 +31,7 @@ export const renderPlaylistIcon = (size: number, position: 'absolute' | 'relativ
       <Avatar
         size={size}
         style={{
+          borderRadius,
           display: 'flex',
           position: position,
           alignItems: 'center',
@@ -47,8 +48,8 @@ export const renderPlaylistIcon = (size: number, position: 'absolute' | 'relativ
       return (
         <Avatar
           className="playlist-icon-view__avatar playlist-icon-view__avatar--liked"
-          style={{ position: position }}
-          icon={<Favorite style={{ fontSize: size < 64 ? '22px' : '64px' }} />}
+          style={{ borderRadius, position: position }}
+          icon={<Favorite style={{ fontSize: size <= 64 ? '22px' : '64px' }} />}
           size={size}
           shape="square" />
       );
@@ -56,7 +57,7 @@ export const renderPlaylistIcon = (size: number, position: 'absolute' | 'relativ
     return (
       <Avatar
         className="playlist-icon-view__avatar playlist-icon-view__avatar--default"
-        style={{ position: position }}
+        style={{ borderRadius, position: position }}
         size={size}
         shape="square">
         {name?.split('')[0]?.toUpperCase()}

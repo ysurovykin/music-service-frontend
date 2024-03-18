@@ -7,10 +7,14 @@ const isListenerLoading = createSelector(listenerState, listener => listener?.is
 const name = createSelector(listenerState, listener => listener?.name);
 const backgroundColor = createSelector(listenerState, album => album?.backgroundColor);
 const profileImageUrl = createSelector(listenerState, album => album?.profileImageUrl);
+const mostVisitedContent = createSelector(listenerState, album => album?.mostVisitedContent);
+const isMostVisitedContentLoading = createSelector(listenerState, album => album?.isMostVisitedContentLoading);
 
 export const listenerSelectors = {
   isListenerLoading,
   name,
   backgroundColor,
-  profileImageUrl
+  profileImageUrl,
+  mostVisitedContent,
+  isMostVisitedContentLoading,
 };
