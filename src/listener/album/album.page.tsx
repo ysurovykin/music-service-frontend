@@ -22,7 +22,6 @@ const { Title } = Typography;
 export function AlbumPage() {
   const { ref, inView } = useInView({ threshold: 1 });
   const { albumId } = useParams<{ albumId: string }>();
-
   const [isCoverImageHovered, setIsCoverImageHovered] = useState<boolean>(false);
 
   const name = useSelector(albumSelectors.name);

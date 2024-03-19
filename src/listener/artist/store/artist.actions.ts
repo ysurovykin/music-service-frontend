@@ -29,7 +29,8 @@ import {
   GetArtistsInListenerLibraryFailedActionType,
   LoadMoreArtistsInListenerLibraryStartActionType,
   LoadMoreArtistsInListenerLibrarySuccessActionType,
-  LoadMoreArtistsInListenerLibraryFailedActionType
+  LoadMoreArtistsInListenerLibraryFailedActionType,
+  UpdateArtistLikedSongsCountActionType
 } from "./artist.actions.types";
 import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse, GetArtistsRequest, GetArtistsResponse } from "./artist.model";
 
@@ -120,6 +121,9 @@ export const loadMoreArtistsInListenerLibrarySuccessAction = (response: GetArtis
 export const loadMoreArtistsInListenerLibraryFailedAction = (error: ActionFailedError):
   LoadMoreArtistsInListenerLibraryFailedActionType => ({ type: ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED, payload: error });
 
+export const updateArtistLikedSongsCountAction = (count: number):
+UpdateArtistLikedSongsCountActionType => ({ type: ArtistActionTypes.UPDATE_ARTIST_LIKED_SONGS_COUNT, payload: count });
+
 export const artistActions = {
   getArtists: (request: GetArtistsRequest) => getArtistsStartAction(request),
   getArtistsSuccess: (response: GetArtistsResponse) => getArtistsSuccessAction(response),
@@ -150,5 +154,6 @@ export const artistActions = {
   loadMoreArtistsInListenerLibrary: (request: GetArtistsInListenerLibraryRequest) => loadMoreArtistsInListenerLibraryStartAction(request),
   loadMoreArtistsInListenerLibrarySuccess: (response: GetArtistsInListenerLibraryResponse) => loadMoreArtistsInListenerLibrarySuccessAction(response),
   loadMoreArtistsInListenerLibraryFailed: (error: ActionFailedError) => loadMoreArtistsInListenerLibraryFailedAction(error),
+  updateArtistLikedSongsCount: (count: number) => updateArtistLikedSongsCountAction(count)
 }
 

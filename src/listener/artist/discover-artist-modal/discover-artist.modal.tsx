@@ -26,8 +26,8 @@ export function DiscoverArtistModal() {
     return genres?.map((genre, index) => ({
       id: index,
       value: genre.percentage,
-      label: GENRES[genre.name].label || '',
-      color: GENRES[genre.name].color || ''
+      label: GENRES[genre.name]?.label || '',
+      color: GENRES[genre.name]?.color || ''
     })) || [];
   }, [genres]);
 

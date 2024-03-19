@@ -8,9 +8,9 @@ import { Avatar, Button, Divider, Input, Modal, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { playlistSelectors } from "../store/playlist.selectors";
 import { PlaylistInlineViewComponent } from "../playlist-views/playlist-inline-view/playlist-inline-view.component";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { playlistActions } from "../store/playlist.actions";
-import { EditedPlaylist } from "../store/playlist.model";
+import { EditedPlaylist, PlaylistInfoResponseData } from "../store/playlist.model";
 
 const { Text } = Typography;
 
@@ -18,8 +18,7 @@ export function EditSongPlaylistsModal() {
   let location = useLocation();
   const isEditSongPlaylistsModalOpen = useSelector(playlistSelectors.isEditSongPlaylistsModalOpen);
   const playlists = useSelector(playlistSelectors.playlists);
-  const editPlaylistsSongId = useSelector(playlistSelectors.editPlaylistsSongId);
-  const editPlaylistsSongPlaylistIds = useSelector(playlistSelectors.editPlaylistsSongPlaylistIds);
+  const editPlaylistsSong = useSelector(playlistSelectors.editPlaylistsSong);
   const isEditSongPlaylistsLoading = useSelector(playlistSelectors.isEditSongPlaylistsLoading);
 
   const [editedPlaylists, setEditedPlaylists] = useState<Array<EditedPlaylist>>([]);
@@ -28,8 +27,13 @@ export function EditSongPlaylistsModal() {
   const dispatch = useDispatch();
   const closeEditSongPlaylistsModal = () => dispatch(playlistActions.closeEditSongPlaylistsModal());
   const openCreatePlaylistModal = () => dispatch(playlistActions.openCreatePlaylistModal());
-  const editSongPlaylists = (songId: string, playlistsToEdit: Array<EditedPlaylist>, playlistIdToUpdate?: string) =>
-    dispatch(playlistActions.editSongPlaylists({ songId, editedPlaylists: playlistsToEdit, playlistIdToUpdate }));
+  const editSongPlaylists = (songId: string, playlistsToEdit: Array<EditedPlaylist>, playlistIdToUpdate?: string, updateArtistLikedSongCount?: boolean) =>
+    dispatch(playlistActions.editSongPlaylists({
+      songId,
+      editedPlaylists: playlistsToEdit,
+      playlistIdToUpdate,
+      updateArtistLikedSongCount
+    }));
 
   const closeModal = () => {
     closeEditSongPlaylistsModal();
@@ -37,33 +41,39 @@ export function EditSongPlaylistsModal() {
     setPlaylistSearch('');
   }
 
-  const editPlaylist = (playlistId: string) => {
-    const editedPlaylist = editedPlaylists?.find(editedPlaylist => editedPlaylist.playlistId === playlistId!);
-    if (editedPlaylist && ((editPlaylistsSongPlaylistIds?.includes(playlistId) && !editedPlaylist.added) ||
-      (!editPlaylistsSongPlaylistIds?.includes(playlistId) && editedPlaylist.added))) {
-      setEditedPlaylists(state => state ? [...state.filter(playlist => playlist.playlistId !== playlistId)] : state);
+  const editPlaylist = (playlist: PlaylistInfoResponseData) => {
+    const editedPlaylist = editedPlaylists?.find(editedPlaylist => editedPlaylist.playlist.playlistId === playlist.playlistId!);
+    if (editedPlaylist && ((editPlaylistsSong?.playlistIds?.includes(playlist?.playlistId!) && !editedPlaylist.added) ||
+      (!editPlaylistsSong?.playlistIds?.includes(playlist?.playlistId!) && editedPlaylist.added))) {
+      setEditedPlaylists(state => state ? [...state.filter(editedPlaylist => editedPlaylist.playlist.playlistId !== playlist.playlistId)] : state);
     } else if (!editedPlaylist) {
-      const shouldBeAdded = !editPlaylistsSongPlaylistIds?.includes(playlistId);
-      setEditedPlaylists(state => state ? [...state, { playlistId, added: shouldBeAdded }] : state);
+      const shouldBeAdded = !editPlaylistsSong?.playlistIds?.includes(playlist?.playlistId!);
+      setEditedPlaylists(state => state ? [...state, { playlist: playlist, added: shouldBeAdded }] : state);
     }
   }
 
   const editPlaylistsDone = () => {
     const path = location.pathname;
     let playlistIdToUpdate: string = '';
+    let updateArtistLikedSongCount: boolean = false;
     if (path.includes('playlist')) {
       playlistIdToUpdate = path.split('/')[2];
+    } else if (path.includes('artist')) {
+      const pathArtistId = path.split('/')[2];
+      if (pathArtistId.length === 16 && editPlaylistsSong?.artists?.[0].id === pathArtistId) {
+        updateArtistLikedSongCount = true;
+      }
     }
-    editSongPlaylists(editPlaylistsSongId || '', editedPlaylists, playlistIdToUpdate);
+    editSongPlaylists(editPlaylistsSong?.songId || '', editedPlaylists, playlistIdToUpdate, updateArtistLikedSongCount);
     closeModal();
   }
 
   const calculateIsLiked = (playlistId: string): boolean => {
-    const editedPlaylist = editedPlaylists?.find(editedPlaylist => editedPlaylist.playlistId === playlistId);
+    const editedPlaylist = editedPlaylists?.find(editedPlaylist => editedPlaylist.playlist?.playlistId === playlistId);
     if (editedPlaylist) {
       return !!editedPlaylist?.added;
     }
-    return !!editPlaylistsSongPlaylistIds?.includes(playlistId);
+    return !!editPlaylistsSong?.playlistIds?.includes(playlistId);
   };
 
   return (
@@ -111,7 +121,7 @@ export function EditSongPlaylistsModal() {
                 <div
                   className="edit-playlists-modal__playlist-wrapper"
                   key={playlist.playlistId}
-                  onClick={() => editPlaylist(playlist.playlistId!)}>
+                  onClick={() => editPlaylist(playlist!)}>
                   <PlaylistInlineViewComponent
                     playlist={playlist}
                     liked={calculateIsLiked(playlist.playlistId || '')}

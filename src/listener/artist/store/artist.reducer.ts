@@ -158,6 +158,12 @@ export const artistReducer = (state = artistState, action: ArtistActions): Artis
         isFollowedArtistsLoading: false
       }
     }
+    case ArtistActionTypes.UPDATE_ARTIST_LIKED_SONGS_COUNT: {
+      return {
+        ...state,
+        likedSongsCount: action.payload
+      }
+    }
     default: {
       return { ...state }
     }

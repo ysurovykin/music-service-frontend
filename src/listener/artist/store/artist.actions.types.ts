@@ -147,6 +147,11 @@ export type LoadMoreArtistsInListenerLibraryFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type UpdateArtistLikedSongsCountActionType = {
+  type: typeof ArtistActionTypes.UPDATE_ARTIST_LIKED_SONGS_COUNT;
+  payload: number;
+};
+
 export type ArtistActions =
   | GetArtistsStartActionType
   | GetArtistsSuccessActionType
@@ -176,4 +181,5 @@ export type ArtistActions =
   | GetArtistsInListenerLibraryFailedActionType
   | LoadMoreArtistsInListenerLibraryStartActionType
   | LoadMoreArtistsInListenerLibrarySuccessActionType
-  | LoadMoreArtistsInListenerLibraryFailedActionType;
+  | LoadMoreArtistsInListenerLibraryFailedActionType
+  | UpdateArtistLikedSongsCountActionType;

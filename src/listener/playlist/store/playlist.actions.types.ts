@@ -2,7 +2,7 @@ import { ActionFailedError } from "../../../helpers/react/redux.helper";
 import {
   PlaylistActionTypes,
   PlaylistInfoResponseData,
-  EditPlaylistsRequest,
+  EditedPlaylistDataForRequest,
   openEditSongPlaylistsModal,
   CreatePlaylistRequestData,
   EditPlaylistRequestData,
@@ -101,7 +101,7 @@ export type CloseEditPlaylistsModalActionType = {
 
 export type EditSongPlaylistsStartActionType = {
   type: typeof PlaylistActionTypes.EDIT_SONG_PLAYLISTS;
-  payload: EditPlaylistsRequest;
+  payload: EditedPlaylistDataForRequest;
 };
 
 export type EditSongPlaylistsSuccessActionType = {

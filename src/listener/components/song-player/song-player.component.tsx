@@ -509,8 +509,7 @@ export function SongPlayerComponent() {
           <div
             className="song-player__additional-controller-icon-wrapper cursor-pointer"
             onClick={() => isEditSongPlaylistsModalOpen ? closeEditSongPlaylistsModal() : openEditSongPlaylistsModal({
-              editPlaylistsSongId: currentlyPlayingSong?.songId || '',
-              editPlaylistsSongPlaylistIds: currentlyPlayingSong?.playlistIds || []
+              editPlaylistsSong: currentlyPlayingSong!
             })}>
             {currentlyPlayingSong?.playlistIds?.length ?
               <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :

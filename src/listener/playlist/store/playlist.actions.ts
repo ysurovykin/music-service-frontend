@@ -32,7 +32,7 @@ import {
 import {
   PlaylistActionTypes,
   PlaylistInfoResponseData,
-  EditPlaylistsRequest,
+  EditedPlaylistDataForRequest,
   openEditSongPlaylistsModal,
   CreatePlaylistRequestData,
   EditPlaylistRequestData,
@@ -63,7 +63,7 @@ export const openEditPlaylistsModalAction = (songInfo: openEditSongPlaylistsModa
 export const closeEditPlaylistsModalAction = ():
   CloseEditPlaylistsModalActionType => ({ type: PlaylistActionTypes.CLOSE_EDIT_SONG_PLAYLISTS_MODAL, payload: undefined });
 
-export const editSongPlaylistsStartAction = (request: EditPlaylistsRequest):
+export const editSongPlaylistsStartAction = (request: EditedPlaylistDataForRequest):
   EditSongPlaylistsStartActionType => ({ type: PlaylistActionTypes.EDIT_SONG_PLAYLISTS, payload: request });
 
 export const editSongPlaylistsSuccessAction = ():
@@ -129,7 +129,7 @@ export const playlistActions = {
   getPlaylistByIdFailed: (error: ActionFailedError) => getPlaylistByIdFailedAction(error),
   openEditSongPlaylistsModal: (songInfo: openEditSongPlaylistsModal) => openEditPlaylistsModalAction(songInfo),
   closeEditSongPlaylistsModal: () => closeEditPlaylistsModalAction(),
-  editSongPlaylists: (request: EditPlaylistsRequest) => editSongPlaylistsStartAction(request),
+  editSongPlaylists: (request: EditedPlaylistDataForRequest) => editSongPlaylistsStartAction(request),
   editSongPlaylistsSuccess: () => editSongPlaylistsSuccessAction(),
   editSongPlaylistsFailed: (error: ActionFailedError) => editSongPlaylistsFailedAction(error),
   openCreatePlaylistModal: () => openCreatePlaylistModalAction(),

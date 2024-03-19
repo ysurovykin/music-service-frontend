@@ -19,8 +19,7 @@ export const playlistState: PlaylistState = {
   isEditPlaylistLoading: undefined,
   isEditSongPlaylistsModalOpen: undefined,
   isEditSongPlaylistsLoading: undefined,
-  editPlaylistsSongId: undefined,
-  editPlaylistsSongPlaylistIds: undefined,
+  editPlaylistsSong: undefined,
   songsTimeDuration: undefined,
   songsCount: undefined
 };
@@ -32,22 +31,32 @@ export interface PlaylistState extends PlaylistFullResponseData {
   isCreatePlaylistModalOpen?: boolean,
   isCreatePlaylistLoading?: boolean,
   isEditPlaylistModalOpen?: boolean,
-  isEditPlaylistLoading?: boolean, 
+  isEditPlaylistLoading?: boolean,
   isEditSongPlaylistsModalOpen?: boolean;
   isEditSongPlaylistsLoading?: boolean;
-  editPlaylistsSongId?: string;
-  editPlaylistsSongPlaylistIds?: Array<string>;
+  editPlaylistsSong?: SongInfoResponseData;
 }
 
 export type EditedPlaylist = {
+  playlist: PlaylistInfoResponseData;
+  added: boolean;
+}
+
+export type EditedPlaylistShortInfo = {
   playlistId: string;
   added: boolean;
 }
 
-export type EditPlaylistsRequest = {
+export type EditedPlaylistDataForRequest = {
   songId: string;
   editedPlaylists: Array<EditedPlaylist>;
-  playlistIdToUpdate?: string
+  playlistIdToUpdate?: string;
+  updateArtistLikedSongCount?: boolean;
+}
+
+export type EditedPlaylistRequest = {
+  songId: string;
+  editedPlaylists: Array<EditedPlaylistShortInfo>;
 }
 
 export type PlaylistShortData = {
@@ -77,8 +86,7 @@ export type PlaylistFullResponseData = PlaylistInfoResponseData & {
 }
 
 export type openEditSongPlaylistsModal = {
-  editPlaylistsSongId: string;
-  editPlaylistsSongPlaylistIds: Array<string>;
+  editPlaylistsSong: SongInfoResponseData;
 };
 
 export type CreatePlaylistRequestData = {
@@ -104,7 +112,7 @@ export enum PlaylistActionTypes {
 
   OPEN_CREATE_PLAYLIST_MODAL = "PLAYLIST.OPEN_CREATE_PLAYLIST_MODAL",
   CLOSE_CREATE_PLAYLIST_MODAL = "PLAYLIST.CLOSE_CREATE_PLAYLIST_MODAL",
-  
+
   CREATE_PLAYLIST = "PLAYLIST.CREATE_PLAYLIST_START",
   CREATE_PLAYLIST_SUCCESS = "PLAYLIST.CREATE_PLAYLIST_SUCCESS",
   CREATE_PLAYLIST_FAILED = "PLAYLIST.CREATE_PLAYLIST_FAILED",

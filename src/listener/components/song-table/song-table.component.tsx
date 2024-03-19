@@ -267,8 +267,7 @@ export function SongTableComponent({
       render: (value, record, index) => (<div
         className="song-player__additional-controller-icon-wrapper cursor-pointer"
         onClick={() => openEditSongPlaylistsModal({
-          editPlaylistsSongId: record.songId || '',
-          editPlaylistsSongPlaylistIds: record.playlistIds || []
+          editPlaylistsSong: record
         })}>
         {renderLikeButton(record)}
       </div>),
@@ -290,8 +289,7 @@ export function SongTableComponent({
           label: <div
             className='dropdown-item'
             onClick={() => openEditSongPlaylistsModal({
-              editPlaylistsSongId: record.songId || '',
-              editPlaylistsSongPlaylistIds: record.playlistIds || []
+              editPlaylistsSong: record
             })}>
             <AddCircleOutline /><p>Add to playlist</p>
           </div>,

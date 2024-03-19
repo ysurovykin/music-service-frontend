@@ -1,6 +1,6 @@
 import api from "../../../helpers/http/api.helper";
 import { AxiosResponse } from "axios";
-import { CreatePlaylistRequestData, EditPlaylistsRequest, PlaylistFullResponseData, PlaylistInfoResponseData } from "./playlist.model";
+import { EditedPlaylistRequest, PlaylistFullResponseData, PlaylistInfoResponseData } from "./playlist.model";
 
 export default class PlaylistService {
     static async getPlaylistsByListenerId(listenerId: string): Promise<AxiosResponse<Array<PlaylistInfoResponseData>>> {
@@ -29,7 +29,7 @@ export default class PlaylistService {
         });
     }
 
-    static async editSongPlaylists(listenerId: string, request: EditPlaylistsRequest): Promise<AxiosResponse<Array<string>>> {
+    static async editSongPlaylists(listenerId: string, request: EditedPlaylistRequest): Promise<AxiosResponse<Array<string>>> {
         return await api.post<Array<string>>('/playlist/edit-song-paylists', request, { params: { listenerId } });
     }
 

@@ -76,8 +76,7 @@ export const SongComponent = memo(function SongComponent({
       label: <div
         className='dropdown-item'
         onClick={() => openEditSongPlaylistsModal({
-          editPlaylistsSongId: song.songId || '',
-          editPlaylistsSongPlaylistIds: song.playlistIds || []
+          editPlaylistsSong: song
         })}>
         <AddCircleOutline /><p>Add to playlist</p>
       </div>,
@@ -161,6 +160,7 @@ export const SongComponent = memo(function SongComponent({
       generateQueue({
         isNewQueue: true,
         shuffleEnabled: false,
+        songId: song?.songId,
         options: { artistId: artistId },
         sortingOptions: { plays: -1 }
       });
@@ -193,7 +193,7 @@ export const SongComponent = memo(function SongComponent({
   }
 
   const renderPlayButton = () => {
-    if (song?.songQueueId === currentlyPlayingSong?.songQueueId) {
+    if (song?.songId === currentlyPlayingSong?.songId) {
       if (isPlaying) {
         return (
           <PauseOutlined
@@ -244,8 +244,7 @@ export const SongComponent = memo(function SongComponent({
           <div
             className="song-player__additional-controller-icon-wrapper cursor-pointer"
             onClick={() => isEditSongPlaylistsModalOpen ? closeEditSongPlaylistsModal() : openEditSongPlaylistsModal({
-              editPlaylistsSongId: song.songId || '',
-              editPlaylistsSongPlaylistIds: song.playlistIds || []
+              editPlaylistsSong: song
             })}>
             {song?.playlistIds?.length ?
               <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :

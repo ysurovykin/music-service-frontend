@@ -16,8 +16,7 @@ const isCreatePlaylistModalOpen = createSelector(playlistState, playlist => play
 const isCreatePlaylistLoading = createSelector(playlistState, playlist => playlist?.isCreatePlaylistLoading);
 const isEditSongPlaylistsModalOpen = createSelector(playlistState, playlist => playlist?.isEditSongPlaylistsModalOpen);
 const isEditSongPlaylistsLoading = createSelector(playlistState, playlist => playlist?.isEditSongPlaylistsLoading);
-const editPlaylistsSongId = createSelector(playlistState, playlist => playlist?.editPlaylistsSongId);
-const editPlaylistsSongPlaylistIds = createSelector(playlistState, playlist => playlist?.editPlaylistsSongPlaylistIds);
+const editPlaylistsSong = createSelector(playlistState, playlist => playlist?.editPlaylistsSong);
 const isEditPlaylistLoading = createSelector(playlistState, playlist => playlist?.isEditPlaylistLoading);
 const isEditPlaylistModalOpen = createSelector(playlistState, playlist => playlist?.isEditPlaylistModalOpen);
 const editable = createSelector(playlistState, playlist => playlist?.editable);
@@ -39,8 +38,7 @@ export const playlistSelectors = {
   isCreatePlaylistLoading,
   isEditSongPlaylistsModalOpen,
   isEditSongPlaylistsLoading,
-  editPlaylistsSongId,
-  editPlaylistsSongPlaylistIds,
+  editPlaylistsSong,
   isEditPlaylistLoading,
   isEditPlaylistModalOpen,
   editable,

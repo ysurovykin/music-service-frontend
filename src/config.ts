@@ -34,7 +34,12 @@ export const GENRES: { [key: string]: { label: string, color: string } } = {
   'hard_rock': { label: 'Hard Rock', color: 'rgba(191, 85, 236, 0.7)' },
   'post_grunge': { label: 'Post Grunge', color: 'rgba(46, 204, 113, 0.7)' },
   'indie_rock': { label: 'Indie Rock', color: 'rgba(255, 215, 0, 0.7)' },
-  'nu_metal': { label: 'Nu Metal', color: 'rgba(52, 58, 64, 0.7)' }
+  'nu_metal': { label: 'Nu Metal', color: 'rgba(52, 58, 64, 0.7)' },
+  'pop_rock': { label: 'Pop Rock', color: 'rgba(143, 78, 179, 0.7)' },
+  'patriotic_rock': { label: 'Patriotic Rock', color: 'rgba(128, 0, 128, 0.7)' },
+  'rock': { label: 'Rock', color: 'rgba(102, 0, 51, 0.7)' },
+  'pop': { label: 'Pop', color: 'rgba(255, 102, 153, 0.7)' },
+  'pop_ballad': { label: 'Pop Ballad', color: 'rgba(102, 179, 221, 0.7)' },
 };
 
 export const songsLoadingLimit = 10;

@@ -120,8 +120,7 @@ export const playlistReducer = (state = playlistState, action: PlaylistActions):
       return {
         ...state,
         isEditSongPlaylistsModalOpen: true,
-        editPlaylistsSongId: action.payload.editPlaylistsSongId,
-        editPlaylistsSongPlaylistIds: action.payload.editPlaylistsSongPlaylistIds
+        editPlaylistsSong: action.payload.editPlaylistsSong
       }
     }
     case PlaylistActionTypes.CLOSE_EDIT_SONG_PLAYLISTS_MODAL: {

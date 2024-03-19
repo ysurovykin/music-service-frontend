@@ -1,5 +1,5 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { PlaylistActionTypes, PlaylistFullResponseData, PlaylistInfoResponseData } from './playlist.model';
+import { EditedPlaylistShortInfo, PlaylistActionTypes, PlaylistFullResponseData, PlaylistInfoResponseData } from './playlist.model';
 import PlaylistService from './playlist.service';
 import { playlistActions } from './playlist.actions';
 import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
@@ -20,6 +20,8 @@ import { QueueSongInfoResponseData } from '../../queue/store/queue.model';
 import { queueSelectors } from '../../queue/store/queue.selectors';
 import { queueActions } from '../../queue/store/queue.actions';
 import { songActions } from '../../song/store/song.actions';
+import { artistActions } from '../../artist/store/artist.actions';
+import { artistSelectors } from '../../artist/store/artist.selectors';
 
 export const playlistEffects = [
   takeEvery(PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID, getPlaylistsByListenerId),
@@ -62,9 +64,11 @@ function* getPlaylistById(action: GetPlaylistByIdStartActionType) {
 function* editSongPlaylists(action: EditSongPlaylistsStartActionType) {//TODO add update for artist liked songs
   try {
     const listenerId: string = yield select(userSelectors.userId);
+    const editedPlaylists: Array<EditedPlaylistShortInfo> = action.payload.editedPlaylists
+      .map(editedPlaylist => ({ added: editedPlaylist.added, playlistId: editedPlaylist.playlist?.playlistId! }));
     const editedPlaylistIds: Array<string> = yield PlaylistService.editSongPlaylists(listenerId, {
       songId: action.payload.songId,
-      editedPlaylists: action.payload.editedPlaylists
+      editedPlaylists: editedPlaylists
     });
 
     const songs: Array<SongInfoResponseData> = yield select(songSelectors.songs);
@@ -81,16 +85,25 @@ function* editSongPlaylists(action: EditSongPlaylistsStartActionType) {//TODO ad
       songsQueueToEdit[songInQueueIndex].playlistIds = editedPlaylistIds;
     }
     const editedPlaylist = action.payload.editedPlaylists
-      .find(editedPlaylist => editedPlaylist.playlistId === action.payload.playlistIdToUpdate);
+      .find(editedPlaylist => editedPlaylist.playlist.playlistId === action.payload.playlistIdToUpdate);
 
     if (editedPlaylist) {
       if (editedPlaylist.added) {
-        yield put(songActions.getSongById({ songId: action.payload.songId, playlistId: editedPlaylist.playlistId }));
+        yield put(songActions.getSongById({ songId: action.payload.songId, playlistId: editedPlaylist.playlist?.playlistId }));
       } else {
         songsToEdit = songsToEdit.filter(song => song.songId !== action.payload.songId);
       }
-      yield put(playlistActions.getPlaylistById(editedPlaylist.playlistId));
+      yield put(playlistActions.getPlaylistById(editedPlaylist.playlist?.playlistId!));
     };
+
+    if (action.payload.updateArtistLikedSongCount) {
+      const likedSongsPlaylist = action.payload.editedPlaylists.find(editedPlaylist => editedPlaylist.playlist.tag === 'liked');
+      if (likedSongsPlaylist) {
+        let likedSongsCount: number = yield select(artistSelectors.likedSongsCount);
+        const updatedLikedSongsCount = likedSongsPlaylist.added ? ++likedSongsCount : --likedSongsCount;
+        yield put(artistActions.updateArtistLikedSongsCount(updatedLikedSongsCount));
+      }
+    }
 
     yield put(queueActions.updateQueueLikes(songsQueueToEdit));
     yield put(songActions.editSongPlaylists(songsToEdit));
