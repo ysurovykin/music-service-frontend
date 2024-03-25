@@ -61,7 +61,7 @@ function* getPlaylistById(action: GetPlaylistByIdStartActionType) {
   }
 }
 
-function* editSongPlaylists(action: EditSongPlaylistsStartActionType) {//TODO add update for artist liked songs
+function* editSongPlaylists(action: EditSongPlaylistsStartActionType) {
   try {
     const listenerId: string = yield select(userSelectors.userId);
     const editedPlaylists: Array<EditedPlaylistShortInfo> = action.payload.editedPlaylists

@@ -193,7 +193,9 @@ export const SongComponent = memo(function SongComponent({
   }
 
   const renderPlayButton = () => {
-    if (song?.songId === currentlyPlayingSong?.songId) {
+    if (song?.songQueueId ?
+      song?.songQueueId === currentlyPlayingSong?.songQueueId :
+      song?.songId === currentlyPlayingSong?.songId) {
       if (isPlaying) {
         return (
           <PauseOutlined

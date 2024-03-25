@@ -131,12 +131,22 @@ export function SongPlayerComponent() {
       const intervalId = setInterval(() => {
         if (audioPlayer.current && audioPlayer.current.readyState === audioPlayer.current.HAVE_ENOUGH_DATA) {
           setPlayTime(audioPlayer?.current?.currentTime);
+          dispatchEvent(new CustomEvent('SERVICE_EVENT.PLAY_TIME_CHANGED', {
+            detail: {
+              playTime: audioPlayer?.current?.currentTime
+            }
+          }));
           if ((currentlyPlayingSong?.duration! - audioPlayer?.current?.currentTime) < 0.5) {
             if (repeatSongState !== RepeatSongStateEnum.one) {
               switchToNextSong();
             } else {
               localStorage.setItem('playTime', JSON.stringify(0));
               audioPlayer.current.currentTime = 0;
+              dispatchEvent(new CustomEvent('SERVICE_EVENT.PLAY_TIME_CHANGED', {
+                detail: {
+                  playTime: 0
+                }
+              }));
               setPlayTime(0);
             }
           }
@@ -166,7 +176,17 @@ export function SongPlayerComponent() {
   }, [playTime]);
 
   useEffect(() => {
+    const setCurrentTimeEventListener = (e: CustomEvent) => {
+      const time = e.detail.playTime;
+      localStorage.setItem('playTime', JSON.stringify(time));
+      if (audioPlayer.current) {
+        audioPlayer.current.currentTime = time;
+      }
+      setPlayTime(e.detail.playTime);
+      unpauseSong();
+    }
     if (audioPlayer.current) {
+      window.addEventListener('SERVICE_EVENT.SONG_TEXT_PLAY_TIME_CHANGED', (setCurrentTimeEventListener) as EventListener);
       if (lastSavedPlayTime) {
         setPlayTime(lastSavedPlayTime);
         audioPlayer.current.currentTime = lastSavedPlayTime;
@@ -178,6 +198,9 @@ export function SongPlayerComponent() {
     }
     if (lastListenedSongQueueId) {
       getQueue(lastListenedSongQueueId);
+    }
+    return () => {
+      window.removeEventListener('SERVICE_EVENT.SONG_TEXT_PLAY_TIME_CHANGED', (setCurrentTimeEventListener) as EventListener);
     }
   }, []);
 
@@ -237,6 +260,11 @@ export function SongPlayerComponent() {
     if (audioPlayer.current) {
       audioPlayer.current.currentTime = value;
       setPlayTime(value);
+      dispatchEvent(new CustomEvent('SERVICE_EVENT.PLAY_TIME_CHANGED', {
+        detail: {
+          playTime: value
+        }
+      }));
     }
   }
 
@@ -324,6 +352,11 @@ export function SongPlayerComponent() {
 
   const changeSongData = (newSongQueueId: string) => {
     setPlayTime(0);
+    dispatchEvent(new CustomEvent('SERVICE_EVENT.PLAY_TIME_CHANGED', {
+      detail: {
+        playTime: 0
+      }
+    }));
     localStorage.setItem('songQueueId', newSongQueueId || '');
     localStorage.setItem('playTime', JSON.stringify(0));
   }
@@ -350,6 +383,11 @@ export function SongPlayerComponent() {
     if (audioPlayer.current && audioPlayer.current.currentTime > 10) {
       audioPlayer.current.currentTime = 0;
       setPlayTime(0);
+      dispatchEvent(new CustomEvent('SERVICE_EVENT.PLAY_TIME_CHANGED', {
+        detail: {
+          playTime: 0
+        }
+      }));
       unpauseSong();
     } else {
       if (songsQueue) {

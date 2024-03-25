@@ -23,6 +23,9 @@ import { playlistReducer } from "./listener/playlist/store/playlist.reducer";
 import { QueueState } from "./listener/queue/store/queue.model";
 import { queueReducer } from "./listener/queue/store/queue.reducer";
 import { queueEffects } from "./listener/queue/store/queue.effects";
+import { LyricsState } from "./listener/lyrics/store/lyrics.model";
+import { lyricsReducer } from "./listener/lyrics/store/lyrics.reducer";
+import { lyricsEffects } from "./listener/lyrics/store/lyrics.effects";
 
 const rootReducer = combineReducers({
   artist: artistReducer,
@@ -31,6 +34,7 @@ const rootReducer = combineReducers({
   song: songReducer,
   listener: listenerReducer,
   user: userReducer,
+  lyrics: lyricsReducer,
   queue: queueReducer,
 });
 
@@ -42,6 +46,7 @@ function* rootEffects() {
     ...songEffects,
     ...listenerEffects,
     ...userEffects,
+    ...lyricsEffects,
     ...queueEffects,
   ]);
 }
@@ -53,6 +58,7 @@ export interface InitialState {
   song: SongState,
   listener: ListenerState,
   user: UserState,
+  lyrics: LyricsState,
   queue: QueueState,
 }
 

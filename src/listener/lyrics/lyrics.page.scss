@@ -1,0 +1,47 @@
+.lyrics-page {
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 20px 20px 20px;
+  }
+
+  &__loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__text {
+    margin: 5px 20px !important;
+    font-size: 2rem !important;
+
+    @media (max-width: 1000px) {
+      font-size: 1.5rem !important;
+    }
+
+    &--synchronized {
+      cursor: pointer;
+    }
+
+    &--passed {
+      color: rgb(255, 255, 255, 0.5) !important;
+
+      &:hover {
+        color: #FFFFFF !important;
+      }
+    }
+
+    &--active {
+      color: #FFFFFF !important;
+    }
+
+    &--inactive {
+      color: #000000 !important;
+
+      &:hover {
+        color: #FFFFFF !important;
+      }
+    }
+  }
+}
