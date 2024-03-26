@@ -2,7 +2,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import { QueueActionTypes, QueueInfoResponseData, QueueSongInfoResponseData } from './queue.model';
 import QueueService from './queue.service';
 import { queueActions } from './queue.actions';
-import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
+import { ErrorActionType, showNotification, updateNotification } from '../../../helpers/react/redux.helper';
 import { AddSongToQueueActionType, GenerateQueueStartActionType, GetQueueStartActionType, RemoveSongFromQueueActionType } from './queue.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { queueSelectors } from './queue.selectors';
@@ -75,6 +75,11 @@ function* generateQueue(action: GenerateQueueStartActionType) {
     if (action.payload.isNewQueue) {
       localStorage.setItem('songQueueId', response.songQueueId || '');
     }
+    const queueLoadingNotificationId = localStorage.getItem('queueLoadingNotificationId');
+    if (queueLoadingNotificationId) {
+      updateNotification(queueLoadingNotificationId, 'Queue extends successfully', 'success');
+      localStorage.removeItem('queueLoadingNotificationId');
+    }
     yield put(queueActions.generateQueueSuccess({
       queue: updatedQueue,
       songQueueId: response.songQueueId,
@@ -84,6 +89,11 @@ function* generateQueue(action: GenerateQueueStartActionType) {
     yield put(queueActions.unpauseSong());
   } catch (e) {
     const error = e as Error;
+    const queueLoadingNotificationId = localStorage.getItem('queueLoadingNotificationId');
+    if (queueLoadingNotificationId) {
+      updateNotification(queueLoadingNotificationId, 'Queue extending failed', 'error');
+      localStorage.removeItem('queueLoadingNotificationId');
+    }
     yield put(queueActions.generateQueueFailed({ error }));
   }
 }

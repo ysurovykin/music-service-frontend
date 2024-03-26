@@ -34,6 +34,7 @@ import { playlistSelectors } from "../playlist/store/playlist.selectors";
 import { openEditSongPlaylistsModal } from "../playlist/store/playlist.model";
 import { showNotification } from "../../helpers/react/redux.helper";
 import { GetSongsSortingOptions } from "./store/song.model";
+import { RepeatSongStateEnum } from "../store/listener.model";
 
 const { Text, Title } = Typography;
 
@@ -172,6 +173,8 @@ export const SongComponent = memo(function SongComponent({
         generateQueue({
           isNewQueue: false,
           shuffleEnabled: false,
+          repeatSongState: localStorage.getItem('repeatSongState') as RepeatSongStateEnum ||
+            JSON.stringify(RepeatSongStateEnum.none),
           songQueueId: song.songQueueId || '',
           extendForward: true
         });
@@ -179,6 +182,8 @@ export const SongComponent = memo(function SongComponent({
         generateQueue({
           isNewQueue: false,
           shuffleEnabled: false,
+          repeatSongState: localStorage.getItem('repeatSongState') as RepeatSongStateEnum ||
+            JSON.stringify(RepeatSongStateEnum.none),
           songQueueId: song.songQueueId || '',
           extendForward: false
         });

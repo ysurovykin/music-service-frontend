@@ -29,6 +29,7 @@ import { GenerateQueueRequestData, QueueSongInfoResponseData } from "../../queue
 import { playlistSelectors } from "../../playlist/store/playlist.selectors";
 import { playlistActions } from "../../playlist/store/playlist.actions";
 import { openEditSongPlaylistsModal } from "../../playlist/store/playlist.model";
+import { showNotification } from "../../../helpers/react/redux.helper";
 
 const { Text, Title } = Typography;
 
@@ -60,10 +61,12 @@ export function SongPlayerComponent() {
   const [playerIntervalId, setPlayerIntervalId] = useState<ReturnType<typeof setInterval>>();
   const [titleScrollIntervalId, setTitleScrollIntervalId] = useState<ReturnType<typeof setInterval>>();
   const [artistScrollIntervalId, setArtistScrollIntervalId] = useState<ReturnType<typeof setInterval>>();
+  const [triedRegenerateQueue, setTriedRegenerateQueue] = useState<boolean>();
 
   const isPlaying = useSelector(queueSelectors.isPlaying);
   const isEditSongPlaylistsModalOpen = useSelector(playlistSelectors.isEditSongPlaylistsModalOpen);
   const songsQueue = useSelector(queueSelectors.queue);
+  const isQueueLoading = useSelector(queueSelectors.isQueueLoading);
   const songQueueId = useSelector(queueSelectors.songQueueId);
   const isMoreSongsBehindForLoading = useSelector(queueSelectors.isMoreSongsBehindForLoading);
   const isMoreSongsForwardForLoading = useSelector(queueSelectors.isMoreSongsForwardForLoading);
@@ -280,6 +283,7 @@ export function SongPlayerComponent() {
     generateQueue({
       isNewQueue: true,
       shuffleEnabled: state,
+      repeatSongState: repeatSongState,
       songId: currentlyPlayingSong?.songId || ''
     });
     localStorage.setItem('shuffleEnabled', JSON.stringify(state))
@@ -362,20 +366,24 @@ export function SongPlayerComponent() {
   }
 
   const generateQueueIfNeeded = (songIndex: number, song: QueueSongInfoResponseData) => {
-    if (((songsQueue || []).length - 1 === songIndex) && isMoreSongsForwardForLoading) {
-      generateQueue({
-        isNewQueue: false,
-        shuffleEnabled: false,
-        songQueueId: song?.songQueueId || '',
-        extendForward: true
-      });
-    } else if ((songIndex === 0) && isMoreSongsBehindForLoading) {
-      generateQueue({
-        isNewQueue: false,
-        shuffleEnabled: false,
-        songQueueId: song?.songQueueId || '',
-        extendForward: false
-      });
+    if (!isQueueLoading) {
+      if (((songsQueue || []).length - 1 === songIndex) && isMoreSongsForwardForLoading) {
+        generateQueue({
+          isNewQueue: false,
+          shuffleEnabled: false,
+          repeatSongState: repeatSongState,
+          songQueueId: song?.songQueueId || '',
+          extendForward: true
+        });
+      } else if ((songIndex === 0) && isMoreSongsBehindForLoading) {
+        generateQueue({
+          isNewQueue: false,
+          shuffleEnabled: false,
+          repeatSongState: repeatSongState,
+          songQueueId: song?.songQueueId || '',
+          extendForward: false
+        });
+      }
     }
   }
 
@@ -398,11 +406,26 @@ export function SongPlayerComponent() {
         const expectedPreviousSongIndex = songIndex - 1;
         let previousSongIndex = expectedPreviousSongIndex;
         if (expectedPreviousSongIndex < 0) {
-          if (repeatSongState === RepeatSongStateEnum.none) {
-            return;
-          } else if (repeatSongState === RepeatSongStateEnum.loop) {
-            previousSongIndex = songsQueue.length - 1;
+          if (!isQueueLoading && (repeatSongState === RepeatSongStateEnum.loop) &&
+            (!triedRegenerateQueue || isMoreSongsForwardForLoading)) {
+            generateQueue({
+              isNewQueue: false,
+              shuffleEnabled: false,
+              repeatSongState: repeatSongState,
+              songQueueId: songsQueue[songIndex]?.songQueueId || '',
+              extendForward: false
+            });
+            const notitifactionId = showNotification('info', 'Queue extending is in process', 3000, true);
+            localStorage.setItem('queueLoadingNotificationId', notitifactionId.toString());
+            setTriedRegenerateQueue(true);
           }
+          return;
+        }
+        if (triedRegenerateQueue) {
+          setTriedRegenerateQueue(false);
+        }
+        if (repeatSongState === RepeatSongStateEnum.one) {
+          changeRepeatSongState(RepeatSongStateEnum.loop);
         }
         const song = songsQueue[previousSongIndex];
         changeSongData(song?.songQueueId || '');
@@ -421,11 +444,26 @@ export function SongPlayerComponent() {
       const expectedNextSongIndex = songIndex + 1;
       let nextSongIndex = expectedNextSongIndex;
       if (expectedNextSongIndex > songsQueue.length - 1) {
-        if (repeatSongState === RepeatSongStateEnum.none) {
-          return;
-        } else if (repeatSongState === RepeatSongStateEnum.loop) {
-          nextSongIndex = 0;
+        if (!isQueueLoading && (repeatSongState === RepeatSongStateEnum.loop) &&
+          (!triedRegenerateQueue || isMoreSongsForwardForLoading)) {
+          generateQueue({
+            isNewQueue: false,
+            shuffleEnabled: false,
+            repeatSongState: repeatSongState,
+            songQueueId: songsQueue[songIndex]?.songQueueId || '',
+            extendForward: true
+          });
+          const notitifactionId = showNotification('info', 'Queue extending is in process', 3000, true);
+          localStorage.setItem('queueLoadingNotificationId', notitifactionId.toString());
+          setTriedRegenerateQueue(true);
         }
+        return;
+      }
+      if (repeatSongState === RepeatSongStateEnum.one) {
+        changeRepeatSongState(RepeatSongStateEnum.loop);
+      }
+      if (triedRegenerateQueue) {
+        setTriedRegenerateQueue(false);
       }
       const song = songsQueue[nextSongIndex];
       changeSongData(song?.songQueueId || '');

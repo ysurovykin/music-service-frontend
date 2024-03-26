@@ -52,7 +52,7 @@ function App() {
               colorTextHeading: '#ffffff',
               colorLink: listenerProfileTypePalete.base,
               colorLinkHover: listenerProfileTypePalete.secondary,
-              colorLinkActive: listenerProfileTypePalete.secondary
+              colorLinkActive: listenerProfileTypePalete.base
             },
             Slider: {
               railBg: listenerProfileTypePalete.backgroundAccent,

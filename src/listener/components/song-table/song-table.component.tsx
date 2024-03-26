@@ -39,6 +39,7 @@ import { playlistSelectors } from '../../playlist/store/playlist.selectors';
 import { openEditSongPlaylistsModal } from '../../playlist/store/playlist.model';
 import { MenuProps } from 'antd/lib';
 import { showNotification } from '../../../helpers/react/redux.helper';
+import { RepeatSongStateEnum } from '../../store/listener.model';
 
 const { Text, Title } = Typography;
 
@@ -104,6 +105,8 @@ export function SongTableComponent({
       generateQueue({
         isNewQueue: true,
         shuffleEnabled: false,
+        repeatSongState: localStorage.getItem('repeatSongState') as RepeatSongStateEnum ||
+          JSON.stringify(RepeatSongStateEnum.none),
         songId: currentSong?.songId || '',
         onlyLiked: onlyLiked,
         sortingOptions: sortingOptions,

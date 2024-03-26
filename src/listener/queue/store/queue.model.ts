@@ -1,4 +1,5 @@
 import { GetSongsSortingOptions, SongInfoResponseData } from "../../song/store/song.model";
+import { RepeatSongStates } from "../../store/listener.model";
 
 export const queueState: QueueState = {
   queue: undefined,
@@ -48,6 +49,7 @@ export type GenerateQueueRequestData = {
   options?: GenerateQueueOptions; //define if isNewQueue === true
   onlyLiked?: boolean;
   sortingOptions?: GetSongsSortingOptions;
+  repeatSongState?: RepeatSongStates;
   search?: string;
 }
 
