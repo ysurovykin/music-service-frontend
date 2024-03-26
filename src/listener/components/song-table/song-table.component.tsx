@@ -20,6 +20,7 @@ import {
   GetSongsOptions,
   GetSongsRequestData,
   GetSongsSortingOptions,
+  RecordSongPlayRowDataRequestData,
   SongInfoResponseData
 } from '../../song/store/song.model';
 import { useSelector } from 'react-redux';
@@ -27,7 +28,7 @@ import { songSelectors } from '../../song/store/song.selectors';
 import { useDispatch } from 'react-redux';
 import { songActions } from '../../song/store/song.actions';
 import { DOMAIN, listenerProfileTypePalete, songsLoadingLimit } from '../../../config';
-import { formatTime } from '../../../helpers/react/song-player.helper';
+import { formatTime, updateCurrentSongAllPlayTime } from '../../../helpers/react/song-player.helper';
 import { queueSelectors } from '../../queue/store/queue.selectors';
 import { AddSongToQueueRequestData, GenerateQueueRequestData, QueueSongInfoResponseData, RemoveSongFromQueueRequestData } from '../../queue/store/queue.model';
 import { queueActions } from '../../queue/store/queue.actions';
@@ -81,6 +82,7 @@ export function SongTableComponent({
   const clearSongs = () => dispatch(songActions.clearSongs());
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
   const addSongToQueue = (request: AddSongToQueueRequestData) => dispatch(queueActions.addSongToQueue(request));
+  const recordSongPlayRowData = (request: RecordSongPlayRowDataRequestData) => dispatch(songActions.recordSongPlayRowData(request));
 
   const currentlyPlayingSong = useMemo(() => {
     return songsQueue?.find(song => song.songQueueId === songQueueId);
@@ -102,6 +104,10 @@ export function SongTableComponent({
 
   const startPlaySong = (currentSong: SongInfoResponseData) => {
     if (!isQueueLoading) {
+      updateCurrentSongAllPlayTime();
+      recordSongPlayRowData({
+        songId: localStorage.getItem('currentPlayingSongId') || ''
+      })
       generateQueue({
         isNewQueue: true,
         shuffleEnabled: false,

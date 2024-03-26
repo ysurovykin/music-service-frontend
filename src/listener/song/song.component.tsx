@@ -18,7 +18,7 @@ import { DOMAIN, listenerProfileTypePalete } from "../../config";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link as RouterLink } from 'react-router-dom';
-import { formatTime } from "../../helpers/react/song-player.helper";
+import { formatTime, updateCurrentSongAllPlayTime } from "../../helpers/react/song-player.helper";
 import { queueActions } from "../queue/store/queue.actions";
 import {
   AddSongToQueueRequestData,
@@ -33,8 +33,9 @@ import { playlistActions } from "../playlist/store/playlist.actions";
 import { playlistSelectors } from "../playlist/store/playlist.selectors";
 import { openEditSongPlaylistsModal } from "../playlist/store/playlist.model";
 import { showNotification } from "../../helpers/react/redux.helper";
-import { GetSongsSortingOptions } from "./store/song.model";
+import { GetSongsSortingOptions, RecordSongPlayRowDataRequestData } from "./store/song.model";
 import { RepeatSongStateEnum } from "../store/listener.model";
+import { songActions } from "./store/song.actions";
 
 const { Text, Title } = Typography;
 
@@ -71,6 +72,7 @@ export const SongComponent = memo(function SongComponent({
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
   const addSongToQueue = (request: AddSongToQueueRequestData) => dispatch(queueActions.addSongToQueue(request));
   const removeSongFromQueue = (request: RemoveSongFromQueueRequestData) => dispatch(queueActions.removeSongFromQueue(request));
+  const recordSongPlayRowData = (request: RecordSongPlayRowDataRequestData) => dispatch(songActions.recordSongPlayRowData(request));
 
   const items: MenuProps['items'] = [
     {
@@ -158,6 +160,10 @@ export const SongComponent = memo(function SongComponent({
 
   const startPlaySong = () => {
     if (artistId) {
+      updateCurrentSongAllPlayTime();
+      recordSongPlayRowData({
+        songId: localStorage.getItem('currentPlayingSongId') || ''
+      });
       generateQueue({
         isNewQueue: true,
         shuffleEnabled: false,
@@ -169,6 +175,10 @@ export const SongComponent = memo(function SongComponent({
       localStorage.setItem('songQueueId', song?.songQueueId?.toString() || '');
       localStorage.setItem('playTime', JSON.stringify(0));
       const songIndexInQueue = queue?.findIndex(song => song.songQueueId === currentlyPlayingSong?.songQueueId);
+      updateCurrentSongAllPlayTime();
+      recordSongPlayRowData({
+        songId: localStorage.getItem('currentPlayingSongId') || ''
+      });
       if (((queue?.length || 0) - 1) === songIndexInQueue && isMoreSongsForwardForLoading) {
         generateQueue({
           isNewQueue: false,

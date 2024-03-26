@@ -1,3 +1,4 @@
+import moment from "moment";
 import { QueueSongInfoResponseData } from "../../listener/queue/store/queue.model";
 import { SongInfoResponseData } from "../../listener/song/store/song.model";
 
@@ -15,4 +16,13 @@ export const formatSongQueue = (songQueueId: string, queue: Array<QueueSongInfoR
   const songIndex = queue.findIndex(song => song.songQueueId === songQueueId);
   const formatedQueue = queue.slice(songIndex);
   return formatedQueue;
+}
+
+export const updateCurrentSongAllPlayTime = () => {
+  const currentSongStartPlayDate = localStorage.getItem('currentSongStartPlayDate') || '';
+  const timeListened = moment(new Date()).diff(new Date(currentSongStartPlayDate), 'second', true);
+  const lastCurrentSongAllPlayTime = localStorage.getItem('currentSongAllPlayTime') || '0';
+  const currentSongAllPlayTime = !isNaN(+lastCurrentSongAllPlayTime) ? +lastCurrentSongAllPlayTime : 0;
+  localStorage.setItem('currentSongAllPlayTime', (+currentSongAllPlayTime + timeListened).toString());
+  localStorage.setItem('currentSongStartPlayDate', new Date().toISOString());
 }

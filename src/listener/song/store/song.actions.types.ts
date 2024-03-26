@@ -4,7 +4,8 @@ import {
   GetSongsRequestData,
   GetSongsResponseData,
   SongInfoResponseData,
-  GetSongByIdRequestData
+  GetSongByIdRequestData,
+  RecordSongPlayRowDataRequestData
 } from "./song.model";
 
 export type GetSongByIdStartActionType = {
@@ -62,6 +63,11 @@ export type EditSongPlaylistsActionType = {
   payload: Array<SongInfoResponseData>;
 };
 
+export type RecordSongPlayRowDataActionType = {
+  type: typeof SongActionTypes.RECORD_SONG_PLAY_ROW_DATA;
+  payload: RecordSongPlayRowDataRequestData;
+};
+
 export type SongActions =
   | GetSongByIdStartActionType
   | GetSongByIdSuccessActionType
@@ -73,4 +79,5 @@ export type SongActions =
   | EditSongPlaylistsActionType
   | LoadMoreSongsStartActionType
   | LoadMoreSongsSuccessActionType
-  | LoadMoreSongsFailedActionType;
+  | LoadMoreSongsFailedActionType
+  | RecordSongPlayRowDataActionType;

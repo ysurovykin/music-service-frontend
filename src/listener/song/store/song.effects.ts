@@ -3,7 +3,7 @@ import { GetSongsResponseData, SongActionTypes, SongInfoResponseData } from './s
 import SongService from './song.service';
 import { songActions } from './song.actions';
 import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
-import { GetSongByIdStartActionType, GetSongsStartActionType, LoadMoreSongsStartActionType } from './song.actions.types';
+import { GetSongByIdStartActionType, GetSongsStartActionType, LoadMoreSongsStartActionType, RecordSongPlayRowDataActionType } from './song.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { songSelectors } from './song.selectors';
 import { notification } from 'antd';
@@ -14,7 +14,8 @@ export const songEffects = [
   takeEvery(SongActionTypes.GET_SONGS, getSongs),
   takeEvery(SongActionTypes.GET_SONGS_FAILED, handleError),
   takeEvery(SongActionTypes.LOAD_MORE_SONGS, loadMoreSongs),
-  takeEvery(SongActionTypes.LOAD_MORE_SONGS_FAILED, handleError)
+  takeEvery(SongActionTypes.LOAD_MORE_SONGS_FAILED, handleError),
+  takeEvery(SongActionTypes.RECORD_SONG_PLAY_ROW_DATA, recordSongPlayRowData),
 ];
 
 function* getSongById(action: GetSongByIdStartActionType) {
@@ -56,6 +57,20 @@ function* loadMoreSongs(action: LoadMoreSongsStartActionType) {
   } catch (e) {
     const error = e as Error;
     yield put(songActions.loadMoreSongsFailed({ error }));
+  }
+}
+
+function* recordSongPlayRowData(action: RecordSongPlayRowDataActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const lastCurrentSongAllPlayTime = localStorage.getItem('currentSongAllPlayTime') || '0';
+    const currentSongAllPlayTime = !isNaN(+lastCurrentSongAllPlayTime) ? +lastCurrentSongAllPlayTime : 0;
+    localStorage.setItem('currentSongAllPlayTime', '0');
+    if (currentSongAllPlayTime > 15 && action.payload.songId) {
+      yield SongService.recordSongPlayRowData(listenerId, currentSongAllPlayTime, action.payload.songId);
+    }
+  } catch (e) {
+
   }
 }
 

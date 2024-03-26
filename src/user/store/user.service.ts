@@ -12,7 +12,7 @@ export default class AuthService {
     }
 
     static async refresh(): Promise<AxiosResponse<UserDataWithTokens>> {
-        return api.post<UserDataWithTokens>('/user/refresh');
+        return api.get<UserDataWithTokens>('/user/refresh');
     }
 
     static async logout(): Promise<void> {

@@ -61,6 +61,10 @@ export type GetSongsOptions = {
   playlistId?: string;
 }
 
+export type RecordSongPlayRowDataRequestData = {
+  songId: string;
+}
+
 export enum SongActionTypes {
   GET_SONG_BY_ID = "SONG.GET_SONG_BY_ID",
   GET_SONG_BY_ID_SUCCESS = "SONG.GET_SONG_BY_ID_SUCCESS",
@@ -76,5 +80,7 @@ export enum SongActionTypes {
 
   CLEAR_SONGS = "SONG.CLEAR_SONGS",
 
-  EDIT_SONG_PLAYLISTS = "SONG.EDIT_SONG_PLAYLISTS"
+  EDIT_SONG_PLAYLISTS = "SONG.EDIT_SONG_PLAYLISTS",
+
+  RECORD_SONG_PLAY_ROW_DATA = "SONG.RECORD_SONG_PLAY_ROW_DATA"
 };

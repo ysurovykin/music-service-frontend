@@ -21,7 +21,7 @@ import { listenerProfileTypePalete } from "../../../config";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { formatTime } from "../../../helpers/react/song-player.helper";
+import { formatTime, updateCurrentSongAllPlayTime } from "../../../helpers/react/song-player.helper";
 import { RepeatSongStateEnum } from "../../store/listener.model";
 import { queueSelectors } from "../../queue/store/queue.selectors";
 import { queueActions } from "../../queue/store/queue.actions";
@@ -30,6 +30,8 @@ import { playlistSelectors } from "../../playlist/store/playlist.selectors";
 import { playlistActions } from "../../playlist/store/playlist.actions";
 import { openEditSongPlaylistsModal } from "../../playlist/store/playlist.model";
 import { showNotification } from "../../../helpers/react/redux.helper";
+import { songActions } from "../../song/store/song.actions";
+import { RecordSongPlayRowDataRequestData } from "../../song/store/song.model";
 
 const { Text, Title } = Typography;
 
@@ -79,6 +81,7 @@ export function SongPlayerComponent() {
   const closeEditSongPlaylistsModal = () => dispatch(playlistActions.closeEditSongPlaylistsModal());
   const getQueue = (songQueueId: string) => dispatch(queueActions.getQueue(songQueueId));
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
+  const recordSongPlayRowData = (request: RecordSongPlayRowDataRequestData) => dispatch(songActions.recordSongPlayRowData(request));
 
   const isSongPlayerLoading = useMemo(() => {
     return !songQueueId && !songsQueue?.length;
@@ -127,6 +130,7 @@ export function SongPlayerComponent() {
             .then(_ => { })
             .catch(error => { });
         }
+        localStorage.setItem('currentSongStartPlayDate', new Date().toISOString());
       }
       if (playerIntervalId) {
         clearInterval(playerIntervalId);
@@ -160,6 +164,7 @@ export function SongPlayerComponent() {
       if (audioPlayer.current && audioPlayer.current.currentTime > 0 && !audioPlayer.current.paused &&
         audioPlayer.current.readyState > audioPlayer.current.HAVE_CURRENT_DATA) {
         audioPlayer.current.pause()
+        updateCurrentSongAllPlayTime();
       }
       if (playerIntervalId) {
         clearInterval(playerIntervalId);
@@ -179,6 +184,12 @@ export function SongPlayerComponent() {
   }, [playTime]);
 
   useEffect(() => {
+    if (currentlyPlayingSong) {
+      localStorage.setItem('currentPlayingSongId', currentlyPlayingSong.songId || '');
+    }
+  }, [currentlyPlayingSong]);
+
+  useEffect(() => {
     const setCurrentTimeEventListener = (e: CustomEvent) => {
       const time = e.detail.playTime;
       localStorage.setItem('playTime', JSON.stringify(time));
@@ -190,6 +201,7 @@ export function SongPlayerComponent() {
     }
     if (audioPlayer.current) {
       window.addEventListener('SERVICE_EVENT.SONG_TEXT_PLAY_TIME_CHANGED', (setCurrentTimeEventListener) as EventListener);
+      localStorage.removeItem('currentSongStartPlayDate');
       if (lastSavedPlayTime) {
         setPlayTime(lastSavedPlayTime);
         audioPlayer.current.currentTime = lastSavedPlayTime;
@@ -430,6 +442,10 @@ export function SongPlayerComponent() {
         const song = songsQueue[previousSongIndex];
         changeSongData(song?.songQueueId || '');
         generateQueueIfNeeded(previousSongIndex, song);
+        updateCurrentSongAllPlayTime();
+        recordSongPlayRowData({
+          songId: currentlyPlayingSong?.songId!
+        });
         switchSong(song?.songQueueId || '');
       }
     }
@@ -468,6 +484,10 @@ export function SongPlayerComponent() {
       const song = songsQueue[nextSongIndex];
       changeSongData(song?.songQueueId || '');
       generateQueueIfNeeded(nextSongIndex, song);
+      updateCurrentSongAllPlayTime();
+      recordSongPlayRowData({
+        songId: currentlyPlayingSong?.songId!
+      });
       switchSong(song?.songQueueId || '');
     }
   }
