@@ -21,6 +21,7 @@ export function DiscoverArtistModal() {
   const profileImageUrl = useSelector(artistSelectors.profileImageUrl);
   const description = useSelector(artistSelectors.description);
   const followers = useSelector(artistSelectors.followers);
+  const monthlyListeners = useSelector(artistSelectors.monthlyListeners);
 
   const pieData = useMemo(() => {
     return genres?.map((genre, index) => ({
@@ -77,7 +78,7 @@ export function DiscoverArtistModal() {
                     <Title
                       className="m-0"
                       level={5}>
-                      {followers}
+                      {monthlyListeners}
                     </Title>
                     <Text
                       className="m-0 info-text">

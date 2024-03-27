@@ -40,6 +40,7 @@ export const artistReducer = (state = artistState, action: ArtistActions): Artis
         description: action.payload.description,
         socialLinks: action.payload.socialLinks,
         followers: action.payload.followers,
+        monthlyListeners: action.payload.monthlyListeners,
         backgroundColor: action.payload.backgroundColor,
         profileImageUrl: action.payload.profileImageUrl,
         songsCount: action.payload.songsCount,
@@ -48,6 +49,7 @@ export const artistReducer = (state = artistState, action: ArtistActions): Artis
         likedSongsTimeDuration: action.payload.likedSongsTimeDuration,
         albumsCount: action.payload.albumsCount,
         albumsWhereAppearsCount: action.payload.albumsWhereAppearsCount,
+        isFollowed: action.payload.isFollowed,
       }
     }
     case ArtistActionTypes.GET_ARTIST_BY_ID_FAILED: {

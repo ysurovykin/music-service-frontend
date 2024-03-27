@@ -11,6 +11,7 @@ export const artistState: ArtistState = {
   description: undefined,
   socialLinks: undefined,
   followers: undefined,
+  monthlyListeners: undefined,
   isFollowed: undefined,
   profileImageUrl: undefined,
   backgroundColor: undefined,
@@ -62,6 +63,7 @@ export type ArtistInfoResponseData = {
   description?: string;
   socialLinks?: Array<ArtistSocialLinks>;
   followers?: number;
+  monthlyListeners?: number;
   profileImageUrl?: string;
   backgroundColor?: string;
 }
