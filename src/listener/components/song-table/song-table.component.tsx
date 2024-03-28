@@ -41,6 +41,7 @@ import { OpenEditSongPlaylistsModal } from '../../playlist/store/playlist.model'
 import { MenuProps } from 'antd/lib';
 import { showNotification } from '../../../helpers/react/redux.helper';
 import { RepeatSongStateEnum } from '../../store/listener.model';
+import { EmptySongListComponent } from '../../song/empty-song-list/empty-song-list.component';
 
 const { Text, Title } = Typography;
 
@@ -455,15 +456,19 @@ export function SongTableComponent({
   };
 
   return (
-    <Table
-      dataSource={songs?.map(song => ({ ...song, key: song.songId }))}
-      columns={shouldShowAlbumColumn ? renderTableColumnsOnBigDevice() : renderTableColumnsOnSmallDevice()}
-      onRow={(record) => ({
-        onMouseEnter: () => setHoveredSongId(record.songId || ''),
-        onMouseLeave: () => setHoveredSongId('')
-      })}
-      pagination={false}
-      bordered={false}
-      sticky={{ offsetHeader }} />
+    <>
+      <Table
+        dataSource={songs?.map(song => ({ ...song, key: song.songId }))}
+        columns={shouldShowAlbumColumn ? renderTableColumnsOnBigDevice() : renderTableColumnsOnSmallDevice()}
+        onRow={(record) => ({
+          onMouseEnter: () => setHoveredSongId(record.songId || ''),
+          onMouseLeave: () => setHoveredSongId('')
+        })}
+        loading={!songs?.length && isSongsLoading}
+        pagination={false}
+        bordered={false}
+        sticky={{ offsetHeader }} />
+      {!songs?.length && !isSongsLoading ? <EmptySongListComponent /> : null}
+    </>
   );
 }

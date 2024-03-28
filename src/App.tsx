@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { userActions } from './user/store/user.actions';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { EmptySongListComponent } from './listener/song/empty-song-list/empty-song-list.component';
 
 function App() {
 
@@ -25,7 +26,7 @@ function App() {
   return (
     <div className="App">
       <ConfigProvider
-        renderEmpty={() => <Spin />}
+        renderEmpty={() => <></>}
         theme={{
           components: {
             Steps: {
