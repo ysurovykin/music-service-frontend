@@ -1,9 +1,26 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryResponse, GetArtistsResponse } from './artist.model';
+import {
+  ArtistActionTypes,
+  ArtistFullResponseData,
+  ArtistGenres,
+  ArtistInfoResponseData,
+  GetArtistsInListenerLibraryResponse,
+  GetArtistsResponse
+} from './artist.model';
 import ArtistService from './artist.service';
 import { artistActions } from './artist.actions';
 import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
-import { FollowArtistStartActionType, GetArtistByIdStartActionType, GetArtistsInListenerLibraryStartActionType, GetArtistsStartActionType, GetGenresStartActionType, GetMostRecentReleaseStartActionType, LoadMoreArtistsInListenerLibraryStartActionType, UnfollowArtistStartActionType } from './artist.actions.types';
+import {
+  FollowArtistStartActionType,
+  GetArtistByIdStartActionType,
+  GetArtistsInListenerLibraryStartActionType,
+  GetArtistsStartActionType,
+  GetFansAlsoLikeArtistsStartActionType,
+  GetGenresStartActionType,
+  GetMostRecentReleaseStartActionType,
+  LoadMoreArtistsInListenerLibraryStartActionType,
+  UnfollowArtistStartActionType
+} from './artist.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { AlbumFullResponseData } from '../../album/store/album.model';
 import { artistSelectors } from './artist.selectors';
@@ -27,6 +44,8 @@ export const artistEffects = [
   takeEvery(ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY_FAILED, handleError),
   takeEvery(ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY, loadMoreArtistsInListenerLibrary),
   takeEvery(ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED, handleError),
+  takeEvery(ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS, getFansAlsoLikeArtists),
+  takeEvery(ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS_FAILED, handleError),
 ];
 
 function* getArtists(action: GetArtistsStartActionType) {
@@ -132,6 +151,17 @@ function* loadMoreArtistsInListenerLibrary(action: LoadMoreArtistsInListenerLibr
   } catch (e) {
     const error = e as Error;
     yield put(artistActions.loadMoreArtistsInListenerLibraryFailed({ error }));
+  }
+}
+
+function* getFansAlsoLikeArtists(action: GetFansAlsoLikeArtistsStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: Array<ArtistInfoResponseData> = yield ArtistService.getFansAlsoLikeArtists(listenerId, action.payload);
+    yield put(artistActions.getFansAlsoLikeArtistsSuccess(response));
+  } catch (e) {
+    const error = e as Error;
+    yield put(artistActions.getFansAlsoLikeArtistsFailed({ error }));
   }
 }
 

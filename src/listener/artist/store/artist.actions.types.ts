@@ -152,6 +152,21 @@ export type UpdateArtistLikedSongsCountActionType = {
   payload: number;
 };
 
+export type GetFansAlsoLikeArtistsStartActionType = {
+  type: typeof ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS;
+  payload: string;
+};
+
+export type GetFansAlsoLikeArtistsSuccessActionType = {
+  type: typeof ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS_SUCCESS;
+  payload: Array<ArtistInfoResponseData>;
+};
+
+export type GetFansAlsoLikeArtistsFailedActionType = {
+  type: typeof ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS_FAILED;
+  payload: ActionFailedError;
+};
+
 export type ArtistActions =
   | GetArtistsStartActionType
   | GetArtistsSuccessActionType
@@ -182,4 +197,7 @@ export type ArtistActions =
   | LoadMoreArtistsInListenerLibraryStartActionType
   | LoadMoreArtistsInListenerLibrarySuccessActionType
   | LoadMoreArtistsInListenerLibraryFailedActionType
-  | UpdateArtistLikedSongsCountActionType;
+  | UpdateArtistLikedSongsCountActionType
+  | GetFansAlsoLikeArtistsStartActionType
+  | GetFansAlsoLikeArtistsSuccessActionType
+  | GetFansAlsoLikeArtistsFailedActionType;

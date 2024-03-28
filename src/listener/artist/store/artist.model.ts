@@ -28,7 +28,9 @@ export const artistState: ArtistState = {
   albumsWhereAppearsCount: undefined,
   followedArtists: undefined,
   isFollowedArtistsLoading: false,
-  isMoreFollowedArtistsForLoading: undefined
+  isMoreFollowedArtistsForLoading: undefined,
+  fansAlsoLikeArtists: undefined,
+  isFansAlsoLikeArtistsLoading: false
 };
 
 export interface ArtistState extends ArtistFullResponseData {
@@ -44,6 +46,8 @@ export interface ArtistState extends ArtistFullResponseData {
   followedArtists?: Array<ArtistInfoResponseData>,
   isFollowedArtistsLoading: boolean,
   isMoreFollowedArtistsForLoading?: boolean,
+  fansAlsoLikeArtists?: Array<ArtistInfoResponseData>,
+  isFansAlsoLikeArtistsLoading: boolean,
 }
 
 export type ArtistSocialLinks = {
@@ -146,4 +150,8 @@ export enum ArtistActionTypes {
   LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED = "ARTIST.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED",
 
   UPDATE_ARTIST_LIKED_SONGS_COUNT = "ARTIST.UPDATE_ARTIST_LIKED_SONGS_COUNT",
+
+  GET_FANS_ALSO_LIKE_ARTISTS = "ARTIST.GET_FANS_ALSO_LIKE_ARTISTS",
+  GET_FANS_ALSO_LIKE_ARTISTS_SUCCESS = "ARTIST.GET_FANS_ALSO_LIKE_ARTISTS_SUCCESS",
+  GET_FANS_ALSO_LIKE_ARTISTS_FAILED = "ARTIST.GET_FANS_ALSO_LIKE_ARTISTS_FAILED",
 };

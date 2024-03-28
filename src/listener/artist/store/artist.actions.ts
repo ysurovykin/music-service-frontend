@@ -30,9 +30,12 @@ import {
   LoadMoreArtistsInListenerLibraryStartActionType,
   LoadMoreArtistsInListenerLibrarySuccessActionType,
   LoadMoreArtistsInListenerLibraryFailedActionType,
-  UpdateArtistLikedSongsCountActionType
+  UpdateArtistLikedSongsCountActionType,
+  GetFansAlsoLikeArtistsStartActionType,
+  GetFansAlsoLikeArtistsSuccessActionType,
+  GetFansAlsoLikeArtistsFailedActionType
 } from "./artist.actions.types";
-import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse, GetArtistsRequest, GetArtistsResponse } from "./artist.model";
+import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse, GetArtistsRequest, GetArtistsResponse } from "./artist.model";
 
 export const getArtistsStartAction = (request: GetArtistsRequest):
   GetArtistsStartActionType => ({ type: ArtistActionTypes.GET_ARTISTS, payload: request });
@@ -122,7 +125,16 @@ export const loadMoreArtistsInListenerLibraryFailedAction = (error: ActionFailed
   LoadMoreArtistsInListenerLibraryFailedActionType => ({ type: ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED, payload: error });
 
 export const updateArtistLikedSongsCountAction = (count: number):
-UpdateArtistLikedSongsCountActionType => ({ type: ArtistActionTypes.UPDATE_ARTIST_LIKED_SONGS_COUNT, payload: count });
+  UpdateArtistLikedSongsCountActionType => ({ type: ArtistActionTypes.UPDATE_ARTIST_LIKED_SONGS_COUNT, payload: count });
+
+export const getFansAlsoLikeArtistsAction = (artistId: string):
+GetFansAlsoLikeArtistsStartActionType => ({ type: ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS, payload: artistId });
+
+export const getFansAlsoLikeArtistsSuccessAction = (response: Array<ArtistInfoResponseData>):
+  GetFansAlsoLikeArtistsSuccessActionType => ({ type: ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS_SUCCESS, payload: response });
+
+export const getFansAlsoLikeArtistsFailedAction = (error: ActionFailedError):
+  GetFansAlsoLikeArtistsFailedActionType => ({ type: ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS_FAILED, payload: error });
 
 export const artistActions = {
   getArtists: (request: GetArtistsRequest) => getArtistsStartAction(request),
@@ -154,6 +166,9 @@ export const artistActions = {
   loadMoreArtistsInListenerLibrary: (request: GetArtistsInListenerLibraryRequest) => loadMoreArtistsInListenerLibraryStartAction(request),
   loadMoreArtistsInListenerLibrarySuccess: (response: GetArtistsInListenerLibraryResponse) => loadMoreArtistsInListenerLibrarySuccessAction(response),
   loadMoreArtistsInListenerLibraryFailed: (error: ActionFailedError) => loadMoreArtistsInListenerLibraryFailedAction(error),
-  updateArtistLikedSongsCount: (count: number) => updateArtistLikedSongsCountAction(count)
+  updateArtistLikedSongsCount: (count: number) => updateArtistLikedSongsCountAction(count),
+  getFansAlsoLikeArtists: (artistId: string) => getFansAlsoLikeArtistsAction(artistId),
+  getFansAlsoLikeArtistsSuccess: (response: Array<ArtistInfoResponseData>) => getFansAlsoLikeArtistsSuccessAction(response),
+  getFansAlsoLikeArtistsFailed: (error: ActionFailedError) => getFansAlsoLikeArtistsFailedAction(error),
 }
 

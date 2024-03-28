@@ -31,6 +31,8 @@ const albumsWhereAppearsCount = createSelector(artistState, artist => artist?.al
 const followedArtists = createSelector(artistState, artist => artist?.followedArtists);
 const isFollowedArtistsLoading = createSelector(artistState, artist => artist?.isFollowedArtistsLoading);
 const isMoreFollowedArtistsForLoading = createSelector(artistState, artist => artist?.isMoreFollowedArtistsForLoading);
+const fansAlsoLikeArtists = createSelector(artistState, artist => artist?.fansAlsoLikeArtists);
+const isFansAlsoLikeArtistsLoading = createSelector(artistState, artist => artist?.isFansAlsoLikeArtistsLoading);
 
 export const artistSelectors = {
   artistId,
@@ -60,5 +62,7 @@ export const artistSelectors = {
   albumsWhereAppearsCount,
   followedArtists,
   isFollowedArtistsLoading,
-  isMoreFollowedArtistsForLoading
+  isMoreFollowedArtistsForLoading,
+  fansAlsoLikeArtists,
+  isFansAlsoLikeArtistsLoading
 };

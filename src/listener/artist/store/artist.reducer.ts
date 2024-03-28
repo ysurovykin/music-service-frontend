@@ -166,6 +166,25 @@ export const artistReducer = (state = artistState, action: ArtistActions): Artis
         likedSongsCount: action.payload
       }
     }
+    case ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS: {
+      return {
+        ...state,
+        isFansAlsoLikeArtistsLoading: true
+      }
+    }
+    case ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS_SUCCESS: {
+      return {
+        ...state,
+        isFansAlsoLikeArtistsLoading: false,
+        fansAlsoLikeArtists: action.payload,
+      }
+    }
+    case ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS_FAILED: {
+      return {
+        ...state,
+        isFansAlsoLikeArtistsLoading: false
+      }
+    }
     default: {
       return { ...state }
     }

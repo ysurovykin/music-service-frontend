@@ -23,6 +23,7 @@ import { songActions } from '../song/store/song.actions';
 import { songSelectors } from '../song/store/song.selectors';
 import { GenerateQueueRequestData } from '../queue/store/queue.model';
 import { queueActions } from '../queue/store/queue.actions';
+import { ArtistCardComponent } from './artist-card/artist-card.component';
 
 const { Text, Title, Link } = Typography;
 
@@ -49,6 +50,8 @@ export function ArtistPage() {
   const queue = useSelector(queueSelectors.queue);
   const songQueueId = useSelector(queueSelectors.songQueueId);
   const likedSongsCount = useSelector(artistSelectors.likedSongsCount);
+  const fansAlsoLikeArtists = useSelector(artistSelectors.fansAlsoLikeArtists);
+  const isFansAlsoLikeArtistsLoading = useSelector(artistSelectors.isFansAlsoLikeArtistsLoading);
 
   const dispatch = useDispatch()
   const getArtistData = (artistId: string) => dispatch(artistActions.getArtistById(artistId));
@@ -60,6 +63,7 @@ export function ArtistPage() {
   const getSongs = (request: GetSongsRequestData) => dispatch(songActions.getSongs(request));
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
   const openDiscoverArtistModal = () => dispatch(artistActions.openDiscoverArtistModal());
+  const getFansAlsoLikeArtists = (artistId: string) => dispatch(artistActions.getFansAlsoLikeArtists(artistId));
 
   const formatedQueue = useMemo(() => {
     if (songQueueId && queue) {
@@ -74,6 +78,7 @@ export function ArtistPage() {
       getArtistData(artistId);
       getAlbumsByArtistId(artistId);
       getAlbumsWhereArtistAppears(artistId);
+      getFansAlsoLikeArtists(artistId);
       getSongs({
         options: { artistId: artistId },
         offset: 0,
@@ -229,6 +234,18 @@ export function ArtistPage() {
                   <div className='artist-page__loader-wrapper'><Spin /></div> :
                   albumsArtistAppearsIn?.map(album =>
                     <AlbumCardComponent showArtistInfo={true} key={album.albumId} album={album} />
+                  )}
+              </div>
+            </div>
+          </> : null}
+          {fansAlsoLikeArtists?.length ? <>
+            <Title className='m-0' level={3}>Fans also like</Title>
+            <div className='artist-page__albums-wrapper custom-scroll-x'>
+              <div className='artist-page__albums'>
+                {isFansAlsoLikeArtistsLoading ?
+                  <div className='artist-page__loader-wrapper'><Spin /></div> :
+                  fansAlsoLikeArtists?.map(artist =>
+                    <ArtistCardComponent key={artist.artistId} artist={artist} />
                   )}
               </div>
             </div>

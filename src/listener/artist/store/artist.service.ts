@@ -50,4 +50,10 @@ export default class ArtistService {
             params: { ...request }
         });
     }
+
+    static async getFansAlsoLikeArtists(listenerId: string, artistId: string): Promise<AxiosResponse<GetArtistsResponse>> {
+        return await api.get<GetArtistsResponse>(`/artist/fans-also-like/${artistId}`, {
+            params: { listenerId: listenerId }
+        });
+    }
 }
