@@ -10,7 +10,8 @@ import {
   GetPlaylistsByListenerIdStartActionType,
   EditPlaylistStartActionType,
   PinPlaylistStartActionType,
-  UnpinPlaylistStartActionType
+  UnpinPlaylistStartActionType,
+  GetPlaylistsInListenerLibraryStartActionType
 } from './playlist.actions.types';
 import { notification } from 'antd';
 import { userSelectors } from '../../../user/store/user.selectors';
@@ -26,6 +27,8 @@ import { artistSelectors } from '../../artist/store/artist.selectors';
 export const playlistEffects = [
   takeEvery(PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID, getPlaylistsByListenerId),
   takeEvery(PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID_FAILED, handleError),
+  takeEvery(PlaylistActionTypes.GET_PLAYLISTS_IN_LISTENER_LIBRARY, getPlaylistsInListenerLibrary),
+  takeEvery(PlaylistActionTypes.GET_PLAYLISTS_IN_LISTENER_LIBRARY_FAILED, handleError),
   takeEvery(PlaylistActionTypes.GET_PLAYLIST_BY_ID, getPlaylistById),
   takeEvery(PlaylistActionTypes.GET_PLAYLIST_BY_ID_FAILED, handleError),
   takeEvery(PlaylistActionTypes.EDIT_SONG_PLAYLISTS, editSongPlaylists),
@@ -40,14 +43,25 @@ export const playlistEffects = [
   takeEvery(PlaylistActionTypes.UNPIN_PLAYLIST_FAILED, handleError),
 ];
 
-function* getPlaylistsByListenerId() {
+function* getPlaylistsByListenerId(action: GetPlaylistsByListenerIdStartActionType) {
   try {
     const listenerId: string = yield select(userSelectors.userId);
-    const playlists: Array<PlaylistInfoResponseData> = yield PlaylistService.getPlaylistsByListenerId(listenerId);
+    const playlists: Array<PlaylistInfoResponseData> = yield PlaylistService.getPlaylistsByListenerId(listenerId, action.payload);
     yield put(playlistActions.getPlaylistsByListenerIdSuccess(playlists));
   } catch (e) {
     const error = e as Error;
     yield put(playlistActions.getPlaylistsByListenerIdFailed({ error }));
+  }
+}
+
+function* getPlaylistsInListenerLibrary(action: GetPlaylistsInListenerLibraryStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const playlists: Array<PlaylistInfoResponseData> = yield PlaylistService.getPlaylistsByListenerId(listenerId, action.payload);
+    yield put(playlistActions.getPlaylistsInListenerLibrarySuccess(playlists));
+  } catch (e) {
+    const error = e as Error;
+    yield put(playlistActions.getPlaylistsInListenerLibraryFailed({ error }));
   }
 }
 
@@ -130,7 +144,7 @@ function* createPlaylist(action: CreatePlaylistStartActionType) {
     yield PlaylistService.createPlaylist(listenerId, formData);
 
     yield put(playlistActions.createPlaylistSuccess());
-    yield put(playlistActions.getPlaylistsByListenerId());
+    yield put(playlistActions.getPlaylistsByListenerId({}));
   } catch (e) {
     const error = e as Error;
     yield put(playlistActions.createPlaylistFailed({ error }));
@@ -154,7 +168,7 @@ function* editPlaylist(action: EditPlaylistStartActionType) {
     yield PlaylistService.editPlaylist(listenerId, formData);
 
     yield put(playlistActions.editPlaylistSuccess());
-    yield put(playlistActions.getPlaylistsByListenerId());
+    yield put(playlistActions.getPlaylistsByListenerId({}));
     yield put(playlistActions.getPlaylistById(action.payload.playlistId));
   } catch (e) {
     const error = e as Error;
@@ -166,7 +180,7 @@ function* pinPlaylist(action: PinPlaylistStartActionType) {
   try {
     const listenerId: string = yield select(userSelectors.userId);
     yield PlaylistService.pinPlaylist(listenerId, action.payload);
-    yield put(playlistActions.getPlaylistsByListenerId());
+    yield put(playlistActions.getPlaylistsByListenerId({}));
     yield put(playlistActions.pinPlaylistSuccess());
   } catch (e) {
     const error = e as Error;
@@ -178,7 +192,7 @@ function* unpinPlaylist(action: UnpinPlaylistStartActionType) {
   try {
     const listenerId: string = yield select(userSelectors.userId);
     yield PlaylistService.unpinPlaylist(listenerId, action.payload);
-    yield put(playlistActions.getPlaylistsByListenerId());
+    yield put(playlistActions.getPlaylistsByListenerId({}));
     yield put(playlistActions.unpinPlaylistSuccess());
   } catch (e) {
     const error = e as Error;

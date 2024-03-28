@@ -16,6 +16,7 @@ import { AlbumCardComponent } from "../album/album-card/album-card.component";
 import { PlaylistCardComponent } from "../playlist/playlist-views/playlist-card/playlist-card.component";
 import { ArtistCardComponent } from "../artist/artist-card/artist-card.component";
 import { Link as RouterLink } from "react-router-dom";
+import { GetPlaylistsRequest } from "../playlist/store/playlist.model";
 
 const { Title } = Typography;
 
@@ -37,7 +38,7 @@ export function LibraryPage() {
   const isMoreLikedAlbumsForLoading = useSelector(albumSelectors.isMoreLikedAlbumsForLoading);
 
   const dispatch = useDispatch()
-  const getPlaylistsByListenerId = () => dispatch(playlistActions.getPlaylistsByListenerId());
+  const getPlaylistsByListenerId = (request: GetPlaylistsRequest) => dispatch(playlistActions.getPlaylistsByListenerId(request));
   const getArtistsInListenerLibrary = (request: GetArtistsInListenerLibraryRequest) => dispatch(artistActions.getArtistsInListenerLibrary(request));
   const getAlbumsInListenerLibrary = (request: GetAlbumsInListenerLibraryRequest) => dispatch(albumActions.getAlbumsInListenerLibrary(request));
   const loadMoreArtistsInListenerLibrary = (request: GetArtistsInListenerLibraryRequest) => dispatch(artistActions.loadMoreArtistsInListenerLibrary(request));
@@ -76,7 +77,7 @@ export function LibraryPage() {
     });
     setAlbumOffset(1);
 
-    getPlaylistsByListenerId();
+    getPlaylistsByListenerId({});
   }, [])
 
   useEffect(() => {

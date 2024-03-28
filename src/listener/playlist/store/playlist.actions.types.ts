@@ -3,15 +3,16 @@ import {
   PlaylistActionTypes,
   PlaylistInfoResponseData,
   EditedPlaylistDataForRequest,
-  openEditSongPlaylistsModal,
+  OpenEditSongPlaylistsModal,
   CreatePlaylistRequestData,
   EditPlaylistRequestData,
   PlaylistFullResponseData,
+  GetPlaylistsRequest,
 } from "./playlist.model";
 
 export type GetPlaylistsByListenerIdStartActionType = {
   type: typeof PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID;
-  payload: undefined;
+  payload: GetPlaylistsRequest;
 };
 
 export type GetPlaylistsByListenerIdSuccessActionType = {
@@ -21,6 +22,21 @@ export type GetPlaylistsByListenerIdSuccessActionType = {
 
 export type GetPlaylistsByListenerIdFailedActionType = {
   type: typeof PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID_FAILED;
+  payload: ActionFailedError;
+};
+
+export type GetPlaylistsInListenerLibraryStartActionType = {
+  type: typeof PlaylistActionTypes.GET_PLAYLISTS_IN_LISTENER_LIBRARY;
+  payload: GetPlaylistsRequest;
+};
+
+export type GetPlaylistsInListenerLibrarySuccessActionType = {
+  type: typeof PlaylistActionTypes.GET_PLAYLISTS_IN_LISTENER_LIBRARY_SUCCESS;
+  payload: Array<PlaylistInfoResponseData>;
+};
+
+export type GetPlaylistsInListenerLibraryFailedActionType = {
+  type: typeof PlaylistActionTypes.GET_PLAYLISTS_IN_LISTENER_LIBRARY_FAILED;
   payload: ActionFailedError;
 };
 
@@ -91,7 +107,7 @@ export type EditPlaylistFailedActionType = {
 
 export type OpenEditPlaylistsModalActionType = {
   type: typeof PlaylistActionTypes.OPEN_EDIT_SONG_PLAYLISTS_MODAL;
-  payload: openEditSongPlaylistsModal;
+  payload: OpenEditSongPlaylistsModal;
 };
 
 export type CloseEditPlaylistsModalActionType = {
@@ -148,6 +164,9 @@ export type PlaylistActions =
   | GetPlaylistsByListenerIdStartActionType
   | GetPlaylistsByListenerIdSuccessActionType
   | GetPlaylistsByListenerIdFailedActionType
+  | GetPlaylistsInListenerLibraryStartActionType
+  | GetPlaylistsInListenerLibrarySuccessActionType
+  | GetPlaylistsInListenerLibraryFailedActionType
   | GetPlaylistByIdStartActionType
   | GetPlaylistByIdSuccessActionType
   | GetPlaylistByIdFailedActionType

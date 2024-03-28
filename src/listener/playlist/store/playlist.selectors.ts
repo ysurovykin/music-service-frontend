@@ -6,6 +6,8 @@ const playlistState = (state: InitialState) => state.playlist;
 const playlistId = createSelector(playlistState, playlist => playlist?.playlistId);
 const name = createSelector(playlistState, playlist => playlist?.name);
 const playlists = createSelector(playlistState, playlist => playlist?.playlists);
+const isPlaylistsInListenerLibraryLoading = createSelector(playlistState, playlist => playlist?.isPlaylistsInListenerLibraryLoading);
+const playlistsInListenerLibrary = createSelector(playlistState, playlist => playlist?.playlistsInListenerLibrary);
 const date = createSelector(playlistState, playlist => playlist?.date);
 const coverImageUrl = createSelector(playlistState, playlist => playlist?.coverImageUrl);
 const tag = createSelector(playlistState, playlist => playlist?.tag);
@@ -28,6 +30,8 @@ export const playlistSelectors = {
   playlistId,
   name,
   playlists,
+  isPlaylistsInListenerLibraryLoading,
+  playlistsInListenerLibrary,
   date,
   coverImageUrl,
   tag,

@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import { HeaderComponent } from "../../components/header/header.component";
 import { getBackground } from "../../../helpers/react/listener-page.helper";
 import { useInView } from "react-intersection-observer";
-import { Spin, Typography } from "antd";
+import { Input, Spin, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { albumSelectors } from "../../album/store/album.selectors";
 import { albumActions } from "../../album/store/album.actions";
 import { GetAlbumsInListenerLibraryRequest } from "../../album/store/album.model";
 import { AlbumCardComponent } from "../../album/album-card/album-card.component";
+import { useDebounce } from "use-debounce";
+import { Search } from "@mui/icons-material";
 const { Title } = Typography;
 
 export function LibraryAlbumsPage() {
-  const { ref, inView } = useInView({ threshold: 1 });
   const { ref: albumRef, inView: albumInView } = useInView({ threshold: 0 });
 
-  const [albumOffset, setArtistOffset] = useState<number>(0);
+  const [search, setSearch] = useState<string>('');
+  const [albumOffset, setAlbumOffset] = useState<number>(0);
+
+  const [debouncedSearch] = useDebounce(search, 500);
 
   const likedAlbums = useSelector(albumSelectors.likedAlbums);
   const isMoreLikedAlbumsForLoading = useSelector(albumSelectors.isMoreLikedAlbumsForLoading);
@@ -28,19 +32,21 @@ export function LibraryAlbumsPage() {
     if (!isLikedAlbumsLoading && (typeof isMoreLikedAlbumsForLoading === 'undefined' || isMoreLikedAlbumsForLoading)) {
       loadMoreAlbumsInListenerLibrary({
         offset: albumOffset,
-        limit: 10
+        limit: 10,
+        search: debouncedSearch
       });
-      setArtistOffset(state => state + 1);
+      setAlbumOffset(state => state + 1);
     }
   };
 
   useEffect(() => {
     getAlbumsInListenerLibrary({
+      search: debouncedSearch,
       limit: 10,
       offset: 0
     });
-    setArtistOffset(state => state + 1);
-  }, [])
+    setAlbumOffset(1);
+  }, [debouncedSearch]);
 
   useEffect(() => {
     if (albumInView) {
@@ -48,12 +54,25 @@ export function LibraryAlbumsPage() {
     }
   }, [albumInView]);
 
+  const renderSearchInput = () => {
+    return (
+      <Input
+        placeholder="Album name"
+        style={{ width: '300px', borderRadius: '50px' }}
+        onChange={(event) => setSearch(event.target.value)}
+        prefix={<Search className="search-page__search-icon" />}
+        allowClear />
+    );
+  }
+
   return (
     <div className='listener-group-page__wrapper custom-scroll-y'>
       <div style={{ background: getBackground() }} className="library-albums-page listener-group-page">
-        <HeaderComponent text="Liked Albums" showHeader={!inView} />
+        <HeaderComponent
+          showHeader={true}
+          element={renderSearchInput()} />
         <div className="library-albums-page-wrapper">
-          <Title ref={ref} className="mt-0" level={1}>Liked Albums</Title>
+          <Title className="mt-0" level={1}>Liked Albums</Title>
           <div className="library-albums-page__content">
             {isLikedAlbumsLoading && !likedAlbums?.length ?
               <div className='library-page__loader-wrapper'><Spin /></div> :

@@ -65,6 +65,7 @@ export type AlbumInfoResponseData = AlbumWithoutArtistType & {
 }
 
 export type GetAlbumsInListenerLibraryRequest = {
+  search?: string;
   offset: number;
   limit: number;
 }

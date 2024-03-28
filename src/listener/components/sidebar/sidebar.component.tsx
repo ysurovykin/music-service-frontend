@@ -14,18 +14,20 @@ import { useDispatch } from "react-redux";
 import { playlistActions } from "../../playlist/store/playlist.actions";
 import { PlaylistIconViewComponent } from "../../playlist/playlist-views/playlist-icon-view/playlist-icon-view.component";
 import { listenerProfileTypePalete } from "../../../config";
+import { request } from "http";
+import { GetPlaylistsRequest } from "../../playlist/store/playlist.model";
 
 export function SidebarComponent() {
 
   const playlists = useSelector(playlistSelectors.playlists);
 
   const dispatch = useDispatch();
-  const getPlaylists = () => dispatch(playlistActions.getPlaylistsByListenerId());
+  const getPlaylists = (request: GetPlaylistsRequest) => dispatch(playlistActions.getPlaylistsByListenerId(request));
   const pinPlaylist = (playlistId: string) => dispatch(playlistActions.pinPlaylist(playlistId));
   const unpinPlaylist = (playlistId: string) => dispatch(playlistActions.unpinPlaylist(playlistId));
 
   useEffect(() => {
-    getPlaylists();
+    getPlaylists({});
   }, []);
 
   return (

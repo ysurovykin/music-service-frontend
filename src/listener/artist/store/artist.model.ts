@@ -86,6 +86,7 @@ export type ArtistGenres = {
 export type GetArtistsInListenerLibraryRequest = {
   offset: number;
   limit: number;
+  search?: string;
 }
 
 export type GetArtistsResponse = {

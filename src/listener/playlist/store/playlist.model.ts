@@ -4,6 +4,8 @@ export const playlistState: PlaylistState = {
   playlists: undefined,
   isPlaylistsLoading: false,
   isPlaylistDataLoading: false,
+  isPlaylistsInListenerLibraryLoading: false,
+  playlistsInListenerLibrary: undefined,
   playlistId: undefined,
   name: undefined,
   editable: undefined,
@@ -28,6 +30,8 @@ export interface PlaylistState extends PlaylistFullResponseData {
   isPlaylistsLoading: boolean,
   isPlaylistDataLoading: boolean,
   playlists?: Array<PlaylistInfoResponseData>,
+  isPlaylistsInListenerLibraryLoading: boolean,
+  playlistsInListenerLibrary?: Array<PlaylistInfoResponseData>,
   isCreatePlaylistModalOpen?: boolean,
   isCreatePlaylistLoading?: boolean,
   isEditPlaylistModalOpen?: boolean,
@@ -85,7 +89,7 @@ export type PlaylistFullResponseData = PlaylistInfoResponseData & {
   songsCount?: number;
 }
 
-export type openEditSongPlaylistsModal = {
+export type OpenEditSongPlaylistsModal = {
   editPlaylistsSong: SongInfoResponseData;
 };
 
@@ -101,10 +105,18 @@ export type EditPlaylistRequestData = CreatePlaylistRequestData & {
   playlistId: string;
 };
 
+export type GetPlaylistsRequest = {
+  search?: string;
+}
+
 export enum PlaylistActionTypes {
   GET_PLAYLISTS_BY_LISTENER_ID = "PLAYLIST.GET_PLAYLISTS_BY_LISTENER_ID_START",
   GET_PLAYLISTS_BY_LISTENER_ID_SUCCESS = "PLAYLIST.GET_PLAYLISTS_BY_LISTENER_ID_SUCCESS",
   GET_PLAYLISTS_BY_LISTENER_ID_FAILED = "PLAYLIST.GET_PLAYLISTS_BY_LISTENER_ID_FAILED",
+
+  GET_PLAYLISTS_IN_LISTENER_LIBRARY = "PLAYLIST.GET_PLAYLISTS_IN_LISTENER_LIBRARY",
+  GET_PLAYLISTS_IN_LISTENER_LIBRARY_SUCCESS = "PLAYLIST.GET_PLAYLISTS_IN_LISTENER_LIBRARY_SUCCESS",
+  GET_PLAYLISTS_IN_LISTENER_LIBRARY_FAILED = "PLAYLIST.GET_PLAYLISTS_IN_LISTENER_LIBRARY_FAILED",
 
   GET_PLAYLIST_BY_ID = "PLAYLIST.GET_PLAYLIST_BY_ID_START",
   GET_PLAYLIST_BY_ID_SUCCESS = "PLAYLIST.GET_PLAYLIST_BY_ID_SUCCESS",

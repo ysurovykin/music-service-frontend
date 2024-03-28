@@ -28,7 +28,7 @@ import { queueActions } from "../../queue/store/queue.actions";
 import { GenerateQueueRequestData, QueueSongInfoResponseData } from "../../queue/store/queue.model";
 import { playlistSelectors } from "../../playlist/store/playlist.selectors";
 import { playlistActions } from "../../playlist/store/playlist.actions";
-import { openEditSongPlaylistsModal } from "../../playlist/store/playlist.model";
+import { OpenEditSongPlaylistsModal } from "../../playlist/store/playlist.model";
 import { showNotification } from "../../../helpers/react/redux.helper";
 import { songActions } from "../../song/store/song.actions";
 import { RecordSongPlayRowDataRequestData } from "../../song/store/song.model";
@@ -77,7 +77,7 @@ export function SongPlayerComponent() {
   const pauseSong = () => dispatch(queueActions.pauseSong());
   const unpauseSong = () => dispatch(queueActions.unpauseSong());
   const switchSong = (songQueueId: string) => dispatch(queueActions.switchSong(songQueueId));
-  const openEditSongPlaylistsModal = (songInfo: openEditSongPlaylistsModal) => dispatch(playlistActions.openEditSongPlaylistsModal(songInfo));
+  const openEditSongPlaylistsModal = (songInfo: OpenEditSongPlaylistsModal) => dispatch(playlistActions.openEditSongPlaylistsModal(songInfo));
   const closeEditSongPlaylistsModal = () => dispatch(playlistActions.closeEditSongPlaylistsModal());
   const getQueue = (songQueueId: string) => dispatch(queueActions.getQueue(songQueueId));
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));

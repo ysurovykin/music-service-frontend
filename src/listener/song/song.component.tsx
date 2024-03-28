@@ -31,7 +31,7 @@ import { queueSelectors } from "../queue/store/queue.selectors";
 import { MenuProps } from "antd/lib";
 import { playlistActions } from "../playlist/store/playlist.actions";
 import { playlistSelectors } from "../playlist/store/playlist.selectors";
-import { openEditSongPlaylistsModal } from "../playlist/store/playlist.model";
+import { OpenEditSongPlaylistsModal } from "../playlist/store/playlist.model";
 import { showNotification } from "../../helpers/react/redux.helper";
 import { GetSongsSortingOptions, RecordSongPlayRowDataRequestData } from "./store/song.model";
 import { RepeatSongStateEnum } from "../store/listener.model";
@@ -64,7 +64,7 @@ export const SongComponent = memo(function SongComponent({
   const isMoreSongsForwardForLoading = useSelector(queueSelectors.isMoreSongsForwardForLoading);
 
   const dispatch = useDispatch();
-  const openEditSongPlaylistsModal = (songInfo: openEditSongPlaylistsModal) => dispatch(playlistActions.openEditSongPlaylistsModal(songInfo));
+  const openEditSongPlaylistsModal = (songInfo: OpenEditSongPlaylistsModal) => dispatch(playlistActions.openEditSongPlaylistsModal(songInfo));
   const closeEditSongPlaylistsModal = () => dispatch(playlistActions.closeEditSongPlaylistsModal());
   const pauseSong = () => dispatch(queueActions.pauseSong());
   const switchSong = (songQueueId: string) => dispatch(queueActions.switchSong(songQueueId));

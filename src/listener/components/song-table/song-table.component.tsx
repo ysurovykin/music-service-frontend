@@ -37,7 +37,7 @@ import { ColumnProps, ColumnsType } from 'antd/es/table';
 import moment from 'moment';
 import { playlistActions } from '../../playlist/store/playlist.actions';
 import { playlistSelectors } from '../../playlist/store/playlist.selectors';
-import { openEditSongPlaylistsModal } from '../../playlist/store/playlist.model';
+import { OpenEditSongPlaylistsModal } from '../../playlist/store/playlist.model';
 import { MenuProps } from 'antd/lib';
 import { showNotification } from '../../../helpers/react/redux.helper';
 import { RepeatSongStateEnum } from '../../store/listener.model';
@@ -75,7 +75,7 @@ export function SongTableComponent({
   const dispatch = useDispatch();
   const pauseSong = () => dispatch(queueActions.pauseSong());
   const unpauseSong = () => dispatch(queueActions.unpauseSong());
-  const openEditSongPlaylistsModal = (songInfo: openEditSongPlaylistsModal) =>
+  const openEditSongPlaylistsModal = (songInfo: OpenEditSongPlaylistsModal) =>
     dispatch(playlistActions.openEditSongPlaylistsModal(songInfo));
   const getSongs = (request: GetSongsRequestData) => dispatch(songActions.getSongs(request));
   const loadMoreSongs = (request: GetSongsRequestData) => dispatch(songActions.loadMoreSongs(request));

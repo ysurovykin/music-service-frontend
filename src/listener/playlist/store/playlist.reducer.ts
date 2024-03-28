@@ -23,6 +23,25 @@ export const playlistReducer = (state = playlistState, action: PlaylistActions):
         isPlaylistsLoading: false
       }
     }
+    case PlaylistActionTypes.GET_PLAYLISTS_IN_LISTENER_LIBRARY: {
+      return {
+        ...state,
+        isPlaylistsInListenerLibraryLoading: true
+      }
+    }
+    case PlaylistActionTypes.GET_PLAYLISTS_IN_LISTENER_LIBRARY_SUCCESS: {
+      return {
+        ...state,
+        isPlaylistsInListenerLibraryLoading: false,
+        playlistsInListenerLibrary: action.payload
+      }
+    }
+    case PlaylistActionTypes.GET_PLAYLISTS_IN_LISTENER_LIBRARY_FAILED: {
+      return {
+        ...state,
+        isPlaylistsInListenerLibraryLoading: false
+      }
+    }
     case PlaylistActionTypes.GET_PLAYLIST_BY_ID: {
       return {
         ...state,
