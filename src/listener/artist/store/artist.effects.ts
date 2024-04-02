@@ -9,7 +9,7 @@ import {
 } from './artist.model';
 import ArtistService from './artist.service';
 import { artistActions } from './artist.actions';
-import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
+import { ErrorActionType, getErrorMessage, showNotification } from '../../../helpers/react/redux.helper';
 import {
   FollowArtistStartActionType,
   GetArtistByIdStartActionType,
@@ -24,6 +24,7 @@ import {
 import { userSelectors } from '../../../user/store/user.selectors';
 import { AlbumFullResponseData } from '../../album/store/album.model';
 import { artistSelectors } from './artist.selectors';
+import { AxiosError } from 'axios';
 
 export const artistEffects = [
   takeEvery(ArtistActionTypes.GET_ARTISTS, getArtists),
@@ -53,7 +54,7 @@ function* getArtists(action: GetArtistsStartActionType) {
     const response: GetArtistsResponse = yield ArtistService.getArtists(action.payload);
     yield put(artistActions.getArtistsSuccess(response));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(artistActions.getArtistsFailed({ error }));
   }
 }
@@ -68,7 +69,7 @@ function* loadMoreArtists(action: GetArtistsStartActionType) {
       isMoreArtistsForLoading: response.isMoreArtistsForLoading
     }));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(artistActions.loadMoreArtistsFailed({ error }));
   }
 }
@@ -79,7 +80,7 @@ function* getArtistById(action: GetArtistByIdStartActionType) {
     const artist: ArtistFullResponseData = yield ArtistService.getArtistById(listenerId, action.payload);
     yield put(artistActions.getArtistByIdSuccess(artist));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(artistActions.getArtistByIdFailed({ error }));
   }
 }
@@ -90,7 +91,7 @@ function* followArtist(action: FollowArtistStartActionType) {
     yield ArtistService.followArtist(listenerId, action.payload);
     yield put(artistActions.followArtistSuccess());
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(artistActions.followArtistFailed({ error }));
   }
 }
@@ -101,7 +102,7 @@ function* unfollowArtist(action: UnfollowArtistStartActionType) {
     yield ArtistService.unfollowArtist(listenerId, action.payload);
     yield put(artistActions.unfollowArtistSuccess());
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(artistActions.unfollowArtistFailed({ error }));
   }
 }
@@ -111,7 +112,7 @@ function* getGenres(action: GetGenresStartActionType) {
     const genres: Array<ArtistGenres> = yield ArtistService.getGenres(action.payload);
     yield put(artistActions.getGenresSuccess(genres));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(artistActions.getGenresFailed({ error }));
   }
 }
@@ -122,7 +123,7 @@ function* getMostRecentRelease(action: GetMostRecentReleaseStartActionType) {
     const mostRecentRelease: AlbumFullResponseData = yield ArtistService.getMostRecentRelease(listenerId, action.payload);
     yield put(artistActions.getMostRecentReleaseSuccess(mostRecentRelease));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(artistActions.getMostRecentReleaseFailed({ error }));
   }
 }
@@ -133,7 +134,7 @@ function* getArtistsInListenerLibrary(action: GetArtistsInListenerLibraryStartAc
     const response: GetArtistsInListenerLibraryResponse = yield ArtistService.getArtistsInListenerLibrary(listenerId, action.payload);
     yield put(artistActions.getArtistsInListenerLibrarySuccess(response));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(artistActions.getArtistsInListenerLibraryFailed({ error }));
   }
 }
@@ -149,7 +150,7 @@ function* loadMoreArtistsInListenerLibrary(action: LoadMoreArtistsInListenerLibr
       isMoreFollowedArtistsForLoading: response.isMoreFollowedArtistsForLoading
     }));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(artistActions.loadMoreArtistsInListenerLibraryFailed({ error }));
   }
 }
@@ -160,11 +161,11 @@ function* getFansAlsoLikeArtists(action: GetFansAlsoLikeArtistsStartActionType) 
     const response: Array<ArtistInfoResponseData> = yield ArtistService.getFansAlsoLikeArtists(listenerId, action.payload);
     yield put(artistActions.getFansAlsoLikeArtistsSuccess(response));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(artistActions.getFansAlsoLikeArtistsFailed({ error }));
   }
 }
 
 function* handleError(action: ErrorActionType) {
-  yield showNotification('error', action.payload.error.message);
+  yield showNotification('error', (getErrorMessage(action.payload.error)));
 }

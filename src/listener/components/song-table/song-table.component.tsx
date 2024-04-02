@@ -42,6 +42,8 @@ import { MenuProps } from 'antd/lib';
 import { showNotification } from '../../../helpers/react/redux.helper';
 import { RepeatSongStateEnum } from '../../store/listener.model';
 import { EmptySongListComponent } from '../../song/empty-song-list/empty-song-list.component';
+import { CreateSongRadioRequestData } from '../../song-radio/store/song-radio.model';
+import { songRadioActions } from '../../song-radio/store/song-radio.actions';
 
 const { Text, Title } = Typography;
 
@@ -84,6 +86,7 @@ export function SongTableComponent({
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
   const addSongToQueue = (request: AddSongToQueueRequestData) => dispatch(queueActions.addSongToQueue(request));
   const recordSongPlayRowData = (request: RecordSongPlayRowDataRequestData) => dispatch(songActions.recordSongPlayRowData(request));
+  const createSongRadio = (request: CreateSongRadioRequestData) => dispatch(songRadioActions.createSongRadio(request));
 
   const currentlyPlayingSong = useMemo(() => {
     return songsQueue?.find(song => song.songQueueId === songQueueId);
@@ -163,9 +166,9 @@ export function SongTableComponent({
         sortingOptions: sortingOptions,
         search
       });
-      setOffset(state => state + 1);
+      setOffset(1);
     }
-  }, [songsSourceOptions?.albumId, songsSourceOptions?.playlistId, songsSourceOptions?.artistId, search])
+  }, [songsSourceOptions?.albumId, songsSourceOptions?.playlistId, songsSourceOptions?.songRadioBaseSongId, songsSourceOptions?.artistId, search])
 
   useEffect(() => {
     return () => {
@@ -211,9 +214,13 @@ export function SongTableComponent({
           {!songsSourceOptions?.albumId && <Avatar shape='square' size={48} src={record?.coverImageUrl} />}
           <div className="song__credentials">
             <Title className="m-0" level={5}>{record?.name}</Title>
-            <Text>{record?.artists?.map(artist =>
-              (<RouterLink key={artist.id} to={`/artist/${artist.id}`}>{artist.name}</RouterLink>)
-            )}</Text>
+            <div>
+              <Text className='song__credentials-artists-wrapper'>
+                {record?.artists
+                  ?.map<React.ReactNode>(artist => <RouterLink key={artist.name} to={`/artist/${artist.id}`}>{artist.name}</RouterLink>)
+                  .reduce((prev, curr) => [prev, ', ', curr])}
+              </Text>
+            </div>
           </div>
         </div>
       )
@@ -317,11 +324,11 @@ export function SongTableComponent({
           type: 'divider',
         },
         {
-          label: <RouterLink to={'/'}>
-            <div className='dropdown-item'>
-              <CastOutlined /><p>Generate playlist by song</p>
-            </div>
-          </RouterLink>,
+          label: <div
+            className='dropdown-item'
+            onClick={() => createSongRadio({ song: record })}>
+            <CastOutlined /><p>Generate song radio</p>
+          </div>,
           key: '2',
         },
         {
@@ -400,6 +407,14 @@ export function SongTableComponent({
         durationColumn,
         menuColumn
       ];
+    } else if (songsSourceOptions?.songRadioBaseSongId) {
+      return [
+        titleColumn,
+        albumColumn,
+        likeColumn,
+        durationColumn,
+        menuColumn
+      ];
     } else if (search) {
       return [
         titleColumn,
@@ -433,6 +448,14 @@ export function SongTableComponent({
       return [
         titleColumn,
         dateColumn,
+        likeColumn,
+        durationColumn,
+        menuColumn
+      ];
+    } else if (songsSourceOptions?.songRadioBaseSongId) {
+      return [
+        titleColumn,
+        albumColumn,
         likeColumn,
         durationColumn,
         menuColumn

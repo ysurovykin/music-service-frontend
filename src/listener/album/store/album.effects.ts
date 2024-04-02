@@ -2,7 +2,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import { AlbumActionTypes, AlbumInfoResponseData, GetAlbumsInListenerLibraryResponse, GetAlbumsResponse } from './album.model';
 import AlbumService from './album.service';
 import { albumActions } from './album.actions';
-import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
+import { ErrorActionType, getErrorMessage, showNotification } from '../../../helpers/react/redux.helper';
 import {
   AddAlbumToLibraryStartActionType,
   GetAlbumByIdStartActionType,
@@ -15,6 +15,7 @@ import {
 } from './album.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { albumSelectors } from './album.selectors';
+import { AxiosError } from 'axios';
 
 export const albumEffects = [
   takeEvery(AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID, getAlbumsByArtistId),
@@ -43,7 +44,7 @@ function* getAlbumsByArtistId(action: GetAlbumsByArtistIdStartActionType) {
     const albums: Array<AlbumInfoResponseData> = yield AlbumService.getAlbumsByArtistId(listenerId, action.payload);
     yield put(albumActions.getAlbumsByArtistIdSuccess(albums));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(albumActions.getAlbumsByArtistIdFailed({ error }));
   }
 }
@@ -54,7 +55,7 @@ function* getAlbumsWhereArtistAppears(action: GetAlbumsWhereArtistAppearsStartAc
     const albums: Array<AlbumInfoResponseData> = yield AlbumService.getAlbumsWhereArtistAppears(listenerId, action.payload);
     yield put(albumActions.getAlbumsWhereArtistAppearsSuccess(albums));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(albumActions.getAlbumsWhereArtistAppearsFailed({ error }));
   }
 }
@@ -65,7 +66,7 @@ function* getAlbumById(action: GetAlbumByIdStartActionType) {
     const album: AlbumInfoResponseData = yield AlbumService.getAlbumById(listenerId, action.payload);
     yield put(albumActions.getAlbumByIdSuccess(album));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(albumActions.getAlbumByIdFailed({ error }));
   }
 }
@@ -83,7 +84,7 @@ function* addAlbumToLibrary(action: AddAlbumToLibraryStartActionType) {
     yield put(albumActions.updateAlbumsInfo(editedAlbums));
     yield put(albumActions.addAlbumToLibrarySuccess());
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(albumActions.addAlbumToLibraryFailed({ error }));
   }
 }
@@ -101,7 +102,7 @@ function* removeAlbumFromLibrary(action: RemoveAlbumFromLibraryStartActionType) 
     yield put(albumActions.updateAlbumsInfo(editedAlbums));
     yield put(albumActions.removeAlbumFromLibrarySuccess());
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(albumActions.removeAlbumFromLibraryFailed({ error }));
   }
 }
@@ -112,7 +113,7 @@ function* getAlbumsInListenerLibrary(action: GetAlbumsInListenerLibraryStartActi
     const response: GetAlbumsInListenerLibraryResponse = yield AlbumService.getAlbumsInListenerLibrary(listenerId, action.payload);
     yield put(albumActions.getAlbumsInListenerLibrarySuccess(response));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(albumActions.getAlbumsInListenerLibraryFailed({ error }));
   }
 }
@@ -128,7 +129,7 @@ function* loadMoreAlbumsInListenerLibrary(action: LoadMoreAlbumsInListenerLibrar
       isMoreLikedAlbumsForLoading: response.isMoreLikedAlbumsForLoading
     }));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(albumActions.loadMoreAlbumsInListenerLibraryFailed({ error }));
   }
 }
@@ -138,7 +139,7 @@ function* getAlbums(action: GetAlbumsStartActionType) {
     const response: GetAlbumsResponse = yield AlbumService.getAlbums(action.payload);
     yield put(albumActions.getAlbumsSuccess(response));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(albumActions.getAlbumsFailed({ error }));
   }
 }
@@ -153,11 +154,11 @@ function* loadMoreAlbums(action: GetAlbumsStartActionType) {
       isMoreAlbumsForLoading: response.isMoreAlbumsForLoading
     }));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(albumActions.loadMoreAlbumsFailed({ error }));
   }
 }
 
 function* handleError(action: ErrorActionType) {
-  yield showNotification('error', action.payload.error.message);
+  yield showNotification('error', (getErrorMessage(action.payload.error)));
 }

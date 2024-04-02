@@ -2,7 +2,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import { EditedPlaylistShortInfo, PlaylistActionTypes, PlaylistFullResponseData, PlaylistInfoResponseData } from './playlist.model';
 import PlaylistService from './playlist.service';
 import { playlistActions } from './playlist.actions';
-import { ErrorActionType, showNotification } from '../../../helpers/react/redux.helper';
+import { ErrorActionType, getErrorMessage, showNotification } from '../../../helpers/react/redux.helper';
 import {
   CreatePlaylistStartActionType,
   EditSongPlaylistsStartActionType,
@@ -23,6 +23,7 @@ import { queueActions } from '../../queue/store/queue.actions';
 import { songActions } from '../../song/store/song.actions';
 import { artistActions } from '../../artist/store/artist.actions';
 import { artistSelectors } from '../../artist/store/artist.selectors';
+import { AxiosError } from 'axios';
 
 export const playlistEffects = [
   takeEvery(PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID, getPlaylistsByListenerId),
@@ -49,7 +50,7 @@ function* getPlaylistsByListenerId(action: GetPlaylistsByListenerIdStartActionTy
     const playlists: Array<PlaylistInfoResponseData> = yield PlaylistService.getPlaylistsByListenerId(listenerId, action.payload);
     yield put(playlistActions.getPlaylistsByListenerIdSuccess(playlists));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(playlistActions.getPlaylistsByListenerIdFailed({ error }));
   }
 }
@@ -60,7 +61,7 @@ function* getPlaylistsInListenerLibrary(action: GetPlaylistsInListenerLibrarySta
     const playlists: Array<PlaylistInfoResponseData> = yield PlaylistService.getPlaylistsByListenerId(listenerId, action.payload);
     yield put(playlistActions.getPlaylistsInListenerLibrarySuccess(playlists));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(playlistActions.getPlaylistsInListenerLibraryFailed({ error }));
   }
 }
@@ -70,7 +71,7 @@ function* getPlaylistById(action: GetPlaylistByIdStartActionType) {
     const playlist: PlaylistFullResponseData = yield PlaylistService.getPlaylistById(action.payload);
     yield put(playlistActions.getPlaylistByIdSuccess(playlist));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(playlistActions.getPlaylistByIdFailed({ error }));
   }
 }
@@ -123,7 +124,7 @@ function* editSongPlaylists(action: EditSongPlaylistsStartActionType) {
     yield put(songActions.editSongPlaylists(songsToEdit));
     yield put(playlistActions.editSongPlaylistsSuccess());
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(playlistActions.editSongPlaylistsFailed({ error }));
   }
 }
@@ -146,7 +147,7 @@ function* createPlaylist(action: CreatePlaylistStartActionType) {
     yield put(playlistActions.createPlaylistSuccess());
     yield put(playlistActions.getPlaylistsByListenerId({}));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(playlistActions.createPlaylistFailed({ error }));
   }
 }
@@ -171,7 +172,7 @@ function* editPlaylist(action: EditPlaylistStartActionType) {
     yield put(playlistActions.getPlaylistsByListenerId({}));
     yield put(playlistActions.getPlaylistById(action.payload.playlistId));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(playlistActions.editPlaylistFailed({ error }));
   }
 }
@@ -183,7 +184,7 @@ function* pinPlaylist(action: PinPlaylistStartActionType) {
     yield put(playlistActions.getPlaylistsByListenerId({}));
     yield put(playlistActions.pinPlaylistSuccess());
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(playlistActions.pinPlaylistFailed({ error }));
   }
 }
@@ -195,11 +196,11 @@ function* unpinPlaylist(action: UnpinPlaylistStartActionType) {
     yield put(playlistActions.getPlaylistsByListenerId({}));
     yield put(playlistActions.unpinPlaylistSuccess());
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(playlistActions.unpinPlaylistFailed({ error }));
   }
 }
 
 function* handleError(action: ErrorActionType) {
-  yield showNotification('error', action.payload.error.message);
+  yield showNotification('error', (getErrorMessage(action.payload.error)));
 }

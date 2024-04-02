@@ -17,6 +17,10 @@ import { PlaylistCardComponent } from "../playlist/playlist-views/playlist-card/
 import { ArtistCardComponent } from "../artist/artist-card/artist-card.component";
 import { Link as RouterLink } from "react-router-dom";
 import { GetPlaylistsRequest } from "../playlist/store/playlist.model";
+import { songRadioSelectors } from "../song-radio/store/song-radio.selectors";
+import { songRadioActions } from "../song-radio/store/song-radio.actions";
+import { GetListenerSongRadiosRequestData } from "../song-radio/store/song-radio.model";
+import { SongRadioCardComponent } from "../song-radio/song-radio-card/song-radio-card.component";
 
 const { Title } = Typography;
 
@@ -24,9 +28,11 @@ export function LibraryPage() {
   const { ref, inView } = useInView({ threshold: 1 });
   const { ref: albumRef, inView: albumInView } = useInView({ threshold: 0 });
   const { ref: artistRef, inView: artistInView } = useInView({ threshold: 0 });
+  const { ref: songRadioRef, inView: songRadioInView } = useInView({ threshold: 1 });
 
   const [albumOffset, setAlbumOffset] = useState<number>(0);
   const [artistOffset, setArtistOffset] = useState<number>(0);
+  const [songRadiosOffset, setSongRadiosOffset] = useState<number>(0);
 
   const playlists = useSelector(playlistSelectors.playlists);
   const isPlaylistsLoading = useSelector(playlistSelectors.isPlaylistsLoading);
@@ -36,6 +42,9 @@ export function LibraryPage() {
   const isLikedAlbumsLoading = useSelector(albumSelectors.isLikedAlbumsLoading);
   const likedAlbums = useSelector(albumSelectors.likedAlbums);
   const isMoreLikedAlbumsForLoading = useSelector(albumSelectors.isMoreLikedAlbumsForLoading);
+  const listenerSongRadios = useSelector(songRadioSelectors.listenerSongRadios);
+  const isMoreListenerSongRadiosForLoading = useSelector(songRadioSelectors.isMoreListenerSongRadiosForLoading);
+  const isListenerSongRadiosLoading = useSelector(songRadioSelectors.isListenerSongRadiosLoading);
 
   const dispatch = useDispatch()
   const getPlaylistsByListenerId = (request: GetPlaylistsRequest) => dispatch(playlistActions.getPlaylistsByListenerId(request));
@@ -43,6 +52,10 @@ export function LibraryPage() {
   const getAlbumsInListenerLibrary = (request: GetAlbumsInListenerLibraryRequest) => dispatch(albumActions.getAlbumsInListenerLibrary(request));
   const loadMoreArtistsInListenerLibrary = (request: GetArtistsInListenerLibraryRequest) => dispatch(artistActions.loadMoreArtistsInListenerLibrary(request));
   const loadMoreAlbumsInListenerLibrary = (request: GetAlbumsInListenerLibraryRequest) => dispatch(albumActions.loadMoreAlbumsInListenerLibrary(request));
+  const getListenerSongRadios = (request: GetListenerSongRadiosRequestData) =>
+    dispatch(songRadioActions.getListenerSongRadios(request));
+  const loadMoreListenerSongRadios = (request: GetListenerSongRadiosRequestData) =>
+    dispatch(songRadioActions.loadMoreListenerSongRadios(request));
 
   const handleLoadMoreAlbums = async () => {
     if (!isLikedAlbumsLoading && (typeof isMoreLikedAlbumsForLoading === 'undefined' || isMoreLikedAlbumsForLoading)) {
@@ -64,6 +77,16 @@ export function LibraryPage() {
     }
   };
 
+  const handleLoadMoreListenerSongRadios = async () => {
+    if (!isListenerSongRadiosLoading && (typeof isMoreListenerSongRadiosForLoading === 'undefined' || isMoreListenerSongRadiosForLoading)) {
+      loadMoreListenerSongRadios({
+        offset: songRadiosOffset,
+        limit: 10
+      });
+      setSongRadiosOffset(state => state + 1);
+    }
+  };
+
   useEffect(() => {
     getArtistsInListenerLibrary({
       limit: 10,
@@ -76,6 +99,12 @@ export function LibraryPage() {
       offset: 0
     });
     setAlbumOffset(1);
+
+    getListenerSongRadios({
+      limit: 10,
+      offset: 0
+    });
+    setSongRadiosOffset(1);
 
     getPlaylistsByListenerId({});
   }, [])
@@ -92,61 +121,102 @@ export function LibraryPage() {
     }
   }, [artistInView]);
 
+  useEffect(() => {
+    if (songRadioInView) {
+      handleLoadMoreListenerSongRadios();
+    }
+  }, [songRadioInView]);
+
   return (
     <div className='listener-group-page__wrapper custom-scroll-y'>
       <div style={{ background: getBackground() }} className="library-page listener-group-page">
         <HeaderComponent text="Your Library" showHeader={!inView} />
         <div className="library-page-wrapper">
           <Title ref={ref} className="mt-0" level={1}>Your Library</Title>
-          <div className='library-page__title'>
-            <Title className='m-0' level={3}>Playlists</Title>
-            <Title className='m-0' level={4}><RouterLink to={'/library/playlists'}>Show all</RouterLink></Title>
-          </div>
-          <div className='library-page__content-wrapper custom-scroll-x'>
-            <div className="library-page__content">
-              {isPlaylistsLoading ?
-                <div className='library-page__loader-wrapper'><Spin /></div> :
-                playlists?.map(playlist =>
-                  <PlaylistCardComponent
-                    playlist={playlist}
-                    key={playlist.playlistId} />
-                )}
+          {playlists?.length ?
+            <> <div className='library-page__title'>
+              <Title className='m-0' level={3}>Playlists</Title>
+              <Title className='m-0' level={4}><RouterLink to={'/library/playlists'}>Show all</RouterLink></Title>
             </div>
-          </div>
-          <div className='library-page__title'>
-            <Title className='m-0' level={3}>Artists</Title>
-            <Title className='m-0' level={4}><RouterLink to={'/library/artists'}>Show all</RouterLink></Title>
-          </div>
-          <div className='library-page__content-wrapper custom-scroll-x'>
-            <div className="library-page__content">
-              {isFollowedArtistsLoading && !followedArtists?.length ?
-                <div className='library-page__loader-wrapper'><Spin /></div> :
-                followedArtists?.map((artist, index) =>
-                  <ArtistCardComponent
-                    artist={artist}
-                    key={artist.artistId}
-                    reference={((index === followedArtists?.length && isMoreFollowedArtistsForLoading)) ? artistRef : null} />
-                )}
-            </div>
-          </div>
-          <div className='library-page__title'>
-            <Title className='m-0' level={3}>Albums</Title>
-            <Title className='m-0' level={4}><RouterLink to={'/library/albums'}>Show all</RouterLink></Title>
-          </div>
-          <div className='library-page__content-wrapper custom-scroll-x'>
-            <div className="library-page__content">
-              {isLikedAlbumsLoading && !likedAlbums?.length ?
-                <div className='library-page__loader-wrapper'><Spin /></div> :
-                likedAlbums?.map((album, index) =>
-                  <AlbumCardComponent
-                    showLikeButton={false}
-                    showArtistInfo={true}
-                    key={album.albumId}
-                    album={album}
-                    reference={((index === likedAlbums?.length - 1) && isMoreLikedAlbumsForLoading) ? albumRef : null} />
-                )}
-            </div>
-          </div>
+              <div className='library-page__content-wrapper custom-scroll-x'>
+                <div className="library-page__content">
+                  {isPlaylistsLoading ?
+                    <div className='library-page__loader-wrapper'><Spin /></div> :
+                    playlists?.map(playlist =>
+                      <PlaylistCardComponent
+                        playlist={playlist}
+                        key={playlist.playlistId} />
+                    )}
+                </div>
+              </div>
+            </> :
+            null
+          }
+          {followedArtists?.length ?
+            <>
+              <div className='library-page__title'>
+                <Title className='m-0' level={3}>Artists</Title>
+                <Title className='m-0' level={4}><RouterLink to={'/library/artists'}>Show all</RouterLink></Title>
+              </div>
+              <div className='library-page__content-wrapper custom-scroll-x'>
+                <div className="library-page__content">
+                  {isFollowedArtistsLoading && !followedArtists?.length ?
+                    <div className='library-page__loader-wrapper'><Spin /></div> :
+                    followedArtists?.map((artist, index) =>
+                      <ArtistCardComponent
+                        artist={artist}
+                        key={artist.artistId}
+                        reference={((index === followedArtists?.length && isMoreFollowedArtistsForLoading)) ? artistRef : null} />
+                    )}
+                </div>
+              </div>
+            </> :
+            null
+          }
+          {likedAlbums?.length ?
+            <>
+              <div className='library-page__title'>
+                <Title className='m-0' level={3}>Albums</Title>
+                <Title className='m-0' level={4}><RouterLink to={'/library/albums'}>Show all</RouterLink></Title>
+              </div>
+              <div className='library-page__content-wrapper custom-scroll-x'>
+                <div className="library-page__content">
+                  {isLikedAlbumsLoading && !likedAlbums?.length ?
+                    <div className='library-page__loader-wrapper'><Spin /></div> :
+                    likedAlbums?.map((album, index) =>
+                      <AlbumCardComponent
+                        showLikeButton={false}
+                        showArtistInfo={true}
+                        key={album.albumId}
+                        album={album}
+                        reference={((index === likedAlbums?.length - 1) && isMoreLikedAlbumsForLoading) ? albumRef : null} />
+                    )}
+                </div>
+              </div>
+            </> :
+            null
+          }
+          {listenerSongRadios?.length ?
+            <>
+              <div className='library-page__title'>
+                <Title className='m-0' level={3}>Song Radios</Title>
+                <Title className='m-0' level={4}><RouterLink to={'/library/song-radios'}>Show all</RouterLink></Title>
+              </div>
+              <div className='library-page__content-wrapper custom-scroll-x'>
+                <div className="library-page__content">
+                  {isListenerSongRadiosLoading && !listenerSongRadios?.length ?
+                    <div className='library-page__loader-wrapper'><Spin /></div> :
+                    listenerSongRadios?.map((songRadio, index) =>
+                      <SongRadioCardComponent
+                        songRadio={songRadio}
+                        key={'song-radio' + songRadio.baseSongId}
+                        reference={((index === listenerSongRadios?.length && isMoreListenerSongRadiosForLoading)) ? songRadioRef : null} />
+                    )}
+                </div>
+              </div>
+            </> :
+            null
+          }
         </div>
       </div>
     </div >

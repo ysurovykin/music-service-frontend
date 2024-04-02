@@ -24,6 +24,8 @@ api.interceptors.response.use((config) => {
         } catch (e) {
             console.log('Authorization required');
         }
+    } else {
+        return Promise.reject(error);
     }
 }))
 

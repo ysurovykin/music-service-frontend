@@ -27,8 +27,6 @@ export function PlaylistPage() {
   const [isCoverImageHovered, setIsCoverImageHovered] = useState<boolean>(false);
 
   const name = useSelector(playlistSelectors.name);
-  // const songCount = useSelector(playlistSelectors.songCount);
-  // const songTime = useSelector(playlistSelectors.songTime);
   const tag = useSelector(playlistSelectors.tag);
   const playlistCoverImageUrl = useSelector(playlistSelectors.coverImageUrl);
   const backgroundColor = useSelector(playlistSelectors.backgroundColor);

@@ -72,12 +72,16 @@ export function AlbumCardComponent({
       }
       <Avatar shape='square' size={128} src={album.coverImageUrl} />
       <div className="album-card__title-wrapper">
-        <Title className="album-card__title m-0" level={5}>{album.name}</Title>
+        <Tooltip title={album.name}>
+          <Title className="album-card__title m-0" level={5}>{album.name}</Title>
+        </Tooltip>
       </div>
       {showArtistInfo ? <div className="album-card__artist-info-wrapper">
-        <Text className="album-card__title m-0">
-          <RouterLink onClick={(event) => event.stopPropagation()} key={album.artist?.id} to={`/artist/${album.artist?.id}`}>{album.artist?.name}</RouterLink>
-        </Text>
+        <Tooltip title={album.artist?.name}>
+          <Text className="album-card__title m-0">
+            <RouterLink onClick={(event) => event.stopPropagation()} key={album.artist?.id} to={`/artist/${album.artist?.id}`}>{album.artist?.name}</RouterLink>
+          </Text>
+        </Tooltip>
       </div> : null}
       <div className="album-card__info">
         {showYear ? <Text>{moment(album.date).year()}</Text> : null}

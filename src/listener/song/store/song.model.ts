@@ -59,6 +59,7 @@ export type GetSongsOptions = {
   albumId?: string;
   artistId?: string;
   playlistId?: string;
+  songRadioBaseSongId?: string;
 }
 
 export type RecordSongPlayRowDataRequestData = {

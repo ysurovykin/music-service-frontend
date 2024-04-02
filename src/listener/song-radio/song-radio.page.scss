@@ -1,0 +1,64 @@
+.song-radio-page {
+  &__info {
+    display: flex;
+    gap: 20px;
+    padding: 0px 20px 20px 20px;
+    align-items: center;
+  }
+
+  &__cover-wrapper {
+    width: 160px;
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__cover-shadow {
+    width: 160px;
+    height: 160px;
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+  }
+
+  &__play-button {
+    font-size: 48px !important;
+    position: absolute;
+  }
+
+  &__credits {
+    align-self: flex-end;
+  }
+
+  &__avatar-wrapper {
+    position: absolute;
+    background-color: black;
+    width: 160px;
+    height: 160px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__avatar-title {
+    text-overflow: ellipsis;
+    width: 128px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  &__refresh-button {
+    background: transparent;
+    
+    &-wrapper {
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+  }
+}

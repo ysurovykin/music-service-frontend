@@ -3,8 +3,9 @@ import { UserActionTypes, UserDataWithTokens } from './user.model';
 import { LoginStartActionType, RegistrationStartActionType } from './user.actions.types';
 import AuthService from './user.service';
 import { userActions } from './user.actions';
-import { ErrorActionType, showNotification } from '../../helpers/react/redux.helper';
+import { ErrorActionType, getErrorMessage, showNotification } from '../../helpers/react/redux.helper';
 import { notification } from 'antd';
+import { AxiosError } from 'axios';
 
 export const userEffects = [
   takeEvery(UserActionTypes.LOGIN, login),
@@ -23,7 +24,7 @@ function* login(action: LoginStartActionType) {
     localStorage.setItem('token', loginResponse.accessToken);
     yield put(userActions.loginSuccess(loginResponse));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(userActions.loginFailed({ error }));
   }
 }
@@ -33,7 +34,7 @@ function* logout() {
     yield AuthService.logout();
     yield put(userActions.logoutSuccess());
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(userActions.logoutFailed({ error }));
   }
 }
@@ -44,7 +45,7 @@ function* registration(action: RegistrationStartActionType) {
     localStorage.setItem('token', registrationResponse.accessToken);
     yield put(userActions.registrationSuccess(registrationResponse));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(userActions.registrationFailed({ error }));
   }
 }
@@ -55,11 +56,11 @@ function* refresh() {
     localStorage.setItem('token', refreshResponse.accessToken);
     yield put(userActions.refreshSuccess(refreshResponse));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(userActions.refreshFailed({ error }));
   }
 }
 
 function* handleError(action: ErrorActionType) {
-  yield showNotification('error', action.payload.error.message);
+  yield showNotification('error', (getErrorMessage(action.payload.error)));
 }

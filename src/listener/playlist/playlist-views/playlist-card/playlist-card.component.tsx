@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Typography } from "antd";
+import { Avatar, Tooltip, Typography } from "antd";
 import { useNavigate } from 'react-router-dom';
 import moment from "moment";
 import { PlaylistInfoResponseData } from "../../store/playlist.model";
@@ -23,7 +23,9 @@ export function PlaylistCardComponent({
         playlist={playlist}
         containLink={false} />
       <div className="playlist-card__title-wrapper">
-        <Title className="playlist-card__title m-0" level={5}>{playlist.name}</Title>
+        <Tooltip title={playlist.name}>
+          <Title className="playlist-card__title m-0" level={5}>{playlist.name}</Title>
+        </Tooltip>
       </div>
       <div className="playlist-card__info">
         <Text>{moment(playlist.date).year()}</Text>

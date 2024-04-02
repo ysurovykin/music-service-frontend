@@ -5,8 +5,9 @@ import {
 } from './listener.actions.types';
 import ListenerService from './listener.service';
 import { listenerActions } from './listener.actions';
-import { ErrorActionType, showNotification } from '../../helpers/react/redux.helper';
+import { ErrorActionType, getErrorMessage, showNotification } from '../../helpers/react/redux.helper';
 import { userSelectors } from '../../user/store/user.selectors';
+import { AxiosError } from 'axios';
 
 export const listenerEffects = [
   takeEvery(ListenerActionTypes.GET_LISTENER_BY_ID, getListenerById),
@@ -20,7 +21,7 @@ function* getListenerById(action: GetListenerByIdStartActionType) {
     const listenerResponseData: ListenerInfoResponseData = yield ListenerService.getListenerById(action.payload);
     yield put(listenerActions.getListenerByIdSuccess(listenerResponseData));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(listenerActions.getListenerByIdFailed({ error }));
   }
 }
@@ -31,11 +32,11 @@ function* getRecentMostVisitedContent(action: GetRecentMostVisitedContentStartAc
     const response: Array<MostVisitedContentData> = yield ListenerService.getRecentMostVisitedContent(listenerId);
     yield put(listenerActions.getRecentMostVisitedContentSuccess(response));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(listenerActions.getRecentMostVisitedContentFailed({ error }));
   }
 }
 
 function* handleError(action: ErrorActionType) {
-  yield showNotification('error', action.payload.error.message);
+  yield showNotification('error', (getErrorMessage(action.payload.error)));
 }

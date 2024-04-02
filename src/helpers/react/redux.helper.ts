@@ -1,7 +1,8 @@
+import { AxiosError } from "axios";
 import { Bounce, TypeOptions, toast } from "react-toastify";
 
 export interface ActionFailedError {
-  error: Error
+  error: AxiosError
 }
 
 export type ErrorActionType = {
@@ -31,4 +32,13 @@ export function updateNotification(toastId: string, message: string, type: TypeO
     isLoading: false,
     autoClose: autoClose,
   });
+}
+
+export function getErrorMessage(error: AxiosError) {
+  type ErrorDataType = { message: string };
+  const errorData = error?.response?.data;
+  if (errorData) {
+    return (errorData as ErrorDataType).message || '';
+  }
+  return '';
 }

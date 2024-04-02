@@ -1,0 +1,56 @@
+.song-radio-card {
+  width: 160px;
+  background-color: #282828;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+  position: relative;
+
+  &:hover {
+    background-color: #505050;
+  }
+
+  &__avatar-title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    &-wrapper {
+      width: 96px;
+    }
+  }
+
+  &__title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    &-wrapper {
+      margin-top: 8px;
+      width: 128px;
+    }
+  }
+
+  &__info {
+    margin-top: 4px;
+    width: 128px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__avatar-wrapper {
+    background-color: black;
+    width: 128px;
+    height: 128px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+}

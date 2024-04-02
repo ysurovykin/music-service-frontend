@@ -57,6 +57,7 @@ export type GenerateQueueOptions = {
   albumId?: string;
   artistId?: string;
   playlistId?: string;
+  songRadioBaseSongId?: string;
 }
 
 export enum QueueActionTypes {

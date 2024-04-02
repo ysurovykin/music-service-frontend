@@ -64,7 +64,7 @@
     justify-self: start;
 
     h5,
-    a {
+    &-artists-wrapper {
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: unset;

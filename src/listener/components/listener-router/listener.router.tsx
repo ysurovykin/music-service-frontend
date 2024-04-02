@@ -19,6 +19,9 @@ import { DiscoverArtistModal } from '../../artist/discover-artist-modal/discover
 import { LibraryPlaylistsPage } from '../../library/library-playlists/library-playlists.page';
 import { LibraryArtistsPage } from '../../library/library-artists/library-artists.page';
 import { LibraryAlbumsPage } from '../../library/library-albums/library-albums.page';
+import { LibraryListenerSongRadiosPage } from '../../library/library-listener-song-radios/library-listener-song-radios.page';
+import { SongRadioPage } from '../../song-radio/song-radio.page';
+import { RefreshSongRadioModal } from '../../song-radio/refresh-song-radio-modal/refresh-song-radio.modal';
 
 export default function ListenerRouter() {
   return (
@@ -40,6 +43,8 @@ export default function ListenerRouter() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/lyrics" element={<LyricsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/library/song-radios" element={<LibraryListenerSongRadiosPage />} />
+          <Route path="/song-radio/:songId" element={<SongRadioPage />} />
         </Routes>
       </div>
       <SongPlayerComponent />
@@ -47,6 +52,7 @@ export default function ListenerRouter() {
       <EditSongPlaylistsModal />
       <CreatePlaylistModal />
       <DiscoverArtistModal />
+      <RefreshSongRadioModal />
     </>
   );
 }

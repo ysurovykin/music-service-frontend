@@ -2,11 +2,12 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import { QueueActionTypes, QueueInfoResponseData, QueueSongInfoResponseData } from './queue.model';
 import QueueService from './queue.service';
 import { queueActions } from './queue.actions';
-import { ErrorActionType, showNotification, updateNotification } from '../../../helpers/react/redux.helper';
+import { ErrorActionType, getErrorMessage, showNotification, updateNotification } from '../../../helpers/react/redux.helper';
 import { AddSongToQueueActionType, GenerateQueueStartActionType, GetQueueStartActionType, RemoveSongFromQueueActionType } from './queue.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { queueSelectors } from './queue.selectors';
 import { notification } from 'antd';
+import { AxiosError } from 'axios';
 
 export const queueEffects = [
   takeEvery(QueueActionTypes.GET_QUEUE, getQueue),
@@ -25,7 +26,7 @@ function* getQueue(action: GetQueueStartActionType) {
     const queue: QueueInfoResponseData = yield QueueService.getQueue(action.payload, listenerId);
     yield put(queueActions.getQueueSuccess(queue));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(queueActions.getQueueFailed({ error }));
   }
 }
@@ -43,7 +44,7 @@ function* addSongToQueue(action: AddSongToQueueActionType) {
     songsQueueToEdit.splice(currentSongIndex + 1, 0, song);
     yield put(queueActions.addSongToQueueSuccess(songsQueueToEdit));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(queueActions.addSongToQueueFailed({ error }));
   }
 }
@@ -58,7 +59,7 @@ function* removeSongFromQueue(action: RemoveSongFromQueueActionType) {
     songsQueueToEdit.splice(songIndex, 1);
     yield put(queueActions.removeSongFromQueueSuccess(songsQueueToEdit));
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     yield put(queueActions.removeSongFromQueueFailed({ error }));
   }
 }
@@ -88,7 +89,7 @@ function* generateQueue(action: GenerateQueueStartActionType) {
     }));
     yield put(queueActions.unpauseSong());
   } catch (e) {
-    const error = e as Error;
+    const error = e as AxiosError;
     const queueLoadingNotificationId = localStorage.getItem('queueLoadingNotificationId');
     if (queueLoadingNotificationId) {
       updateNotification(queueLoadingNotificationId, 'Queue extending failed', 'error');
@@ -99,5 +100,5 @@ function* generateQueue(action: GenerateQueueStartActionType) {
 }
 
 function* handleError(action: ErrorActionType) {
-  yield showNotification('error', action.payload.error.message);
+  yield showNotification('error', (getErrorMessage(action.payload.error)));
 }

@@ -26,6 +26,9 @@ import { queueEffects } from "./listener/queue/store/queue.effects";
 import { LyricsState } from "./listener/lyrics/store/lyrics.model";
 import { lyricsReducer } from "./listener/lyrics/store/lyrics.reducer";
 import { lyricsEffects } from "./listener/lyrics/store/lyrics.effects";
+import { SongRadioState } from "./listener/song-radio/store/song-radio.model";
+import { songRadioEffects } from "./listener/song-radio/store/song-radio.effects";
+import { songRadioReducer } from "./listener/song-radio/store/song-radio.reducer";
 
 const rootReducer = combineReducers({
   artist: artistReducer,
@@ -36,6 +39,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   lyrics: lyricsReducer,
   queue: queueReducer,
+  songRadio: songRadioReducer,
 });
 
 function* rootEffects() {
@@ -48,6 +52,7 @@ function* rootEffects() {
     ...userEffects,
     ...lyricsEffects,
     ...queueEffects,
+    ...songRadioEffects,
   ]);
 }
 
@@ -60,12 +65,13 @@ export interface InitialState {
   user: UserState,
   lyrics: LyricsState,
   queue: QueueState,
+  songRadio: SongRadioState
 }
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(sagaMiddleware)
 });
 
 sagaMiddleware.run(rootEffects);

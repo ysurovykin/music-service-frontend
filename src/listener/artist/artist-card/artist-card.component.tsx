@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Typography } from "antd";
+import { Avatar, Tooltip, Typography } from "antd";
 import { useNavigate } from 'react-router-dom';
 import { ArtistInfoResponseData } from "../store/artist.model";
 import { Close } from "@mui/icons-material";
@@ -51,7 +51,9 @@ export function ArtistCardComponent({
       }
       <Avatar src={artist.profileImageUrl} size={128} />
       <div className="artist-card__title-wrapper">
-        <Title className="artist-card__title m-0" level={5}>{artist.name}</Title>
+        <Tooltip title={artist.name}>
+          <Title className="artist-card__title m-0" level={5}>{artist.name}</Title>
+        </Tooltip>
       </div>
       <div className="artist-card__tag-wrapper">
         {showArtistTag ? <Text style={{ color: 'grey' }} className="m-0">Artist</Text> : null}

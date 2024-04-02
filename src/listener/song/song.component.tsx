@@ -36,6 +36,8 @@ import { showNotification } from "../../helpers/react/redux.helper";
 import { GetSongsSortingOptions, RecordSongPlayRowDataRequestData } from "./store/song.model";
 import { RepeatSongStateEnum } from "../store/listener.model";
 import { songActions } from "./store/song.actions";
+import { songRadioActions } from "../song-radio/store/song-radio.actions";
+import { CreateSongRadioRequestData } from "../song-radio/store/song-radio.model";
 
 const { Text, Title } = Typography;
 
@@ -73,6 +75,7 @@ export const SongComponent = memo(function SongComponent({
   const addSongToQueue = (request: AddSongToQueueRequestData) => dispatch(queueActions.addSongToQueue(request));
   const removeSongFromQueue = (request: RemoveSongFromQueueRequestData) => dispatch(queueActions.removeSongFromQueue(request));
   const recordSongPlayRowData = (request: RecordSongPlayRowDataRequestData) => dispatch(songActions.recordSongPlayRowData(request));
+  const createSongRadio = (request: CreateSongRadioRequestData) => dispatch(songRadioActions.createSongRadio(request));
 
   const items: MenuProps['items'] = [
     {
@@ -108,8 +111,9 @@ export const SongComponent = memo(function SongComponent({
     },
     {
       label: <RouterLink to={'/'}>
-        <div className='dropdown-item'>
-          <CastOutlined /><p>Generate playlist by song</p>
+        <div className='dropdown-item'
+          onClick={() => createSongRadio({ song: song })}>
+          <CastOutlined /><p>Generate song radio</p>
         </div>
       </RouterLink>,
       key: '3',
@@ -245,9 +249,11 @@ export const SongComponent = memo(function SongComponent({
         <Avatar shape='square' size={48} src={song?.coverImageUrl} />
         <div className="song__credentials">
           <Title className="m-0" level={5}>{song?.name}</Title>
-          <Text>{song?.artists?.map(artist =>
-            (<RouterLink key={artist.id} to={`/artist/${artist.id}`}>{artist.name}</RouterLink>)
-          )}</Text>
+          <Text className='song__credentials-artists-wrapper'>
+            {song?.artists
+              ?.map<React.ReactNode>(artist => <RouterLink key={artist.name} to={`/artist/${artist.id}`}>{artist.name}</RouterLink>)
+              .reduce((prev, curr) => [prev, ', ', curr])}
+          </Text>
         </div>
       </div>
       {(showAlbumInfo && shouldShowAdditionalColumn) && <div className="song__album-wrapper">
