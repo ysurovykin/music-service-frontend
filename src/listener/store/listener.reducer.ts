@@ -16,7 +16,8 @@ export const listenerReducer = (state = listenerState, action: ListenerActions):
         isListenerLoading: false,
         name: action.payload.name,
         profileImageUrl: action.payload.profileImageUrl,
-        backgroundColor: action.payload.backgroundColor
+        backgroundColor: action.payload.backgroundColor,
+        subscription: action.payload.subscription,
       }
     }
     case ListenerActionTypes.GET_LISTENER_BY_ID_FAILED: {
@@ -42,6 +43,25 @@ export const listenerReducer = (state = listenerState, action: ListenerActions):
       return {
         ...state,
         isMostVisitedContentLoading: false
+      }
+    }
+    case ListenerActionTypes.GET_HOME_PAGE_CONTENT: {
+      return {
+        ...state,
+        isHomePageContentLoading: true
+      }
+    }
+    case ListenerActionTypes.GET_HOME_PAGE_CONTENT_SUCCESS: {
+      return {
+        ...state,
+        isHomePageContentLoading: false,
+        homePageContent: action.payload
+      }
+    }
+    case ListenerActionTypes.GET_HOME_PAGE_CONTENT_FAILED: {
+      return {
+        ...state,
+        isHomePageContentLoading: false
       }
     }
     default: {

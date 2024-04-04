@@ -9,6 +9,8 @@ const backgroundColor = createSelector(listenerState, album => album?.background
 const profileImageUrl = createSelector(listenerState, album => album?.profileImageUrl);
 const mostVisitedContent = createSelector(listenerState, album => album?.mostVisitedContent);
 const isMostVisitedContentLoading = createSelector(listenerState, album => album?.isMostVisitedContentLoading);
+const homePageContent = createSelector(listenerState, album => album?.homePageContent);
+const isHomePageContentLoading = createSelector(listenerState, album => album?.isHomePageContentLoading);
 
 export const listenerSelectors = {
   isListenerLoading,
@@ -17,4 +19,6 @@ export const listenerSelectors = {
   profileImageUrl,
   mostVisitedContent,
   isMostVisitedContentLoading,
+  homePageContent,
+  isHomePageContentLoading
 };

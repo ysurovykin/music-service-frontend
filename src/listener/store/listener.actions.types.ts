@@ -1,8 +1,9 @@
 import { ActionFailedError } from "../../helpers/react/redux.helper";
 import {
+  HomePageContentResponseData,
   ListenerActionTypes,
   ListenerInfoResponseData,
-  MostVisitedContentData
+  ContentData
 } from "./listener.model";
 
 export type GetListenerByIdStartActionType = {
@@ -27,11 +28,26 @@ export type GetRecentMostVisitedContentStartActionType = {
 
 export type GetRecentMostVisitedContentSuccessActionType = {
   type: typeof ListenerActionTypes.GET_RECENT_MOST_VISITED_CONTENT_SUCCESS;
-  payload: Array<MostVisitedContentData>;
+  payload: Array<ContentData>;
 };
 
 export type GetRecentMostVisitedContentFailedActionType = {
   type: typeof ListenerActionTypes.GET_RECENT_MOST_VISITED_CONTENT_FAILED;
+  payload: ActionFailedError;
+};
+
+export type GetHomePageContentStartActionType = {
+  type: typeof ListenerActionTypes.GET_HOME_PAGE_CONTENT;
+  payload: undefined;
+};
+
+export type GetHomePageContentSuccessActionType = {
+  type: typeof ListenerActionTypes.GET_HOME_PAGE_CONTENT_SUCCESS;
+  payload: Array<HomePageContentResponseData>;
+};
+
+export type GetHomePageContentFailedActionType = {
+  type: typeof ListenerActionTypes.GET_HOME_PAGE_CONTENT_FAILED;
   payload: ActionFailedError;
 };
 
@@ -41,4 +57,7 @@ export type ListenerActions =
   | GetListenerByIdFailedActionType
   | GetRecentMostVisitedContentStartActionType
   | GetRecentMostVisitedContentSuccessActionType
-  | GetRecentMostVisitedContentFailedActionType;
+  | GetRecentMostVisitedContentFailedActionType
+  | GetHomePageContentStartActionType
+  | GetHomePageContentSuccessActionType
+  | GetHomePageContentFailedActionType;

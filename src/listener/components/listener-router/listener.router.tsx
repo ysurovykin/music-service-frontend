@@ -3,7 +3,7 @@ import { SongPlayerComponent } from '../song-player/song-player.component';
 import { ArtistPage } from '../../artist/artist.page';
 import { AlbumPage } from '../../album/album.page';
 import { QueuePage } from '../../queue/queue.page';
-import { HomePage } from '../../home.page';
+import { HomePage } from '../../home/home.page';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PlaylistPage } from '../../playlist/playlist.page';
 import { EditSongPlaylistsModal } from '../../playlist/edit-song-playlists-modal/edit-song-playlists.modal';

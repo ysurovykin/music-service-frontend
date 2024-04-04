@@ -8,7 +8,10 @@ export const listenerState: ListenerState = {
   profileImageUrl: undefined,
   backgroundColor: undefined,
   mostVisitedContent: undefined,
-  isMostVisitedContentLoading: false
+  isMostVisitedContentLoading: false,
+  homePageContent: undefined,
+  isHomePageContentLoading: false,
+  subscription: undefined
 };
 
 export interface ListenerState {
@@ -16,8 +19,11 @@ export interface ListenerState {
   name?: string
   profileImageUrl?: string;
   backgroundColor?: string;
-  mostVisitedContent?: Array<MostVisitedContentData>;
+  mostVisitedContent?: Array<ContentData>;
   isMostVisitedContentLoading?: boolean;
+  homePageContent?: Array<HomePageContentResponseData>;
+  isHomePageContentLoading?: boolean;
+  subscription?: string;
 }
 
 export enum RepeatSongStateEnum {
@@ -32,12 +38,25 @@ export type ListenerInfoResponseData = {
   name?: string;
   profileImageUrl?: string;
   backgroundColor?: string;
+  subscription?: string;
 }
 
-export type MostVisitedContentData = 
-  ArtistInfoResponseData & { type: 'artist' } | 
+export type ContentData =
+  ArtistInfoResponseData & { type: 'artist' } |
   AlbumInfoResponseData & { type: 'album' } |
   PlaylistInfoResponseData & { type: 'playlist' };
+
+export enum HomePageContentTypesEnum {
+  'artist' = 'artist',
+  'album' = 'album',
+  'playlist' = 'playlist'
+}
+
+export type HomePageContentResponseData = {
+  contentType: HomePageContentTypesEnum,
+  contentTitle: string,
+  content: Array<ContentData>
+}
 
 export enum ListenerActionTypes {
   GET_LISTENER_BY_ID = "LISTENER.GET_LISTENER_BY_ID_START",
@@ -47,4 +66,8 @@ export enum ListenerActionTypes {
   GET_RECENT_MOST_VISITED_CONTENT = "LISTENER.GET_RECENT_MOST_VISITED_CONTENT_START",
   GET_RECENT_MOST_VISITED_CONTENT_SUCCESS = "LISTENER.GET_RECENT_MOST_VISITED_CONTENT_SUCCESS",
   GET_RECENT_MOST_VISITED_CONTENT_FAILED = "LISTENER.GET_RECENT_MOST_VISITED_CONTENT_FAILED",
+
+  GET_HOME_PAGE_CONTENT = "LISTENER.GET_HOME_PAGE_CONTENT_START",
+  GET_HOME_PAGE_CONTENT_SUCCESS = "LISTENER.GET_HOME_PAGE_CONTENT_SUCCESS",
+  GET_HOME_PAGE_CONTENT_FAILED = "LISTENER.GET_HOME_PAGE_CONTENT_FAILED",
 };

@@ -51,4 +51,18 @@
       background-color: #282828;
     }
   }
+
+  &__recomendation-content {
+    margin-top: 20px;
+  }
+
+  &__content {
+    display: flex;
+    gap: 20px;
+
+    &-wrapper {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
 }
