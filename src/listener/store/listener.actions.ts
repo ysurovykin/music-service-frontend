@@ -8,13 +8,23 @@ import {
   GetRecentMostVisitedContentFailedActionType,
   GetHomePageContentStartActionType,
   GetHomePageContentSuccessActionType,
-  GetHomePageContentFailedActionType
+  GetHomePageContentFailedActionType,
+  EditProfileStartActionType,
+  EditProfileSuccessActionType,
+  EditProfileFailedActionType,
+  GetAccountContentCountStartActionType,
+  GetAccountContentCountSuccessActionType,
+  GetAccountContentCountFailedActionType,
+  OpenEditProfileModalActionType,
+  CloseEditProfileModalActionType
 } from "./listener.actions.types";
 import {
   HomePageContentResponseData,
   ListenerActionTypes,
   ListenerInfoResponseData,
-  ContentData
+  ContentData,
+  EditProfileRequestData,
+  GetAccountContentCountResponseData
 } from "./listener.model"
 
 export const getListenerByIdStartAction = (listenerId: string):
@@ -44,6 +54,30 @@ export const getHomePageContentSuccessAction = (response: Array<HomePageContentR
 export const getHomePageContentFailedAction = (error: ActionFailedError):
   GetHomePageContentFailedActionType => ({ type: ListenerActionTypes.GET_HOME_PAGE_CONTENT_FAILED, payload: error });
 
+export const editProfileStartAction = (request: EditProfileRequestData):
+  EditProfileStartActionType => ({ type: ListenerActionTypes.EDIT_PROFILE, payload: request });
+
+export const editProfileSuccessAction = ():
+  EditProfileSuccessActionType => ({ type: ListenerActionTypes.EDIT_PROFILE_SUCCESS, payload: undefined });
+
+export const editProfileFailedAction = (error: ActionFailedError):
+  EditProfileFailedActionType => ({ type: ListenerActionTypes.EDIT_PROFILE_FAILED, payload: error });
+
+export const getAccountContentCountStartAction = ():
+  GetAccountContentCountStartActionType => ({ type: ListenerActionTypes.GET_ACCOUNT_CONTENT_COUNT, payload: undefined });
+
+export const getAccountContentCountSuccessAction = (response: GetAccountContentCountResponseData):
+  GetAccountContentCountSuccessActionType => ({ type: ListenerActionTypes.GET_ACCOUNT_CONTENT_COUNT_SUCCESS, payload: response });
+
+export const getAccountContentCountFailedAction = (error: ActionFailedError):
+  GetAccountContentCountFailedActionType => ({ type: ListenerActionTypes.GET_ACCOUNT_CONTENT_COUNT_FAILED, payload: error });
+
+export const openEditProfileModalAction = ():
+  OpenEditProfileModalActionType => ({ type: ListenerActionTypes.OPEN_EDIT_PROFILE_MODAL, payload: undefined });
+
+export const closeEditProfileModalAction = ():
+  CloseEditProfileModalActionType => ({ type: ListenerActionTypes.CLOSE_EDIT_PROFILE_MODAL, payload: undefined });
+
 export const listenerActions = {
   getListenerById: (listenerId: string) => getListenerByIdStartAction(listenerId),
   getListenerByIdSuccess: (response: ListenerInfoResponseData) => getListenerByIdSuccessAction(response),
@@ -53,6 +87,14 @@ export const listenerActions = {
   getRecentMostVisitedContentFailed: (error: ActionFailedError) => getRecentMostVisitedContentFailedAction(error),
   getHomePageContent: () => getHomePageContentStartAction(),
   getHomePageContentSuccess: (response: Array<HomePageContentResponseData>) => getHomePageContentSuccessAction(response),
-  getHomePageContentFailed: (error: ActionFailedError) => getHomePageContentFailedAction(error)
+  getHomePageContentFailed: (error: ActionFailedError) => getHomePageContentFailedAction(error),
+  editProfile: (request: EditProfileRequestData) => editProfileStartAction(request),
+  editProfileSuccess: () => editProfileSuccessAction(),
+  editProfileFailed: (error: ActionFailedError) => editProfileFailedAction(error),
+  getAccountContentCount: () => getAccountContentCountStartAction(),
+  getAccountContentCountSuccess: (response: GetAccountContentCountResponseData) => getAccountContentCountSuccessAction(response),
+  getAccountContentCountFailed: (error: ActionFailedError) => getAccountContentCountFailedAction(error),
+  openEditProfileModal: () => openEditProfileModalAction(),
+  closeEditProfileModal: () => closeEditProfileModalAction(),
 }
 

@@ -17,7 +17,6 @@ export const userReducer = (state = userState, action: UserActions): UserState =
         country: action.payload.user.country,
         email: action.payload.user.email,
         name: action.payload.user.name,
-        role: action.payload.user.role,
         userId: action.payload.user.userId,
         gender: action.payload.user.gender,
         birthDate: action.payload.user.birthDate,
@@ -43,7 +42,6 @@ export const userReducer = (state = userState, action: UserActions): UserState =
         country: action.payload.user.country,
         email: action.payload.user.email,
         name: action.payload.user.name,
-        role: action.payload.user.role,
         userId: action.payload.user.userId,
         gender: action.payload.user.gender,
         birthDate: action.payload.user.birthDate,
@@ -69,7 +67,6 @@ export const userReducer = (state = userState, action: UserActions): UserState =
         country: action.payload.user.country,
         email: action.payload.user.email,
         name: action.payload.user.name,
-        role: action.payload.user.role,
         userId: action.payload.user.userId,
         gender: action.payload.user.gender,
         birthDate: action.payload.user.birthDate,
@@ -105,12 +102,6 @@ export const userReducer = (state = userState, action: UserActions): UserState =
       return {
         ...state,
         isAuthorizationLoading: false
-      }
-    }
-    case UserActionTypes.SET_AVATAR: {
-      return {
-        ...state,
-        avatar: action.payload
       }
     }
     case UserActionTypes.SWITCH_USER_TO_ARTIST: {

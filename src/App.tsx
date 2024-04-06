@@ -88,6 +88,18 @@ function App() {
             },
             Button: {
               colorText: '#ffffff'
+            },
+            Select: {
+              colorText: '#ffffff',
+              colorTextPlaceholder: 'grey',
+              optionActiveBg: listenerProfileTypePalete.backgroundAccentSemiDark,
+              optionSelectedBg: listenerProfileTypePalete.backgroundAccentSemiLight,
+              selectorBg:  listenerProfileTypePalete.backgroundAccent,
+              colorBgElevated: listenerProfileTypePalete.backgroundAccent,
+              colorTextQuaternary: 'grey'
+            },
+            Form: {
+              colorTextHeading: '#ffffff',
             }
           },
           token: {

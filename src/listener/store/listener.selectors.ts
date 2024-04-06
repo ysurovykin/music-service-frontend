@@ -11,6 +11,13 @@ const mostVisitedContent = createSelector(listenerState, album => album?.mostVis
 const isMostVisitedContentLoading = createSelector(listenerState, album => album?.isMostVisitedContentLoading);
 const homePageContent = createSelector(listenerState, album => album?.homePageContent);
 const isHomePageContentLoading = createSelector(listenerState, album => album?.isHomePageContentLoading);
+const isEditProfileLoading = createSelector(listenerState, album => album?.isEditProfileLoading);
+const isEditProfileModalOpen = createSelector(listenerState, album => album?.isEditProfileModalOpen);
+const subscription = createSelector(listenerState, album => album?.subscription);
+const isAccountContentCountLoading = createSelector(listenerState, album => album?.isAccountContentCountLoading);
+const playlistCount = createSelector(listenerState, album => album?.playlistCount);
+const followedArtistsCount = createSelector(listenerState, album => album?.followedArtistsCount);
+const likedAlbumsCount = createSelector(listenerState, album => album?.likedAlbumsCount);
 
 export const listenerSelectors = {
   isListenerLoading,
@@ -20,5 +27,12 @@ export const listenerSelectors = {
   mostVisitedContent,
   isMostVisitedContentLoading,
   homePageContent,
-  isHomePageContentLoading
+  isHomePageContentLoading,
+  isEditProfileLoading,
+  isEditProfileModalOpen,
+  subscription,
+  isAccountContentCountLoading,
+  playlistCount,
+  followedArtistsCount,
+  likedAlbumsCount,
 };

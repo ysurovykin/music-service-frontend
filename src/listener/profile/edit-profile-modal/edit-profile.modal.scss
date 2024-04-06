@@ -1,0 +1,69 @@
+.edit-profile-modal {
+
+  &__cancel-button {
+    color: #ffffff;
+    background: rgb(33, 33, 33);
+
+    &:hover {
+      background: rgb(33, 33, 33) !important;
+    }
+  }
+
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 174px 1fr;
+    gap: 20px
+  }
+
+  &__cover {
+    display: flex;
+  }
+
+  &__credits {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__playlist-name {
+    margin-bottom: 20px;
+  }
+
+  &__edit-cover-button {
+    cursor: pointer;
+
+    &-wrapper {
+      z-index: 1;
+      position: absolute;
+      left: 165px;
+      top: 60px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #70707070;
+    }
+  }
+
+  &__cover-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__file-input {
+    display: none;
+  }
+
+  &__info-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-text {
+      color: grey;
+    }
+  }
+
+}

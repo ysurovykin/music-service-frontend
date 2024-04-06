@@ -59,9 +59,6 @@ export const logoutSuccessAction = ():
 export const logoutFailedAction = (error: ActionFailedError):
   LogoutFailedActionType => ({ type: UserActionTypes.LOGOUT_FAILED, payload: error });
 
-export const setAvatarAction = (avatar: string):
-  SetAvatarActionType => ({ type: UserActionTypes.SET_AVATAR, payload: avatar });
-
 export const switchUserToArtistAction = ():
   SwitchUserToArtistActionType => ({ type: UserActionTypes.SWITCH_USER_TO_ARTIST, payload: undefined });
 
@@ -81,7 +78,6 @@ export const userActions = {
   logout: () => logoutStartAction(),
   logoutSuccess: () => logoutSuccessAction(),
   logoutFailed: (error: ActionFailedError) => logoutFailedAction(error),
-  setAvatarAction: (avatar: string) => setAvatarAction(avatar),
   switchUserToArtist: () => switchUserToArtistAction(),
   switchUserToListener: () => switchUserToListenerAction()
 }

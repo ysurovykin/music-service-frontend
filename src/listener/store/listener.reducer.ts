@@ -64,6 +64,58 @@ export const listenerReducer = (state = listenerState, action: ListenerActions):
         isHomePageContentLoading: false
       }
     }
+    case ListenerActionTypes.EDIT_PROFILE: {
+      return {
+        ...state,
+        isEditProfileLoading: true
+      }
+    }
+    case ListenerActionTypes.EDIT_PROFILE_SUCCESS: {
+      return {
+        ...state,
+        isEditProfileLoading: false,
+        isEditProfileModalOpen: false
+      }
+    }
+    case ListenerActionTypes.EDIT_PROFILE_FAILED: {
+      return {
+        ...state,
+        isEditProfileLoading: false
+      }
+    }
+    case ListenerActionTypes.GET_ACCOUNT_CONTENT_COUNT: {
+      return {
+        ...state,
+        isAccountContentCountLoading: true
+      }
+    }
+    case ListenerActionTypes.GET_ACCOUNT_CONTENT_COUNT_SUCCESS: {
+      return {
+        ...state,
+        isAccountContentCountLoading: false,
+        playlistCount: action.payload.playlistCount,
+        followedArtistsCount: action.payload.followedArtistsCount,
+        likedAlbumsCount: action.payload.likedAlbumsCount,
+      }
+    }
+    case ListenerActionTypes.GET_ACCOUNT_CONTENT_COUNT_FAILED: {
+      return {
+        ...state,
+        isAccountContentCountLoading: false
+      }
+    }
+    case ListenerActionTypes.OPEN_EDIT_PROFILE_MODAL: {
+      return {
+        ...state,
+        isEditProfileModalOpen: true
+      }
+    }
+    case ListenerActionTypes.CLOSE_EDIT_PROFILE_MODAL: {
+      return {
+        ...state,
+        isEditProfileModalOpen: false
+      }
+    }
     default: {
       return { ...state }
     }

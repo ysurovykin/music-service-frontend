@@ -7,14 +7,13 @@ export const userState: UserState = {
   country: undefined,
   role: undefined,
   birthDate: undefined,
-  avatar: undefined,
   profileType: undefined
 };
 
 export type BirthDate = {
-  day: Number;
-  month: Number;
-  year: Number;
+  day: number;
+  month: number;
+  year: number;
 }
 
 export interface UserState {
@@ -26,7 +25,6 @@ export interface UserState {
   country?: string,
   role?: string,
   birthDate?: BirthDate,
-  avatar?: string,
   profileType?: ProfileTypeEnum
 }
 

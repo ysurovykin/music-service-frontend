@@ -11,7 +11,13 @@ export const listenerState: ListenerState = {
   isMostVisitedContentLoading: false,
   homePageContent: undefined,
   isHomePageContentLoading: false,
-  subscription: undefined
+  subscription: undefined,
+  isEditProfileLoading: false,
+  isEditProfileModalOpen: false,
+  isAccountContentCountLoading: false,
+  playlistCount: undefined,
+  followedArtistsCount: undefined,
+  likedAlbumsCount: undefined,
 };
 
 export interface ListenerState {
@@ -24,6 +30,12 @@ export interface ListenerState {
   homePageContent?: Array<HomePageContentResponseData>;
   isHomePageContentLoading?: boolean;
   subscription?: string;
+  isEditProfileLoading?: boolean;
+  isEditProfileModalOpen?: boolean;
+  isAccountContentCountLoading?: boolean;
+  playlistCount?: number;
+  followedArtistsCount?: number;
+  likedAlbumsCount?: number;
 }
 
 export enum RepeatSongStateEnum {
@@ -58,6 +70,17 @@ export type HomePageContentResponseData = {
   content: Array<ContentData>
 }
 
+export type EditProfileRequestData = {
+  name: string;
+  profileImage?: Blob;
+}
+
+export type GetAccountContentCountResponseData = {
+  playlistCount: number;
+  followedArtistsCount: number;
+  likedAlbumsCount: number;
+}
+
 export enum ListenerActionTypes {
   GET_LISTENER_BY_ID = "LISTENER.GET_LISTENER_BY_ID_START",
   GET_LISTENER_BY_ID_SUCCESS = "LISTENER.GET_LISTENER_BY_ID_SUCCESS",
@@ -70,4 +93,15 @@ export enum ListenerActionTypes {
   GET_HOME_PAGE_CONTENT = "LISTENER.GET_HOME_PAGE_CONTENT_START",
   GET_HOME_PAGE_CONTENT_SUCCESS = "LISTENER.GET_HOME_PAGE_CONTENT_SUCCESS",
   GET_HOME_PAGE_CONTENT_FAILED = "LISTENER.GET_HOME_PAGE_CONTENT_FAILED",
+
+  EDIT_PROFILE = "LISTENER.EDIT_PROFILE_START",
+  EDIT_PROFILE_SUCCESS = "LISTENER.EDIT_PROFILE_SUCCESS",
+  EDIT_PROFILE_FAILED = "LISTENER.EDIT_PROFILE_FAILED",
+
+  OPEN_EDIT_PROFILE_MODAL = "LISTENER.OPEN_EDIT_PROFILE_MODAL",
+  CLOSE_EDIT_PROFILE_MODAL = "LISTENER.CLOSE_EDIT_PROFILE_MODAL",
+
+  GET_ACCOUNT_CONTENT_COUNT = "LISTENER.GET_ACCOUNT_CONTENT_COUNT",
+  GET_ACCOUNT_CONTENT_COUNT_SUCCESS = "LISTENER.GET_ACCOUNT_CONTENT_COUNT_SUCCESS",
+  GET_ACCOUNT_CONTENT_COUNT_FAILED = "LISTENER.GET_ACCOUNT_CONTENT_COUNT_FAILED",
 };

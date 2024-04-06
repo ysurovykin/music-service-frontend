@@ -22,8 +22,25 @@ import { LibraryAlbumsPage } from '../../library/library-albums/library-albums.p
 import { LibraryListenerSongRadiosPage } from '../../library/library-listener-song-radios/library-listener-song-radios.page';
 import { SongRadioPage } from '../../song-radio/song-radio.page';
 import { RefreshSongRadioModal } from '../../song-radio/refresh-song-radio-modal/refresh-song-radio.modal';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { listenerActions } from '../../store/listener.actions';
+import { useSelector } from 'react-redux';
+import { userSelectors } from '../../../user/store/user.selectors';
+import { EditProfileModal } from '../../profile/edit-profile-modal/edit-profile.modal';
 
 export default function ListenerRouter() {
+
+  const dispatch = useDispatch();
+  const userId = useSelector(userSelectors.userId);
+  const getListenerById = (id: string) => dispatch(listenerActions.getListenerById(id))
+
+  useEffect(() => {
+    if (userId) {
+      getListenerById(userId);
+    }
+  }, [userId])
+
   return (
     <>
       <SidebarComponent />
@@ -53,6 +70,7 @@ export default function ListenerRouter() {
       <CreatePlaylistModal />
       <DiscoverArtistModal />
       <RefreshSongRadioModal />
+      <EditProfileModal />
     </>
   );
 }

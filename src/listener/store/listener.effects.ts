@@ -1,6 +1,8 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { HomePageContentResponseData, ListenerActionTypes, ListenerInfoResponseData, ContentData } from './listener.model';
+import { HomePageContentResponseData, ListenerActionTypes, ListenerInfoResponseData, ContentData, GetAccountContentCountResponseData } from './listener.model';
 import {
+  EditProfileStartActionType,
+  GetAccountContentCountStartActionType,
   GetHomePageContentStartActionType,
   GetListenerByIdStartActionType, GetRecentMostVisitedContentStartActionType
 } from './listener.actions.types';
@@ -16,7 +18,11 @@ export const listenerEffects = [
   takeEvery(ListenerActionTypes.GET_RECENT_MOST_VISITED_CONTENT, getRecentMostVisitedContent),
   takeEvery(ListenerActionTypes.GET_RECENT_MOST_VISITED_CONTENT_FAILED, handleError),
   takeEvery(ListenerActionTypes.GET_HOME_PAGE_CONTENT, getHomePageContent),
-  takeEvery(ListenerActionTypes.GET_HOME_PAGE_CONTENT_FAILED, handleError)
+  takeEvery(ListenerActionTypes.GET_HOME_PAGE_CONTENT_FAILED, handleError),
+  takeEvery(ListenerActionTypes.EDIT_PROFILE, editProfile),
+  takeEvery(ListenerActionTypes.EDIT_PROFILE_FAILED, handleError),
+  takeEvery(ListenerActionTypes.GET_ACCOUNT_CONTENT_COUNT, getAccountContentCount),
+  takeEvery(ListenerActionTypes.GET_ACCOUNT_CONTENT_COUNT_FAILED, handleError),
 ];
 
 function* getListenerById(action: GetListenerByIdStartActionType) {
@@ -48,6 +54,35 @@ function* getHomePageContent(action: GetHomePageContentStartActionType) {
   } catch (e) {
     const error = e as AxiosError;
     yield put(listenerActions.getHomePageContentFailed({ error }));
+  }
+}
+
+function* editProfile(action: EditProfileStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const formData = new FormData();
+    if (action.payload.profileImage) {
+      formData.append('image', action.payload.profileImage);
+    }
+    formData.append('name', action.payload.name.trim());
+    yield ListenerService.editProfile(listenerId, formData);
+
+    yield put(listenerActions.editProfileSuccess());
+    yield put(listenerActions.getListenerById(listenerId));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(listenerActions.editProfileFailed({ error }));
+  }
+}
+
+function* getAccountContentCount(action: GetAccountContentCountStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetAccountContentCountResponseData = yield ListenerService.getAccountContentCount(listenerId);
+    yield put(listenerActions.getAccountContentCountSuccess(response));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(listenerActions.getAccountContentCountFailed({ error }));
   }
 }
 
