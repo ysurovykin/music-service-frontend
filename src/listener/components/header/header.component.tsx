@@ -75,13 +75,13 @@ export function HeaderComponent({
                 <ArrowBack fontSize='small' className={`header__icon${pageHistoryIndex === 0 ? '--disabled' : '--active'}`} />
               </div>
             </Tooltip>
-            <Tooltip title={pagesForwardCount <= 2 ? '' : 'Go forward'}>
+            {/* <Tooltip title={pagesForwardCount <= 2 ? '' : 'Go forward'}>
               <div
                 className={`header__icon-wrapper${(pagesForwardCount <= 2) ? '--disabled' : '--active'}`}
                 onClick={() => (pagesForwardCount > 2) && navigate(1)} >
                 <ArrowForward fontSize='small' className={`header__icon${(pagesForwardCount <= 2) ? '--disabled' : '--active'}`} />
               </div>
-            </Tooltip>
+            </Tooltip> */}
             {text ? <div className='header__title' style={{ opacity: showHeader ? 1 : 0 }}>
               <Title className='m-0' level={4}>{text}</Title>
             </div> : null}

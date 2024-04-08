@@ -31,6 +31,7 @@ import { EditProfileModal } from '../../profile/edit-profile-modal/edit-profile.
 import { ListenerTopSongsPage } from '../../profile/listener-top-songs/listener-top-songs.page';
 import { ListenerTopArtistsPage } from '../../profile/listener-top-artists/listener-top-artists.page';
 import { ListenerTopAlbumsPage } from '../../profile/listener-top-albums/listener-top-albums.page';
+import { PageNotFoundPage } from '../page-not-found/page-not-found.page';
 
 export default function ListenerRouter() {
 
@@ -68,6 +69,7 @@ export default function ListenerRouter() {
           <Route path="/profile/top-albums" element={<ListenerTopAlbumsPage />} />
           <Route path="/library/song-radios" element={<LibraryListenerSongRadiosPage />} />
           <Route path="/song-radio/:songId" element={<SongRadioPage />} />
+          <Route path="*" element={<PageNotFoundPage />} />
         </Routes>
       </div>
       <SongPlayerComponent />
