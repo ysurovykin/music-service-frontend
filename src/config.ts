@@ -110,8 +110,12 @@ export const listenerProfileTypePalete = {
 export const artistProfileTypePalete = {
   base: '#FF7CA8',
   secondary: '#D2E3F2',
+  contrast: '#',
   backgroundBase: '#121212',
-  backgroundAccent: '#333333'
+  backgroundAccent: '#282828',
+  backgroundAccentSemiLight: '#707070',
+  backgroundAccentSemiDark: '#505050',
+  backgroundAccentLight: '#AAAAAA'
 };
 
 export const GENRES: { [key: string]: { label: string, color: string } } = {

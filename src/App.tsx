@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import AppRouter from './app.router';
 import { ConfigProvider, Spin } from 'antd';
 import './App.scss'
@@ -9,13 +9,21 @@ import { useDispatch } from 'react-redux';
 import { userActions } from './user/store/user.actions';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { EmptySongListComponent } from './listener/song/empty-song-list/empty-song-list.component';
 
 function App() {
 
   const profileType = useSelector(userSelectors.profileType);
   const dispatch = useDispatch();
   const refreshUserData = () => dispatch(userActions.refresh());
+
+  const currentPalete = useMemo(() => {
+    if (profileType === 'listener') {
+      return listenerProfileTypePalete;
+    } else if (profileType === 'artist') {
+      return artistProfileTypePalete;
+    } else {
+      return listenerProfileTypePalete;}
+  }, [profileType])
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -32,10 +40,10 @@ function App() {
             Steps: {
               colorTextDescription: '#ffffff45',
               colorText: '#ffffff',
-              colorPrimary: profileType === 'listener' ? listenerProfileTypePalete.base : artistProfileTypePalete.base
+              colorPrimary: currentPalete.base
             },
             Carousel: {
-              colorBgContainer: profileType === 'listener' ? listenerProfileTypePalete.base : artistProfileTypePalete.base
+              colorBgContainer: currentPalete.base
             },
             Switch: {
               trackHeight: 32,
@@ -51,24 +59,24 @@ function App() {
             Typography: {
               colorText: '#ffffff',
               colorTextHeading: '#ffffff',
-              colorLink: listenerProfileTypePalete.base,
-              colorLinkHover: listenerProfileTypePalete.secondary,
-              colorLinkActive: listenerProfileTypePalete.base
+              colorLink: currentPalete.base,
+              colorLinkHover: currentPalete.secondary,
+              colorLinkActive: currentPalete.base
             },
             Slider: {
-              railBg: listenerProfileTypePalete.backgroundAccent,
-              railHoverBg: listenerProfileTypePalete.backgroundAccent,
+              railBg: currentPalete.backgroundAccent,
+              railHoverBg: currentPalete.backgroundAccent,
               trackBg: '#ffffff',
-              trackHoverBg: listenerProfileTypePalete.base
+              trackHoverBg: currentPalete.base
             },
             Modal: {
-              contentBg: listenerProfileTypePalete.backgroundAccent,
-              headerBg: listenerProfileTypePalete.backgroundAccent,
-              colorTextHeading: listenerProfileTypePalete.backgroundAccentLight
+              contentBg: currentPalete.backgroundAccent,
+              headerBg: currentPalete.backgroundAccent,
+              colorTextHeading: currentPalete.backgroundAccentLight
             },
             Dropdown: {
-              colorBgElevated: listenerProfileTypePalete.backgroundAccent,
-              controlItemBgHover: listenerProfileTypePalete.backgroundAccentSemiLight
+              colorBgElevated: currentPalete.backgroundAccent,
+              controlItemBgHover: currentPalete.backgroundAccentSemiLight
             },
             Table: {
               colorBgContainer: 'transparent',
@@ -77,14 +85,14 @@ function App() {
               borderColor: 'transparent',
               headerSplitColor: 'transparent',
               headerBorderRadius: 0,
-              headerBg: listenerProfileTypePalete.backgroundAccent
+              headerBg: currentPalete.backgroundAccent
             },
             Input: {
               colorText: '#ffffff',
               colorTextPlaceholder: 'grey',
-              hoverBg: listenerProfileTypePalete.backgroundAccent,
-              activeBg: listenerProfileTypePalete.backgroundAccent,
-              colorBgContainer: listenerProfileTypePalete.backgroundAccent
+              hoverBg: currentPalete.backgroundAccent,
+              activeBg: currentPalete.backgroundAccent,
+              colorBgContainer: currentPalete.backgroundAccent
             },
             Button: {
               colorText: '#ffffff'
@@ -92,10 +100,10 @@ function App() {
             Select: {
               colorText: '#ffffff',
               colorTextPlaceholder: 'grey',
-              optionActiveBg: listenerProfileTypePalete.backgroundAccentSemiDark,
-              optionSelectedBg: listenerProfileTypePalete.backgroundAccentSemiLight,
-              selectorBg:  listenerProfileTypePalete.backgroundAccent,
-              colorBgElevated: listenerProfileTypePalete.backgroundAccent,
+              optionActiveBg: currentPalete.backgroundAccentSemiDark,
+              optionSelectedBg: currentPalete.backgroundAccentSemiLight,
+              selectorBg: currentPalete.backgroundAccent,
+              colorBgElevated: currentPalete.backgroundAccent,
               colorTextQuaternary: 'grey'
             },
             Form: {
@@ -103,9 +111,9 @@ function App() {
             }
           },
           token: {
-            colorPrimary: profileType === 'listener' ? listenerProfileTypePalete.base : artistProfileTypePalete.base,
+            colorPrimary: currentPalete.base,
             colorTextDisabled: '#ffffff',
-            colorBgContainerDisabled: (profileType === 'listener' ? listenerProfileTypePalete.base : artistProfileTypePalete.base) + '50'
+            colorBgContainerDisabled: (currentPalete.base) + '50'
           }
         }}>
         <AppRouter />

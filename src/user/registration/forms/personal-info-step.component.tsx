@@ -3,6 +3,7 @@ import { Col, Form, FormInstance, Input, Row, Select, Typography } from 'antd';
 import moment from 'moment';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { renderFieldErrorMessage, renderTextWithToolTip } from '../../../helpers/react/form.helper';
+import { countries, months } from '../../../config';
 
 const { Text } = Typography;
 
@@ -63,11 +64,8 @@ export function PersonalInfoStep({ form }: { form: FormInstance }) {
               { required: true, message: 'Please input gender' }
             ]}>
             <Select
-              showSearch>
-              <Select.Option value='Ukraine'>Ukraine</Select.Option>
-              <Select.Option value='Italy'>Italy</Select.Option>
-              <Select.Option value='Spain'>Spain</Select.Option>
-            </Select>
+              showSearch
+              options={Object.values(countries)?.map(countryName => ({ value: countryName, lable: countryName }))} />
           </Form.Item>
         </Col>
       </Row>
@@ -111,11 +109,8 @@ export function PersonalInfoStep({ form }: { form: FormInstance }) {
                 ]}
                 help=''>
                 <Select
-                  placeholder="Month">
-                  <Select.Option value='1'>January</Select.Option>
-                  <Select.Option value='2'>February</Select.Option>
-                  <Select.Option value='3'>March</Select.Option>
-                </Select>
+                  placeholder="Month"
+                  options={Object.values(months)?.map(month => ({ value: month, lable: month }))} />
               </Form.Item>
             </Col>
             <Col span={7}>

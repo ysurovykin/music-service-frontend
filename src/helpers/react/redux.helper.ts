@@ -35,6 +35,9 @@ export function updateNotification(toastId: string, message: string, type: TypeO
 }
 
 export function getErrorMessage(error: AxiosError) {
+  if (typeof error === 'string') {
+    return error || '';
+  }
   type ErrorDataType = { message: string };
   const errorData = error?.response?.data;
   if (errorData) {
