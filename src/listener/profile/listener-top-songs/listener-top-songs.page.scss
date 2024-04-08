@@ -1,0 +1,40 @@
+.listener-top-songs-page {
+  &__info {
+    display: flex;
+    gap: 20px;
+    padding: 0px 20px 20px 20px;
+    align-items: center;
+  }
+
+  &__cover-wrapper {
+    width: 160px;
+    height: 160px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__cover-shadow {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+  }
+
+  &__play-button {
+    font-size: 48px !important;
+    position: absolute;
+  }
+
+  &__info-section {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__credits {
+    align-self: flex-end;
+  }
+
+}

@@ -5,7 +5,8 @@ import {
   ArtistGenres,
   ArtistInfoResponseData,
   GetArtistsInListenerLibraryResponse,
-  GetArtistsResponse
+  GetArtistsResponse,
+  GetListenerTopArtistsThisMonthResponse
 } from './artist.model';
 import ArtistService from './artist.service';
 import { artistActions } from './artist.actions';
@@ -17,8 +18,10 @@ import {
   GetArtistsStartActionType,
   GetFansAlsoLikeArtistsStartActionType,
   GetGenresStartActionType,
+  GetListenerTopArtistsThisMonthStartActionType,
   GetMostRecentReleaseStartActionType,
   LoadMoreArtistsInListenerLibraryStartActionType,
+  LoadMoreListenerTopArtistsThisMonthStartActionType,
   UnfollowArtistStartActionType
 } from './artist.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
@@ -45,6 +48,10 @@ export const artistEffects = [
   takeEvery(ArtistActionTypes.GET_ARTISTS_IN_LISTENER_LIBRARY_FAILED, handleError),
   takeEvery(ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY, loadMoreArtistsInListenerLibrary),
   takeEvery(ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED, handleError),
+  takeEvery(ArtistActionTypes.GET_LISTENER_TOP_ARTISTS_THIS_MONTH, getListenerTopArtistsThisMonth),
+  takeEvery(ArtistActionTypes.GET_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED, handleError),
+  takeEvery(ArtistActionTypes.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH, loadMoreListenerTopArtistsThisMonth),
+  takeEvery(ArtistActionTypes.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED, handleError),
   takeEvery(ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS, getFansAlsoLikeArtists),
   takeEvery(ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS_FAILED, handleError),
 ];
@@ -152,6 +159,33 @@ function* loadMoreArtistsInListenerLibrary(action: LoadMoreArtistsInListenerLibr
   } catch (e) {
     const error = e as AxiosError;
     yield put(artistActions.loadMoreArtistsInListenerLibraryFailed({ error }));
+  }
+}
+
+function* getListenerTopArtistsThisMonth(action: GetListenerTopArtistsThisMonthStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetListenerTopArtistsThisMonthResponse = yield ArtistService.getListenerTopArtistsThisMonth(listenerId, action.payload);
+    yield put(artistActions.getListenerTopArtistsThisMonthSuccess(response));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(artistActions.getListenerTopArtistsThisMonthFailed({ error }));
+  }
+}
+
+function* loadMoreListenerTopArtistsThisMonth(action: LoadMoreListenerTopArtistsThisMonthStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetListenerTopArtistsThisMonthResponse = yield ArtistService.getListenerTopArtistsThisMonth(listenerId, action.payload);
+    const currentTopArtistsThisMonth: Array<ArtistInfoResponseData> = yield select(artistSelectors.topArtistsThisMonth);
+    const topArtistsThisMonth: Array<ArtistInfoResponseData> = (currentTopArtistsThisMonth || []).concat(...response.topArtistsThisMonth);
+    yield put(artistActions.loadMoreListenerTopArtistsThisMonthSuccess({
+      topArtistsThisMonth: topArtistsThisMonth,
+      isMoreTopArtistsThisMonthForLoading: response.isMoreTopArtistsThisMonthForLoading
+    }));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(artistActions.loadMoreListenerTopArtistsThisMonthFailed({ error }));
   }
 }
 

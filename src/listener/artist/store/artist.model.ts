@@ -30,7 +30,10 @@ export const artistState: ArtistState = {
   isFollowedArtistsLoading: false,
   isMoreFollowedArtistsForLoading: undefined,
   fansAlsoLikeArtists: undefined,
-  isFansAlsoLikeArtistsLoading: false
+  isFansAlsoLikeArtistsLoading: false,
+  topArtistsThisMonth: undefined,
+  isMoreTopArtistsThisMonthForLoading: false,
+  isTopArtistsThisMonthLoading: false
 };
 
 export interface ArtistState extends ArtistFullResponseData {
@@ -48,6 +51,9 @@ export interface ArtistState extends ArtistFullResponseData {
   isMoreFollowedArtistsForLoading?: boolean,
   fansAlsoLikeArtists?: Array<ArtistInfoResponseData>,
   isFansAlsoLikeArtistsLoading: boolean,
+  topArtistsThisMonth?: Array<ArtistInfoResponseData>,
+  isMoreTopArtistsThisMonthForLoading: boolean,
+  isTopArtistsThisMonthLoading: boolean
 }
 
 export type ArtistSocialLinks = {
@@ -93,6 +99,12 @@ export type GetArtistsInListenerLibraryRequest = {
   search?: string;
 }
 
+export type GetListenerTopArtistsThisMonthRequest = {
+  offset: number;
+  limit: number;
+  search?: string;
+}
+
 export type GetArtistsResponse = {
   artists: Array<ArtistInfoResponseData>;
   isMoreArtistsForLoading: boolean;
@@ -101,6 +113,11 @@ export type GetArtistsResponse = {
 export type GetArtistsInListenerLibraryResponse = {
   followedArtists: Array<ArtistInfoResponseData>;
   isMoreFollowedArtistsForLoading: boolean;
+}
+
+export type GetListenerTopArtistsThisMonthResponse = {
+  topArtistsThisMonth: Array<ArtistInfoResponseData>;
+  isMoreTopArtistsThisMonthForLoading: boolean;
 }
 
 export type GetArtistsRequest = {
@@ -145,13 +162,21 @@ export enum ArtistActionTypes {
   GET_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS = "ARTIST.GET_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS",
   GET_ARTISTS_IN_LISTENER_LIBRARY_FAILED = "ARTIST.GET_ARTISTS_IN_LISTENER_LIBRARY_FAILED",
 
-  LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY = "ARTIST.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY",
+  LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY = "ARTIST.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_START",
   LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS = "ARTIST.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_SUCCESS",
   LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED = "ARTIST.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED",
 
+  GET_LISTENER_TOP_ARTISTS_THIS_MONTH = "ARTIST.GET_LISTENER_TOP_ARTISTS_THIS_MONTH_START",
+  GET_LISTENER_TOP_ARTISTS_THIS_MONTH_SUCCESS = "ARTIST.GET_LISTENER_TOP_ARTISTS_THIS_MONTH_SUCCESS",
+  GET_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED = "ARTIST.GET_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED",
+
+  LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH = "ARTIST.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_START",
+  LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_SUCCESS = "ARTIST.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_SUCCESS",
+  LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED = "ARTIST.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED",
+
   UPDATE_ARTIST_LIKED_SONGS_COUNT = "ARTIST.UPDATE_ARTIST_LIKED_SONGS_COUNT",
 
-  GET_FANS_ALSO_LIKE_ARTISTS = "ARTIST.GET_FANS_ALSO_LIKE_ARTISTS",
+  GET_FANS_ALSO_LIKE_ARTISTS = "ARTIST.GET_FANS_ALSO_LIKE_ARTISTS_START",
   GET_FANS_ALSO_LIKE_ARTISTS_SUCCESS = "ARTIST.GET_FANS_ALSO_LIKE_ARTISTS_SUCCESS",
   GET_FANS_ALSO_LIKE_ARTISTS_FAILED = "ARTIST.GET_FANS_ALSO_LIKE_ARTISTS_FAILED",
 };

@@ -1,6 +1,6 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
 import { AlbumFullResponseData } from "../../album/store/album.model";
-import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse, GetArtistsRequest, GetArtistsResponse } from "./artist.model";
+import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse, GetArtistsRequest, GetArtistsResponse, GetListenerTopArtistsThisMonthRequest, GetListenerTopArtistsThisMonthResponse } from "./artist.model";
 
 export type GetArtistsStartActionType = {
   type: typeof ArtistActionTypes.GET_ARTISTS;
@@ -147,6 +147,36 @@ export type LoadMoreArtistsInListenerLibraryFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type GetListenerTopArtistsThisMonthStartActionType = {
+  type: typeof ArtistActionTypes.GET_LISTENER_TOP_ARTISTS_THIS_MONTH;
+  payload: GetListenerTopArtistsThisMonthRequest;
+};
+
+export type GetListenerTopArtistsThisMonthSuccessActionType = {
+  type: typeof ArtistActionTypes.GET_LISTENER_TOP_ARTISTS_THIS_MONTH_SUCCESS;
+  payload: GetListenerTopArtistsThisMonthResponse;
+};
+
+export type GetListenerTopArtistsThisMonthFailedActionType = {
+  type: typeof ArtistActionTypes.GET_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED;
+  payload: ActionFailedError;
+};
+
+export type LoadMoreListenerTopArtistsThisMonthStartActionType = {
+  type: typeof ArtistActionTypes.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH;
+  payload: GetListenerTopArtistsThisMonthRequest;
+};
+
+export type LoadMoreListenerTopArtistsThisMonthSuccessActionType = {
+  type: typeof ArtistActionTypes.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_SUCCESS;
+  payload: GetListenerTopArtistsThisMonthResponse;
+};
+
+export type LoadMoreListenerTopArtistsThisMonthFailedActionType = {
+  type: typeof ArtistActionTypes.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED;
+  payload: ActionFailedError;
+};
+
 export type UpdateArtistLikedSongsCountActionType = {
   type: typeof ArtistActionTypes.UPDATE_ARTIST_LIKED_SONGS_COUNT;
   payload: number;
@@ -197,6 +227,12 @@ export type ArtistActions =
   | LoadMoreArtistsInListenerLibraryStartActionType
   | LoadMoreArtistsInListenerLibrarySuccessActionType
   | LoadMoreArtistsInListenerLibraryFailedActionType
+  | GetListenerTopArtistsThisMonthStartActionType
+  | GetListenerTopArtistsThisMonthSuccessActionType
+  | GetListenerTopArtistsThisMonthFailedActionType
+  | LoadMoreListenerTopArtistsThisMonthStartActionType
+  | LoadMoreListenerTopArtistsThisMonthSuccessActionType
+  | LoadMoreListenerTopArtistsThisMonthFailedActionType
   | UpdateArtistLikedSongsCountActionType
   | GetFansAlsoLikeArtistsStartActionType
   | GetFansAlsoLikeArtistsSuccessActionType

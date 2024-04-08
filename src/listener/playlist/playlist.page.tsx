@@ -57,7 +57,8 @@ export function PlaylistPage() {
         <HeaderComponent
           text={name || ''}
           background={backgroundColor}
-          showHeader={!inView} />
+          showHeader={!inView}
+          playSongsOptions={{ options: {playlistId} }} />
         <div className='playlist-page__info'>
           <div
             className={`playlist-page__cover-wrapper ${isCoverImageHovered ? 'cursor-pointer' : ''}`}
@@ -80,7 +81,7 @@ export function PlaylistPage() {
               className='m-0'
               level={5}>Playlist</Title>
             <Title
-              className={`m-0 ${editable ? 'cursor-pointer' : ''}`}
+              className={`mt-0 ${editable ? 'cursor-pointer' : ''}`}
               level={1}
               style={{ width: 'fit-content' }}
               ref={ref}

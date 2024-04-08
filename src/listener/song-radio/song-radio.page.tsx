@@ -62,7 +62,8 @@ export function SongRadioPage() {
         <HeaderComponent
           text={name || ''}
           background={backgroundColor}
-          showHeader={!inView} />
+          showHeader={!inView}
+          playSongsOptions={{ options: { songRadioBaseSongId: baseSongId } }} />
         <div className='song-radio-page__info'>
           <div
             className={`song-radio-page__cover-wrapper ${isCoverImageHovered ? 'cursor-pointer' : ''}`}
@@ -95,7 +96,7 @@ export function SongRadioPage() {
               className='m-0'
               level={5}>Song Radio</Title>
             <Title
-              className={'m-0'}
+              className={'mt-0'}
               level={1}
               style={{ width: 'fit-content' }}
               ref={ref}>

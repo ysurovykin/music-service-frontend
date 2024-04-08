@@ -83,7 +83,7 @@ export function AlbumPage() {
           text={name || ''}
           showHeader={!inView}
           background={backgroundColor}
-          songsSourceOptions={{ albumId }} />
+          playSongsOptions={{ options: { albumId } }} />
         <div className='album-page__info'>
           <div
             className={`album-page__cover-wrapper ${isCoverImageHovered ? 'cursor-pointer' : ''}`}
@@ -102,7 +102,7 @@ export function AlbumPage() {
           </div>
           <div className='album-page__credits'>
             <Title className='m-0' level={5}>Album</Title>
-            <Title className='m-0' ref={ref} level={1}>{name}</Title>
+            <Title className='mt-0' ref={ref} level={1}>{name}</Title>
             <div className='album-page__info-section'>
               <Title className='m-0' level={5}>
                 <RouterLink to={`/artist/${artist?.id}`}>{artist?.name}</RouterLink>, {songsCount} songs, {formatPlaylistTime(songsTimeDuration!)}

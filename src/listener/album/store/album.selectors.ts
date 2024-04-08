@@ -22,6 +22,9 @@ const songsTimeDuration = createSelector(albumState, album => album?.songsTimeDu
 const likedAlbums = createSelector(albumState, album => album?.likedAlbums);
 const isLikedAlbumsLoading = createSelector(albumState, album => album?.isLikedAlbumsLoading);
 const isMoreLikedAlbumsForLoading = createSelector(albumState, album => album?.isMoreLikedAlbumsForLoading);
+const topAlbumsThisMonth = createSelector(albumState, album => album?.topAlbumsThisMonth);
+const isMoreTopAlbumsThisMonthForLoading = createSelector(albumState, album => album?.isMoreTopAlbumsThisMonthForLoading);
+const isTopAlbumsThisMonthLoading = createSelector(albumState, album => album?.isTopAlbumsThisMonthLoading);
 
 export const albumSelectors = {
   albumId,
@@ -42,5 +45,8 @@ export const albumSelectors = {
   songsTimeDuration,
   likedAlbums,
   isLikedAlbumsLoading,
-  isMoreLikedAlbumsForLoading
+  isMoreLikedAlbumsForLoading,
+  topAlbumsThisMonth,
+  isMoreTopAlbumsThisMonthForLoading,
+  isTopAlbumsThisMonthLoading,
 };

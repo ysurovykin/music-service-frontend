@@ -1,5 +1,5 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { AlbumActionTypes, AlbumInfoResponseData, GetAlbumsInListenerLibraryResponse, GetAlbumsResponse } from './album.model';
+import { AlbumActionTypes, AlbumInfoResponseData, GetAlbumsInListenerLibraryResponse, GetAlbumsResponse, GetListenerTopAlbumsThisMonthResponse } from './album.model';
 import AlbumService from './album.service';
 import { albumActions } from './album.actions';
 import { ErrorActionType, getErrorMessage, showNotification } from '../../../helpers/react/redux.helper';
@@ -10,7 +10,9 @@ import {
   GetAlbumsInListenerLibraryStartActionType,
   GetAlbumsStartActionType,
   GetAlbumsWhereArtistAppearsStartActionType,
+  GetListenerTopAlbumsThisMonthStartActionType,
   LoadMoreAlbumsInListenerLibraryStartActionType,
+  LoadMoreListenerTopAlbumsThisMonthStartActionType,
   RemoveAlbumFromLibraryStartActionType
 } from './album.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
@@ -32,6 +34,10 @@ export const albumEffects = [
   takeEvery(AlbumActionTypes.GET_ALBUMS_IN_LISTENER_LIBRARY_FAILED, handleError),
   takeEvery(AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY, loadMoreAlbumsInListenerLibrary),
   takeEvery(AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED, handleError),
+  takeEvery(AlbumActionTypes.GET_LISTENER_TOP_ALBUMS_THIS_MONTH, getListenerTopAlbumsThisMonth),
+  takeEvery(AlbumActionTypes.GET_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED, handleError),
+  takeEvery(AlbumActionTypes.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH, loadMoreListenerTopAlbumsThisMonth),
+  takeEvery(AlbumActionTypes.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED, handleError),
   takeEvery(AlbumActionTypes.GET_ALBUMS, getAlbums),
   takeEvery(AlbumActionTypes.GET_ALBUMS_FAILED, handleError),
   takeEvery(AlbumActionTypes.LOAD_MORE_ALBUMS, loadMoreAlbums),
@@ -131,6 +137,33 @@ function* loadMoreAlbumsInListenerLibrary(action: LoadMoreAlbumsInListenerLibrar
   } catch (e) {
     const error = e as AxiosError;
     yield put(albumActions.loadMoreAlbumsInListenerLibraryFailed({ error }));
+  }
+}
+
+function* getListenerTopAlbumsThisMonth(action: GetListenerTopAlbumsThisMonthStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetListenerTopAlbumsThisMonthResponse = yield AlbumService.getListenerTopAlbumsThisMonth(listenerId, action.payload);
+    yield put(albumActions.getListenerTopAlbumsThisMonthSuccess(response));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(albumActions.getListenerTopAlbumsThisMonthFailed({ error }));
+  }
+}
+
+function* loadMoreListenerTopAlbumsThisMonth(action: LoadMoreListenerTopAlbumsThisMonthStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetListenerTopAlbumsThisMonthResponse = yield AlbumService.getListenerTopAlbumsThisMonth(listenerId, action.payload);
+    const currentTopAlbumsThisMonth: Array<AlbumInfoResponseData> = yield select(albumSelectors.topAlbumsThisMonth);
+    const topAlbumsThisMonth: Array<AlbumInfoResponseData> = (currentTopAlbumsThisMonth || []).concat(...response.topAlbumsThisMonth);
+    yield put(albumActions.loadMoreListenerTopAlbumsThisMonthSuccess({
+      topAlbumsThisMonth: topAlbumsThisMonth,
+      isMoreTopAlbumsThisMonthForLoading: response.isMoreTopAlbumsThisMonthForLoading
+    }));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(albumActions.loadMoreListenerTopAlbumsThisMonthFailed({ error }));
   }
 }
 

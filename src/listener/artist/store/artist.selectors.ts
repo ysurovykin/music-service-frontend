@@ -33,6 +33,9 @@ const isFollowedArtistsLoading = createSelector(artistState, artist => artist?.i
 const isMoreFollowedArtistsForLoading = createSelector(artistState, artist => artist?.isMoreFollowedArtistsForLoading);
 const fansAlsoLikeArtists = createSelector(artistState, artist => artist?.fansAlsoLikeArtists);
 const isFansAlsoLikeArtistsLoading = createSelector(artistState, artist => artist?.isFansAlsoLikeArtistsLoading);
+const topArtistsThisMonth = createSelector(artistState, artist => artist?.topArtistsThisMonth);
+const isMoreTopArtistsThisMonthForLoading = createSelector(artistState, artist => artist?.isMoreTopArtistsThisMonthForLoading);
+const isTopArtistsThisMonthLoading = createSelector(artistState, artist => artist?.isTopArtistsThisMonthLoading);
 
 export const artistSelectors = {
   artistId,
@@ -64,5 +67,8 @@ export const artistSelectors = {
   isFollowedArtistsLoading,
   isMoreFollowedArtistsForLoading,
   fansAlsoLikeArtists,
-  isFansAlsoLikeArtistsLoading
+  isFansAlsoLikeArtistsLoading,
+  topArtistsThisMonth,
+  isMoreTopArtistsThisMonthForLoading,
+  isTopArtistsThisMonthLoading,
 };

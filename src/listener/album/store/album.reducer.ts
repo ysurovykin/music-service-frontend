@@ -127,7 +127,46 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
         isLikedAlbumsLoading: false
       }
     }
-    
+    case AlbumActionTypes.GET_LISTENER_TOP_ALBUMS_THIS_MONTH: {
+      return {
+        ...state,
+        isTopAlbumsThisMonthLoading: true
+      }
+    }
+    case AlbumActionTypes.GET_LISTENER_TOP_ALBUMS_THIS_MONTH_SUCCESS: {
+      return {
+        ...state,
+        isTopAlbumsThisMonthLoading: false,
+        topAlbumsThisMonth: action.payload.topAlbumsThisMonth,
+        isMoreTopAlbumsThisMonthForLoading: action.payload.isMoreTopAlbumsThisMonthForLoading,
+      }
+    }
+    case AlbumActionTypes.GET_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED: {
+      return {
+        ...state,
+        isTopAlbumsThisMonthLoading: false
+      }
+    }
+    case AlbumActionTypes.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH: {
+      return {
+        ...state,
+        isTopAlbumsThisMonthLoading: true
+      }
+    }
+    case AlbumActionTypes.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_SUCCESS: {
+      return {
+        ...state,
+        isTopAlbumsThisMonthLoading: false,
+        topAlbumsThisMonth: action.payload.topAlbumsThisMonth,
+        isMoreTopAlbumsThisMonthForLoading: action.payload.isMoreTopAlbumsThisMonthForLoading,
+      }
+    }
+    case AlbumActionTypes.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED: {
+      return {
+        ...state,
+        isTopAlbumsThisMonthLoading: false
+      }
+    }
     case AlbumActionTypes.GET_ALBUMS: {
       return {
         ...state,

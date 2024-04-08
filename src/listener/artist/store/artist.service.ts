@@ -6,7 +6,9 @@ import {
     GetArtistsInListenerLibraryRequest,
     GetArtistsInListenerLibraryResponse,
     GetArtistsRequest,
-    GetArtistsResponse
+    GetArtistsResponse,
+    GetListenerTopArtistsThisMonthRequest,
+    GetListenerTopArtistsThisMonthResponse
 } from "./artist.model";
 import { AlbumFullResponseData } from "../../album/store/album.model";
 
@@ -47,6 +49,12 @@ export default class ArtistService {
 
     static async getArtistsInListenerLibrary(listenerId: string, request: GetArtistsInListenerLibraryRequest): Promise<AxiosResponse<GetArtistsInListenerLibraryResponse>> {
         return await api.get<GetArtistsInListenerLibraryResponse>(`/artist/artists-in-library/${listenerId}`, {
+            params: { ...request }
+        });
+    }
+
+    static async getListenerTopArtistsThisMonth(listenerId: string, request: GetListenerTopArtistsThisMonthRequest): Promise<AxiosResponse<GetListenerTopArtistsThisMonthResponse>> {
+        return await api.get<GetListenerTopArtistsThisMonthResponse>(`/artist/top-artists-this-month/${listenerId}`, {
             params: { ...request }
         });
     }

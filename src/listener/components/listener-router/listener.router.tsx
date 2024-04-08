@@ -28,6 +28,9 @@ import { listenerActions } from '../../store/listener.actions';
 import { useSelector } from 'react-redux';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { EditProfileModal } from '../../profile/edit-profile-modal/edit-profile.modal';
+import { ListenerTopSongsPage } from '../../profile/listener-top-songs/listener-top-songs.page';
+import { ListenerTopArtistsPage } from '../../profile/listener-top-artists/listener-top-artists.page';
+import { ListenerTopAlbumsPage } from '../../profile/listener-top-albums/listener-top-albums.page';
 
 export default function ListenerRouter() {
 
@@ -60,6 +63,9 @@ export default function ListenerRouter() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/lyrics" element={<LyricsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/top-songs" element={<ListenerTopSongsPage />} />
+          <Route path="/profile/top-artists" element={<ListenerTopArtistsPage />} />
+          <Route path="/profile/top-albums" element={<ListenerTopAlbumsPage />} />
           <Route path="/library/song-radios" element={<LibraryListenerSongRadiosPage />} />
           <Route path="/song-radio/:songId" element={<SongRadioPage />} />
         </Routes>

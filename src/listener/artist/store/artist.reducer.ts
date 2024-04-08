@@ -160,6 +160,47 @@ export const artistReducer = (state = artistState, action: ArtistActions): Artis
         isFollowedArtistsLoading: false
       }
     }
+    
+    case ArtistActionTypes.GET_LISTENER_TOP_ARTISTS_THIS_MONTH: {
+      return {
+        ...state,
+        isTopArtistsThisMonthLoading: true
+      }
+    }
+    case ArtistActionTypes.GET_LISTENER_TOP_ARTISTS_THIS_MONTH_SUCCESS: {
+      return {
+        ...state,
+        isTopArtistsThisMonthLoading: false,
+        topArtistsThisMonth: action.payload.topArtistsThisMonth,
+        isMoreTopArtistsThisMonthForLoading: action.payload.isMoreTopArtistsThisMonthForLoading,
+      }
+    }
+    case ArtistActionTypes.GET_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED: {
+      return {
+        ...state,
+        isTopArtistsThisMonthLoading: false
+      }
+    }
+    case ArtistActionTypes.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH: {
+      return {
+        ...state,
+        isTopArtistsThisMonthLoading: true
+      }
+    }
+    case ArtistActionTypes.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_SUCCESS: {
+      return {
+        ...state,
+        isTopArtistsThisMonthLoading: false,
+        topArtistsThisMonth: action.payload.topArtistsThisMonth,
+        isMoreTopArtistsThisMonthForLoading: action.payload.isMoreTopArtistsThisMonthForLoading,
+      }
+    }
+    case ArtistActionTypes.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED: {
+      return {
+        ...state,
+        isTopArtistsThisMonthLoading: false
+      }
+    }
     case ArtistActionTypes.UPDATE_ARTIST_LIKED_SONGS_COUNT: {
       return {
         ...state,

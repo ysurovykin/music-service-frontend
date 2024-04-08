@@ -22,6 +22,12 @@ import {
   LoadMoreAlbumsInListenerLibraryStartActionType,
   LoadMoreAlbumsInListenerLibrarySuccessActionType,
   LoadMoreAlbumsInListenerLibraryFailedActionType,
+  GetListenerTopAlbumsThisMonthStartActionType,
+  GetListenerTopAlbumsThisMonthSuccessActionType,
+  GetListenerTopAlbumsThisMonthFailedActionType,
+  LoadMoreListenerTopAlbumsThisMonthStartActionType,
+  LoadMoreListenerTopAlbumsThisMonthSuccessActionType,
+  LoadMoreListenerTopAlbumsThisMonthFailedActionType,
   GetAlbumsStartActionType,
   GetAlbumsSuccessActionType,
   GetAlbumsFailedActionType,
@@ -29,7 +35,7 @@ import {
   LoadMoreAlbumsSuccessActionType,
   LoadMoreAlbumsFailedActionType,
 } from "./album.actions.types";
-import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse } from "./album.model";
+import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse, GetListenerTopAlbumsThisMonthRequest, GetListenerTopAlbumsThisMonthResponse } from "./album.model";
 
 export const getAlbumsByArtistIdStartAction = (artistId: string):
   GetAlbumsByArtistIdStartActionType => ({ type: AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID, payload: artistId });
@@ -97,6 +103,24 @@ export const loadMoreAlbumsInListenerLibrarySuccessAction = (response: GetAlbums
 export const loadMoreAlbumsInListenerLibraryFailedAction = (error: ActionFailedError):
   LoadMoreAlbumsInListenerLibraryFailedActionType => ({ type: AlbumActionTypes.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED, payload: error });
 
+export const getListenerTopAlbumsThisMonthStartAction = (request: GetListenerTopAlbumsThisMonthRequest):
+  GetListenerTopAlbumsThisMonthStartActionType => ({ type: AlbumActionTypes.GET_LISTENER_TOP_ALBUMS_THIS_MONTH, payload: request });
+
+export const getListenerTopAlbumsThisMonthSuccessAction = (response: GetListenerTopAlbumsThisMonthResponse):
+  GetListenerTopAlbumsThisMonthSuccessActionType => ({ type: AlbumActionTypes.GET_LISTENER_TOP_ALBUMS_THIS_MONTH_SUCCESS, payload: response });
+
+export const getListenerTopAlbumsThisMonthFailedAction = (error: ActionFailedError):
+  GetListenerTopAlbumsThisMonthFailedActionType => ({ type: AlbumActionTypes.GET_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED, payload: error });
+
+export const loadMoreListenerTopAlbumsThisMonthStartAction = (request: GetListenerTopAlbumsThisMonthRequest):
+  LoadMoreListenerTopAlbumsThisMonthStartActionType => ({ type: AlbumActionTypes.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH, payload: request });
+
+export const loadMoreListenerTopAlbumsThisMonthSuccessAction = (response: GetListenerTopAlbumsThisMonthResponse):
+  LoadMoreListenerTopAlbumsThisMonthSuccessActionType => ({ type: AlbumActionTypes.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_SUCCESS, payload: response });
+
+export const loadMoreListenerTopAlbumsThisMonthFailedAction = (error: ActionFailedError):
+  LoadMoreListenerTopAlbumsThisMonthFailedActionType => ({ type: AlbumActionTypes.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED, payload: error });
+
 export const getAlbumsStartAction = (request: GetAlbumsRequest):
   GetAlbumsStartActionType => ({ type: AlbumActionTypes.GET_ALBUMS, payload: request });
 
@@ -139,6 +163,12 @@ export const albumActions = {
   loadMoreAlbumsInListenerLibrary: (request: GetAlbumsInListenerLibraryRequest) => loadMoreAlbumsInListenerLibraryStartAction(request),
   loadMoreAlbumsInListenerLibrarySuccess: (response: GetAlbumsInListenerLibraryResponse) => loadMoreAlbumsInListenerLibrarySuccessAction(response),
   loadMoreAlbumsInListenerLibraryFailed: (error: ActionFailedError) => loadMoreAlbumsInListenerLibraryFailedAction(error),
+  getListenerTopAlbumsThisMonth: (request: GetListenerTopAlbumsThisMonthRequest) => getListenerTopAlbumsThisMonthStartAction(request),
+  getListenerTopAlbumsThisMonthSuccess: (response: GetListenerTopAlbumsThisMonthResponse) => getListenerTopAlbumsThisMonthSuccessAction(response),
+  getListenerTopAlbumsThisMonthFailed: (error: ActionFailedError) => getListenerTopAlbumsThisMonthFailedAction(error),
+  loadMoreListenerTopAlbumsThisMonth: (request: GetListenerTopAlbumsThisMonthRequest) => loadMoreListenerTopAlbumsThisMonthStartAction(request),
+  loadMoreListenerTopAlbumsThisMonthSuccess: (response: GetListenerTopAlbumsThisMonthResponse) => loadMoreListenerTopAlbumsThisMonthSuccessAction(response),
+  loadMoreListenerTopAlbumsThisMonthFailed: (error: ActionFailedError) => loadMoreListenerTopAlbumsThisMonthFailedAction(error),
   getAlbums: (request: GetAlbumsRequest) => getAlbumsStartAction(request),
   getAlbumsSuccess: (response: GetAlbumsResponse) => getAlbumsSuccessAction(response),
   getAlbumsFailed: (error: ActionFailedError) => getAlbumsFailedAction(error),

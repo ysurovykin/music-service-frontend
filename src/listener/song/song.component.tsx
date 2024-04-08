@@ -46,6 +46,7 @@ export const SongComponent = memo(function SongComponent({
   currentlyPlayingSong,
   index,
   artistId,
+  listenerId,
   showPlaysInfo,
   showAlbumInfo
 }: {
@@ -53,6 +54,7 @@ export const SongComponent = memo(function SongComponent({
   currentlyPlayingSong: QueueSongInfoResponseData,
   index: number,
   artistId?: string,
+  listenerId?: string,
   showPlaysInfo?: boolean,
   showAlbumInfo?: boolean
 }) {
@@ -173,6 +175,18 @@ export const SongComponent = memo(function SongComponent({
         shuffleEnabled: false,
         songId: song?.songId,
         options: { artistId: artistId },
+        sortingOptions: { plays: -1 }
+      });
+    } else if (listenerId) {
+      updateCurrentSongAllPlayTime();
+      recordSongPlayRowData({
+        songId: localStorage.getItem('currentPlayingSongId') || ''
+      });
+      generateQueue({
+        isNewQueue: true,
+        shuffleEnabled: false,
+        songId: song?.songId,
+        options: { listenerId: listenerId },
         sortingOptions: { plays: -1 }
       });
     } else {

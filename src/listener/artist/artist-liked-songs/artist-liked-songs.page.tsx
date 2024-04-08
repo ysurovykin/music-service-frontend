@@ -46,7 +46,7 @@ export function ArtistLikedSongsPage() {
           text={name || ''}
           showHeader={!inView}
           background={backgroundColor}
-          songsSourceOptions={{ artistId }} />
+          playSongsOptions={{ options: { artistId }, sortingOptions: { plays: -1 }, onlyLiked: true }} />
         <div className='artist-songs-page__info'>
           <div
             className='artist-songs-page__cover-wrapper cursor-pointer'
@@ -67,7 +67,7 @@ export function ArtistLikedSongsPage() {
           </div>
           <div className='artist-songs-page__credits'>
             <Title className='m-0' level={5}>Liked artist songs</Title>
-            <Title className='m-0' ref={ref} level={1}>{name}</Title>
+            <Title className='mt-0' ref={ref} level={1}>{name}</Title>
             <div className='artist-songs-page__info-section'>
               <Title className='m-0' level={5}>
                 <RouterLink to={`/artist/${artistId}`}>{name}</RouterLink>, {likedSongsCount} songs, {formatPlaylistTime(likedSongsTimeDuration!)}

@@ -30,12 +30,29 @@ import {
   LoadMoreArtistsInListenerLibraryStartActionType,
   LoadMoreArtistsInListenerLibrarySuccessActionType,
   LoadMoreArtistsInListenerLibraryFailedActionType,
+  GetListenerTopArtistsThisMonthStartActionType,
+  GetListenerTopArtistsThisMonthSuccessActionType,
+  GetListenerTopArtistsThisMonthFailedActionType,
+  LoadMoreListenerTopArtistsThisMonthStartActionType,
+  LoadMoreListenerTopArtistsThisMonthSuccessActionType,
+  LoadMoreListenerTopArtistsThisMonthFailedActionType,
   UpdateArtistLikedSongsCountActionType,
   GetFansAlsoLikeArtistsStartActionType,
   GetFansAlsoLikeArtistsSuccessActionType,
   GetFansAlsoLikeArtistsFailedActionType
 } from "./artist.actions.types";
-import { ArtistActionTypes, ArtistFullResponseData, ArtistGenres, ArtistInfoResponseData, GetArtistsInListenerLibraryRequest, GetArtistsInListenerLibraryResponse, GetArtistsRequest, GetArtistsResponse } from "./artist.model";
+import {
+  ArtistActionTypes,
+  ArtistFullResponseData,
+  ArtistGenres,
+  ArtistInfoResponseData,
+  GetArtistsInListenerLibraryRequest,
+  GetArtistsInListenerLibraryResponse,
+  GetArtistsRequest,
+  GetArtistsResponse,
+  GetListenerTopArtistsThisMonthRequest,
+  GetListenerTopArtistsThisMonthResponse
+} from "./artist.model";
 
 export const getArtistsStartAction = (request: GetArtistsRequest):
   GetArtistsStartActionType => ({ type: ArtistActionTypes.GET_ARTISTS, payload: request });
@@ -124,11 +141,29 @@ export const loadMoreArtistsInListenerLibrarySuccessAction = (response: GetArtis
 export const loadMoreArtistsInListenerLibraryFailedAction = (error: ActionFailedError):
   LoadMoreArtistsInListenerLibraryFailedActionType => ({ type: ArtistActionTypes.LOAD_MORE_ARTISTS_IN_LISTENER_LIBRARY_FAILED, payload: error });
 
+export const getListenerTopArtistsThisMonthStartAction = (request: GetListenerTopArtistsThisMonthRequest):
+  GetListenerTopArtistsThisMonthStartActionType => ({ type: ArtistActionTypes.GET_LISTENER_TOP_ARTISTS_THIS_MONTH, payload: request });
+
+export const getListenerTopArtistsThisMonthSuccessAction = (response: GetListenerTopArtistsThisMonthResponse):
+  GetListenerTopArtistsThisMonthSuccessActionType => ({ type: ArtistActionTypes.GET_LISTENER_TOP_ARTISTS_THIS_MONTH_SUCCESS, payload: response });
+
+export const getListenerTopArtistsThisMonthFailedAction = (error: ActionFailedError):
+  GetListenerTopArtistsThisMonthFailedActionType => ({ type: ArtistActionTypes.GET_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED, payload: error });
+
+export const loadMoreListenerTopArtistsThisMonthStartAction = (request: GetListenerTopArtistsThisMonthRequest):
+  LoadMoreListenerTopArtistsThisMonthStartActionType => ({ type: ArtistActionTypes.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH, payload: request });
+
+export const loadMoreListenerTopArtistsThisMonthSuccessAction = (response: GetListenerTopArtistsThisMonthResponse):
+  LoadMoreListenerTopArtistsThisMonthSuccessActionType => ({ type: ArtistActionTypes.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_SUCCESS, payload: response });
+
+export const loadMoreListenerTopArtistsThisMonthFailedAction = (error: ActionFailedError):
+  LoadMoreListenerTopArtistsThisMonthFailedActionType => ({ type: ArtistActionTypes.LOAD_MORE_LISTENER_TOP_ARTISTS_THIS_MONTH_FAILED, payload: error });
+
 export const updateArtistLikedSongsCountAction = (count: number):
   UpdateArtistLikedSongsCountActionType => ({ type: ArtistActionTypes.UPDATE_ARTIST_LIKED_SONGS_COUNT, payload: count });
 
 export const getFansAlsoLikeArtistsAction = (artistId: string):
-GetFansAlsoLikeArtistsStartActionType => ({ type: ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS, payload: artistId });
+  GetFansAlsoLikeArtistsStartActionType => ({ type: ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS, payload: artistId });
 
 export const getFansAlsoLikeArtistsSuccessAction = (response: Array<ArtistInfoResponseData>):
   GetFansAlsoLikeArtistsSuccessActionType => ({ type: ArtistActionTypes.GET_FANS_ALSO_LIKE_ARTISTS_SUCCESS, payload: response });
@@ -166,6 +201,12 @@ export const artistActions = {
   loadMoreArtistsInListenerLibrary: (request: GetArtistsInListenerLibraryRequest) => loadMoreArtistsInListenerLibraryStartAction(request),
   loadMoreArtistsInListenerLibrarySuccess: (response: GetArtistsInListenerLibraryResponse) => loadMoreArtistsInListenerLibrarySuccessAction(response),
   loadMoreArtistsInListenerLibraryFailed: (error: ActionFailedError) => loadMoreArtistsInListenerLibraryFailedAction(error),
+  getListenerTopArtistsThisMonth: (request: GetListenerTopArtistsThisMonthRequest) => getListenerTopArtistsThisMonthStartAction(request),
+  getListenerTopArtistsThisMonthSuccess: (response: GetListenerTopArtistsThisMonthResponse) => getListenerTopArtistsThisMonthSuccessAction(response),
+  getListenerTopArtistsThisMonthFailed: (error: ActionFailedError) => getListenerTopArtistsThisMonthFailedAction(error),
+  loadMoreListenerTopArtistsThisMonth: (request: GetListenerTopArtistsThisMonthRequest) => loadMoreListenerTopArtistsThisMonthStartAction(request),
+  loadMoreListenerTopArtistsThisMonthSuccess: (response: GetListenerTopArtistsThisMonthResponse) => loadMoreListenerTopArtistsThisMonthSuccessAction(response),
+  loadMoreListenerTopArtistsThisMonthFailed: (error: ActionFailedError) => loadMoreListenerTopArtistsThisMonthFailedAction(error),
   updateArtistLikedSongsCount: (count: number) => updateArtistLikedSongsCountAction(count),
   getFansAlsoLikeArtists: (artistId: string) => getFansAlsoLikeArtistsAction(artistId),
   getFansAlsoLikeArtistsSuccess: (response: Array<ArtistInfoResponseData>) => getFansAlsoLikeArtistsSuccessAction(response),

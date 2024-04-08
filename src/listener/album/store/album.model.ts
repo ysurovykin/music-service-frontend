@@ -21,6 +21,9 @@ export const albumState: AlbumState = {
   likedAlbums: undefined,
   isLikedAlbumsLoading: false,
   isMoreLikedAlbumsForLoading: undefined,
+  topAlbumsThisMonth: undefined,
+  isMoreTopAlbumsThisMonthForLoading: false,
+  isTopAlbumsThisMonthLoading: false,
 };
 
 export interface AlbumState extends AlbumFullResponseData {
@@ -33,6 +36,9 @@ export interface AlbumState extends AlbumFullResponseData {
   likedAlbums?: Array<AlbumInfoResponseData>,
   isLikedAlbumsLoading: boolean,
   isMoreLikedAlbumsForLoading?: boolean;
+  topAlbumsThisMonth?: Array<AlbumInfoResponseData>;
+  isMoreTopAlbumsThisMonthForLoading: boolean;
+  isTopAlbumsThisMonthLoading: boolean;
 }
 
 export type AlbumSongData = {
@@ -70,6 +76,12 @@ export type GetAlbumsInListenerLibraryRequest = {
   limit: number;
 }
 
+export type GetListenerTopAlbumsThisMonthRequest = {
+  search?: string;
+  offset: number;
+  limit: number;
+}
+
 export type GetAlbumsRequest = {
   search?: string;
   offset: number;
@@ -84,6 +96,11 @@ export type GetAlbumsResponse = {
 export type GetAlbumsInListenerLibraryResponse = {
   likedAlbums: Array<AlbumInfoResponseData>;
   isMoreLikedAlbumsForLoading: boolean;
+}
+
+export type GetListenerTopAlbumsThisMonthResponse = {
+  topAlbumsThisMonth: Array<AlbumInfoResponseData>;
+  isMoreTopAlbumsThisMonthForLoading: boolean;
 }
 
 export type AlbumFullResponseData = AlbumInfoResponseData & {
@@ -121,6 +138,14 @@ export enum AlbumActionTypes {
   LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY = "ALBUM.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_START",
   LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS = "ALBUM.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_SUCCESS",
   LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED = "ALBUM.LOAD_MORE_ALBUMS_IN_LISTENER_LIBRARY_FAILED",
+
+  GET_LISTENER_TOP_ALBUMS_THIS_MONTH = "ALBUM.GET_LISTENER_TOP_ALBUMS_THIS_MONTH_START",
+  GET_LISTENER_TOP_ALBUMS_THIS_MONTH_SUCCESS = "ALBUM.GET_LISTENER_TOP_ALBUMS_THIS_MONTH_SUCCESS",
+  GET_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED = "ALBUM.GET_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED",
+
+  LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH = "ALBUM.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_START",
+  LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_SUCCESS = "ALBUM.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_SUCCESS",
+  LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED = "ALBUM.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED",
 
   GET_ALBUMS = "ALBUM.GET_ALBUMS_START",
   GET_ALBUMS_SUCCESS = "ALBUM.GET_ALBUMS_SUCCESS",

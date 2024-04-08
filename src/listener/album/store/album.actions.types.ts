@@ -1,5 +1,5 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse } from "./album.model";
+import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse, GetListenerTopAlbumsThisMonthRequest, GetListenerTopAlbumsThisMonthResponse } from "./album.model";
 
 export type GetAlbumsByArtistIdStartActionType = {
   type: typeof AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID;
@@ -111,6 +111,36 @@ export type LoadMoreAlbumsInListenerLibraryFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type GetListenerTopAlbumsThisMonthStartActionType = {
+  type: typeof AlbumActionTypes.GET_LISTENER_TOP_ALBUMS_THIS_MONTH;
+  payload: GetListenerTopAlbumsThisMonthRequest;
+};
+
+export type GetListenerTopAlbumsThisMonthSuccessActionType = {
+  type: typeof AlbumActionTypes.GET_LISTENER_TOP_ALBUMS_THIS_MONTH_SUCCESS;
+  payload: GetListenerTopAlbumsThisMonthResponse;
+};
+
+export type GetListenerTopAlbumsThisMonthFailedActionType = {
+  type: typeof AlbumActionTypes.GET_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED;
+  payload: ActionFailedError;
+};
+
+export type LoadMoreListenerTopAlbumsThisMonthStartActionType = {
+  type: typeof AlbumActionTypes.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH;
+  payload: GetListenerTopAlbumsThisMonthRequest;
+};
+
+export type LoadMoreListenerTopAlbumsThisMonthSuccessActionType = {
+  type: typeof AlbumActionTypes.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_SUCCESS;
+  payload: GetListenerTopAlbumsThisMonthResponse;
+};
+
+export type LoadMoreListenerTopAlbumsThisMonthFailedActionType = {
+  type: typeof AlbumActionTypes.LOAD_MORE_LISTENER_TOP_ALBUMS_THIS_MONTH_FAILED;
+  payload: ActionFailedError;
+};
+
 export type GetAlbumsStartActionType = {
   type: typeof AlbumActionTypes.GET_ALBUMS;
   payload: GetAlbumsRequest;
@@ -164,6 +194,12 @@ export type AlbumActions =
   | LoadMoreAlbumsInListenerLibraryStartActionType
   | LoadMoreAlbumsInListenerLibrarySuccessActionType
   | LoadMoreAlbumsInListenerLibraryFailedActionType
+  | GetListenerTopAlbumsThisMonthStartActionType
+  | GetListenerTopAlbumsThisMonthSuccessActionType
+  | GetListenerTopAlbumsThisMonthFailedActionType
+  | LoadMoreListenerTopAlbumsThisMonthStartActionType
+  | LoadMoreListenerTopAlbumsThisMonthSuccessActionType
+  | LoadMoreListenerTopAlbumsThisMonthFailedActionType
   | GetAlbumsStartActionType
   | GetAlbumsSuccessActionType
   | GetAlbumsFailedActionType

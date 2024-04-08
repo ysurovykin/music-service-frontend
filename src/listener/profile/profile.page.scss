@@ -31,4 +31,35 @@
   &__credits {
     align-self: flex-end;
   }
+
+  &__top-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0px 20px 20px 20px;
+  }
+
+  &__content {
+    display: flex;
+    gap: 20px;
+
+    &-wrapper {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__title {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
 }

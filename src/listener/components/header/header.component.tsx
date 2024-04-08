@@ -6,8 +6,10 @@ import { listenerProfileTypePalete } from '../../../config';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../../user/store/user.actions';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { GenerateQueueOptions } from '../../queue/store/queue.model';
+import { GenerateQueueOptions, GenerateQueueRequestData } from '../../queue/store/queue.model';
 import { ReactNode } from 'react';
+import { queueActions } from '../../queue/store/queue.actions';
+import { GetSongsSortingOptions } from '../../song/store/song.model';
 
 const { Text, Title } = Typography;
 
@@ -15,7 +17,7 @@ export function HeaderComponent({
   showHeader,
   text = '',
   background = listenerProfileTypePalete.backgroundAccentLight,
-  songsSourceOptions,
+  playSongsOptions,
   element,
   secondRow,
   isHomePage
@@ -23,7 +25,11 @@ export function HeaderComponent({
   showHeader?: boolean,
   text?: string,
   background?: string,
-  songsSourceOptions?: GenerateQueueOptions,
+  playSongsOptions?: {
+    options?: GenerateQueueOptions,
+    onlyLiked?: boolean,
+    sortingOptions?: GetSongsSortingOptions,
+  },
   element?: ReactNode,
   secondRow?: ReactNode,
   isHomePage?: boolean,
@@ -33,6 +39,7 @@ export function HeaderComponent({
 
   const dispatch = useDispatch();
   const logout = () => dispatch(userActions.logout());
+  const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
 
   const pageHistoryIndex = window?.history?.state?.idx;
   const pagesForwardCount = window?.history?.length - window?.history?.state?.idx;
@@ -81,10 +88,19 @@ export function HeaderComponent({
             {element ? <div className='header__title' style={{ opacity: showHeader ? 1 : 0 }}>
               {element}
             </div> : null}
-            {songsSourceOptions && <div style={{ opacity: showHeader ? 1 : 0 }}>
+            {playSongsOptions && <div style={{ opacity: showHeader ? 1 : 0 }}>
               <Tooltip title='Play'>
                 <Avatar
                   className='header__play-button cursor-pointer'
+                  onClick={() => generateQueue({
+                    isNewQueue: true,
+                    shuffleEnabled: false,
+                    options: {
+                      ...playSongsOptions.options
+                    },
+                    onlyLiked: playSongsOptions.onlyLiked,
+                    sortingOptions: playSongsOptions.sortingOptions ? { ...playSongsOptions.sortingOptions } : undefined
+                  })}
                   style={{ background: listenerProfileTypePalete.base }}
                   icon={<PlayArrow sx={{ color: 'black' }} />} />
               </Tooltip>

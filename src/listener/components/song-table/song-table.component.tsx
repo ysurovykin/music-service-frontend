@@ -415,6 +415,14 @@ export function SongTableComponent({
         durationColumn,
         menuColumn
       ];
+    } else if (songsSourceOptions?.listenerId) {
+      return [
+        titleColumn,
+        albumColumn,
+        likeColumn,
+        durationColumn,
+        menuColumn
+      ];
     } else if (search) {
       return [
         titleColumn,
@@ -453,6 +461,14 @@ export function SongTableComponent({
         menuColumn
       ];
     } else if (songsSourceOptions?.songRadioBaseSongId) {
+      return [
+        titleColumn,
+        albumColumn,
+        likeColumn,
+        durationColumn,
+        menuColumn
+      ];
+    } else if (songsSourceOptions?.listenerId) {
       return [
         titleColumn,
         albumColumn,
