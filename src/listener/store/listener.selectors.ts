@@ -18,6 +18,15 @@ const isAccountContentCountLoading = createSelector(listenerState, album => albu
 const playlistCount = createSelector(listenerState, album => album?.playlistCount);
 const followedArtistsCount = createSelector(listenerState, album => album?.followedArtistsCount);
 const likedAlbumsCount = createSelector(listenerState, album => album?.likedAlbumsCount);
+const isGetStartedModalOpen = createSelector(listenerState, album => album?.isGetStartedModalOpen);
+const recommendedGenres = createSelector(listenerState, album => album?.recommendedGenres);
+const otherGenres = createSelector(listenerState, album => album?.otherGenres);
+const isExistingGenresLoading = createSelector(listenerState, album => album?.isExistingGenresLoading);
+const recommendedArtists = createSelector(listenerState, album => album?.recommendedArtists);
+const isRecommendedArtistsLoading = createSelector(listenerState, album => album?.isRecommendedArtistsLoading);
+const isMoreRecommendedArtistsForLoading = createSelector(listenerState, album => album?.isMoreRecommendedArtistsForLoading);
+const getStartedCompleted = createSelector(listenerState, album => album?.getStartedCompleted);
+const isSaveGetStartedResultsLoading = createSelector(listenerState, album => album?.isSaveGetStartedResultsLoading);
 
 export const listenerSelectors = {
   isListenerLoading,
@@ -35,4 +44,13 @@ export const listenerSelectors = {
   playlistCount,
   followedArtistsCount,
   likedAlbumsCount,
+  isGetStartedModalOpen,
+  recommendedGenres,
+  otherGenres,
+  isExistingGenresLoading,
+  recommendedArtists,
+  isRecommendedArtistsLoading,
+  isMoreRecommendedArtistsForLoading,
+  getStartedCompleted,
+  isSaveGetStartedResultsLoading
 };

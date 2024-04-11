@@ -50,9 +50,9 @@ export function PersonalInfoStep({ form }: { form: FormInstance }) {
               { required: true, message: 'Please input gender' }
             ]}>
             <Select>
-              <Select.Option value='Man'>Man</Select.Option>
-              <Select.Option value='Woman'>Woman</Select.Option>
-              <Select.Option value='Prefer not to say'>Prefer not to say</Select.Option>
+              <Select.Option value='male'>Male</Select.Option>
+              <Select.Option value='female'>Female</Select.Option>
+              <Select.Option value='unknown'>Prefer not to say</Select.Option>
             </Select>
           </Form.Item>
         </Col>

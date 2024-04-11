@@ -38,7 +38,7 @@ export function ArtistPage() {
   const name = useSelector(artistSelectors.name);
   const profileImageUrl = useSelector(artistSelectors.profileImageUrl);
   const socialLinks = useSelector(artistSelectors.socialLinks);
-  const followers = useSelector(artistSelectors.followers);
+  const monthlyListeners = useSelector(artistSelectors.monthlyListeners);
   const albums = useSelector(albumSelectors.albums);
   const isAlbumsLoading = useSelector(albumSelectors.isAlbumsLoading);
   const albumsArtistAppearsIn = useSelector(albumSelectors.albumsArtistAppearsIn);
@@ -151,7 +151,7 @@ export function ArtistPage() {
           <div className='artist-page__credits'>
             <Title className='m-0' level={5}>Artist</Title>
             <Title className='mt-0' ref={ref} level={1}>{name}</Title>
-            <Title className='m-0' level={5}>{followers || 0} followers</Title>
+            <Title className='m-0' level={5}>{monthlyListeners || 0} monthly listeners</Title>
           </div>
         </div>
         <div className='artist-page__actions-section'>

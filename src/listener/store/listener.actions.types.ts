@@ -5,7 +5,13 @@ import {
   ListenerInfoResponseData,
   ContentData,
   EditProfileRequestData,
-  GetAccountContentCountResponseData
+  GetAccountContentCountResponseData,
+  GetExistingGenresRequestData,
+  GetExistingGenresResponseData,
+  GetRecommendedArtistsRequestData,
+  GetRecommendedArtistsResponseData,
+  GetHomePageContentRequestData,
+  SaveGetStartedResultsRequestData
 } from "./listener.model";
 
 export type GetListenerByIdStartActionType = {
@@ -40,7 +46,7 @@ export type GetRecentMostVisitedContentFailedActionType = {
 
 export type GetHomePageContentStartActionType = {
   type: typeof ListenerActionTypes.GET_HOME_PAGE_CONTENT;
-  payload: undefined;
+  payload: GetHomePageContentRequestData;
 };
 
 export type GetHomePageContentSuccessActionType = {
@@ -93,6 +99,76 @@ export type CloseEditProfileModalActionType = {
   payload: undefined;
 };
 
+export type OpenGetStartedModalActionType = {
+  type: typeof ListenerActionTypes.OPEN_GET_STARTED_MODAL;
+  payload: undefined;
+};
+
+export type CloseGetStartedModalActionType = {
+  type: typeof ListenerActionTypes.CLOSE_GET_STARTED_MODAL;
+  payload: undefined;
+};
+
+export type GetExistingGenresStartActionType = {
+  type: typeof ListenerActionTypes.GET_EXISTING_GENRES;
+  payload: GetExistingGenresRequestData;
+};
+
+export type GetExistingGenresSuccessActionType = {
+  type: typeof ListenerActionTypes.GET_EXISTING_GENRES_SUCCESS;
+  payload: GetExistingGenresResponseData;
+};
+
+export type GetExistingGenresFailedActionType = {
+  type: typeof ListenerActionTypes.GET_EXISTING_GENRES_FAILED;
+  payload: ActionFailedError;
+};
+
+export type GetRecommendedArtistsStartActionType = {
+  type: typeof ListenerActionTypes.GET_RECOMMENDED_ARTISTS;
+  payload: GetRecommendedArtistsRequestData;
+};
+
+export type GetRecommendedArtistsSuccessActionType = {
+  type: typeof ListenerActionTypes.GET_RECOMMENDED_ARTISTS_SUCCESS;
+  payload: GetRecommendedArtistsResponseData;
+};
+
+export type GetRecommendedArtistsFailedActionType = {
+  type: typeof ListenerActionTypes.GET_RECOMMENDED_ARTISTS_FAILED;
+  payload: ActionFailedError;
+};
+
+export type LoadMoreRecommendedArtistsStartActionType = {
+  type: typeof ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS;
+  payload: GetRecommendedArtistsRequestData;
+};
+
+export type LoadMoreRecommendedArtistsSuccessActionType = {
+  type: typeof ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS_SUCCESS;
+  payload: GetRecommendedArtistsResponseData;
+};
+
+export type LoadMoreRecommendedArtistsFailedActionType = {
+  type: typeof ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS_FAILED;
+  payload: ActionFailedError;
+};
+
+export type SaveGetStartedResultsStartActionType = {
+  type: typeof ListenerActionTypes.SAVE_GET_STARTED_RESULTS;
+  payload: SaveGetStartedResultsRequestData;
+};
+
+export type SaveGetStartedResultsSuccessActionType = {
+  type: typeof ListenerActionTypes.SAVE_GET_STARTED_RESULTS_SUCCESS;
+  payload: undefined;
+};
+
+export type SaveGetStartedResultsFailedActionType = {
+  type: typeof ListenerActionTypes.SAVE_GET_STARTED_RESULTS_FAILED;
+  payload: ActionFailedError;
+};
+
 export type ListenerActions =
   | GetListenerByIdStartActionType
   | GetListenerByIdSuccessActionType
@@ -110,4 +186,18 @@ export type ListenerActions =
   | GetAccountContentCountSuccessActionType
   | GetAccountContentCountFailedActionType
   | OpenEditProfileModalActionType
-  | CloseEditProfileModalActionType;
+  | CloseEditProfileModalActionType
+  | OpenGetStartedModalActionType
+  | CloseGetStartedModalActionType
+  | GetExistingGenresStartActionType
+  | GetExistingGenresSuccessActionType
+  | GetExistingGenresFailedActionType
+  | GetRecommendedArtistsStartActionType
+  | GetRecommendedArtistsSuccessActionType
+  | GetRecommendedArtistsFailedActionType
+  | LoadMoreRecommendedArtistsStartActionType
+  | LoadMoreRecommendedArtistsSuccessActionType
+  | LoadMoreRecommendedArtistsFailedActionType
+  | SaveGetStartedResultsStartActionType
+  | SaveGetStartedResultsSuccessActionType
+  | SaveGetStartedResultsFailedActionType;

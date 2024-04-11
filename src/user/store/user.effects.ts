@@ -4,7 +4,6 @@ import { LoginStartActionType, RegistrationStartActionType } from './user.action
 import AuthService from './user.service';
 import { userActions } from './user.actions';
 import { ErrorActionType, getErrorMessage, showNotification } from '../../helpers/react/redux.helper';
-import { notification } from 'antd';
 import { AxiosError } from 'axios';
 
 export const userEffects = [

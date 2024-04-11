@@ -1,10 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { LoginPage } from './user/login/login.page';
-import { RegistrationPage } from './user/registration/registration.page';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { userSelectors } from './user/store/user.selectors';
 import ListenerRouter from './listener/components/listener-router/listener.router';
 import { PageLoaderComponent } from './listener/components/loader/page-loader';
+import UnauthorizedRouter from './user/unauthorized-router/unauthorized.router';
 
 export default function AppRouter() {
 
@@ -14,12 +13,7 @@ export default function AppRouter() {
 
   const renderUnauthorizedRoutes = () => {
     return (
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/registration" element={<RegistrationPage />} />
-        <Route path="*" element={<LoginPage />} />
-      </Routes>
+      <UnauthorizedRouter />
     );
   };
 

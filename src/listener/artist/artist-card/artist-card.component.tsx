@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Tooltip, Typography } from "antd";
+import { Avatar, Button, Tooltip, Typography } from "antd";
 import { useNavigate } from 'react-router-dom';
 import { ArtistInfoResponseData } from "../store/artist.model";
 import { Close } from "@mui/icons-material";
@@ -12,7 +12,9 @@ export function ArtistCardComponent({
   reference,
   onClickFunction,
   showCancelButton,
-  onCancelFunction
+  onCancelFunction,
+  shouldRedirectToArtistPage = true,
+  choosed
 }: {
   artist: ArtistInfoResponseData;
   showArtistTag?: boolean;
@@ -20,11 +22,15 @@ export function ArtistCardComponent({
   onClickFunction?: () => void;
   showCancelButton?: boolean;
   onCancelFunction?: () => void;
+  shouldRedirectToArtistPage?: boolean,
+  choosed?: boolean;
 }) {
   const navigate = useNavigate();
 
   const onClick = () => {
-    navigate(`/artist/${artist.artistId}`)
+    if (shouldRedirectToArtistPage) {
+      navigate(`/artist/${artist.artistId}`)
+    }
     if (onClickFunction) {
       onClickFunction();
     }
@@ -39,7 +45,7 @@ export function ArtistCardComponent({
   return (
     <div
       ref={reference}
-      className="artist-card cursor-pointer"
+      className={`artist-card ${choosed ? 'artist-card--choosed' : ''} cursor-pointer`}
       onClick={() => onClick()}>
       {showCancelButton ?
         <div

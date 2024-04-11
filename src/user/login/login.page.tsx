@@ -10,6 +10,9 @@ export function LoginPage() {
   const [form] = Form.useForm();
   const values = Form.useWatch([], form);
 
+  const dispatch = useDispatch()
+  const login = (loginData: UserLoginData) => dispatch(userActions.login(loginData));
+
   useEffect(() => {
     form.validateFields({ validateOnly: true }).then(
       () => {
@@ -20,8 +23,6 @@ export function LoginPage() {
       },
     );
   }, [form, values]);
-  const dispatch = useDispatch()
-  const login = (loginData: UserLoginData) => dispatch(userActions.login(loginData));
 
   const onFinish = (values: any) => {
     login({ ...values })

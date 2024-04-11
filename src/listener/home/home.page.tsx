@@ -7,7 +7,7 @@ import { getBackground, renderPlaylistIcon } from "../../helpers/react/listener-
 import { useInView } from "react-intersection-observer";
 import { Avatar, Spin, Typography } from "antd";
 import { listenerSelectors } from "../store/listener.selectors";
-import { HomePageContentResponseData, ContentData } from "../store/listener.model";
+import { HomePageContentResponseData, ContentData, GetHomePageContentRequestData } from "../store/listener.model";
 import { PlaylistTagEnum } from "../playlist/store/playlist.model";
 import { animated, useSpring } from "@react-spring/web"
 import { useNavigate } from "react-router-dom";
@@ -40,13 +40,13 @@ export function HomePage() {
   const dispatch = useDispatch();
   const getListenerById = (listenerId: string) => dispatch(listenerActions.getListenerById(listenerId));
   const getRecentMostVisitedContent = () => dispatch(listenerActions.getRecentMostVisitedContent());
-  const getHomePageContent = () => dispatch(listenerActions.getHomePageContent());
+  const getHomePageContent = (requset: GetHomePageContentRequestData) => dispatch(listenerActions.getHomePageContent(requset));
 
   useEffect(() => {
     if (userId) {
       getListenerById(userId);
       getRecentMostVisitedContent();
-      getHomePageContent();
+      getHomePageContent({});
     }
   }, [userId])
 
@@ -166,7 +166,9 @@ export function HomePage() {
                 <div className='artist-page__loader-wrapper'><Spin /></div> :
                 <div>
                   {homePageContent?.map((contentData) =>
-                    <div className="home-page__recomendation-content">
+                    <div
+                      key={contentData.contentTitle}
+                      className="home-page__recomendation-content">
                       <Title level={3}>{contentData.contentTitle}</Title>
                       <div className='home-page__content-wrapper custom-scroll-x'>
                         <div className="home-page__content">

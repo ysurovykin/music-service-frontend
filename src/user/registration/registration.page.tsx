@@ -4,7 +4,7 @@ import { userActions } from '../store/user.actions';
 import { ProfileTypeEnum, UserRegistrationData } from '../store/user.model';
 import { Button, Col, Form, Row, Steps, message } from 'antd';
 import { IdcardFilled, InfoCircleFilled, LockFilled } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CredentialsStep } from './forms/credentials-step.component';
 import { PersonalInfoStep } from './forms/personal-info-step.component';
 import { AccountTypeStep } from './forms/account-type-step.component';

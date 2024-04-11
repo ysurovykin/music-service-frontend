@@ -32,18 +32,28 @@ import { ListenerTopSongsPage } from '../../profile/listener-top-songs/listener-
 import { ListenerTopArtistsPage } from '../../profile/listener-top-artists/listener-top-artists.page';
 import { ListenerTopAlbumsPage } from '../../profile/listener-top-albums/listener-top-albums.page';
 import { PageNotFoundPage } from '../page-not-found/page-not-found.page';
+import { GetStartedModal } from '../get-started-modal/get-started.modal';
+import { listenerSelectors } from '../../store/listener.selectors';
 
 export default function ListenerRouter() {
+  const userId = useSelector(userSelectors.userId);
+  const getStartedCompleted = useSelector(listenerSelectors.getStartedCompleted);
 
   const dispatch = useDispatch();
-  const userId = useSelector(userSelectors.userId);
-  const getListenerById = (id: string) => dispatch(listenerActions.getListenerById(id))
+  const getListenerById = (id: string) => dispatch(listenerActions.getListenerById(id));
+  const openGetStartedModal = () => dispatch(listenerActions.openGetStartedModal());
 
   useEffect(() => {
     if (userId) {
       getListenerById(userId);
     }
   }, [userId])
+
+  useEffect(() => {
+    if (getStartedCompleted === false) {
+      openGetStartedModal()
+    }
+  }, [getStartedCompleted]);
 
   return (
     <>
@@ -69,7 +79,7 @@ export default function ListenerRouter() {
           <Route path="/profile/top-albums" element={<ListenerTopAlbumsPage />} />
           <Route path="/library/song-radios" element={<LibraryListenerSongRadiosPage />} />
           <Route path="/song-radio/:songId" element={<SongRadioPage />} />
-          <Route path="*" element={<PageNotFoundPage />} />
+          <Route path="*" element={<HomePage />} />
         </Routes>
       </div>
       <SongPlayerComponent />
@@ -79,6 +89,7 @@ export default function ListenerRouter() {
       <DiscoverArtistModal />
       <RefreshSongRadioModal />
       <EditProfileModal />
+      <GetStartedModal />
     </>
   );
 }

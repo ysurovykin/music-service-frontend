@@ -16,7 +16,21 @@ import {
   GetAccountContentCountSuccessActionType,
   GetAccountContentCountFailedActionType,
   OpenEditProfileModalActionType,
-  CloseEditProfileModalActionType
+  CloseEditProfileModalActionType,
+  OpenGetStartedModalActionType,
+  CloseGetStartedModalActionType,
+  GetExistingGenresStartActionType,
+  GetExistingGenresSuccessActionType,
+  GetExistingGenresFailedActionType,
+  GetRecommendedArtistsStartActionType,
+  GetRecommendedArtistsSuccessActionType,
+  GetRecommendedArtistsFailedActionType,
+  LoadMoreRecommendedArtistsStartActionType,
+  LoadMoreRecommendedArtistsSuccessActionType,
+  LoadMoreRecommendedArtistsFailedActionType,
+  SaveGetStartedResultsStartActionType,
+  SaveGetStartedResultsSuccessActionType,
+  SaveGetStartedResultsFailedActionType,
 } from "./listener.actions.types";
 import {
   HomePageContentResponseData,
@@ -24,7 +38,13 @@ import {
   ListenerInfoResponseData,
   ContentData,
   EditProfileRequestData,
-  GetAccountContentCountResponseData
+  GetAccountContentCountResponseData,
+  GetExistingGenresRequestData,
+  GetExistingGenresResponseData,
+  GetRecommendedArtistsRequestData,
+  GetRecommendedArtistsResponseData,
+  GetHomePageContentRequestData,
+  SaveGetStartedResultsRequestData
 } from "./listener.model"
 
 export const getListenerByIdStartAction = (listenerId: string):
@@ -45,8 +65,8 @@ export const getRecentMostVisitedContentSuccessAction = (response: Array<Content
 export const getRecentMostVisitedContentFailedAction = (error: ActionFailedError):
   GetRecentMostVisitedContentFailedActionType => ({ type: ListenerActionTypes.GET_RECENT_MOST_VISITED_CONTENT_FAILED, payload: error });
 
-export const getHomePageContentStartAction = ():
-  GetHomePageContentStartActionType => ({ type: ListenerActionTypes.GET_HOME_PAGE_CONTENT, payload: undefined });
+export const getHomePageContentStartAction = (request: GetHomePageContentRequestData):
+  GetHomePageContentStartActionType => ({ type: ListenerActionTypes.GET_HOME_PAGE_CONTENT, payload: request });
 
 export const getHomePageContentSuccessAction = (response: Array<HomePageContentResponseData>):
   GetHomePageContentSuccessActionType => ({ type: ListenerActionTypes.GET_HOME_PAGE_CONTENT_SUCCESS, payload: response });
@@ -78,6 +98,48 @@ export const openEditProfileModalAction = ():
 export const closeEditProfileModalAction = ():
   CloseEditProfileModalActionType => ({ type: ListenerActionTypes.CLOSE_EDIT_PROFILE_MODAL, payload: undefined });
 
+export const openGetStartedModalAction = ():
+  OpenGetStartedModalActionType => ({ type: ListenerActionTypes.OPEN_GET_STARTED_MODAL, payload: undefined });
+
+export const closeGetStartedModalAction = ():
+  CloseGetStartedModalActionType => ({ type: ListenerActionTypes.CLOSE_GET_STARTED_MODAL, payload: undefined });
+
+export const getExistingGenresStartAction = (request: GetExistingGenresRequestData):
+  GetExistingGenresStartActionType => ({ type: ListenerActionTypes.GET_EXISTING_GENRES, payload: request });
+
+export const getExistingGenresSuccessAction = (response: GetExistingGenresResponseData):
+  GetExistingGenresSuccessActionType => ({ type: ListenerActionTypes.GET_EXISTING_GENRES_SUCCESS, payload: response });
+
+export const getExistingGenresFailedAction = (error: ActionFailedError):
+  GetExistingGenresFailedActionType => ({ type: ListenerActionTypes.GET_EXISTING_GENRES_FAILED, payload: error });
+
+export const getRecommendedArtistsStartAction = (request: GetRecommendedArtistsRequestData):
+  GetRecommendedArtistsStartActionType => ({ type: ListenerActionTypes.GET_RECOMMENDED_ARTISTS, payload: request });
+
+export const getRecommendedArtistsSuccessAction = (response: GetRecommendedArtistsResponseData):
+  GetRecommendedArtistsSuccessActionType => ({ type: ListenerActionTypes.GET_RECOMMENDED_ARTISTS_SUCCESS, payload: response });
+
+export const getRecommendedArtistsFailedAction = (error: ActionFailedError):
+  GetRecommendedArtistsFailedActionType => ({ type: ListenerActionTypes.GET_RECOMMENDED_ARTISTS_FAILED, payload: error });
+
+export const loadMoreRecommendedArtistsStartAction = (request: GetRecommendedArtistsRequestData):
+  LoadMoreRecommendedArtistsStartActionType => ({ type: ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS, payload: request });
+
+export const loadMoreRecommendedArtistsSuccessAction = (response: GetRecommendedArtistsResponseData):
+  LoadMoreRecommendedArtistsSuccessActionType => ({ type: ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS_SUCCESS, payload: response });
+
+export const loadMoreRecommendedArtistsFailedAction = (error: ActionFailedError):
+  LoadMoreRecommendedArtistsFailedActionType => ({ type: ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS_FAILED, payload: error });
+
+export const saveGetStartedResultsStartAction = (request: SaveGetStartedResultsRequestData):
+  SaveGetStartedResultsStartActionType => ({ type: ListenerActionTypes.SAVE_GET_STARTED_RESULTS, payload: request });
+
+export const saveGetStartedResultsSuccessAction = ():
+  SaveGetStartedResultsSuccessActionType => ({ type: ListenerActionTypes.SAVE_GET_STARTED_RESULTS_SUCCESS, payload: undefined });
+
+export const saveGetStartedResultsFailedAction = (error: ActionFailedError):
+  SaveGetStartedResultsFailedActionType => ({ type: ListenerActionTypes.SAVE_GET_STARTED_RESULTS_FAILED, payload: error });
+
 export const listenerActions = {
   getListenerById: (listenerId: string) => getListenerByIdStartAction(listenerId),
   getListenerByIdSuccess: (response: ListenerInfoResponseData) => getListenerByIdSuccessAction(response),
@@ -85,7 +147,7 @@ export const listenerActions = {
   getRecentMostVisitedContent: () => getRecentMostVisitedContentStartAction(),
   getRecentMostVisitedContentSuccess: (response: Array<ContentData>) => getRecentMostVisitedContentSuccessAction(response),
   getRecentMostVisitedContentFailed: (error: ActionFailedError) => getRecentMostVisitedContentFailedAction(error),
-  getHomePageContent: () => getHomePageContentStartAction(),
+  getHomePageContent: (request: GetHomePageContentRequestData) => getHomePageContentStartAction(request),
   getHomePageContentSuccess: (response: Array<HomePageContentResponseData>) => getHomePageContentSuccessAction(response),
   getHomePageContentFailed: (error: ActionFailedError) => getHomePageContentFailedAction(error),
   editProfile: (request: EditProfileRequestData) => editProfileStartAction(request),
@@ -96,5 +158,20 @@ export const listenerActions = {
   getAccountContentCountFailed: (error: ActionFailedError) => getAccountContentCountFailedAction(error),
   openEditProfileModal: () => openEditProfileModalAction(),
   closeEditProfileModal: () => closeEditProfileModalAction(),
+  openGetStartedModal: () => openGetStartedModalAction(),
+  closeGetStartedModal: () => closeGetStartedModalAction(),
+  getExistingGenres: (request: GetExistingGenresRequestData) => getExistingGenresStartAction(request),
+  getExistingGenresSuccess: (response: GetExistingGenresResponseData) => getExistingGenresSuccessAction(response),
+  getExistingGenresFailed: (error: ActionFailedError) => getExistingGenresFailedAction(error),
+  getRecommendedArtists: (request: GetRecommendedArtistsRequestData) => getRecommendedArtistsStartAction(request),
+  getRecommendedArtistsSuccess: (response: GetRecommendedArtistsResponseData) => getRecommendedArtistsSuccessAction(response),
+  getRecommendedArtistsFailed: (error: ActionFailedError) => getRecommendedArtistsFailedAction(error),
+  loadMoreRecommendedArtists: (request: GetRecommendedArtistsRequestData) => loadMoreRecommendedArtistsStartAction(request),
+  loadMoreRecommendedArtistsSuccess: (response: GetRecommendedArtistsResponseData) => loadMoreRecommendedArtistsSuccessAction(response),
+  loadMoreRecommendedArtistsFailed: (error: ActionFailedError) => loadMoreRecommendedArtistsFailedAction(error),
+  saveGetStartedResults: (request: SaveGetStartedResultsRequestData) => saveGetStartedResultsStartAction(request),
+  saveGetStartedResultsSuccess: () => saveGetStartedResultsSuccessAction(),
+  saveGetStartedResultsFailed: (error: ActionFailedError) => saveGetStartedResultsFailedAction(error),
+
 }
 

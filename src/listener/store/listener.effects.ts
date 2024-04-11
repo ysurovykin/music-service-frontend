@@ -1,16 +1,21 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { HomePageContentResponseData, ListenerActionTypes, ListenerInfoResponseData, ContentData, GetAccountContentCountResponseData } from './listener.model';
+import { HomePageContentResponseData, ListenerActionTypes, ListenerInfoResponseData, ContentData, GetAccountContentCountResponseData, GetExistingGenresResponseData, GetRecommendedArtistsResponseData } from './listener.model';
 import {
   EditProfileStartActionType,
   GetAccountContentCountStartActionType,
+  GetExistingGenresStartActionType,
   GetHomePageContentStartActionType,
-  GetListenerByIdStartActionType, GetRecentMostVisitedContentStartActionType
+  GetListenerByIdStartActionType, GetRecentMostVisitedContentStartActionType,
+  GetRecommendedArtistsStartActionType,
+  SaveGetStartedResultsStartActionType
 } from './listener.actions.types';
 import ListenerService from './listener.service';
 import { listenerActions } from './listener.actions';
 import { ErrorActionType, getErrorMessage, showNotification } from '../../helpers/react/redux.helper';
 import { userSelectors } from '../../user/store/user.selectors';
 import { AxiosError } from 'axios';
+import { listenerSelectors } from './listener.selectors';
+import { ArtistInfoResponseData } from '../artist/store/artist.model';
 
 export const listenerEffects = [
   takeEvery(ListenerActionTypes.GET_LISTENER_BY_ID, getListenerById),
@@ -23,6 +28,14 @@ export const listenerEffects = [
   takeEvery(ListenerActionTypes.EDIT_PROFILE_FAILED, handleError),
   takeEvery(ListenerActionTypes.GET_ACCOUNT_CONTENT_COUNT, getAccountContentCount),
   takeEvery(ListenerActionTypes.GET_ACCOUNT_CONTENT_COUNT_FAILED, handleError),
+  takeEvery(ListenerActionTypes.GET_EXISTING_GENRES, getExistingGenres),
+  takeEvery(ListenerActionTypes.GET_EXISTING_GENRES_FAILED, handleError),
+  takeEvery(ListenerActionTypes.GET_RECOMMENDED_ARTISTS, getRecommendedArtists),
+  takeEvery(ListenerActionTypes.GET_RECOMMENDED_ARTISTS_FAILED, handleError),
+  takeEvery(ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS, loadMoreRecommendedArtists),
+  takeEvery(ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS_FAILED, handleError),
+  takeEvery(ListenerActionTypes.SAVE_GET_STARTED_RESULTS, saveGetStartedResults),
+  takeEvery(ListenerActionTypes.SAVE_GET_STARTED_RESULTS_FAILED, handleError),
 ];
 
 function* getListenerById(action: GetListenerByIdStartActionType) {
@@ -49,7 +62,7 @@ function* getRecentMostVisitedContent(action: GetRecentMostVisitedContentStartAc
 function* getHomePageContent(action: GetHomePageContentStartActionType) {
   try {
     const listenerId: string = yield select(userSelectors.userId);
-    const response: Array<HomePageContentResponseData> = yield ListenerService.getHomePageContent(listenerId);
+    const response: Array<HomePageContentResponseData> = yield ListenerService.getHomePageContent(listenerId, action.payload);
     yield put(listenerActions.getHomePageContentSuccess(response));
   } catch (e) {
     const error = e as AxiosError;
@@ -83,6 +96,58 @@ function* getAccountContentCount(action: GetAccountContentCountStartActionType) 
   } catch (e) {
     const error = e as AxiosError;
     yield put(listenerActions.getAccountContentCountFailed({ error }));
+  }
+}
+
+function* getExistingGenres(action: GetExistingGenresStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetExistingGenresResponseData = yield ListenerService.getExistingGenres(listenerId, action.payload);
+    yield put(listenerActions.getExistingGenresSuccess(response));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(listenerActions.getExistingGenresFailed({ error }));
+  }
+}
+
+function* getRecommendedArtists(action: GetRecommendedArtistsStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetRecommendedArtistsResponseData = yield ListenerService.getRecommendedArtists(listenerId, action.payload);
+    yield put(listenerActions.getRecommendedArtistsSuccess(response));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(listenerActions.getRecommendedArtistsFailed({ error }));
+  }
+}
+
+function* loadMoreRecommendedArtists(action: GetRecommendedArtistsStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    const response: GetRecommendedArtistsResponseData = yield ListenerService.getRecommendedArtists(listenerId, action.payload);
+    const currentRecommendedArtists: Array<ArtistInfoResponseData> = yield select(listenerSelectors.recommendedArtists);
+    const recommendedArtists: Array<ArtistInfoResponseData> = (currentRecommendedArtists || []).concat(...response.recommendedArtists);
+    yield put(listenerActions.loadMoreRecommendedArtistsSuccess({
+      recommendedArtists: recommendedArtists,
+      isMoreRecommendedArtistsForLoading: response.isMoreRecommendedArtistsForLoading
+    }));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(listenerActions.loadMoreRecommendedArtistsFailed({ error }));
+  }
+}
+
+function* saveGetStartedResults(action: SaveGetStartedResultsStartActionType) {
+  try {
+    const listenerId: string = yield select(userSelectors.userId);
+    yield ListenerService.saveGetStartedResults(listenerId, action.payload);
+    yield put(listenerActions.saveGetStartedResultsSuccess());
+    yield put(listenerActions.getHomePageContent({
+      forceUpdate: true
+    }));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(listenerActions.saveGetStartedResultsFailed({ error }));
   }
 }
 

@@ -9,6 +9,10 @@
   margin-bottom: 8px;
   position: relative;
 
+  &--choosed {
+    background-color: #505050;
+  }
+
   &:hover {
     background-color: #505050;
   }

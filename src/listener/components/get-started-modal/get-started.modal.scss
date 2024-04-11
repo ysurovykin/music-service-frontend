@@ -1,0 +1,77 @@
+.get-started-modal {
+
+  &__cancel-button {
+    color: #ffffff;
+    background: rgb(33, 33, 33);
+
+    &:hover {
+      background: rgb(33, 33, 33) !important;
+    }
+  }
+
+  &__genres-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  &__genre-wrapper--choosen {
+    padding: 4px 8px;
+    border-radius: 8px;
+    background-color: #52c448;
+    color: black;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: all 1s ease;
+  }
+
+  &__genre-wrapper--recommended {
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid white;
+    background-color: #52c44870;
+    color: white;
+    cursor: pointer;
+    transition: all 1s ease;
+
+    &:hover {
+      border: 1px solid #52c448;
+      color: #52c448
+    }
+  }
+
+  &__genre-wrapper--other {
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+    cursor: pointer;
+    transition: all 1s ease;
+
+    &:hover {
+      border: 1px solid #52c448;
+      color: #52c448
+    }
+  }
+
+  &__loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__artists {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+
+    &-wrapper {
+      width: 100%;
+      height: 350px;
+      margin-bottom: 20px;
+    }
+  }
+
+}

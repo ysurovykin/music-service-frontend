@@ -18,6 +18,15 @@ export const listenerState: ListenerState = {
   playlistCount: undefined,
   followedArtistsCount: undefined,
   likedAlbumsCount: undefined,
+  isGetStartedModalOpen: false,
+  recommendedGenres: undefined,
+  otherGenres: undefined,
+  recommendedArtists: undefined,
+  isExistingGenresLoading: false,
+  isRecommendedArtistsLoading: false,
+  isMoreRecommendedArtistsForLoading: false,
+  getStartedCompleted: undefined,
+  isSaveGetStartedResultsLoading: false
 };
 
 export interface ListenerState {
@@ -36,6 +45,15 @@ export interface ListenerState {
   playlistCount?: number;
   followedArtistsCount?: number;
   likedAlbumsCount?: number;
+  isGetStartedModalOpen?: boolean;
+  recommendedGenres?: Array<string>;
+  otherGenres?: Array<string>;
+  isExistingGenresLoading: boolean;
+  recommendedArtists?: Array<ArtistInfoResponseData>;
+  isRecommendedArtistsLoading: boolean;
+  isMoreRecommendedArtistsForLoading: boolean;
+  getStartedCompleted?: boolean;
+  isSaveGetStartedResultsLoading?: boolean;
 }
 
 export enum RepeatSongStateEnum {
@@ -51,6 +69,7 @@ export type ListenerInfoResponseData = {
   profileImageUrl?: string;
   backgroundColor?: string;
   subscription?: string;
+  getStartedCompleted?: boolean;
 }
 
 export type ContentData =
@@ -81,6 +100,47 @@ export type GetAccountContentCountResponseData = {
   likedAlbumsCount: number;
 }
 
+export enum GetStartedGenresTypeEnum {
+  'choosen' = 'choosen',
+  'recommended' = 'recommended',
+  'other' = 'other',
+}
+
+export type GetStartedGenresData = {
+  genre: string;
+  type: 'choosen' | 'recommended' | 'other'
+}
+
+export type GetExistingGenresRequestData = {
+  choosenGenres: Array<string>;
+  search: string;
+}
+
+export type GetExistingGenresResponseData = {
+  recommendedGenres: Array<string>;
+  otherGenres: Array<string>;
+}
+
+export type GetRecommendedArtistsRequestData = {
+  genres: Array<string>;
+  offset: number;
+  limit: number;
+}
+
+export type GetRecommendedArtistsResponseData = {
+  recommendedArtists: Array<ArtistInfoResponseData>;
+  isMoreRecommendedArtistsForLoading: boolean;
+}
+
+export type SaveGetStartedResultsRequestData = {
+  genres: Array<string>;
+  artistIds: Array<string>;
+}
+
+export type GetHomePageContentRequestData = {
+  forceUpdate?: boolean;
+}
+
 export enum ListenerActionTypes {
   GET_LISTENER_BY_ID = "LISTENER.GET_LISTENER_BY_ID_START",
   GET_LISTENER_BY_ID_SUCCESS = "LISTENER.GET_LISTENER_BY_ID_SUCCESS",
@@ -101,7 +161,26 @@ export enum ListenerActionTypes {
   OPEN_EDIT_PROFILE_MODAL = "LISTENER.OPEN_EDIT_PROFILE_MODAL",
   CLOSE_EDIT_PROFILE_MODAL = "LISTENER.CLOSE_EDIT_PROFILE_MODAL",
 
-  GET_ACCOUNT_CONTENT_COUNT = "LISTENER.GET_ACCOUNT_CONTENT_COUNT",
+  GET_ACCOUNT_CONTENT_COUNT = "LISTENER.GET_ACCOUNT_CONTENT_COUNT_START",
   GET_ACCOUNT_CONTENT_COUNT_SUCCESS = "LISTENER.GET_ACCOUNT_CONTENT_COUNT_SUCCESS",
   GET_ACCOUNT_CONTENT_COUNT_FAILED = "LISTENER.GET_ACCOUNT_CONTENT_COUNT_FAILED",
+
+  OPEN_GET_STARTED_MODAL = "LISTENER.OPEN_GET_STARTED_MODAL",
+  CLOSE_GET_STARTED_MODAL = "LISTENER.CLOSE_GET_STARTED_MODAL",
+
+  GET_EXISTING_GENRES = "LISTENER.GET_EXISTING_GENRES_START",
+  GET_EXISTING_GENRES_SUCCESS = "LISTENER.GET_EXISTING_GENRES_SUCCESS",
+  GET_EXISTING_GENRES_FAILED = "LISTENER.GET_EXISTING_GENRES_FAILED",
+
+  GET_RECOMMENDED_ARTISTS = "LISTENER.GET_RECOMMENDED_ARTISTS_START",
+  GET_RECOMMENDED_ARTISTS_SUCCESS = "LISTENER.GET_RECOMMENDED_ARTISTS_SUCCESS",
+  GET_RECOMMENDED_ARTISTS_FAILED = "LISTENER.GET_RECOMMENDED_ARTISTS_FAILED",
+
+  LOAD_MORE_RECOMMENDED_ARTISTS = "LISTENER.LOAD_MORE_RECOMMENDED_ARTISTS_START",
+  LOAD_MORE_RECOMMENDED_ARTISTS_SUCCESS = "LISTENER.LOAD_MORE_RECOMMENDED_ARTISTS_SUCCESS",
+  LOAD_MORE_RECOMMENDED_ARTISTS_FAILED = "LISTENER.LOAD_MORE_RECOMMENDED_ARTISTS_FAILED",
+
+  SAVE_GET_STARTED_RESULTS = "LISTENER.SAVE_GET_STARTED_RESULTS_START",
+  SAVE_GET_STARTED_RESULTS_SUCCESS = "LISTENER.SAVE_GET_STARTED_RESULTS_SUCCESS",
+  SAVE_GET_STARTED_RESULTS_FAILED = "LISTENER.SAVE_GET_STARTED_RESULTS_FAILED",
 };

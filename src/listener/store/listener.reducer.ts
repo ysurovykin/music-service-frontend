@@ -18,6 +18,7 @@ export const listenerReducer = (state = listenerState, action: ListenerActions):
         profileImageUrl: action.payload.profileImageUrl,
         backgroundColor: action.payload.backgroundColor,
         subscription: action.payload.subscription,
+        getStartedCompleted: action.payload.getStartedCompleted,
       }
     }
     case ListenerActionTypes.GET_LISTENER_BY_ID_FAILED: {
@@ -114,6 +115,98 @@ export const listenerReducer = (state = listenerState, action: ListenerActions):
       return {
         ...state,
         isEditProfileModalOpen: false
+      }
+    }
+    case ListenerActionTypes.OPEN_GET_STARTED_MODAL: {
+      return {
+        ...state,
+        isGetStartedModalOpen: true
+      }
+    }
+    case ListenerActionTypes.CLOSE_GET_STARTED_MODAL: {
+      return {
+        ...state,
+        isGetStartedModalOpen: false
+      }
+    }
+    case ListenerActionTypes.GET_EXISTING_GENRES: {
+      return {
+        ...state,
+        isExistingGenresLoading: true
+      }
+    }
+    case ListenerActionTypes.GET_EXISTING_GENRES_SUCCESS: {
+      return {
+        ...state,
+        isExistingGenresLoading: false,
+        recommendedGenres: action.payload.recommendedGenres,
+        otherGenres: action.payload.otherGenres,
+      }
+    }
+    case ListenerActionTypes.GET_EXISTING_GENRES_FAILED: {
+      return {
+        ...state,
+        isExistingGenresLoading: false
+      }
+    }
+    case ListenerActionTypes.GET_RECOMMENDED_ARTISTS: {
+      return {
+        ...state,
+        isRecommendedArtistsLoading: true
+      }
+    }
+    case ListenerActionTypes.GET_RECOMMENDED_ARTISTS_SUCCESS: {
+      return {
+        ...state,
+        isRecommendedArtistsLoading: false,
+        recommendedArtists: action.payload.recommendedArtists,
+        isMoreRecommendedArtistsForLoading: action.payload.isMoreRecommendedArtistsForLoading
+      }
+    }
+    case ListenerActionTypes.GET_RECOMMENDED_ARTISTS_FAILED: {
+      return {
+        ...state,
+        isRecommendedArtistsLoading: false
+      }
+    }    
+    case ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS: {
+      return {
+        ...state,
+        isRecommendedArtistsLoading: true
+      }
+    }
+    case ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS_SUCCESS: {
+      return {
+        ...state,
+        isRecommendedArtistsLoading: false,
+        recommendedArtists: action.payload.recommendedArtists,
+        isMoreRecommendedArtistsForLoading: action.payload.isMoreRecommendedArtistsForLoading
+      }
+    }
+    case ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS_FAILED: {
+      return {
+        ...state,
+        isRecommendedArtistsLoading: false
+      }
+    }
+    case ListenerActionTypes.SAVE_GET_STARTED_RESULTS: {
+      return {
+        ...state,
+        isSaveGetStartedResultsLoading: true
+      }
+    }
+    case ListenerActionTypes.SAVE_GET_STARTED_RESULTS_SUCCESS: {
+      return {
+        ...state,
+        isSaveGetStartedResultsLoading: false,
+        isGetStartedModalOpen: false,
+        getStartedCompleted: true
+      }
+    }
+    case ListenerActionTypes.SAVE_GET_STARTED_RESULTS_FAILED: {
+      return {
+        ...state,
+        isSaveGetStartedResultsLoading: false
       }
     }
     default: {
