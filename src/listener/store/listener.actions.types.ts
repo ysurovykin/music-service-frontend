@@ -11,7 +11,9 @@ import {
   GetRecommendedArtistsRequestData,
   GetRecommendedArtistsResponseData,
   GetHomePageContentRequestData,
-  SaveGetStartedResultsRequestData
+  SaveGetStartedResultsRequestData,
+  ChangeSubscriptionRequestData,
+  UserCreditCardInfo
 } from "./listener.model";
 
 export type GetListenerByIdStartActionType = {
@@ -169,6 +171,61 @@ export type SaveGetStartedResultsFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type OpenChangeSubscriptionModalActionType = {
+  type: typeof ListenerActionTypes.OPEN_CHANGE_SUBSCRIPTION_MODAL;
+  payload: undefined;
+};
+
+export type CloseChangeSubscriptionModalActionType = {
+  type: typeof ListenerActionTypes.CLOSE_CHANGE_SUBSCRIPTION_MODAL;
+  payload: undefined;
+};
+
+export type ChangeSubscriptionStartActionType = {
+  type: typeof ListenerActionTypes.CHANGE_SUBSCRIPTION;
+  payload: ChangeSubscriptionRequestData;
+};
+
+export type ChangeSubscriptionSuccessActionType = {
+  type: typeof ListenerActionTypes.CHANGE_SUBSCRIPTION_SUCCESS;
+  payload: undefined;
+};
+
+export type ChangeSubscriptionFailedActionType = {
+  type: typeof ListenerActionTypes.CHANGE_SUBSCRIPTION_FAILED;
+  payload: ActionFailedError;
+};
+
+export type GetUserCreditCardsStartActionType = {
+  type: typeof ListenerActionTypes.GET_USER_CREDIT_CARDS;
+  payload: undefined;
+};
+
+export type GetUserCreditCardsSuccessActionType = {
+  type: typeof ListenerActionTypes.GET_USER_CREDIT_CARDS_SUCCESS;
+  payload: Array<UserCreditCardInfo>;
+};
+
+export type GetUserCreditCardsFailedActionType = {
+  type: typeof ListenerActionTypes.GET_USER_CREDIT_CARDS_FAILED;
+  payload: ActionFailedError;
+};
+
+export type DeleteUserCreditCardStartActionType = {
+  type: typeof ListenerActionTypes.DELETE_USER_CREDIT_CARD;
+  payload: string;
+};
+
+export type DeleteUserCreditCardSuccessActionType = {
+  type: typeof ListenerActionTypes.DELETE_USER_CREDIT_CARD_SUCCESS;
+  payload: undefined;
+};
+
+export type DeleteUserCreditCardFailedActionType = {
+  type: typeof ListenerActionTypes.DELETE_USER_CREDIT_CARD_FAILED;
+  payload: ActionFailedError;
+};
+
 export type ListenerActions =
   | GetListenerByIdStartActionType
   | GetListenerByIdSuccessActionType
@@ -200,4 +257,15 @@ export type ListenerActions =
   | LoadMoreRecommendedArtistsFailedActionType
   | SaveGetStartedResultsStartActionType
   | SaveGetStartedResultsSuccessActionType
-  | SaveGetStartedResultsFailedActionType;
+  | SaveGetStartedResultsFailedActionType
+  | OpenChangeSubscriptionModalActionType
+  | CloseChangeSubscriptionModalActionType
+  | ChangeSubscriptionStartActionType
+  | ChangeSubscriptionSuccessActionType
+  | ChangeSubscriptionFailedActionType
+  | GetUserCreditCardsStartActionType
+  | GetUserCreditCardsSuccessActionType
+  | GetUserCreditCardsFailedActionType
+  | DeleteUserCreditCardStartActionType
+  | DeleteUserCreditCardSuccessActionType
+  | DeleteUserCreditCardFailedActionType;

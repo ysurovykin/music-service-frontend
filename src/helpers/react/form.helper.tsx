@@ -32,3 +32,25 @@ export function renderTitleWithToolTip(text: string, tooltipText: string, level:
     </Title>
   );
 };
+
+export function formatCreditCardNumber(value: string) {
+  if (!value) {
+    return value;
+  }
+  value = value.replace(/\D+/g, '');
+  return `${value.slice(0, 4)} ${value.slice(4, 8)} ${value.slice(8, 12)} ${value.slice(12, 19)}`.trim();
+}
+
+export function formatCreditCardCVV(value: string) {
+  return value.replace(/\D+/g, '').slice(0, 3);
+}
+
+export function formatCreditCardExpirationDate(value: string) {
+  value = value.replace(/\D+/g, '');
+
+  if (value.length >= 3) {
+    return `${value.slice(0, 2)}/${value.slice(2, 4)}`;
+  }
+
+  return value;
+}

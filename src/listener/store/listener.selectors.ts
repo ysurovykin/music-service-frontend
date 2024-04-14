@@ -5,28 +5,33 @@ const listenerState = (state: InitialState) => state.listener;
 
 const isListenerLoading = createSelector(listenerState, listener => listener?.isListenerLoading);
 const name = createSelector(listenerState, listener => listener?.name);
-const backgroundColor = createSelector(listenerState, album => album?.backgroundColor);
-const profileImageUrl = createSelector(listenerState, album => album?.profileImageUrl);
-const mostVisitedContent = createSelector(listenerState, album => album?.mostVisitedContent);
-const isMostVisitedContentLoading = createSelector(listenerState, album => album?.isMostVisitedContentLoading);
-const homePageContent = createSelector(listenerState, album => album?.homePageContent);
-const isHomePageContentLoading = createSelector(listenerState, album => album?.isHomePageContentLoading);
-const isEditProfileLoading = createSelector(listenerState, album => album?.isEditProfileLoading);
-const isEditProfileModalOpen = createSelector(listenerState, album => album?.isEditProfileModalOpen);
-const subscription = createSelector(listenerState, album => album?.subscription);
-const isAccountContentCountLoading = createSelector(listenerState, album => album?.isAccountContentCountLoading);
-const playlistCount = createSelector(listenerState, album => album?.playlistCount);
-const followedArtistsCount = createSelector(listenerState, album => album?.followedArtistsCount);
-const likedAlbumsCount = createSelector(listenerState, album => album?.likedAlbumsCount);
-const isGetStartedModalOpen = createSelector(listenerState, album => album?.isGetStartedModalOpen);
-const recommendedGenres = createSelector(listenerState, album => album?.recommendedGenres);
-const otherGenres = createSelector(listenerState, album => album?.otherGenres);
-const isExistingGenresLoading = createSelector(listenerState, album => album?.isExistingGenresLoading);
-const recommendedArtists = createSelector(listenerState, album => album?.recommendedArtists);
-const isRecommendedArtistsLoading = createSelector(listenerState, album => album?.isRecommendedArtistsLoading);
-const isMoreRecommendedArtistsForLoading = createSelector(listenerState, album => album?.isMoreRecommendedArtistsForLoading);
-const getStartedCompleted = createSelector(listenerState, album => album?.getStartedCompleted);
-const isSaveGetStartedResultsLoading = createSelector(listenerState, album => album?.isSaveGetStartedResultsLoading);
+const backgroundColor = createSelector(listenerState, listener => listener?.backgroundColor);
+const profileImageUrl = createSelector(listenerState, listener => listener?.profileImageUrl);
+const mostVisitedContent = createSelector(listenerState, listener => listener?.mostVisitedContent);
+const isMostVisitedContentLoading = createSelector(listenerState, listener => listener?.isMostVisitedContentLoading);
+const homePageContent = createSelector(listenerState, listener => listener?.homePageContent);
+const isHomePageContentLoading = createSelector(listenerState, listener => listener?.isHomePageContentLoading);
+const isEditProfileLoading = createSelector(listenerState, listener => listener?.isEditProfileLoading);
+const isEditProfileModalOpen = createSelector(listenerState, listener => listener?.isEditProfileModalOpen);
+const subscription = createSelector(listenerState, listener => listener?.subscription);
+const isAccountContentCountLoading = createSelector(listenerState, listener => listener?.isAccountContentCountLoading);
+const playlistCount = createSelector(listenerState, listener => listener?.playlistCount);
+const followedArtistsCount = createSelector(listenerState, listener => listener?.followedArtistsCount);
+const likedAlbumsCount = createSelector(listenerState, listener => listener?.likedAlbumsCount);
+const isGetStartedModalOpen = createSelector(listenerState, listener => listener?.isGetStartedModalOpen);
+const recommendedGenres = createSelector(listenerState, listener => listener?.recommendedGenres);
+const otherGenres = createSelector(listenerState, listener => listener?.otherGenres);
+const isExistingGenresLoading = createSelector(listenerState, listener => listener?.isExistingGenresLoading);
+const recommendedArtists = createSelector(listenerState, listener => listener?.recommendedArtists);
+const isRecommendedArtistsLoading = createSelector(listenerState, listener => listener?.isRecommendedArtistsLoading);
+const isMoreRecommendedArtistsForLoading = createSelector(listenerState, listener => listener?.isMoreRecommendedArtistsForLoading);
+const getStartedCompleted = createSelector(listenerState, listener => listener?.getStartedCompleted);
+const isSaveGetStartedResultsLoading = createSelector(listenerState, listener => listener?.isSaveGetStartedResultsLoading);
+const isChangeSubscriptionModalOpen = createSelector(listenerState, listener => listener?.isChangeSubscriptionModalOpen);
+const isSubscriptionChangingLoading = createSelector(listenerState, listener => listener?.isSubscriptionChangingLoading);
+const userCreditCards = createSelector(listenerState, listener => listener?.userCreditCards);
+const isGetUserCreditCardsLoading = createSelector(listenerState, listener => listener?.isGetUserCreditCardsLoading);
+const subscriptionCanceledAtDate = createSelector(listenerState, listener => listener?.subscriptionCanceledAtDate);
 
 export const listenerSelectors = {
   isListenerLoading,
@@ -52,5 +57,10 @@ export const listenerSelectors = {
   isRecommendedArtistsLoading,
   isMoreRecommendedArtistsForLoading,
   getStartedCompleted,
-  isSaveGetStartedResultsLoading
+  isSaveGetStartedResultsLoading,
+  isChangeSubscriptionModalOpen,
+  isSubscriptionChangingLoading,
+  userCreditCards,
+  isGetUserCreditCardsLoading,
+  subscriptionCanceledAtDate,
 };

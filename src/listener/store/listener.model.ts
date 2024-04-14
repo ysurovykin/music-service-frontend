@@ -26,7 +26,12 @@ export const listenerState: ListenerState = {
   isRecommendedArtistsLoading: false,
   isMoreRecommendedArtistsForLoading: false,
   getStartedCompleted: undefined,
-  isSaveGetStartedResultsLoading: false
+  isSaveGetStartedResultsLoading: false,
+  isChangeSubscriptionModalOpen: false,
+  isSubscriptionChangingLoading: false,
+  isGetUserCreditCardsLoading: false,
+  userCreditCards: undefined,
+  subscriptionCanceledAtDate: undefined,
 };
 
 export interface ListenerState {
@@ -54,6 +59,11 @@ export interface ListenerState {
   isMoreRecommendedArtistsForLoading: boolean;
   getStartedCompleted?: boolean;
   isSaveGetStartedResultsLoading?: boolean;
+  isChangeSubscriptionModalOpen?: boolean;
+  isSubscriptionChangingLoading?: boolean;
+  isGetUserCreditCardsLoading?: boolean;
+  userCreditCards?: Array<UserCreditCardInfo>;
+  subscriptionCanceledAtDate?: string;
 }
 
 export enum RepeatSongStateEnum {
@@ -70,6 +80,7 @@ export type ListenerInfoResponseData = {
   backgroundColor?: string;
   subscription?: string;
   getStartedCompleted?: boolean;
+  subscriptionCanceledAtDate?: string;
 }
 
 export type ContentData =
@@ -141,6 +152,24 @@ export type GetHomePageContentRequestData = {
   forceUpdate?: boolean;
 }
 
+export type CardDetails = {
+  holderName: string;
+  number: string;
+  date: string;
+  cvv: string;
+}
+
+export type UserCreditCardInfo = {
+  cardId: string;
+  lastDigits: string;
+}
+
+export type ChangeSubscriptionRequestData = {
+  subscription: string;
+  cardId?: string; //if cardDetails is undefined
+  cardDetails?: CardDetails; //if cardId is undefined
+}
+
 export enum ListenerActionTypes {
   GET_LISTENER_BY_ID = "LISTENER.GET_LISTENER_BY_ID_START",
   GET_LISTENER_BY_ID_SUCCESS = "LISTENER.GET_LISTENER_BY_ID_SUCCESS",
@@ -183,4 +212,19 @@ export enum ListenerActionTypes {
   SAVE_GET_STARTED_RESULTS = "LISTENER.SAVE_GET_STARTED_RESULTS_START",
   SAVE_GET_STARTED_RESULTS_SUCCESS = "LISTENER.SAVE_GET_STARTED_RESULTS_SUCCESS",
   SAVE_GET_STARTED_RESULTS_FAILED = "LISTENER.SAVE_GET_STARTED_RESULTS_FAILED",
+
+  OPEN_CHANGE_SUBSCRIPTION_MODAL = "LISTENER.OPEN_CHANGE_SUBSCRIPTION_MODAL",
+  CLOSE_CHANGE_SUBSCRIPTION_MODAL = "LISTENER.CLOSE_CHANGE_SUBSCRIPTION_MODAL",
+
+  CHANGE_SUBSCRIPTION = "LISTENER.CHANGE_SUBSCRIPTION_START",
+  CHANGE_SUBSCRIPTION_SUCCESS = "LISTENER.CHANGE_SUBSCRIPTION_SUCCESS",
+  CHANGE_SUBSCRIPTION_FAILED = "LISTENER.CHANGE_SUBSCRIPTION_FAILED",
+
+  GET_USER_CREDIT_CARDS = "LISTENER.GET_USER_CREDIT_CARDS_START",
+  GET_USER_CREDIT_CARDS_SUCCESS = "LISTENER.GET_USER_CREDIT_CARDS_SUCCESS",
+  GET_USER_CREDIT_CARDS_FAILED = "LISTENER.GET_USER_CREDIT_CARDS_FAILED",
+
+  DELETE_USER_CREDIT_CARD = "LISTENER.DELETE_USER_CREDIT_CARD_START",
+  DELETE_USER_CREDIT_CARD_SUCCESS = "LISTENER.DELETE_USER_CREDIT_CARD_SUCCESS",
+  DELETE_USER_CREDIT_CARD_FAILED = "LISTENER.DELETE_USER_CREDIT_CARD_FAILED",
 };

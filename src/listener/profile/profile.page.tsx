@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { listenerActions } from "../store/listener.actions";
 import { listenerSelectors } from "../store/listener.selectors";
 import { listenerProfileTypePalete } from "../../config";
-import { Avatar, Divider, Spin, Typography } from "antd";
+import { Avatar, Button, Divider, Spin, Typography } from "antd";
 import { songSelectors } from "../song/store/song.selectors";
 import { SongComponent } from "../song/song.component";
 import { queueSelectors } from "../queue/store/queue.selectors";
@@ -37,6 +37,7 @@ export function ProfilePage() {
 
   const name = useSelector(listenerSelectors.name);
   const subscription = useSelector(listenerSelectors.subscription);
+  const subscriptionCanceledAtDate = useSelector(listenerSelectors.subscriptionCanceledAtDate);
   const profileImageUrl = useSelector(listenerSelectors.profileImageUrl);
   const backgroundColor = useSelector(listenerSelectors.backgroundColor);
   const playlistCount = useSelector(listenerSelectors.playlistCount);
@@ -60,6 +61,14 @@ export function ProfilePage() {
     }
   }, [songQueueId, queue])
 
+  const formatedSubscription = useMemo(() => {
+    if (!subscriptionCanceledAtDate) {
+      return subscription;
+    } else {
+      return `${subscription} until ${subscriptionCanceledAtDate}`;
+    }
+  }, [subscriptionCanceledAtDate, subscription]);
+
   const dispatch = useDispatch()
   const openEditProfileModal = () => dispatch(listenerActions.openEditProfileModal());
   const getAccountContentCount = () => dispatch(listenerActions.getAccountContentCount());
@@ -68,6 +77,7 @@ export function ProfilePage() {
   const getListenerTopAlbumsThisMonth = (request: GetListenerTopAlbumsThisMonthRequest) => dispatch(albumActions.getListenerTopAlbumsThisMonth(request));
   const loadMoreListenerTopArtistsThisMonth = (request: GetListenerTopArtistsThisMonthRequest) => dispatch(artistActions.loadMoreListenerTopArtistsThisMonth(request));
   const loadMoreListenerTopAlbumsThisMonth = (request: GetListenerTopAlbumsThisMonthRequest) => dispatch(albumActions.loadMoreListenerTopAlbumsThisMonth(request));
+  const openChangeSubscriptionModal = () => dispatch(listenerActions.openChangeSubscriptionModal());
 
   useEffect(() => {
     if (userId) {
@@ -163,11 +173,20 @@ export function ProfilePage() {
               level={5}>
               {playlistCount} <Link onClick={() => navigate('/library/playlists')}>playlists</Link>, {followedArtistsCount} <Link onClick={() => navigate('/library/artists')}>followed artists</Link>, {likedAlbumsCount} <Link onClick={() => navigate('/library/albums')}>liked albums</Link>
             </Title>
-            <Title
-              className='m-0'
-              level={5}>
-              Current subscription: {subscription}
-            </Title>
+            <div className="profile-page__subscription-section">
+              <Title
+                className='m-0'
+                level={5}>
+                Current subscription: {formatedSubscription}
+              </Title>
+              {subscriptionCanceledAtDate ?
+                <></> :
+                <Button
+                  className="profile-page__change-subscription-button"
+                  onClick={() => openChangeSubscriptionModal()}>
+                  Change
+                </Button>}
+            </div>
           </div>
         </div>
         <Divider className='m-0' />

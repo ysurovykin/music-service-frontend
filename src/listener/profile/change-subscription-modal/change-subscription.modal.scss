@@ -1,0 +1,153 @@
+.change-subscription-modal {
+
+  &__cancel-button {
+    color: #ffffff;
+    background: rgb(33, 33, 33);
+
+    &:hover {
+      background: rgb(33, 33, 33) !important;
+    }
+  }
+
+  &__genres-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  &__genre-wrapper--choosen {
+    padding: 4px 8px;
+    border-radius: 8px;
+    background-color: #52c448;
+    color: black;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: all 1s ease;
+  }
+
+  &__genre-wrapper--recommended {
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid white;
+    background-color: #52c44870;
+    color: white;
+    cursor: pointer;
+    transition: all 1s ease;
+
+    &:hover {
+      border: 1px solid #52c448;
+      color: #52c448
+    }
+  }
+
+  &__genre-wrapper--other {
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+    cursor: pointer;
+    transition: all 1s ease;
+
+    &:hover {
+      border: 1px solid #52c448;
+      color: #52c448
+    }
+  }
+
+  &__loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__artists {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+
+    &-wrapper {
+      width: 100%;
+      height: 350px;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__new-value {
+    &--paid {
+      display: inline !important;
+      color: #52c448 !important;
+    }
+
+    &--free {
+      display: inline !important;
+      color: #cc2d2d !important;
+    }
+  }
+
+  &__current-value {
+    color: grey;
+    text-decoration: line-through;
+  }
+
+  &__form-input-wrapper {
+    margin-top: 8px;
+  }
+
+  &__date-and-cvv-info {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 0.5fr;
+  }
+
+  &__credit-card-select {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__delete-credit-card {
+    &:hover {
+      color: #52c448;
+      text-decoration: underline;
+    }
+  }
+
+  &__paid-subscriptions-section {
+    &--big-device {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    &--small-device {
+      display: grid;
+      gap: 10px;
+    }
+  }
+
+  &__ul {
+    padding-inline-start: 20px;
+  }
+
+  &__li {
+    color: #ffffff;
+  }
+
+  &__subscription-info-section {
+    height: 300px;
+    overflow-x: hidden;
+  }
+
+  &__subscription-info {
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+
+    &--selected {
+      padding: 5px;
+      border-radius: 6px;
+      border: 1px solid white;
+    }
+  }
+}

@@ -31,9 +31,9 @@ import { EditProfileModal } from '../../profile/edit-profile-modal/edit-profile.
 import { ListenerTopSongsPage } from '../../profile/listener-top-songs/listener-top-songs.page';
 import { ListenerTopArtistsPage } from '../../profile/listener-top-artists/listener-top-artists.page';
 import { ListenerTopAlbumsPage } from '../../profile/listener-top-albums/listener-top-albums.page';
-import { PageNotFoundPage } from '../page-not-found/page-not-found.page';
 import { GetStartedModal } from '../get-started-modal/get-started.modal';
 import { listenerSelectors } from '../../store/listener.selectors';
+import { ChangeSubscriptionModal } from '../../profile/change-subscription-modal/change-subscription.modal';
 
 export default function ListenerRouter() {
   const userId = useSelector(userSelectors.userId);
@@ -90,6 +90,7 @@ export default function ListenerRouter() {
       <RefreshSongRadioModal />
       <EditProfileModal />
       <GetStartedModal />
+      <ChangeSubscriptionModal />
     </>
   );
 }

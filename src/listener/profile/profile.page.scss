@@ -27,7 +27,7 @@
     font-size: 48px !important;
     position: absolute;
   }
-  
+
   &__credits {
     align-self: flex-end;
   }
@@ -61,5 +61,16 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
+  }
+
+  &__subscription-section {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  &__change-subscription-button {
+    background-color: transparent;
+    padding: 0px 12px !important;
   }
 }

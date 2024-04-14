@@ -19,6 +19,7 @@ export const listenerReducer = (state = listenerState, action: ListenerActions):
         backgroundColor: action.payload.backgroundColor,
         subscription: action.payload.subscription,
         getStartedCompleted: action.payload.getStartedCompleted,
+        subscriptionCanceledAtDate: action.payload.subscriptionCanceledAtDate
       }
     }
     case ListenerActionTypes.GET_LISTENER_BY_ID_FAILED: {
@@ -168,7 +169,7 @@ export const listenerReducer = (state = listenerState, action: ListenerActions):
         ...state,
         isRecommendedArtistsLoading: false
       }
-    }    
+    }
     case ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS: {
       return {
         ...state,
@@ -207,6 +208,56 @@ export const listenerReducer = (state = listenerState, action: ListenerActions):
       return {
         ...state,
         isSaveGetStartedResultsLoading: false
+      }
+    }
+    case ListenerActionTypes.OPEN_CHANGE_SUBSCRIPTION_MODAL: {
+      return {
+        ...state,
+        isChangeSubscriptionModalOpen: true
+      }
+    }
+    case ListenerActionTypes.CLOSE_CHANGE_SUBSCRIPTION_MODAL: {
+      return {
+        ...state,
+        isChangeSubscriptionModalOpen: false
+      }
+    }
+    case ListenerActionTypes.CHANGE_SUBSCRIPTION: {
+      return {
+        ...state,
+        isSubscriptionChangingLoading: true
+      }
+    }
+    case ListenerActionTypes.CHANGE_SUBSCRIPTION_SUCCESS: {
+      return {
+        ...state,
+        isSubscriptionChangingLoading: false,
+        isChangeSubscriptionModalOpen: false
+      }
+    }
+    case ListenerActionTypes.CHANGE_SUBSCRIPTION_FAILED: {
+      return {
+        ...state,
+        isSubscriptionChangingLoading: false
+      }
+    }
+    case ListenerActionTypes.GET_USER_CREDIT_CARDS: {
+      return {
+        ...state,
+        isGetUserCreditCardsLoading: true
+      }
+    }
+    case ListenerActionTypes.GET_USER_CREDIT_CARDS_SUCCESS: {
+      return {
+        ...state,
+        isGetUserCreditCardsLoading: false,
+        userCreditCards: action.payload
+      }
+    }
+    case ListenerActionTypes.GET_USER_CREDIT_CARDS_FAILED: {
+      return {
+        ...state,
+        isGetUserCreditCardsLoading: false
       }
     }
     default: {
