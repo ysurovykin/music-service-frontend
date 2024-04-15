@@ -8,6 +8,7 @@ import {
   EditPlaylistRequestData,
   PlaylistFullResponseData,
   GetPlaylistsRequest,
+  ChangePlaylistPinRequestData,
 } from "./playlist.model";
 
 export type GetPlaylistsByListenerIdStartActionType = {
@@ -132,7 +133,7 @@ export type EditSongPlaylistsFailedActionType = {
 
 export type PinPlaylistStartActionType = {
   type: typeof PlaylistActionTypes.PIN_PLAYLIST;
-  payload: string;
+  payload: ChangePlaylistPinRequestData;
 };
 
 export type PinPlaylistSuccessActionType = {
@@ -147,7 +148,7 @@ export type PinPlaylistFailedActionType = {
 
 export type UnpinPlaylistStartActionType = {
   type: typeof PlaylistActionTypes.UNPIN_PLAYLIST;
-  payload: string;
+  payload: ChangePlaylistPinRequestData;
 };
 
 export type UnpinPlaylistSuccessActionType = {

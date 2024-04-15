@@ -221,7 +221,10 @@ export function ArtistPage() {
                 {isAlbumsLoading ?
                   <div className='artist-page__loader-wrapper'><Spin /></div> :
                   albums?.map(album =>
-                    <AlbumCardComponent key={album.albumId} album={album} />
+                    <AlbumCardComponent
+                      showLikeButton={true}
+                      key={album.albumId}
+                      album={album} />
                   )}
               </div>
             </div>
@@ -233,7 +236,11 @@ export function ArtistPage() {
                 {isAlbumsArtistAppearsInLoading ?
                   <div className='artist-page__loader-wrapper'><Spin /></div> :
                   albumsArtistAppearsIn?.map(album =>
-                    <AlbumCardComponent showArtistInfo={true} key={album.albumId} album={album} />
+                    <AlbumCardComponent
+                      key={album.albumId}
+                      showLikeButton={true}
+                      showArtistInfo={true}
+                      album={album} />
                   )}
               </div>
             </div>

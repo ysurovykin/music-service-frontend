@@ -17,7 +17,7 @@ import { queueActions } from '../queue/store/queue.actions';
 import { GenerateQueueRequestData } from '../queue/store/queue.model';
 import { songSelectors } from '../song/store/song.selectors';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 export function PlaylistPage() {
   const location = useLocation();
@@ -34,6 +34,7 @@ export function PlaylistPage() {
   const songs = useSelector(songSelectors.songs);
   const songsCount = useSelector(playlistSelectors.songsCount);
   const songsTimeDuration = useSelector(playlistSelectors.songsTimeDuration);
+  const description = useSelector(playlistSelectors.description);
 
   const dispatch = useDispatch()
   const getPlaylistData = (playlistId: string) => dispatch(playlistActions.getPlaylistById(playlistId));
@@ -58,7 +59,7 @@ export function PlaylistPage() {
           text={name || ''}
           background={backgroundColor}
           showHeader={!inView}
-          playSongsOptions={{ options: {playlistId} }} />
+          playSongsOptions={{ options: { playlistId } }} />
         <div className='playlist-page__info'>
           <div
             className={`playlist-page__cover-wrapper ${isCoverImageHovered ? 'cursor-pointer' : ''}`}
@@ -81,14 +82,20 @@ export function PlaylistPage() {
               className='m-0'
               level={5}>Playlist</Title>
             <Title
-              className={`mt-0 ${editable ? 'cursor-pointer' : ''}`}
+              className={`m-0 ${editable ? 'cursor-pointer' : ''}`}
               level={1}
               style={{ width: 'fit-content' }}
               ref={ref}
               onClick={() => editable ?
                 openEditPlaylistModal() :
                 showNotification('info', 'You cannot edit an automatically created playlist')}>
-              {name}</Title>
+              {name}
+            </Title>
+            <Text
+              className='mt-0'
+              style={{ color: 'grey' }}>
+              {description}
+            </Text>
             <Title
               className='m-0'
               level={5}>

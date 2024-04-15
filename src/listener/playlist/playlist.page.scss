@@ -1,6 +1,7 @@
 .playlist-page {
   &__info {
-    display: flex;
+    display: grid;
+    grid-template-columns: min-content auto;
     gap: 20px;
     padding: 0px 20px 20px 20px;
     align-items: center;

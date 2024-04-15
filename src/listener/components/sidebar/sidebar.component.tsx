@@ -15,7 +15,7 @@ import { playlistActions } from "../../playlist/store/playlist.actions";
 import { PlaylistIconViewComponent } from "../../playlist/playlist-views/playlist-icon-view/playlist-icon-view.component";
 import { listenerProfileTypePalete } from "../../../config";
 import { request } from "http";
-import { GetPlaylistsRequest } from "../../playlist/store/playlist.model";
+import { ChangePlaylistPinRequestData, GetPlaylistsRequest } from "../../playlist/store/playlist.model";
 
 export function SidebarComponent() {
 
@@ -23,8 +23,8 @@ export function SidebarComponent() {
 
   const dispatch = useDispatch();
   const getPlaylists = (request: GetPlaylistsRequest) => dispatch(playlistActions.getPlaylistsByListenerId(request));
-  const pinPlaylist = (playlistId: string) => dispatch(playlistActions.pinPlaylist(playlistId));
-  const unpinPlaylist = (playlistId: string) => dispatch(playlistActions.unpinPlaylist(playlistId));
+  const pinPlaylist = (request: ChangePlaylistPinRequestData) => dispatch(playlistActions.pinPlaylist(request));
+  const unpinPlaylist = (request: ChangePlaylistPinRequestData) => dispatch(playlistActions.unpinPlaylist(request));
 
   useEffect(() => {
     getPlaylists({});
@@ -63,7 +63,10 @@ export function SidebarComponent() {
                       title='Unpin playlist'>
                       <div
                         className="sidebar__tooltip"
-                        onClick={() => unpinPlaylist(playlist.playlistId!)}>
+                        onClick={() => unpinPlaylist({
+                          playlistId: playlist.playlistId!,
+                          playlistName: playlist.name!
+                        })}>
                         <PushPin
                           sx={{ cursor: 'pointer', color: listenerProfileTypePalete.base }} />
                       </div>
@@ -72,7 +75,10 @@ export function SidebarComponent() {
                       title='Pin playlist'>
                       <div
                         className="sidebar__tooltip"
-                        onClick={() => pinPlaylist(playlist.playlistId!)}>
+                        onClick={() => pinPlaylist({
+                          playlistId: playlist.playlistId!,
+                          playlistName: playlist.name!
+                        })}>
                         <PushPinOutlined
                           sx={{ cursor: 'pointer', color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} />
                       </div>

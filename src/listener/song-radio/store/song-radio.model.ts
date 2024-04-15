@@ -35,9 +35,10 @@ export type SongRadioInfoResponseData = {
 }
 
 export type SongRadioFullResponseData = SongRadioInfoResponseData & {
-  status?: 204,
-  songsTimeDuration?: number,
-  songsCount?: number
+  status?: 204;
+  songsTimeDuration?: number;
+  songsCount?: number;
+  brandNew?: boolean;
 }
 
 export type ApproveRequestResponseData = {

@@ -89,6 +89,8 @@ function* addAlbumToLibrary(action: AddAlbumToLibraryStartActionType) {
     }
     yield put(albumActions.updateAlbumsInfo(editedAlbums));
     yield put(albumActions.addAlbumToLibrarySuccess());
+    const albumName: string = yield select(albumSelectors.name);
+    yield showNotification('success', `Album "${editedAlbums[albumToEditIndex]?.name || albumName}" added to your library`);
   } catch (e) {
     const error = e as AxiosError;
     yield put(albumActions.addAlbumToLibraryFailed({ error }));
@@ -107,6 +109,8 @@ function* removeAlbumFromLibrary(action: RemoveAlbumFromLibraryStartActionType) 
     }
     yield put(albumActions.updateAlbumsInfo(editedAlbums));
     yield put(albumActions.removeAlbumFromLibrarySuccess());
+    const albumName: string = yield select(albumSelectors.name);
+    yield showNotification('success', `Album "${editedAlbums[albumToEditIndex]?.name || albumName}" removed from your library`);
   } catch (e) {
     const error = e as AxiosError;
     yield put(albumActions.removeAlbumFromLibraryFailed({ error }));

@@ -91,6 +91,7 @@ function* editProfile(action: EditProfileStartActionType) {
 
     yield put(listenerActions.editProfileSuccess());
     yield put(listenerActions.getListenerById(listenerId));
+    yield showNotification('success', 'Profile successfully edited');
   } catch (e) {
     const error = e as AxiosError;
     yield put(listenerActions.editProfileFailed({ error }));
@@ -178,6 +179,7 @@ function* changeSubscription(action: ChangeSubscriptionStartActionType) {
     yield put(listenerActions.changeSubscriptionSuccess());
     yield put(listenerActions.getListenerById(listenerId));
     yield put(listenerActions.getUserCreditCards());
+    yield showNotification('success', 'Subscription successfully changed');
   } catch (e) {
     const error = e as AxiosError;
     yield put(listenerActions.changeSubscriptionFailed({ error }));
@@ -188,7 +190,7 @@ function* deleteUserCreditCard(action: DeleteUserCreditCardStartActionType) {
   try {
     const listenerId: string = yield select(userSelectors.userId);
     yield ListenerService.deleteUserCreditCard(listenerId, action.payload);
-    yield put(listenerActions.deleteUserCreditCardSuccess());;
+    yield put(listenerActions.deleteUserCreditCardSuccess());
   } catch (e) {
     const error = e as AxiosError;
     yield put(listenerActions.deleteUserCreditCardFailed({ error }));

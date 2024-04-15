@@ -24,6 +24,7 @@ import { songActions } from '../../song/store/song.actions';
 import { artistActions } from '../../artist/store/artist.actions';
 import { artistSelectors } from '../../artist/store/artist.selectors';
 import { AxiosError } from 'axios';
+import { playlistSelectors } from './playlist.selectors';
 
 export const playlistEffects = [
   takeEvery(PlaylistActionTypes.GET_PLAYLISTS_BY_LISTENER_ID, getPlaylistsByListenerId),
@@ -123,6 +124,7 @@ function* editSongPlaylists(action: EditSongPlaylistsStartActionType) {
     yield put(queueActions.updateQueueLikes(songsQueueToEdit));
     yield put(songActions.editSongPlaylists(songsToEdit));
     yield put(playlistActions.editSongPlaylistsSuccess());
+    yield showNotification('success', `Song "${songsToEdit[songIndex].name}" playlists successfully changed`);
   } catch (e) {
     const error = e as AxiosError;
     yield put(playlistActions.editSongPlaylistsFailed({ error }));
@@ -146,6 +148,7 @@ function* createPlaylist(action: CreatePlaylistStartActionType) {
 
     yield put(playlistActions.createPlaylistSuccess());
     yield put(playlistActions.getPlaylistsByListenerId({}));
+    yield showNotification('success', 'Playlist successfully created');
   } catch (e) {
     const error = e as AxiosError;
     yield put(playlistActions.createPlaylistFailed({ error }));
@@ -171,6 +174,7 @@ function* editPlaylist(action: EditPlaylistStartActionType) {
     yield put(playlistActions.editPlaylistSuccess());
     yield put(playlistActions.getPlaylistsByListenerId({}));
     yield put(playlistActions.getPlaylistById(action.payload.playlistId));
+    yield showNotification('success', `Playlist "${action.payload.name.trim()}" successfully edited`);
   } catch (e) {
     const error = e as AxiosError;
     yield put(playlistActions.editPlaylistFailed({ error }));
@@ -180,9 +184,10 @@ function* editPlaylist(action: EditPlaylistStartActionType) {
 function* pinPlaylist(action: PinPlaylistStartActionType) {
   try {
     const listenerId: string = yield select(userSelectors.userId);
-    yield PlaylistService.pinPlaylist(listenerId, action.payload);
+    yield PlaylistService.pinPlaylist(listenerId, action.payload.playlistId);
     yield put(playlistActions.getPlaylistsByListenerId({}));
     yield put(playlistActions.pinPlaylistSuccess());
+    yield showNotification('success', `Playlist "${action.payload.playlistName}" pinned`);
   } catch (e) {
     const error = e as AxiosError;
     yield put(playlistActions.pinPlaylistFailed({ error }));
@@ -192,9 +197,10 @@ function* pinPlaylist(action: PinPlaylistStartActionType) {
 function* unpinPlaylist(action: UnpinPlaylistStartActionType) {
   try {
     const listenerId: string = yield select(userSelectors.userId);
-    yield PlaylistService.unpinPlaylist(listenerId, action.payload);
+    yield PlaylistService.unpinPlaylist(listenerId, action.payload.playlistId);
     yield put(playlistActions.getPlaylistsByListenerId({}));
     yield put(playlistActions.unpinPlaylistSuccess());
+    yield showNotification('success', `Playlist "${action.payload.playlistName}" unpinned`);
   } catch (e) {
     const error = e as AxiosError;
     yield put(playlistActions.unpinPlaylistFailed({ error }));

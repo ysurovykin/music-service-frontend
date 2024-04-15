@@ -25,6 +25,7 @@ const editable = createSelector(playlistState, playlist => playlist?.editable);
 const pinned = createSelector(playlistState, playlist => playlist?.pinned);
 const songsCount = createSelector(playlistState, playlist => playlist?.songsCount);
 const songsTimeDuration = createSelector(playlistState, playlist => playlist?.songsTimeDuration);
+const description = createSelector(playlistState, playlist => playlist?.description);
 
 export const playlistSelectors = {
   playlistId,
@@ -48,5 +49,6 @@ export const playlistSelectors = {
   editable,
   pinned,
   songsCount,
-  songsTimeDuration
+  songsTimeDuration,
+  description
 };

@@ -97,6 +97,8 @@ function* followArtist(action: FollowArtistStartActionType) {
     const listenerId: string = yield select(userSelectors.userId);
     yield ArtistService.followArtist(listenerId, action.payload);
     yield put(artistActions.followArtistSuccess());
+    const artistName: string = yield select(artistSelectors.name);
+    yield showNotification('success', `Artist "${artistName}" added to your library`);
   } catch (e) {
     const error = e as AxiosError;
     yield put(artistActions.followArtistFailed({ error }));
@@ -108,6 +110,8 @@ function* unfollowArtist(action: UnfollowArtistStartActionType) {
     const listenerId: string = yield select(userSelectors.userId);
     yield ArtistService.unfollowArtist(listenerId, action.payload);
     yield put(artistActions.unfollowArtistSuccess());
+    const artistName: string = yield select(artistSelectors.name);
+    yield showNotification('success', `Artist "${artistName}" removed from your library`);
   } catch (e) {
     const error = e as AxiosError;
     yield put(artistActions.unfollowArtistFailed({ error }));

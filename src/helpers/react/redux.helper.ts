@@ -38,6 +38,9 @@ export function getErrorMessage(error: AxiosError) {
   if (typeof error === 'string') {
     return error || '';
   }
+  if (error?.message) {
+    return error.message;
+  }
   type ErrorDataType = { message: string };
   const errorData = error?.response?.data;
   if (errorData) {

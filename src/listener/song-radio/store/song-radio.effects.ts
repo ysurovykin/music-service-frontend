@@ -76,6 +76,7 @@ function* createSongRadio(action: CreateSongRadioStartActionType) {
       yield put(songRadioActions.openRefreshSongRadioModalAction());
     } else if (songRadio?.status === 204) {
       yield put(songRadioActions.createSongRadioSuccess(songRadio));
+      yield showNotification('success', `Song radio by song "${songRadio.songName}" successfully ${songRadio.brandNew ? 'created' : 'updated'}`);
     }
   } catch (e) {
     const error = e as AxiosError;

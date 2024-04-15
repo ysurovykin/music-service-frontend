@@ -109,6 +109,11 @@ export type GetPlaylistsRequest = {
   search?: string;
 }
 
+export type ChangePlaylistPinRequestData = {
+  playlistId: string;
+  playlistName: string;
+}
+
 export enum PlaylistActionTypes {
   GET_PLAYLISTS_BY_LISTENER_ID = "PLAYLIST.GET_PLAYLISTS_BY_LISTENER_ID_START",
   GET_PLAYLISTS_BY_LISTENER_ID_SUCCESS = "PLAYLIST.GET_PLAYLISTS_BY_LISTENER_ID_SUCCESS",
