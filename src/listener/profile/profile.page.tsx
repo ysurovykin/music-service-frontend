@@ -27,7 +27,7 @@ import { GetListenerTopAlbumsThisMonthRequest } from "../album/store/album.model
 const { Title, Link } = Typography;
 
 export function ProfilePage() {
-  const { ref, inView } = useInView({ threshold: 1 }); //TODO set ref to show header
+  const { ref, inView } = useInView({ threshold: 1 });
   const { ref: albumRef, inView: albumInView } = useInView({ threshold: 0 });
   const { ref: artistRef, inView: artistInView } = useInView({ threshold: 0 });
   const navigate = useNavigate();

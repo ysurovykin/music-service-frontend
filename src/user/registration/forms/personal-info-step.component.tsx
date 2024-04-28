@@ -83,6 +83,9 @@ export function PersonalInfoStep({ form }: { form: FormInstance }) {
                   { required: true, message: 'Day required' },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
+                      if (isNaN(+value)) {
+                        return Promise.reject(new Error('Day of birth must be number'));
+                      }
                       const amountOfDaysInMonth = new Date(getFieldValue('year'), getFieldValue('month'), 0).getDate();
                       if (+value > +amountOfDaysInMonth) {
                         return Promise.reject(new Error(`Day of birth must be between 1 and ${amountOfDaysInMonth}`));
@@ -110,7 +113,7 @@ export function PersonalInfoStep({ form }: { form: FormInstance }) {
                 help=''>
                 <Select
                   placeholder="Month"
-                  options={Object.values(months)?.map(month => ({ value: month, lable: month }))} />
+                  options={Object.keys(months)?.map(month => ({ value: months[month], label: month }))} />
               </Form.Item>
             </Col>
             <Col span={7}>
@@ -121,6 +124,9 @@ export function PersonalInfoStep({ form }: { form: FormInstance }) {
                   { required: true, message: 'Birth year required' },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
+                      if (isNaN(+value)) {
+                        return Promise.reject(new Error('Birth year must be number'));
+                      }
                       if (+value < 1900) {
                         return Promise.reject(new Error('Please enter a birth year from 1900 onwards'));
                       }

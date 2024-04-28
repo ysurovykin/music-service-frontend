@@ -1,0 +1,127 @@
+.finished-song-guesser-page {
+  &-wrapper {
+    padding: 0px 20px 20px 20px;
+  }
+
+  &__answers-wrapper {
+    display: grid;
+    gap: 10px;
+  }
+
+  &__answer {
+
+    &-wrapper {
+      border: 1px solid white;
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    &-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-tag {
+      &-close {
+        border: 1px solid white;
+        background: #c4cc2d;
+        border-radius: 4px;
+        padding: 4px 10px;
+      }
+
+      &-correct--first-try {
+        border: 1px solid white;
+        background: #52c448;
+        border-radius: 4px;
+        padding: 4px 10px;
+
+      }
+
+      &-correct--multiple-try {
+        border: 1px solid white;
+        background: rgb(37, 108, 32);
+        border-radius: 4px;
+        padding: 4px 10px;
+
+      }
+
+      &-skipped {
+        border: 1px solid white;
+        background: #ff7875;
+        border-radius: 4px;
+        padding: 4px 10px;
+
+      }
+
+      &-incorrect {
+        border: 1px solid white;
+        background: #cc2d2d;
+        border-radius: 4px;
+        padding: 4px 10px;
+
+      }
+    }
+
+  }
+
+  &__loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__attempt {
+
+    &-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-tag {
+
+      &-close {
+        border: 1px solid white;
+        background: #c4cc2d;
+        border-radius: 4px;
+        padding: 4px 10px;
+      }
+
+      &-correct {
+        border: 1px solid white;
+        background: #52c448;
+        border-radius: 4px;
+        padding: 4px 10px;
+      }
+
+      &-skipped {
+        border: 1px solid white;
+        background: #ff7875;
+        border-radius: 4px;
+        padding: 4px 10px;
+      }
+
+      &-incorrect {
+        border: 1px solid white;
+        background: #cc2d2d;
+        border-radius: 4px;
+        padding: 4px 10px;
+      }
+    }
+  }
+
+  &__formated-guess {
+    &--correct {
+      color: #52c448;
+    }
+
+    &--missplaced {
+      color: #c4cc2d;
+    }
+
+    &--incorrect {
+      color: #cc2d2d;
+    }
+  }
+}

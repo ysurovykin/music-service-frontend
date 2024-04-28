@@ -70,8 +70,8 @@ export const PlaylistModal = memo(function PlaylistModal({
   }
 
   const createPlaylistDisabled = useMemo(() => {
-    return !name || !coverColor && !coverSrc;
-  }, [name, coverColor, coverSrc]);
+    return (!name || !coverColor && !coverSrc) || isLoading;
+  }, [name, coverColor, coverSrc, isLoading]);
 
   const createPlaylistDisabledText = useMemo(() => {
     if (!name) {

@@ -112,12 +112,10 @@ export const SongComponent = memo(function SongComponent({
       type: 'divider',
     },
     {
-      label: <RouterLink to={'/'}>
-        <div className='dropdown-item'
-          onClick={() => createSongRadio({ song: song })}>
-          <CastOutlined /><p>Generate song radio</p>
-        </div>
-      </RouterLink>,
+      label: <div className='dropdown-item'
+        onClick={() => createSongRadio({ song: song })}>
+        <CastOutlined /><p>Generate song radio</p>
+      </div>,
       key: '3',
     },
     {

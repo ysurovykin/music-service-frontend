@@ -69,7 +69,10 @@ export function RegistrationPage() {
 
   const onFinish = () => {
     const formValues = form.getFieldsValue();
-    registration({ ...registrationData!, ...formValues, profileType: profileType as ProfileTypeEnum });
+    registration({
+      ...registrationData!, ...formValues, birthDate: { day: formValues.day, month: formValues.month, year: formValues.year },
+      profileType: profileType as ProfileTypeEnum
+    });
   };
 
   return (

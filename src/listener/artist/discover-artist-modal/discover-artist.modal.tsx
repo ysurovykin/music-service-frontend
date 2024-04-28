@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { artistSelectors } from "../store/artist.selectors";
 import { artistActions } from "../store/artist.actions";
 import { PieChart } from '@mui/x-charts';
-import { GENRES, listenerProfileTypePalete } from "../../../config";
+import { songGenres, listenerProfileTypePalete } from "../../../config";
 import { Box } from "@mui/material";
 import { renderTitleWithToolTip } from "../../../helpers/react/form.helper";
 
@@ -27,8 +27,8 @@ export function DiscoverArtistModal() {
     return genres?.map((genre, index) => ({
       id: index,
       value: genre.percentage,
-      label: GENRES[genre.name]?.label || '',
-      color: GENRES[genre.name]?.color || ''
+      label: songGenres[genre.name]?.label || '',
+      color: songGenres[genre.name]?.color || ''
     })) || [];
   }, [genres]);
 

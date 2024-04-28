@@ -11,11 +11,14 @@ import { SongTableComponent } from '../components/song-table/song-table.componen
 import { useInView } from 'react-intersection-observer';
 import { GenerateQueueRequestData } from '../queue/store/queue.model';
 import { queueActions } from '../queue/store/queue.actions';
-import { ContentCopyOutlined, Favorite, FavoriteBorder, MoreHoriz, PlayArrow, PlaylistAdd, PlaylistAddCheck } from '@mui/icons-material';
+import { ContentCopyOutlined, Favorite, FavoriteBorder, MoreHoriz, PlayArrow, PlaylistAdd, PlaylistAddCheck, QuizOutlined } from '@mui/icons-material';
 import { DOMAIN, listenerProfileTypePalete } from '../../config';
 import { MenuProps } from 'antd/lib';
 import { showNotification } from '../../helpers/react/redux.helper';
 import { songSelectors } from '../song/store/song.selectors';
+import { listenerSelectors } from '../store/listener.selectors';
+import { songGuesserActions } from '../song-guesser/store/song-guesser.actions';
+import { OpenGuesserGameModalData } from '../song-guesser/store/song-guesser.model';
 
 const { Title } = Typography;
 
@@ -33,12 +36,14 @@ export function AlbumPage() {
   const songs = useSelector(songSelectors.songs);
   const songsCount = useSelector(albumSelectors.songsCount);
   const songsTimeDuration = useSelector(albumSelectors.songsTimeDuration);
+  const subscription = useSelector(listenerSelectors.subscription);
 
   const dispatch = useDispatch()
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
   const getAlbumData = (albumId: string) => dispatch(albumActions.getAlbumById(albumId));
   const addAlbumToLibrary = (albumId: string) => dispatch(albumActions.addAlbumToLibrary(albumId));
   const removeAlbumFromLibrary = (albumId: string) => dispatch(albumActions.removeAlbumFromLibrary(albumId));
+  const openGuesserGameModal = (data: OpenGuesserGameModalData) => dispatch(songGuesserActions.openGuesserGameModal(data));
 
   useEffect(() => {
     if (albumId) {
@@ -67,12 +72,22 @@ export function AlbumPage() {
       type: 'divider',
     },
     {
+      label: <Tooltip title={subscription === 'free' ? 'This feature is not available for free subscription' : ''}>
+        <div
+          className='dropdown-item'
+          onClick={() => subscription === 'free' ? {} : openGuesserGameModal({ artist: { name: name!, id: albumId! } })}>
+          <QuizOutlined /><p>Start Song Guesser by album</p>
+        </div>
+      </Tooltip>,
+      key: '1',
+    },
+    {
       label: <div
         className='dropdown-item'
         onClick={() => copyAlbumLink()}>
         <ContentCopyOutlined /><p>Copy album link</p>
       </div>,
-      key: '1',
+      key: '2',
     },
   ];
 

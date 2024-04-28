@@ -34,6 +34,13 @@ import { ListenerTopAlbumsPage } from '../../profile/listener-top-albums/listene
 import { GetStartedModal } from '../get-started-modal/get-started.modal';
 import { listenerSelectors } from '../../store/listener.selectors';
 import { ChangeSubscriptionModal } from '../../profile/change-subscription-modal/change-subscription.modal';
+import { SongGuesserPage } from '../../song-guesser/song-guesser.page';
+import { SongGuesserHistoryPage } from '../../song-guesser/song-guesser-history/song-guesser-history.page';
+import { SongGuesserRulesModal } from '../../song-guesser/song-guesser-rules-modal/song-guesser-rules.modal';
+import { SongGuesserGameModal } from '../../song-guesser/song-guesser-game-modal/song-guesser-game.modal';
+import { SongGuesserGameOverModal } from '../../song-guesser/song-guesser-game-over-modal/song-guesser-game-over.modal';
+import { FinishedSongGuesserDetailsPage } from '../../song-guesser/finished-song-guesser-page/finished-song-guesser.page';
+import { SongGuesserStatsModal } from '../../song-guesser/song-guesser-stats-modal/song-guesser-stats.modal';
 
 export default function ListenerRouter() {
   const userId = useSelector(userSelectors.userId);
@@ -79,6 +86,9 @@ export default function ListenerRouter() {
           <Route path="/profile/top-albums" element={<ListenerTopAlbumsPage />} />
           <Route path="/library/song-radios" element={<LibraryListenerSongRadiosPage />} />
           <Route path="/song-radio/:songId" element={<SongRadioPage />} />
+          <Route path="/song-guesser" element={<SongGuesserPage />} />
+          <Route path="/song-guesser-history" element={<SongGuesserHistoryPage />} />
+          <Route path="/finished-song-guesser/:songGuesserId" element={<FinishedSongGuesserDetailsPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </div>
@@ -91,6 +101,10 @@ export default function ListenerRouter() {
       <EditProfileModal />
       <GetStartedModal />
       <ChangeSubscriptionModal />
+      <SongGuesserRulesModal />
+      <SongGuesserGameModal />
+      <SongGuesserGameOverModal />
+      <SongGuesserStatsModal />
     </>
   );
 }

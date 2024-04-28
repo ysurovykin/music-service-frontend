@@ -29,6 +29,9 @@ import { lyricsEffects } from "./listener/lyrics/store/lyrics.effects";
 import { SongRadioState } from "./listener/song-radio/store/song-radio.model";
 import { songRadioEffects } from "./listener/song-radio/store/song-radio.effects";
 import { songRadioReducer } from "./listener/song-radio/store/song-radio.reducer";
+import { SongGuesserState } from "./listener/song-guesser/store/song-guesser.model";
+import { songGuesserEffects } from "./listener/song-guesser/store/song-guesser.effects";
+import { songGuesserReducer } from "./listener/song-guesser/store/song-guesser.reducer";
 
 const rootReducer = combineReducers({
   artist: artistReducer,
@@ -40,6 +43,7 @@ const rootReducer = combineReducers({
   lyrics: lyricsReducer,
   queue: queueReducer,
   songRadio: songRadioReducer,
+  songGuesser: songGuesserReducer,
 });
 
 function* rootEffects() {
@@ -53,6 +57,7 @@ function* rootEffects() {
     ...lyricsEffects,
     ...queueEffects,
     ...songRadioEffects,
+    ...songGuesserEffects,
   ]);
 }
 
@@ -65,7 +70,8 @@ export interface InitialState {
   user: UserState,
   lyrics: LyricsState,
   queue: QueueState,
-  songRadio: SongRadioState
+  songRadio: SongRadioState,
+  songGuesser: SongGuesserState,
 }
 
 const sagaMiddleware = createSagaMiddleware();

@@ -1,6 +1,7 @@
 import { Avatar, Typography } from "antd";
 import { PlaylistTagEnum } from "../../listener/playlist/store/playlist.model";
 import { Favorite } from "@mui/icons-material";
+import moment from "moment";
 
 const { Title } = Typography
 
@@ -9,8 +10,6 @@ export const getBackground = (color: string = 'rgba(70, 70, 70, 1)') => {
 }
 
 export const formatPlaylistTime = (totalSeconds: number) => {
-  const moment = require('moment');
-
   const duration = moment.duration(totalSeconds, 'seconds');
 
   const hours = duration.asHours();

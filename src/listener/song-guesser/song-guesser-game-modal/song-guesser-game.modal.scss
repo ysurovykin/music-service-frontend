@@ -1,0 +1,170 @@
+.song-guesser-game-modal {
+  &__cancel-button {
+    background: transparent;
+  }
+
+  &__difficulties {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  &__difficulty-info {
+    text-align: center;
+    border-radius: 4px;
+    padding: 10px;
+    border: 2px solid transparent;
+
+    &--selected {
+      text-align: center;
+      border-radius: 4px;
+      padding: 10px;
+      border: 2px solid white;
+    }
+  }
+
+  &__filters {
+    display: grid;
+    gap: 10px;
+  }
+
+  &__select-wrapper {
+    align-self: center;
+  }
+
+  &__stage-wrapper {
+    &--filters {
+      height: 350px;
+      padding-right: 10px;
+      overflow-x: hidden;
+    }
+
+    &--game {
+      height: 250px;
+      padding-right: 10px;
+      overflow-x: hidden;
+    }
+  }
+
+  &__checkbox-wrapper {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__game-stage {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr 1fr;
+    gap: 10px;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-filters,
+    &-mistakes {
+      border-radius: 8px;
+      border: solid 1px #ffffff;
+      padding: 5px 10px;
+      cursor: default;
+    }
+
+    &-answer {
+      display: grid;
+      align-self: center;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    &-answer-title {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-song-content {
+      display: grid;
+      border: 1px solid white;
+      padding: 4px;
+      border-radius: 6px;
+      gap: 10px;
+      grid-template-columns: auto 1fr auto;
+      align-self: center;
+    }
+
+    &-controllers {
+      display: grid;
+      gap: 10px;
+    }
+
+    &-skip-button {
+      background: transparent;
+    }
+
+    &-song-slider {
+      width: 100%;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+
+    &-volume-slider {
+      width: 100px;
+    }
+
+    &-song-time {
+      min-width: 40px;
+    }
+
+    &-controllers-wrapper {
+      display: flex;
+      width: 100%;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    &-controller-icon-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &-dropdown-item {
+      padding: 2px 0;
+      color: #FFFFFF;
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 600px;
+      gap: 5px;
+    }
+
+    &-formated-guess {
+      width: 100%;
+      border: 1px solid #d9d9d9;
+      padding: 4px 11px;
+      border-radius: 6px;
+    }
+
+    &-dropdown-filter-item {
+      padding: 0px 5px;
+      border-radius: 6px;
+    }
+
+    &-formated-guess {
+      &--correct {
+        color: #52c448;
+      }
+
+      &--missplaced {
+        color: #c4cc2d;
+      }
+
+      &--incorrect {
+        color: #cc2d2d;
+      }
+    }
+
+  }
+}

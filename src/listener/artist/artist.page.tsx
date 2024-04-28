@@ -8,7 +8,7 @@ import { Avatar, Button, Divider, Dropdown, Spin, Tooltip, Typography } from 'an
 import { HeaderComponent } from '../components/header/header.component';
 import { getBackground } from '../../helpers/react/listener-page.helper';
 import { useInView } from 'react-intersection-observer';
-import { ContentCopyOutlined, Info, MoreHoriz, PersonAddAlt, PersonRemove, PlayArrow } from '@mui/icons-material';
+import { ContentCopyOutlined, Info, MoreHoriz, PersonAddAlt, PersonRemove, PlayArrow, QuizOutlined } from '@mui/icons-material';
 import { DOMAIN, listenerProfileTypePalete } from '../../config';
 import { MenuProps } from 'antd/lib';
 import { GetSongsRequestData } from '../song/store/song.model';
@@ -24,6 +24,9 @@ import { songSelectors } from '../song/store/song.selectors';
 import { GenerateQueueRequestData } from '../queue/store/queue.model';
 import { queueActions } from '../queue/store/queue.actions';
 import { ArtistCardComponent } from './artist-card/artist-card.component';
+import { listenerSelectors } from '../store/listener.selectors';
+import { songGuesserActions } from '../song-guesser/store/song-guesser.actions';
+import { OpenGuesserGameModalData } from '../song-guesser/store/song-guesser.model';
 
 const { Text, Title, Link } = Typography;
 
@@ -52,6 +55,7 @@ export function ArtistPage() {
   const likedSongsCount = useSelector(artistSelectors.likedSongsCount);
   const fansAlsoLikeArtists = useSelector(artistSelectors.fansAlsoLikeArtists);
   const isFansAlsoLikeArtistsLoading = useSelector(artistSelectors.isFansAlsoLikeArtistsLoading);
+  const subscription = useSelector(listenerSelectors.subscription);
 
   const dispatch = useDispatch()
   const getArtistData = (artistId: string) => dispatch(artistActions.getArtistById(artistId));
@@ -64,6 +68,7 @@ export function ArtistPage() {
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
   const openDiscoverArtistModal = () => dispatch(artistActions.openDiscoverArtistModal());
   const getFansAlsoLikeArtists = (artistId: string) => dispatch(artistActions.getFansAlsoLikeArtists(artistId));
+  const openGuesserGameModal = (data: OpenGuesserGameModalData) => dispatch(songGuesserActions.openGuesserGameModal(data));
 
   const formatedQueue = useMemo(() => {
     if (songQueueId && queue) {
@@ -116,12 +121,22 @@ export function ArtistPage() {
       type: 'divider',
     },
     {
+      label: <Tooltip title={subscription === 'free' ? 'This feature is not available for free subscription' : ''}>
+        <div
+          className='dropdown-item'
+          onClick={() => subscription === 'free' ? {} : openGuesserGameModal({ artist: { name: name!, id: artistId! } })}>
+          <QuizOutlined /><p>Start Song Guesser by artist</p>
+        </div>
+      </Tooltip>,
+      key: '2',
+    },
+    {
       label: <div
         className='dropdown-item'
         onClick={() => copyArtistLink()}>
         <ContentCopyOutlined /><p>Copy artist link</p>
       </div>,
-      key: '2',
+      key: '3',
     },
   ];
 

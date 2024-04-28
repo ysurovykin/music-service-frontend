@@ -5,7 +5,8 @@ import {
   HomeOutlined,
   SearchOutlined,
   PushPin,
-  PushPinOutlined
+  PushPinOutlined,
+  QuizOutlined
 } from "@mui/icons-material";
 import { playlistSelectors } from "../../playlist/store/playlist.selectors";
 import { useSelector } from "react-redux";
@@ -47,6 +48,11 @@ export function SidebarComponent() {
           placement="right"
           title='Library'>
           <RouterLink to='/library'><LibraryMusicOutlined fontSize="large" /></RouterLink>
+        </Tooltip>
+        <Tooltip
+          placement="right"
+          title='Song guesser'>
+          <RouterLink to='/song-guesser'><QuizOutlined fontSize="large" /></RouterLink>
         </Tooltip>
       </div>
       <div className="sidebar__library-section">

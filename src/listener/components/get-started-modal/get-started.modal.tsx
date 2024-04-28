@@ -6,7 +6,7 @@ import { listenerActions } from "../../store/listener.actions";
 import { GetExistingGenresRequestData, GetRecommendedArtistsRequestData, GetStartedGenresData, GetStartedGenresTypeEnum, SaveGetStartedResultsRequestData } from "../../store/listener.model";
 import { useDebounce } from "use-debounce";
 import { Search } from "@mui/icons-material";
-import { GENRES } from "../../../config";
+import { songGenres } from "../../../config";
 import { ArtistCardComponent } from "../../artist/artist-card/artist-card.component";
 import { useInView } from "react-intersection-observer";
 import { renderTitleWithToolTip } from "../../../helpers/react/form.helper";
@@ -131,7 +131,7 @@ export function GetStartedModal() {
                 key={genreData.type + genreData.genre}
                 onClick={() => changeGenreChooseness(genreData)}
                 className={`get-started-modal__genre-wrapper--${genreData.type}`}>
-                {GENRES[genreData.genre]?.label}
+                {songGenres[genreData.genre]?.label}
               </div>)}
           </div>
         </div>

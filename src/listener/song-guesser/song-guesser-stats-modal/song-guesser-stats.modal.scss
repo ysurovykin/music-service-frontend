@@ -1,0 +1,36 @@
+.song-guesser-stats-modal {
+  &__stats {
+    display: grid;
+    gap: 10px;
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 10px;
+
+    &--first-row {
+      text-align: center;
+    }
+
+    &--second-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  &__check-game-button {
+    background: transparent;
+  }
+
+  &__best-game-info {
+    display: grid;
+    align-content: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  &__record-guessers {
+    margin-top: 10px;
+  }
+}

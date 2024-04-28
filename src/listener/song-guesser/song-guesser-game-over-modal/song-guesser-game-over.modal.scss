@@ -1,0 +1,19 @@
+.song-guesser-game-over-modal {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 6px;
+  }
+
+  &__stats {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

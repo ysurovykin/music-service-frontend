@@ -72,7 +72,9 @@ function App() {
             Modal: {
               contentBg: currentPalete.backgroundAccent,
               headerBg: currentPalete.backgroundAccent,
-              colorTextHeading: currentPalete.backgroundAccentLight
+              colorTextHeading: currentPalete.backgroundAccentLight,
+              colorIconHover: '#ffffff',
+              colorIcon: '#ffffff',
             },
             Dropdown: {
               colorBgElevated: currentPalete.backgroundAccent,
@@ -99,6 +101,8 @@ function App() {
             },
             Select: {
               colorText: '#ffffff',
+              colorIconHover: '#ffffff',
+              colorIcon: '#ffffff',
               colorTextPlaceholder: 'grey',
               optionActiveBg: currentPalete.backgroundAccentSemiDark,
               optionSelectedBg: currentPalete.backgroundAccentSemiLight,
@@ -107,6 +111,13 @@ function App() {
               colorTextQuaternary: 'grey'
             },
             Form: {
+              colorTextHeading: '#ffffff',
+            },
+            Checkbox: {
+              colorText: '#ffffff',
+            },
+            Collapse: {
+              contentBg: currentPalete.backgroundAccent,
               colorTextHeading: '#ffffff',
             }
           },

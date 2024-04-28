@@ -11,18 +11,18 @@ export const DOMAIN = 'http://localhost:3000'
 // }
 
 export const months: { [key: string]: string } = {
-  '1': 'January',
-  '2': 'February',
-  '3': 'March',
-  '4': 'April',
-  '5': 'May',
-  '6': 'June',
-  '7': 'July',
-  '8': 'August',
-  '9': 'September',
-  '10': 'October',
-  '11': 'November',
-  '12': 'December'
+  'January': '1',
+  'February': '2',
+  'March': '3',
+  'April': '4',
+  'May': '5',
+  'June': '6',
+  'July': '7',
+  'August': '8',
+  'September': '9',
+  'October': '10',
+  'November': '11',
+  'December': '12'
 };
 
 export const countries = {
@@ -94,7 +94,12 @@ export const countries = {
   'United Kingdom': 'United Kingdom',
   'United States': 'United States',
   'Uruguay': 'Uruguay'
-}
+};
+
+export const songLanguages: { [key: string]: { label: string, color: string } } = {
+  'ukrainian': { label: 'Ukrainian', color: 'rgba(255, 215, 0, 0.7)' }, // Gold
+  'english': { label: 'English', color: 'rgba(220, 53, 69, 0.7)' }, // Red
+};
 
 export const listenerProfileTypePalete = {
   base: '#52c448', //78E46F
@@ -118,11 +123,11 @@ export const artistProfileTypePalete = {
   backgroundAccentLight: '#AAAAAA'
 };
 
-export const GENRES: { [key: string]: { label: string, color: string } } = {
+export const songGenres: { [key: string]: { label: string, color: string } } = {
   'alternative_rock': { label: 'Alternative Rock', color: 'rgba(65, 105, 225, 0.7)' }, // Deep Azure
   'alternative_metal': { label: 'Alternative Metal', color: 'rgba(220, 20, 60, 0.7)' }, // Crimson
   'hard_rock': { label: 'Hard Rock', color: 'rgba(191, 85, 236, 0.7)' }, // Lavender Blush
-  'post_grunge': { label: 'Post Grunge', color: 'rgba(46, 204, 113, 0.7)' }, ///* S Green
+  'post_grunge': { label: 'Post Grunge', color: 'rgba(46, 204, 113, 0.7)' }, /// Green
   'indie_rock': { label: 'Indie Rock', color: 'rgba(255, 215, 0, 0.7)' }, // Gold
   'nu_metal': { label: 'Nu Metal', color: 'rgba(52, 58, 64, 0.7)' }, // Dark Gray
   'pop_rock': { label: 'Pop Rock', color: 'rgba(143, 78, 179, 0.7)' }, // Medium Purple
@@ -155,3 +160,27 @@ export const GENRES: { [key: string]: { label: string, color: string } } = {
 };
 
 export const songsLoadingLimit = 10;
+
+export const songGuesserDifficulties: {
+  [key: string]: {
+    label: string,
+    seconds: number,
+    color: string
+  }
+} = {
+  'NEW_TO_MUSIC': {
+    label: 'New To Music',
+    seconds: 15,
+    color: listenerProfileTypePalete.base
+  },
+  'FREQUENT_LISTENER': {
+    label: 'Frequent Listener',
+    seconds: 10,
+    color: 'rgb(52, 137, 48)'
+  },
+  'TRUE_FAN': {
+    label: 'True Fan',
+    seconds: 5,
+    color: 'rgb(37, 108, 32)'
+  }
+}

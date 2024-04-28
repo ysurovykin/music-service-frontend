@@ -1,0 +1,42 @@
+.song-guesser-card {
+  padding: 10px;
+  border: 1px solid white;
+  border-radius: 8px;
+
+  &__title {
+    display: flex;
+    justify-content: end;
+  }
+
+  &__difficulty {
+    border: 1px solid white;
+    border-radius: 4px;
+    padding: 4px 10px;
+  }
+
+  &__filters-wrapper {
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 6px;
+  }
+
+  &__filter {
+    padding: 2px 0;
+    color: #FFFFFF;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 600px;
+    gap: 5px;
+
+    &-item {
+      padding: 0px 5px;
+      border-radius: 6px;
+    }
+  }
+
+  &__footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+}

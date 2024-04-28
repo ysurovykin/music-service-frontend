@@ -141,6 +141,11 @@ export function ChangeSubscriptionModal() {
             <ul className="change-subscription-modal__ul">
               <li className="change-subscription-modal__li"><Text>Different playlists limit: <span className="change-subscription-modal__current-value">10</span> <Title className="m-0 change-subscription-modal__new-value--free" level={5}>5</Title></Text></li>
             </ul>
+            <li className="change-subscription-modal__li"><Title className="m-0" level={5}>Song Guesser</Title></li>
+            <ul className="change-subscription-modal__ul">
+              <li className="change-subscription-modal__li"><Text>Access to Guesser games history: <span className="change-subscription-modal__current-value">Yes</span> <Title className="m-0 change-subscription-modal__new-value--free" level={5}>No</Title></Text></li>
+              <li className="change-subscription-modal__li"><Text>Access to your Guesser stats: <span className="change-subscription-modal__current-value">Yes</span> <Title className="m-0 change-subscription-modal__new-value--free" level={5}>No</Title></Text></li>
+            </ul>
           </ul>
         </div>
       </div>
@@ -178,6 +183,11 @@ export function ChangeSubscriptionModal() {
             <ul className="change-subscription-modal__ul">
               <li className="change-subscription-modal__li"><Text>Different playlists limit: <span className="change-subscription-modal__current-value">5</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>10</Title></Text></li>
             </ul>
+            <li className="change-subscription-modal__li"><Title className="m-0" level={5}>Song Guesser</Title></li>
+            <ul className="change-subscription-modal__ul">
+              <li className="change-subscription-modal__li"><Text>Access to Guesser games history: <span className="change-subscription-modal__current-value">No</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>Yes</Title></Text></li>
+              <li className="change-subscription-modal__li"><Text>Access to your Guesser stats: <span className="change-subscription-modal__current-value">No</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>Yes</Title></Text></li>
+            </ul>
           </ul>
         </div>
       </div>
@@ -214,6 +224,11 @@ export function ChangeSubscriptionModal() {
             <li className="change-subscription-modal__li"><Title className="m-0" level={5}>Playlists</Title></li>
             <ul className="change-subscription-modal__ul">
               <li className="change-subscription-modal__li"><Text>Different playlists limit: <span className="change-subscription-modal__current-value">5</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>10</Title></Text></li>
+            </ul>
+            <li className="change-subscription-modal__li"><Title className="m-0" level={5}>Song Guesser</Title></li>
+            <ul className="change-subscription-modal__ul">
+              <li className="change-subscription-modal__li"><Text>Access to Guesser games history: <span className="change-subscription-modal__current-value">No</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>Yes</Title></Text></li>
+              <li className="change-subscription-modal__li"><Text>Access to your Guesser stats: <span className="change-subscription-modal__current-value">No</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>Yes</Title></Text></li>
             </ul>
           </ul>
           <Divider style={{ margin: '10px' }} />

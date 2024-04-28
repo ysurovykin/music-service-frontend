@@ -1,0 +1,19 @@
+.song-guesser-rules-modal {
+
+  &__title {
+    margin-top: 10px;
+    margin-bottom: 0px !important;
+  }
+
+  &__sections {
+    height: 350px;
+  }
+
+  &__ul {
+    padding-inline-start: 20px;
+  }
+
+  &__li {
+    color: #ffffff;
+  }
+}
