@@ -367,6 +367,7 @@ export function SongGuesserHistoryPage() {
               <div className="song-guesser-history-page__records">
                 {finishedSongGuessers?.map((finishedSongGuesser, index) =>
                   <SongGuesserCardComponent
+                    key={finishedSongGuesser.songGuesserId}
                     songGuesser={finishedSongGuesser}
                     reference={((index === finishedSongGuessers?.length - 1) && isMoreFinishedSongGuessersForLoading) ? songGuesserRef : null} />
                 )}

@@ -41,10 +41,10 @@ export function DiscoverArtistModal() {
   }
 
   useEffect(() => {
-    if (artistId) {
+    if (artistId && isDiscoverArtistModalOpen) {
       getGenres(artistId);
     }
-  }, [artistId])
+  }, [artistId, isDiscoverArtistModalOpen])
 
   return (
     <Modal

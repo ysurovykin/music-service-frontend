@@ -1,20 +1,33 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { Button, Checkbox, Divider, Dropdown, DropdownProps, Input, Modal, Select, SelectProps, Slider, Spin, Tag, Tooltip, Typography } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Dropdown,
+  DropdownProps,
+  Input,
+  Modal,
+  Select,
+  SelectProps,
+  Slider,
+  Spin,
+  Tag,
+  Tooltip,
+  Typography
+} from "antd";
 import { songGuesserSelectors } from "../store/song-guesser.selectors";
 import { songGuesserActions } from "../store/song-guesser.actions";
 import {
   CheckAnswerRequestData,
   CountAvailableSongsRequestData,
-  FormatedGuessData,
   SkipSongRequestData,
   SongGuesserDifficultyEnum,
   SongGuesserFilterContentData,
   StartSongGuesserRequestData
 } from "../store/song-guesser.model";
 import { songGenres, listenerProfileTypePalete, songLanguages, songGuesserDifficulties } from "../../../config";
-import { renderTextWithToolTip, renderTitleWithToolTip } from "../../../helpers/react/form.helper";
+import { renderTitleWithToolTip } from "../../../helpers/react/form.helper";
 import { playlistSelectors } from "../../playlist/store/playlist.selectors";
 import { LoadingOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { MenuProps } from "antd/lib";
@@ -204,7 +217,7 @@ export function SongGuesserGameModal() {
         }
       });
     }
-  }, [guesserBaseArtist, guesserBaseAlbum, selectedGenres, selectedLanguages, selectedPlaylists, onlyFollowedArtists, onlyLikedAlbums]);
+  }, [guesserBaseArtist, guesserBaseAlbum, selectedGenres, selectedLanguages, selectedPlaylists, onlyFollowedArtists, onlyLikedAlbums, isGuesserGameModalOpen]);
 
   useEffect(() => {
     if (songGuesserId) {
@@ -402,7 +415,7 @@ export function SongGuesserGameModal() {
   const changeSongVolume = (value: number) => {
     setVolume(value);
     if (audioPlayer.current && !isNaN(volume!)) {
-      audioPlayer.current.volume = volume! / 100;
+      audioPlayer.current.volume = volume! / 250;
     }
   }
 

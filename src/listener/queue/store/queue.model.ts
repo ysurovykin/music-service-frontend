@@ -51,6 +51,7 @@ export type GenerateQueueRequestData = {
   sortingOptions?: GetSongsSortingOptions;
   repeatSongState?: RepeatSongStates;
   search?: string;
+  shouldUnpause?: boolean;
 }
 
 export type GenerateQueueOptions = {

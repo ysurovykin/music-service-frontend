@@ -1,11 +1,15 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button, Divider, Input, Modal, Select, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { listenerSelectors } from "../../store/listener.selectors";
 import { listenerActions } from "../../store/listener.actions";
-import { formatCreditCardCVV, formatCreditCardExpirationDate, formatCreditCardNumber, renderTitleWithToolTip } from "../../../helpers/react/form.helper";
+import {
+  formatCreditCardCVV,
+  formatCreditCardExpirationDate,
+  formatCreditCardNumber,
+  renderTitleWithToolTip
+} from "../../../helpers/react/form.helper";
 import { ChangeSubscriptionRequestData } from "../../store/listener.model";
-import { SelectProps } from "antd/lib";
 
 const { Text, Title } = Typography;
 
@@ -94,8 +98,16 @@ export function ChangeSubscriptionModal() {
   }
 
   useEffect(() => {
-    getUserCreditCards()
-  }, []);
+    if (isChangeSubscriptionModalOpen) {
+      getUserCreditCards()
+      window.addEventListener('resize', updateIsBigDeviceState);
+    } else {
+      window.removeEventListener('resize', updateIsBigDeviceState);
+    }
+    return () => {
+      window.removeEventListener('resize', updateIsBigDeviceState);
+    }
+  }, [isChangeSubscriptionModalOpen]);
 
   useEffect(() => {
     if (subscription) {
@@ -103,13 +115,6 @@ export function ChangeSubscriptionModal() {
       setIsBankCardStage(false);
     }
   }, [subscription]);
-
-  useEffect(() => {
-    window.addEventListener('resize', updateIsBigDeviceState);
-    return () => {
-      window.removeEventListener('resize', updateIsBigDeviceState);
-    }
-  }, []);
 
   const renderFreeSubscriptionInfo = () => {
     return (

@@ -38,13 +38,11 @@ export function HomePage() {
   }));
 
   const dispatch = useDispatch();
-  const getListenerById = (listenerId: string) => dispatch(listenerActions.getListenerById(listenerId));
   const getRecentMostVisitedContent = () => dispatch(listenerActions.getRecentMostVisitedContent());
   const getHomePageContent = (requset: GetHomePageContentRequestData) => dispatch(listenerActions.getHomePageContent(requset));
 
   useEffect(() => {
     if (userId) {
-      getListenerById(userId);
       getRecentMostVisitedContent();
       getHomePageContent({});
     }
@@ -100,37 +98,37 @@ export function HomePage() {
         if (contentElement.type === 'album') {
           return (
             <div
+              key={contentElement.albumId}
               onMouseEnter={() => setBackgroundColor(contentElement.backgroundColor!)}
               onMouseLeave={() => setBackgroundColor('rgba(70, 70, 70, 1)')}>
               <AlbumCardComponent
                 showLikeButton={false}
                 showArtistInfo={true}
-                key={contentElement.albumId}
                 album={contentElement} />
             </div>
           )
         } else if (contentElement.type === 'artist') {
           return (
             <div
+              key={contentElement.artistId}
               onMouseEnter={() => setBackgroundColor(contentElement.backgroundColor!)}
               onMouseLeave={() => setBackgroundColor('rgba(70, 70, 70, 1)')}>
               <ArtistCardComponent
-                artist={contentElement}
-                key={contentElement.artistId} />
+                artist={contentElement} />
             </div>
           )
         } else if (contentElement.type === 'playlist') {
           return (
             <div
+              key={contentElement.playlistId}
               onMouseEnter={() => setBackgroundColor(contentElement.backgroundColor!)}
               onMouseLeave={() => setBackgroundColor('rgba(70, 70, 70, 1)')}>
               <PlaylistCardComponent
-                playlist={contentElement}
-                key={contentElement.playlistId} />
+                playlist={contentElement} />
             </div>
           )
         } else {
-          return <div></div>;
+          return <div key={'contentElement'}></div>;
         }
       });
     } else {

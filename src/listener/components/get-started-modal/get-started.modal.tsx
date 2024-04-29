@@ -3,7 +3,13 @@ import { Button, Input, Modal, Spin, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { listenerSelectors } from "../../store/listener.selectors";
 import { listenerActions } from "../../store/listener.actions";
-import { GetExistingGenresRequestData, GetRecommendedArtistsRequestData, GetStartedGenresData, GetStartedGenresTypeEnum, SaveGetStartedResultsRequestData } from "../../store/listener.model";
+import {
+  GetExistingGenresRequestData,
+  GetRecommendedArtistsRequestData,
+  GetStartedGenresData,
+  GetStartedGenresTypeEnum,
+  SaveGetStartedResultsRequestData
+} from "../../store/listener.model";
 import { useDebounce } from "use-debounce";
 import { Search } from "@mui/icons-material";
 import { songGenres } from "../../../config";
@@ -71,20 +77,22 @@ export function GetStartedModal() {
   }
 
   useEffect(() => {
-    getExistingGenres({
-      choosenGenres: [],
-      search: ''
-    });
-  }, []);
+    if (isGetStartedModalOpen) {
+      getExistingGenres({
+        choosenGenres: [],
+        search: ''
+      });
+    }
+  }, [isGetStartedModalOpen]);
 
   useEffect(() => {
-    if (debouncedChoosenGenres && !isExistingGenresLoading) {
+    if (debouncedChoosenGenres && !isExistingGenresLoading && isGetStartedModalOpen) {
       getExistingGenres({
         choosenGenres: debouncedChoosenGenres,
         search: debouncedSearch
       });
     }
-  }, [debouncedChoosenGenres, debouncedSearch]);
+  }, [debouncedChoosenGenres, debouncedSearch, isGetStartedModalOpen]);
 
   const handleLoadMoreArtists = async () => {
     if (!isRecommendedArtistsLoading && (typeof isMoreRecommendedArtistsForLoading === 'undefined' || isMoreRecommendedArtistsForLoading)) {

@@ -1,12 +1,11 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Modal, Tooltip, Typography } from "antd";
+import { Button, Modal, Typography } from "antd";
 import { songRadioSelectors } from "../store/song-radio.selectors";
 import { songRadioActions } from "../store/song-radio.actions";
 import { CreateSongRadioRequestData } from "../store/song-radio.model";
-import { SongInfoResponseData } from "../../song/store/song.model";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 export function RefreshSongRadioModal() {
 

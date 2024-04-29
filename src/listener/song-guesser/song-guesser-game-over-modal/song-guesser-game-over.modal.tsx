@@ -1,15 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Button, Divider, Modal, Tooltip, Typography } from "antd";
-import { getBackground } from "../../../helpers/react/listener-page.helper";
 import { songGuesserSelectors } from "../store/song-guesser.selectors";
 import { songGuesserActions } from "../store/song-guesser.actions";
-import moment from "moment";
 import { listenerProfileTypePalete } from "../../../config";
 import { formatedSecondsTime } from "../../../helpers/react/song-guesser.helper";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export function SongGuesserGameOverModal() {
 
@@ -18,10 +15,6 @@ export function SongGuesserGameOverModal() {
 
   const dispatch = useDispatch()
   const closeGameOverModal = () => dispatch(songGuesserActions.closeGameOverModal());
-
-  useEffect(() => {
-
-  }, [])
 
   return (
     <Modal

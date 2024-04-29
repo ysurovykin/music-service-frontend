@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Collapse, CollapseProps, Divider, Spin, Tooltip, Typography } from "antd";
@@ -6,15 +6,11 @@ import { getBackground } from "../../../helpers/react/listener-page.helper";
 import { songGuesserSelectors } from "../store/song-guesser.selectors";
 import { songGuesserActions } from "../store/song-guesser.actions";
 import {
-  GetFinishedSongGuessersRequestData,
   GuesserAttemptData,
   SongGuesserAnswersFullData,
-  SongGuesserDifficultyEnum,
-  SongGuesserFilterContentData,
-  SongGuesserSortTypeEnum
 } from "../store/song-guesser.model";
 import { useInView } from "react-intersection-observer";
-import { listenerProfileTypePalete, songGenres, songGuesserDifficulties, songLanguages } from "../../../config";
+import { listenerProfileTypePalete, songGenres, songLanguages } from "../../../config";
 import { playlistSelectors } from "../../playlist/store/playlist.selectors";
 import { HeaderComponent } from "../../components/header/header.component";
 import { Link as RouterLink, useParams } from "react-router-dom";
@@ -220,9 +216,11 @@ export function FinishedSongGuesserDetailsPage() {
     }
   }
 
-  const renderAttempt = (attempt: GuesserAttemptData, index: number, attemptsCount: number) => {
+  const renderAttempt = (attempt: GuesserAttemptData, index: number, attemptsCount: number, key: string) => {
     return (
-      <div className="finished-song-guesser-page__attempt-wrapper">
+      <div 
+      className="finished-song-guesser-page__attempt-wrapper"
+      key={`attempt-${key}-${index}`}>
         <div className="finished-song-guesser-page__attempt-title">
           <Title className="m-0" level={5}>
             {index}. Guess: {renderAttemptArtistName(attempt)} - {renderAttemptSongName(attempt)}
@@ -243,12 +241,14 @@ export function FinishedSongGuesserDetailsPage() {
       {
         key: '1',
         label: <Text>Attempts</Text>,
-        children: answer?.attempts?.map((attempt, index) => renderAttempt(attempt, index + 1, answer?.attemptsCount))
+        children: answer?.attempts?.map((attempt, index) => renderAttempt(attempt, index + 1, answer?.attemptsCount, `${answer.artist.id}-${answer.song.id}`))
       }
     ]
 
     return (
-      <div className="finished-song-guesser-page__answer-wrapper">
+      <div
+        className="finished-song-guesser-page__answer-wrapper"
+        key={`${answer.artist.id}-${answer.song.id}`}>
         <div className="finished-song-guesser-page__answer-title">
           <Title className="m-0" level={5}>
             Correct answer: <RouterLink to={`/artist/${answer.artist.id}`}>{answer.artist.name}</RouterLink> - <RouterLink to={`/album/${answer.albumId}?songId=${answer.song.id}`}>{answer.song.name}</RouterLink>
@@ -259,7 +259,7 @@ export function FinishedSongGuesserDetailsPage() {
           <Text>Time spent: {formatedSecondsTime(answer?.spentTimeInSeconds!)}</Text>
         </div>
         <Divider className="mt-0" />
-        <Collapse items={collapseItems}>Attempts</Collapse>
+        <Collapse items={collapseItems} />
       </div>
     );
   }

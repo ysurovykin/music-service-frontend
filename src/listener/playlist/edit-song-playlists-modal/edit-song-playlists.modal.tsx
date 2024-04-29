@@ -1,14 +1,13 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
   Add,
-  Clear,
   Search,
 } from '@mui/icons-material';
 import { Avatar, Button, Divider, Input, Modal, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { playlistSelectors } from "../store/playlist.selectors";
 import { PlaylistInlineViewComponent } from "../playlist-views/playlist-inline-view/playlist-inline-view.component";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { playlistActions } from "../store/playlist.actions";
 import { EditedPlaylist, PlaylistInfoResponseData } from "../store/playlist.model";
 

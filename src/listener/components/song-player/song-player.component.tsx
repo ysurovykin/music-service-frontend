@@ -208,7 +208,7 @@ export function SongPlayerComponent() {
       }
       if (lastSavedVolume) {
         setVolume(lastSavedVolume);
-        audioPlayer.current.volume = lastSavedVolume / 100;
+        audioPlayer.current.volume = lastSavedVolume / 250;
       }
     }
     if (lastListenedSongQueueId) {
@@ -286,7 +286,7 @@ export function SongPlayerComponent() {
   const changeSongVolume = (value: number) => {
     setVolume(value);
     if (audioPlayer.current && !isNaN(volume!)) {
-      audioPlayer.current.volume = volume! / 100;
+      audioPlayer.current.volume = volume! / 250;
     }
   }
 
@@ -296,7 +296,8 @@ export function SongPlayerComponent() {
       isNewQueue: true,
       shuffleEnabled: state,
       repeatSongState: repeatSongState,
-      songId: currentlyPlayingSong?.songId || ''
+      songId: currentlyPlayingSong?.songId || '',
+      shouldUnpause: false,
     });
     localStorage.setItem('shuffleEnabled', JSON.stringify(state))
   }

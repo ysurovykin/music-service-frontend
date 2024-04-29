@@ -1,17 +1,14 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { songGuesserActions } from "./store/song-guesser.actions";
 import { Button, Tooltip, Typography } from "antd";
 import { getBackground } from "../../helpers/react/listener-page.helper";
-import { songSelectors } from "../song/store/song.selectors";
-import { OpenGuesserGameModalData, StartSongGuesserRequestData } from "./store/song-guesser.model";
-import { songGuesserSelectors } from "./store/song-guesser.selectors";
+import { OpenGuesserGameModalData } from "./store/song-guesser.model";
 import { useNavigate } from "react-router-dom";
 import { HeaderComponent } from "../components/header/header.component";
 import { listenerSelectors } from "../store/listener.selectors";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export function SongGuesserPage() {
   const navigate = useNavigate();
@@ -22,10 +19,6 @@ export function SongGuesserPage() {
   const openGuesserRulesModal = () => dispatch(songGuesserActions.openGuesserRulesModal());
   const openGuesserGameModal = (data: OpenGuesserGameModalData) => dispatch(songGuesserActions.openGuesserGameModal(data));
   const openGuesserStatsModal = () => dispatch(songGuesserActions.openGuesserStatsModal());
-
-  useEffect(() => {
-
-  }, [])
 
   return (
     <div className='listener-group-page__wrapper custom-scroll-y'>

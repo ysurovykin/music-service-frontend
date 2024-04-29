@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { Button, Divider, Modal, Typography } from "antd";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Button, Modal, Typography } from "antd";
 import { songGuesserSelectors } from "../store/song-guesser.selectors";
 import { songGuesserActions } from "../store/song-guesser.actions";
 

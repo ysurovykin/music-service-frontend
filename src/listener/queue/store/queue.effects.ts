@@ -87,7 +87,9 @@ function* generateQueue(action: GenerateQueueStartActionType) {
       isMoreSongsBehindForLoading: response.isMoreSongsBehindForLoading,
       isMoreSongsForwardForLoading: response.isMoreSongsForwardForLoading
     }));
-    yield put(queueActions.unpauseSong());
+    if (action.payload.shouldUnpause !== false) {
+      yield put(queueActions.unpauseSong());
+    }
   } catch (e) {
     const error = e as AxiosError;
     const queueLoadingNotificationId = localStorage.getItem('queueLoadingNotificationId');

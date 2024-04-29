@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Button, Divider, Modal, Tooltip, Typography } from "antd";
 import { songGuesserSelectors } from "../store/song-guesser.selectors";
 import { songGuesserActions } from "../store/song-guesser.actions";
@@ -9,7 +8,7 @@ import { formatedSecondsTime } from "../../../helpers/react/song-guesser.helper"
 import { useNavigate } from "react-router-dom";
 import { listenerSelectors } from "../../store/listener.selectors";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export function SongGuesserStatsModal() {
   const navigate = useNavigate();
