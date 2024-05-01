@@ -72,7 +72,8 @@ export function SongRadioPage() {
               shuffleEnabled: false,
               options: {
                 songRadioBaseSongId: baseSongId
-              }
+              },
+              sortingOptions: {}
             })}
             onMouseEnter={() => setIsCoverImageHovered(!!songs?.length && true)}
             onMouseLeave={() => setIsCoverImageHovered(false)}>

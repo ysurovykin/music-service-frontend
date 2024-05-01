@@ -68,8 +68,8 @@ export function PlaylistPage() {
               shuffleEnabled: false,
               options: {
                 playlistId
-              }
-              //TODO write when needed sortingOptions={{ }} 
+              },
+              sortingOptions: {}
             })}
             onMouseEnter={() => setIsCoverImageHovered(!!songs?.length && true)}
             onMouseLeave={() => setIsCoverImageHovered(false)}>

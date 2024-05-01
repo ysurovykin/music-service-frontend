@@ -61,11 +61,11 @@ export function PersonalInfoStep({ form }: { form: FormInstance }) {
             label={renderTextWithToolTip("Country", 'We use your country to help personalize our content recommendations for you.')}
             name="country"
             rules={[
-              { required: true, message: 'Please input gender' }
+              { required: true, message: 'Please input country' }
             ]}>
             <Select
               showSearch
-              options={Object.values(countries)?.map(countryName => ({ value: countryName, lable: countryName }))} />
+              options={Object.keys(countries)?.map(countryId => ({ value: countryId, label: countries[countryId] }))} />
           </Form.Item>
         </Col>
       </Row>
@@ -113,7 +113,7 @@ export function PersonalInfoStep({ form }: { form: FormInstance }) {
                 help=''>
                 <Select
                   placeholder="Month"
-                  options={Object.keys(months)?.map(month => ({ value: months[month], label: month }))} />
+                  options={Object.keys(months)?.map(month => ({ value: month, label: months[month] }))} />
               </Form.Item>
             </Col>
             <Col span={7}>

@@ -107,7 +107,8 @@ export function AlbumPage() {
               shuffleEnabled: false,
               options: {
                 albumId
-              }
+              },
+              sortingOptions: {}
             })}
             onMouseEnter={() => setIsCoverImageHovered(!!songs?.length && true)}
             onMouseLeave={() => setIsCoverImageHovered(false)}>

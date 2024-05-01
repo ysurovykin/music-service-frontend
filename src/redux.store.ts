@@ -32,8 +32,12 @@ import { songRadioReducer } from "./listener/song-radio/store/song-radio.reducer
 import { SongGuesserState } from "./listener/song-guesser/store/song-guesser.model";
 import { songGuesserEffects } from "./listener/song-guesser/store/song-guesser.effects";
 import { songGuesserReducer } from "./listener/song-guesser/store/song-guesser.reducer";
+import { ArtistProfileState } from "./artist/store/artist-profile.model";
+import { artistProfileEffects } from "./artist/store/artist-profile.effects";
+import { artistProfileReducer } from "./artist/store/artist-profile.reducer";
 
 const rootReducer = combineReducers({
+  artistProfile: artistProfileReducer,
   artist: artistReducer,
   album: albumReducer,
   playlist: playlistReducer,
@@ -48,6 +52,7 @@ const rootReducer = combineReducers({
 
 function* rootEffects() {
   yield all([
+    ...artistProfileEffects,
     ...artistEffects,
     ...albumEffects,
     ...playlistEffects,
@@ -62,6 +67,7 @@ function* rootEffects() {
 }
 
 export interface InitialState {
+  artistProfile: ArtistProfileState,
   artist: ArtistState,
   album: AlbumState,
   playlist: PlaylistState,

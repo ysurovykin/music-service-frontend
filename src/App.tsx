@@ -22,7 +22,8 @@ function App() {
     } else if (profileType === 'artist') {
       return artistProfileTypePalete;
     } else {
-      return listenerProfileTypePalete;}
+      return listenerProfileTypePalete;
+    }
   }, [profileType])
 
   useEffect(() => {
@@ -45,12 +46,15 @@ function App() {
             Carousel: {
               colorBgContainer: currentPalete.base
             },
+            List: {
+              colorText: '#ffffff'
+            },
             Switch: {
               trackHeight: 32,
               trackMinWidth: 54,
               innerMaxMargin: 36,
               handleSize: 28,
-              colorTextLightSolid: '#000000',
+              colorTextLightSolid: '#ffffff',
               colorPrimary: artistProfileTypePalete.base,
               colorPrimaryHover: artistProfileTypePalete.base,
               colorTextTertiary: listenerProfileTypePalete.base,
@@ -94,7 +98,9 @@ function App() {
               colorTextPlaceholder: 'grey',
               hoverBg: currentPalete.backgroundAccent,
               activeBg: currentPalete.backgroundAccent,
-              colorBgContainer: currentPalete.backgroundAccent
+              colorBgContainer: currentPalete.backgroundAccent,
+              colorIconHover: '#ffffff',
+              colorIcon: '#ffffff',
             },
             Button: {
               colorText: '#ffffff'

@@ -15,7 +15,6 @@ import { useDispatch } from "react-redux";
 import { playlistActions } from "../../playlist/store/playlist.actions";
 import { PlaylistIconViewComponent } from "../../playlist/playlist-views/playlist-icon-view/playlist-icon-view.component";
 import { listenerProfileTypePalete } from "../../../config";
-import { request } from "http";
 import { ChangePlaylistPinRequestData, GetPlaylistsRequest } from "../../playlist/store/playlist.model";
 
 export function SidebarComponent() {

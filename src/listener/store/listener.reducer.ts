@@ -241,25 +241,6 @@ export const listenerReducer = (state = listenerState, action: ListenerActions):
         isSubscriptionChangingLoading: false
       }
     }
-    case ListenerActionTypes.GET_USER_CREDIT_CARDS: {
-      return {
-        ...state,
-        isGetUserCreditCardsLoading: true
-      }
-    }
-    case ListenerActionTypes.GET_USER_CREDIT_CARDS_SUCCESS: {
-      return {
-        ...state,
-        isGetUserCreditCardsLoading: false,
-        userCreditCards: action.payload
-      }
-    }
-    case ListenerActionTypes.GET_USER_CREDIT_CARDS_FAILED: {
-      return {
-        ...state,
-        isGetUserCreditCardsLoading: false
-      }
-    }
     default: {
       return { ...state }
     }

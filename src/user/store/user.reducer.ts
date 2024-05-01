@@ -20,7 +20,8 @@ export const userReducer = (state = userState, action: UserActions): UserState =
         userId: action.payload.user.userId,
         gender: action.payload.user.gender,
         birthDate: action.payload.user.birthDate,
-        profileType: action.payload.user.profileType
+        hasArtistProfile: action.payload.user.hasArtistProfile,
+        hasListenerProfile: action.payload.user.hasListenerProfile
       }
     }
     case UserActionTypes.LOGIN_FAILED: {
@@ -45,7 +46,9 @@ export const userReducer = (state = userState, action: UserActions): UserState =
         userId: action.payload.user.userId,
         gender: action.payload.user.gender,
         birthDate: action.payload.user.birthDate,
-        profileType: action.payload.user.profileType
+        profileType: action.payload.user.profileType,
+        hasArtistProfile: action.payload.user.hasArtistProfile,
+        hasListenerProfile: action.payload.user.hasListenerProfile
       }
     }
     case UserActionTypes.REGISTRATION_FAILED: {
@@ -70,7 +73,9 @@ export const userReducer = (state = userState, action: UserActions): UserState =
         userId: action.payload.user.userId,
         gender: action.payload.user.gender,
         birthDate: action.payload.user.birthDate,
-        profileType: action.payload.user.profileType
+        profileType: action.payload.user.profileType,
+        hasArtistProfile: action.payload.user.hasArtistProfile,
+        hasListenerProfile: action.payload.user.hasListenerProfile
       }
     }
     case UserActionTypes.REFRESH_FAILED: {
@@ -114,6 +119,46 @@ export const userReducer = (state = userState, action: UserActions): UserState =
       return {
         ...state,
         profileType: ProfileTypeEnum.listener
+      }
+    }
+    case UserActionTypes.SWITCH_PROFILE_TYPE: {
+      return {
+        ...state,
+        isSwitchProfileTypeLoading: true
+      }
+    }
+    case UserActionTypes.SWITCH_PROFILE_TYPE_SUCCESS: {
+      return {
+        ...state,
+        isSwitchProfileTypeLoading: false,
+        profileType: action.payload.user.profileType,
+        hasArtistProfile: action.payload.user.hasArtistProfile,
+        hasListenerProfile: action.payload.user.hasListenerProfile
+      }
+    }
+    case UserActionTypes.SWITCH_PROFILE_TYPE_FAILED: {
+      return {
+        ...state,
+        isSwitchProfileTypeLoading: false
+      }
+    }
+    case UserActionTypes.GET_USER_CREDIT_CARDS: {
+      return {
+        ...state,
+        isGetUserCreditCardsLoading: true
+      }
+    }
+    case UserActionTypes.GET_USER_CREDIT_CARDS_SUCCESS: {
+      return {
+        ...state,
+        isGetUserCreditCardsLoading: false,
+        userCreditCards: action.payload
+      }
+    }
+    case UserActionTypes.GET_USER_CREDIT_CARDS_FAILED: {
+      return {
+        ...state,
+        isGetUserCreditCardsLoading: false
       }
     }
     default: {

@@ -1,15 +1,21 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { HomePageContentResponseData, ListenerActionTypes, ListenerInfoResponseData, ContentData, GetAccountContentCountResponseData, GetExistingGenresResponseData, GetRecommendedArtistsResponseData, UserCreditCardInfo } from './listener.model';
+import {
+  HomePageContentResponseData,
+  ListenerActionTypes,
+  ListenerInfoResponseData,
+  ContentData,
+  GetAccountContentCountResponseData,
+  GetExistingGenresResponseData,
+  GetRecommendedArtistsResponseData
+} from './listener.model';
 import {
   ChangeSubscriptionStartActionType,
-  DeleteUserCreditCardStartActionType,
   EditProfileStartActionType,
   GetAccountContentCountStartActionType,
   GetExistingGenresStartActionType,
   GetHomePageContentStartActionType,
   GetListenerByIdStartActionType, GetRecentMostVisitedContentStartActionType,
   GetRecommendedArtistsStartActionType,
-  GetUserCreditCardsStartActionType,
   SaveGetStartedResultsStartActionType
 } from './listener.actions.types';
 import ListenerService from './listener.service';
@@ -19,6 +25,7 @@ import { userSelectors } from '../../user/store/user.selectors';
 import { AxiosError } from 'axios';
 import { listenerSelectors } from './listener.selectors';
 import { ArtistInfoResponseData } from '../artist/store/artist.model';
+import { userActions } from '../../user/store/user.actions';
 
 export const listenerEffects = [
   takeEvery(ListenerActionTypes.GET_LISTENER_BY_ID, getListenerById),
@@ -39,12 +46,8 @@ export const listenerEffects = [
   takeEvery(ListenerActionTypes.LOAD_MORE_RECOMMENDED_ARTISTS_FAILED, handleError),
   takeEvery(ListenerActionTypes.SAVE_GET_STARTED_RESULTS, saveGetStartedResults),
   takeEvery(ListenerActionTypes.SAVE_GET_STARTED_RESULTS_FAILED, handleError),
-  takeEvery(ListenerActionTypes.GET_USER_CREDIT_CARDS, getUserCreditCards),
-  takeEvery(ListenerActionTypes.GET_USER_CREDIT_CARDS_FAILED, handleError),
   takeEvery(ListenerActionTypes.CHANGE_SUBSCRIPTION, changeSubscription),
   takeEvery(ListenerActionTypes.CHANGE_SUBSCRIPTION_FAILED, handleError),
-  takeEvery(ListenerActionTypes.DELETE_USER_CREDIT_CARD, deleteUserCreditCard),
-  takeEvery(ListenerActionTypes.DELETE_USER_CREDIT_CARD_FAILED, handleError),
 ];
 
 function* getListenerById(action: GetListenerByIdStartActionType) {
@@ -161,16 +164,7 @@ function* saveGetStartedResults(action: SaveGetStartedResultsStartActionType) {
   }
 }
 
-function* getUserCreditCards(action: GetUserCreditCardsStartActionType) {
-  try {
-    const listenerId: string = yield select(userSelectors.userId);
-    const response: Array<UserCreditCardInfo> = yield ListenerService.getUserCreditCards(listenerId);
-    yield put(listenerActions.getUserCreditCardsSuccess(response));
-  } catch (e) {
-    const error = e as AxiosError;
-    yield put(listenerActions.getUserCreditCardsFailed({ error }));
-  }
-}
+
 
 function* changeSubscription(action: ChangeSubscriptionStartActionType) {
   try {
@@ -178,7 +172,7 @@ function* changeSubscription(action: ChangeSubscriptionStartActionType) {
     yield ListenerService.changeSubscription(listenerId, action.payload);
     yield put(listenerActions.changeSubscriptionSuccess());
     yield put(listenerActions.getListenerById(listenerId));
-    yield put(listenerActions.getUserCreditCards());
+    yield put(userActions.getUserCreditCards());
     yield showNotification('success', 'Subscription successfully changed');
   } catch (e) {
     const error = e as AxiosError;
@@ -186,16 +180,7 @@ function* changeSubscription(action: ChangeSubscriptionStartActionType) {
   }
 }
 
-function* deleteUserCreditCard(action: DeleteUserCreditCardStartActionType) {
-  try {
-    const listenerId: string = yield select(userSelectors.userId);
-    yield ListenerService.deleteUserCreditCard(listenerId, action.payload);
-    yield put(listenerActions.deleteUserCreditCardSuccess());
-  } catch (e) {
-    const error = e as AxiosError;
-    yield put(listenerActions.deleteUserCreditCardFailed({ error }));
-  }
-}
+
 
 function* handleError(action: ErrorActionType) {
   yield showNotification('error', (getErrorMessage(action.payload.error)));

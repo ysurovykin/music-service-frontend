@@ -155,7 +155,8 @@ export function ArtistPage() {
               shuffleEnabled: false,
               options: {
                 artistId
-              }
+              },
+              sortingOptions: {}
             })}
             onMouseEnter={() => setIsCoverImageHovered(!!songs?.length && true)}
             onMouseLeave={() => setIsCoverImageHovered(false)}>

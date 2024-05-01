@@ -29,8 +29,6 @@ const getStartedCompleted = createSelector(listenerState, listener => listener?.
 const isSaveGetStartedResultsLoading = createSelector(listenerState, listener => listener?.isSaveGetStartedResultsLoading);
 const isChangeSubscriptionModalOpen = createSelector(listenerState, listener => listener?.isChangeSubscriptionModalOpen);
 const isSubscriptionChangingLoading = createSelector(listenerState, listener => listener?.isSubscriptionChangingLoading);
-const userCreditCards = createSelector(listenerState, listener => listener?.userCreditCards);
-const isGetUserCreditCardsLoading = createSelector(listenerState, listener => listener?.isGetUserCreditCardsLoading);
 const subscriptionCanceledAtDate = createSelector(listenerState, listener => listener?.subscriptionCanceledAtDate);
 
 export const listenerSelectors = {
@@ -60,7 +58,5 @@ export const listenerSelectors = {
   isSaveGetStartedResultsLoading,
   isChangeSubscriptionModalOpen,
   isSubscriptionChangingLoading,
-  userCreditCards,
-  isGetUserCreditCardsLoading,
   subscriptionCanceledAtDate,
 };

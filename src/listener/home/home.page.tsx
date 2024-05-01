@@ -23,7 +23,7 @@ export function HomePage() {
   const navigate = useNavigate();
 
   const userId = useSelector(userSelectors.userId);
-  const name = useSelector(userSelectors.name);
+  const name = useSelector(listenerSelectors.name);
   const mostVisitedContent = useSelector(listenerSelectors.mostVisitedContent);
   const isMostVisitedContentLoading = useSelector(listenerSelectors.isMostVisitedContentLoading);
   const homePageContent = useSelector(listenerSelectors.homePageContent);

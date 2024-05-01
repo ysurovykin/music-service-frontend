@@ -4,6 +4,7 @@ import { userSelectors } from './user/store/user.selectors';
 import ListenerRouter from './listener/components/listener-router/listener.router';
 import { PageLoaderComponent } from './listener/components/loader/page-loader';
 import UnauthorizedRouter from './user/unauthorized-router/unauthorized.router';
+import ArtistProfileRouter from './artist/components/artist-router/artist.router';
 
 export default function AppRouter() {
 
@@ -21,7 +22,9 @@ export default function AppRouter() {
     return (
       <div className='router__wrapper'>
         <div className='router'>
-          <ListenerRouter />
+          {profileType === 'artist' ?
+            <ArtistProfileRouter /> :
+            <ListenerRouter />}
         </div>
       </div>
     );

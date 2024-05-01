@@ -12,7 +12,6 @@ import {
     GetHomePageContentRequestData,
     SaveGetStartedResultsRequestData,
     ChangeSubscriptionRequestData,
-    UserCreditCardInfo
 } from "./listener.model";
 
 export default class ListenerService {
@@ -61,17 +60,10 @@ export default class ListenerService {
         });
     }
 
-    static async getUserCreditCards(listenerId: string): Promise<AxiosResponse<Array<UserCreditCardInfo>>> {
-        return await api.get<Array<UserCreditCardInfo>>(`/listener/credit-cards/${listenerId}`);
-    }
-
     static async changeSubscription(listenerId: string, request: ChangeSubscriptionRequestData): Promise<AxiosResponse<void>> {
         return await api.post<void>('/listener/change-subscription', { ...request }, {
             params: { listenerId: listenerId }
         });
     }
 
-    static async deleteUserCreditCard(listenerId: string, cardId: string): Promise<AxiosResponse<void>> {
-        return await api.delete<void>(`/listener/${listenerId}/delete-credit-card/${cardId}`);
-    }
 }

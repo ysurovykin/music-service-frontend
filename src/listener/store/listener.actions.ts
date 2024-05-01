@@ -36,12 +36,6 @@ import {
   ChangeSubscriptionStartActionType,
   ChangeSubscriptionSuccessActionType,
   ChangeSubscriptionFailedActionType,
-  GetUserCreditCardsStartActionType,
-  GetUserCreditCardsSuccessActionType,
-  GetUserCreditCardsFailedActionType,
-  DeleteUserCreditCardStartActionType,
-  DeleteUserCreditCardSuccessActionType,
-  DeleteUserCreditCardFailedActionType,
 } from "./listener.actions.types";
 import {
   HomePageContentResponseData,
@@ -57,7 +51,6 @@ import {
   GetHomePageContentRequestData,
   SaveGetStartedResultsRequestData,
   ChangeSubscriptionRequestData,
-  UserCreditCardInfo
 } from "./listener.model"
 
 export const getListenerByIdStartAction = (listenerId: string):
@@ -168,24 +161,6 @@ export const changeSubscriptionSuccessAction = ():
 export const changeSubscriptionFailedAction = (error: ActionFailedError):
   ChangeSubscriptionFailedActionType => ({ type: ListenerActionTypes.CHANGE_SUBSCRIPTION_FAILED, payload: error });
 
-export const getUserCreditCardsStartAction = ():
-  GetUserCreditCardsStartActionType => ({ type: ListenerActionTypes.GET_USER_CREDIT_CARDS, payload: undefined });
-
-export const getUserCreditCardsSuccessAction = (response: Array<UserCreditCardInfo>):
-  GetUserCreditCardsSuccessActionType => ({ type: ListenerActionTypes.GET_USER_CREDIT_CARDS_SUCCESS, payload: response });
-
-export const getUserCreditCardsFailedAction = (error: ActionFailedError):
-  GetUserCreditCardsFailedActionType => ({ type: ListenerActionTypes.GET_USER_CREDIT_CARDS_FAILED, payload: error });
-
-export const deleteUserCreditCardStartAction = (cardId: string):
-  DeleteUserCreditCardStartActionType => ({ type: ListenerActionTypes.DELETE_USER_CREDIT_CARD, payload: cardId });
-
-export const deleteUserCreditCardSuccessAction = ():
-  DeleteUserCreditCardSuccessActionType => ({ type: ListenerActionTypes.DELETE_USER_CREDIT_CARD_SUCCESS, payload: undefined });
-
-export const deleteUserCreditCardFailedAction = (error: ActionFailedError):
-  DeleteUserCreditCardFailedActionType => ({ type: ListenerActionTypes.DELETE_USER_CREDIT_CARD_FAILED, payload: error });
-
 export const listenerActions = {
   getListenerById: (listenerId: string) => getListenerByIdStartAction(listenerId),
   getListenerByIdSuccess: (response: ListenerInfoResponseData) => getListenerByIdSuccessAction(response),
@@ -220,14 +195,8 @@ export const listenerActions = {
   saveGetStartedResultsFailed: (error: ActionFailedError) => saveGetStartedResultsFailedAction(error),
   openChangeSubscriptionModal: () => openChangeSubscriptionModalAction(),
   closeChangeSubscriptionModal: () => closeChangeSubscriptionModalAction(),
-  getUserCreditCards: () => getUserCreditCardsStartAction(),
-  getUserCreditCardsSuccess: (response: Array<UserCreditCardInfo>) => getUserCreditCardsSuccessAction(response),
-  getUserCreditCardsFailed: (error: ActionFailedError) => getUserCreditCardsFailedAction(error),
   changeSubscription: (request: ChangeSubscriptionRequestData) => changeSubscriptionStartAction(request),
   changeSubscriptionSuccess: () => changeSubscriptionSuccessAction(),
   changeSubscriptionFailed: (error: ActionFailedError) => changeSubscriptionFailedAction(error),
-  deleteUserCreditCard: (cardId: string) => deleteUserCreditCardStartAction(cardId),
-  deleteUserCreditCardSuccess: () => deleteUserCreditCardSuccessAction(),
-  deleteUserCreditCardFailed: (error: ActionFailedError) => deleteUserCreditCardFailedAction(error),
 }
 

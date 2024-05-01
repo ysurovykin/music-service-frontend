@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../store/user.actions';
-import { UserLoginData } from '../store/user.model';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { ProfileTypeEnum, UserLoginData } from '../store/user.model';
+import { Button, Checkbox, Form, Input, Switch } from 'antd';
 import { Link } from 'react-router-dom';
+import { userSelectors } from '../store/user.selectors';
 
 export function LoginPage() {
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
   const [form] = Form.useForm();
   const values = Form.useWatch([], form);
 
+  const profileType = useSelector(userSelectors.profileType);
+
   const dispatch = useDispatch()
   const login = (loginData: UserLoginData) => dispatch(userActions.login(loginData));
+  const switchUserToArtist = () => dispatch(userActions.switchUserToArtist());
+  const switchUserToListener = () => dispatch(userActions.switchUserToListener());
 
   useEffect(() => {
     form.validateFields({ validateOnly: true }).then(
@@ -25,7 +30,7 @@ export function LoginPage() {
   }, [form, values]);
 
   const onFinish = (values: any) => {
-    login({ ...values })
+    login({ ...values, profileType: values?.artistProfile ? ProfileTypeEnum.artist : ProfileTypeEnum.listener })
   };
 
   return (
@@ -33,7 +38,10 @@ export function LoginPage() {
       <div className="login-page__form-wrapper">
         <Form
           className="login-page__form"
-          initialValues={{ remember: true }}
+          initialValues={{
+            artistProfile: (profileType || localStorage.getItem('profileType') || ProfileTypeEnum.listener) === ProfileTypeEnum.listener ? false : true,
+            remember: true
+          }}
           form={form}
           onFinish={onFinish}
           autoComplete="off"
@@ -55,19 +63,23 @@ export function LoginPage() {
             <Input.Password />
           </Form.Item>
 
-          <Form.Item>
+          <div className='login-page__login-options'>
             <Form.Item
               name="remember"
               valuePropName="checked"
               noStyle>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
-            <Link
-              className="login-page__forgot-password-link"
-              to={'/reset-password'}>
-              Forgot password
-            </Link>
-          </Form.Item>
+            <Form.Item
+              className='m-0'
+              name="artistProfile">
+              <Switch
+                checked={values?.artistProfile === true}
+                onChange={() => values?.artistProfile ? switchUserToListener() : switchUserToArtist()}
+                checkedChildren="Artist profile"
+                unCheckedChildren="Listener profile" />
+            </Form.Item>
+          </div>
 
           <Form.Item >
             <Button
@@ -85,7 +97,7 @@ export function LoginPage() {
             Do not have an account?
           </Link>
         </Form>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

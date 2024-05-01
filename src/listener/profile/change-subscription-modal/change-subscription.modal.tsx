@@ -10,6 +10,8 @@ import {
   renderTitleWithToolTip
 } from "../../../helpers/react/form.helper";
 import { ChangeSubscriptionRequestData } from "../../store/listener.model";
+import { userSelectors } from "../../../user/store/user.selectors";
+import { userActions } from "../../../user/store/user.actions";
 
 const { Text, Title } = Typography;
 
@@ -27,13 +29,13 @@ export function ChangeSubscriptionModal() {
   const isChangeSubscriptionModalOpen = useSelector(listenerSelectors.isChangeSubscriptionModalOpen);
   const isSubscriptionChangingLoading = useSelector(listenerSelectors.isSubscriptionChangingLoading);
   const subscription = useSelector(listenerSelectors.subscription);
-  const userCreditCards = useSelector(listenerSelectors.userCreditCards);
+  const userCreditCards = useSelector(userSelectors.userCreditCards);
 
   const dispatch = useDispatch();
   const closeChangeSubscriptionModal = () => dispatch(listenerActions.closeChangeSubscriptionModal());
-  const getUserCreditCards = () => dispatch(listenerActions.getUserCreditCards());
+  const getUserCreditCards = () => dispatch(userActions.getUserCreditCards());
   const changeSubscription = (request: ChangeSubscriptionRequestData) => dispatch(listenerActions.changeSubscription(request));
-  const deleteUserCreditCard = (cardId: string) => dispatch(listenerActions.deleteUserCreditCard(cardId));
+  const deleteUserCreditCard = (cardId: string) => dispatch(userActions.deleteUserCreditCard(cardId));
 
   const deleteCreditCardFunction = (event: React.MouseEvent<HTMLElement, MouseEvent>, cardId: string) => {
     event.stopPropagation();
@@ -73,17 +75,20 @@ export function ChangeSubscriptionModal() {
             number: cardNumber,
             date: cardDate,
             cvv: cardCVV,
-          }
+          },
+          profileType: 'listener'
         })
       } else {
         changeSubscription({
           subscription: selectedSubscriptionPlan,
-          cardId: selectedCreditCard
+          cardId: selectedCreditCard,
+          profileType: 'listener'
         })
       }
     } else {
       changeSubscription({
-        subscription: 'free'
+        subscription: 'free',
+        profileType: 'listener'
       })
 
     }

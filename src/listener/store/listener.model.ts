@@ -1,3 +1,4 @@
+import { CardDetails } from "../../user/store/user.model";
 import { AlbumInfoResponseData } from "../album/store/album.model";
 import { ArtistInfoResponseData } from "../artist/store/artist.model";
 import { PlaylistInfoResponseData } from "../playlist/store/playlist.model";
@@ -29,8 +30,6 @@ export const listenerState: ListenerState = {
   isSaveGetStartedResultsLoading: false,
   isChangeSubscriptionModalOpen: false,
   isSubscriptionChangingLoading: false,
-  isGetUserCreditCardsLoading: false,
-  userCreditCards: undefined,
   subscriptionCanceledAtDate: undefined,
 };
 
@@ -61,8 +60,6 @@ export interface ListenerState {
   isSaveGetStartedResultsLoading?: boolean;
   isChangeSubscriptionModalOpen?: boolean;
   isSubscriptionChangingLoading?: boolean;
-  isGetUserCreditCardsLoading?: boolean;
-  userCreditCards?: Array<UserCreditCardInfo>;
   subscriptionCanceledAtDate?: string;
 }
 
@@ -152,22 +149,11 @@ export type GetHomePageContentRequestData = {
   forceUpdate?: boolean;
 }
 
-export type CardDetails = {
-  holderName: string;
-  number: string;
-  date: string;
-  cvv: string;
-}
-
-export type UserCreditCardInfo = {
-  cardId: string;
-  lastDigits: string;
-}
-
 export type ChangeSubscriptionRequestData = {
   subscription: string;
   cardId?: string; //if cardDetails is undefined
   cardDetails?: CardDetails; //if cardId is undefined
+  profileType: string;
 }
 
 export enum ListenerActionTypes {
@@ -219,12 +205,4 @@ export enum ListenerActionTypes {
   CHANGE_SUBSCRIPTION = "LISTENER.CHANGE_SUBSCRIPTION_START",
   CHANGE_SUBSCRIPTION_SUCCESS = "LISTENER.CHANGE_SUBSCRIPTION_SUCCESS",
   CHANGE_SUBSCRIPTION_FAILED = "LISTENER.CHANGE_SUBSCRIPTION_FAILED",
-
-  GET_USER_CREDIT_CARDS = "LISTENER.GET_USER_CREDIT_CARDS_START",
-  GET_USER_CREDIT_CARDS_SUCCESS = "LISTENER.GET_USER_CREDIT_CARDS_SUCCESS",
-  GET_USER_CREDIT_CARDS_FAILED = "LISTENER.GET_USER_CREDIT_CARDS_FAILED",
-
-  DELETE_USER_CREDIT_CARD = "LISTENER.DELETE_USER_CREDIT_CARD_START",
-  DELETE_USER_CREDIT_CARD_SUCCESS = "LISTENER.DELETE_USER_CREDIT_CARD_SUCCESS",
-  DELETE_USER_CREDIT_CARD_FAILED = "LISTENER.DELETE_USER_CREDIT_CARD_FAILED",
 };

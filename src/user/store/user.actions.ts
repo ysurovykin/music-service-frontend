@@ -12,15 +12,26 @@ import {
   SetAvatarActionType,
   SwitchUserToArtistActionType,
   SwitchUserToListenerActionType,
+  SwitchProfileTypeStartActionType,
+  SwitchProfileTypeSuccessActionType,
+  SwitchProfileTypeFailedActionType,
   RefreshStartActionType,
   RefreshSuccessActionType,
-  RefreshFailedActionType
+  RefreshFailedActionType,
+  GetUserCreditCardsStartActionType,
+  GetUserCreditCardsSuccessActionType,
+  GetUserCreditCardsFailedActionType,
+  DeleteUserCreditCardStartActionType,
+  DeleteUserCreditCardSuccessActionType,
+  DeleteUserCreditCardFailedActionType,
 } from "./user.actions.types";
 import {
   UserDataWithTokens,
   UserLoginData,
   UserRegistrationData,
-  UserActionTypes
+  UserActionTypes,
+  SwitchProfileTypeRequestData,
+  UserCreditCardInfo
 } from "./user.model"
 
 export const loginStartAction = (loginData: UserLoginData):
@@ -65,6 +76,33 @@ export const switchUserToArtistAction = ():
 export const switchUserToListenerAction = ():
   SwitchUserToListenerActionType => ({ type: UserActionTypes.SWITCH_USER_TO_LISTENER, payload: undefined });
 
+export const switchProfileTypeStartAction = (request: SwitchProfileTypeRequestData):
+  SwitchProfileTypeStartActionType => ({ type: UserActionTypes.SWITCH_PROFILE_TYPE, payload: request });
+
+export const switchProfileTypeSuccessAction = (response: UserDataWithTokens):
+  SwitchProfileTypeSuccessActionType => ({ type: UserActionTypes.SWITCH_PROFILE_TYPE_SUCCESS, payload: response });
+
+export const switchProfileTypeFailedAction = (error: ActionFailedError):
+  SwitchProfileTypeFailedActionType => ({ type: UserActionTypes.SWITCH_PROFILE_TYPE_FAILED, payload: error });
+
+export const getUserCreditCardsStartAction = ():
+  GetUserCreditCardsStartActionType => ({ type: UserActionTypes.GET_USER_CREDIT_CARDS, payload: undefined });
+
+export const getUserCreditCardsSuccessAction = (response: Array<UserCreditCardInfo>):
+  GetUserCreditCardsSuccessActionType => ({ type: UserActionTypes.GET_USER_CREDIT_CARDS_SUCCESS, payload: response });
+
+export const getUserCreditCardsFailedAction = (error: ActionFailedError):
+  GetUserCreditCardsFailedActionType => ({ type: UserActionTypes.GET_USER_CREDIT_CARDS_FAILED, payload: error });
+
+export const deleteUserCreditCardStartAction = (cardId: string):
+  DeleteUserCreditCardStartActionType => ({ type: UserActionTypes.DELETE_USER_CREDIT_CARD, payload: cardId });
+
+export const deleteUserCreditCardSuccessAction = ():
+  DeleteUserCreditCardSuccessActionType => ({ type: UserActionTypes.DELETE_USER_CREDIT_CARD_SUCCESS, payload: undefined });
+
+export const deleteUserCreditCardFailedAction = (error: ActionFailedError):
+  DeleteUserCreditCardFailedActionType => ({ type: UserActionTypes.DELETE_USER_CREDIT_CARD_FAILED, payload: error });
+
 export const userActions = {
   login: (loginData: UserLoginData) => loginStartAction(loginData),
   loginSuccess: (response: UserDataWithTokens) => loginSuccessAction(response),
@@ -79,6 +117,15 @@ export const userActions = {
   logoutSuccess: () => logoutSuccessAction(),
   logoutFailed: (error: ActionFailedError) => logoutFailedAction(error),
   switchUserToArtist: () => switchUserToArtistAction(),
-  switchUserToListener: () => switchUserToListenerAction()
+  switchUserToListener: () => switchUserToListenerAction(),
+  switchProfileType: (request: SwitchProfileTypeRequestData) => switchProfileTypeStartAction(request),
+  switchProfileTypeSuccess: (response: UserDataWithTokens) => switchProfileTypeSuccessAction(response),
+  switchProfileTypeFailed: (error: ActionFailedError) => switchProfileTypeFailedAction(error),
+  getUserCreditCards: () => getUserCreditCardsStartAction(),
+  getUserCreditCardsSuccess: (response: Array<UserCreditCardInfo>) => getUserCreditCardsSuccessAction(response),
+  getUserCreditCardsFailed: (error: ActionFailedError) => getUserCreditCardsFailedAction(error),
+  deleteUserCreditCard: (cardId: string) => deleteUserCreditCardStartAction(cardId),
+  deleteUserCreditCardSuccess: () => deleteUserCreditCardSuccessAction(),
+  deleteUserCreditCardFailed: (error: ActionFailedError) => deleteUserCreditCardFailedAction(error),
 }
 

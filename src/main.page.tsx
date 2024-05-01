@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { userSelectors } from "./user/store/user.selectors";
-import { HomePage } from "./listener/home/home.page";
-import { ArtistPage } from "./artist/artist.page";
+import { HomePage as ListenerHomePage } from "./listener/home/home.page";
+import { HomePage as ArtistHomePage} from "./artist/home/home.page";
 import { AdminPage } from "./admin/admin.page";
 
 export function MainPage() {
@@ -11,8 +11,8 @@ export function MainPage() {
 
   const profileTypePages = () => {
     switch (profileType) {
-      case 'listener': return <HomePage />;
-      case 'artist': return <ArtistPage />;
+      case 'listener': return <ListenerHomePage />;
+      case 'artist': return <ArtistHomePage />;
       case 'admin': return <AdminPage />;
       default: return <>Error</>;
     }

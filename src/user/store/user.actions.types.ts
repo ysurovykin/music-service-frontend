@@ -3,7 +3,9 @@ import {
   UserLoginData,
   UserDataWithTokens,
   UserRegistrationData,
-  UserActionTypes
+  UserActionTypes,
+  SwitchProfileTypeRequestData,
+  UserCreditCardInfo
 } from "./user.model";
 
 export type LoginStartActionType = {
@@ -81,6 +83,51 @@ export type SwitchUserToListenerActionType = {
   payload: undefined;
 };
 
+export type SwitchProfileTypeStartActionType = {
+  type: typeof UserActionTypes.SWITCH_PROFILE_TYPE;
+  payload: SwitchProfileTypeRequestData;
+};
+
+export type SwitchProfileTypeSuccessActionType = {
+  type: typeof UserActionTypes.SWITCH_PROFILE_TYPE_SUCCESS;
+  payload: UserDataWithTokens;
+};
+
+export type SwitchProfileTypeFailedActionType = {
+  type: typeof UserActionTypes.SWITCH_PROFILE_TYPE_FAILED;
+  payload: ActionFailedError;
+};
+
+export type GetUserCreditCardsStartActionType = {
+  type: typeof UserActionTypes.GET_USER_CREDIT_CARDS;
+  payload: undefined;
+};
+
+export type GetUserCreditCardsSuccessActionType = {
+  type: typeof UserActionTypes.GET_USER_CREDIT_CARDS_SUCCESS;
+  payload: Array<UserCreditCardInfo>;
+};
+
+export type GetUserCreditCardsFailedActionType = {
+  type: typeof UserActionTypes.GET_USER_CREDIT_CARDS_FAILED;
+  payload: ActionFailedError;
+};
+
+export type DeleteUserCreditCardStartActionType = {
+  type: typeof UserActionTypes.DELETE_USER_CREDIT_CARD;
+  payload: string;
+};
+
+export type DeleteUserCreditCardSuccessActionType = {
+  type: typeof UserActionTypes.DELETE_USER_CREDIT_CARD_SUCCESS;
+  payload: undefined;
+};
+
+export type DeleteUserCreditCardFailedActionType = {
+  type: typeof UserActionTypes.DELETE_USER_CREDIT_CARD_FAILED;
+  payload: ActionFailedError;
+};
+
 export type UserActions =
   | LoginStartActionType
   | LoginSuccessActionType
@@ -96,4 +143,13 @@ export type UserActions =
   | RefreshFailedActionType
   | SetAvatarActionType
   | SwitchUserToArtistActionType
-  | SwitchUserToListenerActionType;
+  | SwitchUserToListenerActionType
+  | SwitchProfileTypeStartActionType
+  | SwitchProfileTypeSuccessActionType
+  | SwitchProfileTypeFailedActionType
+  | GetUserCreditCardsStartActionType
+  | GetUserCreditCardsSuccessActionType
+  | GetUserCreditCardsFailedActionType
+  | DeleteUserCreditCardStartActionType
+  | DeleteUserCreditCardSuccessActionType
+  | DeleteUserCreditCardFailedActionType;

@@ -1,4 +1,4 @@
-import { ArrowBack, ArrowForward, Logout, Person, PlayArrow } from '@mui/icons-material';
+import { ArrowBack, ArrowForward, Logout, Person, PlayArrow, SwitchAccountOutlined } from '@mui/icons-material';
 import { Avatar, Dropdown, MenuProps, Tooltip, Typography } from 'antd';
 import { useSelector } from 'react-redux';
 import { userSelectors } from '../../../user/store/user.selectors';
@@ -10,6 +10,7 @@ import { GenerateQueueOptions, GenerateQueueRequestData } from '../../queue/stor
 import { ReactNode } from 'react';
 import { queueActions } from '../../queue/store/queue.actions';
 import { GetSongsSortingOptions } from '../../song/store/song.model';
+import { SwitchProfileTypeRequestData } from '../../../user/store/user.model';
 
 const { Text, Title } = Typography;
 
@@ -36,10 +37,13 @@ export function HeaderComponent({
 }) {
   const navigate = useNavigate();
   const userName = useSelector(userSelectors.name);
+  const userId = useSelector(userSelectors.userId);
+  const hasArtistProfile = useSelector(userSelectors.hasArtistProfile);
 
   const dispatch = useDispatch();
   const logout = () => dispatch(userActions.logout());
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
+  const switchProfileType = (request: SwitchProfileTypeRequestData) => dispatch(userActions.switchProfileType(request));
 
   const pageHistoryIndex = window?.history?.state?.idx;
   const pagesForwardCount = window?.history?.length - window?.history?.state?.idx;
@@ -50,11 +54,21 @@ export function HeaderComponent({
       key: '0',
     },
     {
+      label: <div className='header__dropdown-item' onClick={() => switchProfileType({
+        newProfileType: 'artist',
+        userId: userId!,
+        shouldCreateNew: !hasArtistProfile
+      })}>
+        <p>{hasArtistProfile ? 'Switch to Artist profile' : 'Create Artist Profile'}</p> <SwitchAccountOutlined />
+      </div>,
+      key: '1',
+    },
+    {
       type: 'divider',
     },
     {
       label: <div className='header__dropdown-item' onClick={() => logout()}><p>Logout</p> <Logout /></div>,
-      key: '1',
+      key: '2',
     }
   ];
 
@@ -99,17 +113,20 @@ export function HeaderComponent({
                       ...playSongsOptions.options
                     },
                     onlyLiked: playSongsOptions.onlyLiked,
-                    sortingOptions: playSongsOptions.sortingOptions ? { ...playSongsOptions.sortingOptions } : undefined
+                    sortingOptions: playSongsOptions.sortingOptions ? { ...playSongsOptions.sortingOptions } : {}
                   })}
                   style={{ background: listenerProfileTypePalete.base }}
                   icon={<PlayArrow sx={{ color: 'black' }} />} />
               </Tooltip>
             </div>}
           </div>
-          <Dropdown overlayStyle={{ width: '130px' }} menu={{ items }} trigger={['click']}>
+          <Dropdown overlayStyle={{ width: '170px' }} menu={{ items }} trigger={['click']}>
             <div className='header__icon-wrapper--active'>
               <Tooltip title={userName}>
-                <Avatar size={'small'} style={{ background: listenerProfileTypePalete.base }}>{userName?.charAt(0)}</Avatar>
+                <Avatar
+                  className='header__avatar'
+                  size={'small'}
+                  style={{ background: listenerProfileTypePalete.base }}>{userName?.charAt(0)}</Avatar>
               </Tooltip>
             </div>
           </Dropdown>

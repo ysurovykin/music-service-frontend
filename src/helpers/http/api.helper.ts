@@ -8,6 +8,7 @@ const api = axios.create({
 
 api.interceptors.request.use((config: any) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    config.headers.profiletype = `${localStorage.getItem('profileType')}`
     return config;
 })
 
@@ -17,8 +18,14 @@ api.interceptors.response.use((config) => {
     const originalRequest = error.config;
     if (+error.response?.status === 401 && error.config && !error.response.data?.details?.isRetry) {
         try {
-            const response = await api.get('/user/refresh', { params: { isRetry: true } });
+            const response = await api.get('/user/refresh', {
+                params: {
+                    profileType: localStorage.getItem('profileType'),
+                    isRetry: true
+                }
+            });
             localStorage.setItem('token', response.data.accessToken);
+            localStorage.setItem('profileType', response.data.user.profileType);
             return api.request(originalRequest);
         } catch (e) {
             return Promise.reject('Authorization required');

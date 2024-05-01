@@ -7,7 +7,12 @@ export const userState: UserState = {
   country: undefined,
   role: undefined,
   birthDate: undefined,
-  profileType: undefined
+  profileType: undefined,
+  isSwitchProfileTypeLoading: undefined,
+  hasListenerProfile: undefined,
+  hasArtistProfile: undefined,
+  userCreditCards: undefined,
+  isGetUserCreditCardsLoading: false,
 };
 
 export type BirthDate = {
@@ -26,6 +31,11 @@ export interface UserState {
   role?: string,
   birthDate?: BirthDate,
   profileType?: ProfileTypeEnum
+  isSwitchProfileTypeLoading?: boolean,
+  hasListenerProfile?: boolean,
+  hasArtistProfile?: boolean,
+  userCreditCards?: Array<UserCreditCardInfo>;
+  isGetUserCreditCardsLoading?: boolean;
 }
 
 export enum ProfileTypeEnum {
@@ -47,6 +57,7 @@ export type UserRegistrationData = {
 export type UserLoginData = {
   email: string;
   password: string;
+  profileType: string;
 }
 
 export type UserData = {
@@ -58,12 +69,32 @@ export type UserData = {
   role: string;
   birthDate: BirthDate;
   profileType: ProfileTypeEnum;
+  hasArtistProfile: boolean;
+  hasListenerProfile: boolean;
 }
 
 export type UserDataWithTokens = {
   accessToken: string;
   refreshToken: string;
   user: UserData;
+}
+
+export type SwitchProfileTypeRequestData = {
+  userId: string;
+  newProfileType: string;
+  shouldCreateNew: boolean;
+};
+
+export type CardDetails = {
+  holderName: string;
+  number: string;
+  date: string;
+  cvv: string;
+}
+
+export type UserCreditCardInfo = {
+  cardId: string;
+  lastDigits: string;
 }
 
 export enum UserActionTypes {
@@ -83,5 +114,17 @@ export enum UserActionTypes {
   SET_AVATAR = "USER.SET_AVATAR",
 
   SWITCH_USER_TO_ARTIST = "USER.SWITCH_USER_TO_ARTIST",
-  SWITCH_USER_TO_LISTENER = "USER.SWITCH_USER_TO_LISTENER"
+  SWITCH_USER_TO_LISTENER = "USER.SWITCH_USER_TO_LISTENER",
+
+  SWITCH_PROFILE_TYPE = "USER.SWITCH_PROFILE_TYPE_START",
+  SWITCH_PROFILE_TYPE_SUCCESS = "USER.SWITCH_PROFILE_TYPE_SUCCESS",
+  SWITCH_PROFILE_TYPE_FAILED = "USER.SWITCH_PROFILE_TYPE_FAILED",
+
+  GET_USER_CREDIT_CARDS = "LISTENER.GET_USER_CREDIT_CARDS_START",
+  GET_USER_CREDIT_CARDS_SUCCESS = "LISTENER.GET_USER_CREDIT_CARDS_SUCCESS",
+  GET_USER_CREDIT_CARDS_FAILED = "LISTENER.GET_USER_CREDIT_CARDS_FAILED",
+
+  DELETE_USER_CREDIT_CARD = "LISTENER.DELETE_USER_CREDIT_CARD_START",
+  DELETE_USER_CREDIT_CARD_SUCCESS = "LISTENER.DELETE_USER_CREDIT_CARD_SUCCESS",
+  DELETE_USER_CREDIT_CARD_FAILED = "LISTENER.DELETE_USER_CREDIT_CARD_FAILED",
 };

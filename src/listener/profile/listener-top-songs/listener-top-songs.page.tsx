@@ -44,7 +44,8 @@ export function ListenerTopSongsPage() {
               shuffleEnabled: false,
               options: {
                 listenerId: userId
-              }
+              },
+              sortingOptions: {}
             })}
             onMouseEnter={() => setIsCoverImageHovered(true)}
             onMouseLeave={() => setIsCoverImageHovered(false)}>

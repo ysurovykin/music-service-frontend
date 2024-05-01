@@ -81,10 +81,16 @@ export const EditProfileModal = () => {
       return 'Birth year is required';
     } else if (birthDateDay) {
       const amountOfDaysInMonth = new Date(birthDateYear, birthDateMonth, 0).getDate();
+      if (isNaN(+birthDateDay)) {
+        return 'Day of birth must be number';
+      }
       if (birthDateDay > +amountOfDaysInMonth) {
         return `Day of birth must be between 1 and ${amountOfDaysInMonth}`;
       }
     } else if (birthDateYear) {
+      if (isNaN(+birthDateYear)) {
+        return 'Birth year must be number';
+      }
       if (birthDateYear < 1900) {
         return 'Please enter a birth year from 1900 onwards';
       }
@@ -253,9 +259,9 @@ export const EditProfileModal = () => {
                   value={gender}
                   disabled={true}
                   onChange={value => setGender(value)}>
-                  <Select.Option value='Man'>Man</Select.Option>
-                  <Select.Option value='Woman'>Woman</Select.Option>
-                  <Select.Option value='Prefer not to say'>Prefer not to say</Select.Option>
+                  <Select.Option value='male'>Male</Select.Option>
+                  <Select.Option value='female'>Female</Select.Option>
+                  <Select.Option value='unknown'>Prefer not to say</Select.Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -266,9 +272,9 @@ export const EditProfileModal = () => {
                 <Select
                   showSearch
                   disabled={true}
-                  value={country}
+                  value={countries[country] || country}
                   onChange={value => setCountry(value)}
-                  options={Object.values(countries)?.map(countryName => ({ value: countryName, lable: countryName }))}>
+                  options={Object.keys(countries)?.map(countryId => ({ value: countryId, label: countries[countryId] }))}>
                 </Select>
               </Form.Item>
             </Col>
@@ -303,7 +309,7 @@ export const EditProfileModal = () => {
                       value={birthDateMonth}
                       onChange={value => setBirthDateMonth(+value)}
                       placeholder="Month"
-                      options={Object.values(months)?.map(month => ({ value: month, lable: month }))}>
+                      options={Object.keys(months)?.map(month => ({ value: month, label: months[month] }))}>
                     </Select>
                   </Form.Item>
                 </Col>
