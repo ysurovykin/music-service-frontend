@@ -36,4 +36,10 @@
   &__credits {
     align-self: flex-end;
   }
+
+  &__loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

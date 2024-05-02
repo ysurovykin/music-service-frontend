@@ -34,17 +34,22 @@ export function HeaderComponent({
 
   const pageHistoryIndex = window?.history?.state?.idx;
 
+  const switchProfileTypeFunction = () => {
+    switchProfileType({
+      newProfileType: 'listener',
+      userId: userId!,
+      shouldCreateNew: !hasListenerProfile
+    });
+    navigate('/');
+  }
+
   const items: MenuProps['items'] = [
     {
       label: <RouterLink to={'/profile'}><div className='header__dropdown-item'><p>Profile</p> <Person /></div></RouterLink>,
       key: '0',
     },
     {
-      label: <div className='header__dropdown-item' onClick={() => switchProfileType({
-        newProfileType: 'listener',
-        userId: userId!,
-        shouldCreateNew: !hasListenerProfile
-      })}>
+      label: <div className='header__dropdown-item' onClick={() => switchProfileTypeFunction()}>
         <p>{hasListenerProfile ? 'Switch to Listener profile' : 'Create Listener Profile'}</p> <SwitchAccountOutlined />
       </div>,
       key: '1',

@@ -73,6 +73,9 @@ function* getAlbumById(action: GetAlbumByIdStartActionType) {
     yield put(albumActions.getAlbumByIdSuccess(album));
   } catch (e) {
     const error = e as AxiosError;
+    if ((error.response?.data as any)?.details.hidden) {
+      yield put(albumActions.markHiddenAlbumAction(action.payload));
+    }
     yield put(albumActions.getAlbumByIdFailed({ error }));
   }
 }

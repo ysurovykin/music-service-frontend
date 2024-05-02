@@ -45,7 +45,8 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
     case AlbumActionTypes.GET_ALBUM_BY_ID: {
       return {
         ...state,
-        isAlbumDataLoading: true
+        isAlbumDataLoading: true,
+        hidden: false
       }
     }
     case AlbumActionTypes.GET_ALBUM_BY_ID_SUCCESS: {
@@ -205,6 +206,13 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
       return {
         ...state,
         isAlbumsLoading: false
+      }
+    }
+    case AlbumActionTypes.MARK_HIDDEN_ALBUM: {
+      return {
+        ...state,
+        albumId: action.payload,
+        hidden: true
       }
     }
     default: {

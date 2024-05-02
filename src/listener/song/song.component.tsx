@@ -5,6 +5,8 @@ import {
   CastOutlined,
   ContentCopyOutlined,
   DeleteOutlineOutlined,
+  Explicit,
+  ExplicitOutlined,
   Favorite,
   FavoriteBorder,
   MoreHoriz,
@@ -251,17 +253,18 @@ export const SongComponent = memo(function SongComponent({
 
   return (
     <div
-      className={`song ${(showPlaysInfo && showAlbumInfo && shouldShowAdditionalColumn) ? 'song--show-additional-column' : ''}`}
+      className={`song ${song.hidden ? 'song--hidden' : ''} ${(showPlaysInfo && showAlbumInfo && shouldShowAdditionalColumn) ? 'song--show-additional-column' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}>
       <div className="song__wrapper song__wrapper--with-cover">
-        <div className="song__play-button" style={{ justifyContent: isHovered ? 'normal' : 'end' }}>
-          {isHovered ? renderPlayButton() : <Text>{index}</Text>}
+        <div className="song__play-button" style={{ justifyContent: isHovered && !song.hidden ? 'normal' : 'end' }}>
+          {isHovered && !song.hidden ? renderPlayButton() : <Text>{index}</Text>}
         </div>
         <Avatar shape='square' size={48} src={song?.coverImageUrl} />
         <div className="song__credentials">
           <Title className="m-0" level={5}>{song?.name}</Title>
           <Text className='song__credentials-artists-wrapper'>
+            {song?.explicit ? <Tooltip title='Explicit'><Explicit fontSize="small" /></Tooltip> : <></>}
             {song?.artists
               ?.map<React.ReactNode>(artist => <RouterLink key={artist.name} to={`/artist/${artist.id}`}>{artist.name}</RouterLink>)
               .reduce((prev, curr) => [prev, ', ', curr])}
@@ -275,31 +278,33 @@ export const SongComponent = memo(function SongComponent({
         <Text>{song.plays}</Text>
       </div>}
       <div className="song__options-block">
-        <Tooltip title={`Add song ${song.name} to playlist`}>
-          <div
-            className="song-player__additional-controller-icon-wrapper cursor-pointer"
-            onClick={() => isEditSongPlaylistsModalOpen ? closeEditSongPlaylistsModal() : openEditSongPlaylistsModal({
-              editPlaylistsSong: song
-            })}>
-            {song?.playlistIds?.length ?
-              <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
-              isHovered ?
-                <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> :
-                <div></div>
-            }
-          </div>
-        </Tooltip>
+        {song.hidden ? <div className="song-player__additional-controller-icon-wrapper"></div> :
+          <Tooltip title={`Add song ${song.name} to playlist`}>
+            <div
+              className="song-player__additional-controller-icon-wrapper cursor-pointer"
+              onClick={() => isEditSongPlaylistsModalOpen ? closeEditSongPlaylistsModal() : openEditSongPlaylistsModal({
+                editPlaylistsSong: song
+              })}>
+              {song?.playlistIds?.length ?
+                <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
+                isHovered ?
+                  <FavoriteBorder sx={{ color: 'white', '&:hover': { color: listenerProfileTypePalete.base } }} /> :
+                  <div></div>
+              }
+            </div>
+          </Tooltip>}
         <div className="song-player__additional-controller-icon-wrapper">
           <Text>{formatTime(song?.duration!)}</Text>
         </div>
-        <Tooltip title={`More options for song ${song.name}`}>
-          <div className="song-player__additional-controller-icon-wrapper cursor-pointer">
-            {isHovered ? <Dropdown menu={{ items }} trigger={['click']}>
-              <MoreHoriz sx={{ color: 'white' }} />
-            </Dropdown> : <div></div>}
-          </div>
-        </Tooltip>
-      </div>
-    </div>
+        {song.hidden ? <div className="song-player__additional-controller-icon-wrapper"></div> :
+          <Tooltip title={`More options for song ${song.name}`}>
+            <div className="song-player__additional-controller-icon-wrapper cursor-pointer">
+              {isHovered ? <Dropdown menu={{ items }} trigger={['click']}>
+                <MoreHoriz sx={{ color: 'white' }} />
+              </Dropdown> : <div></div>}
+            </div>
+          </Tooltip>}
+      </div >
+    </div >
   );
 });

@@ -24,6 +24,7 @@ export const albumState: AlbumState = {
   topAlbumsThisMonth: undefined,
   isMoreTopAlbumsThisMonthForLoading: false,
   isTopAlbumsThisMonthLoading: false,
+  hidden: undefined
 };
 
 export interface AlbumState extends AlbumFullResponseData {
@@ -39,6 +40,7 @@ export interface AlbumState extends AlbumFullResponseData {
   topAlbumsThisMonth?: Array<AlbumInfoResponseData>;
   isMoreTopAlbumsThisMonthForLoading: boolean;
   isTopAlbumsThisMonthLoading: boolean;
+  hidden?: boolean;
 }
 
 export type AlbumSongData = {
@@ -154,4 +156,6 @@ export enum AlbumActionTypes {
   LOAD_MORE_ALBUMS = "ALBUM.LOAD_MORE_ALBUMS_START",
   LOAD_MORE_ALBUMS_SUCCESS = "ALBUM.LOAD_MORE_ALBUMS_SUCCESS",
   LOAD_MORE_ALBUMS_FAILED = "ALBUM.LOAD_MORE_ALBUMS_FAILED",
+
+  MARK_HIDDEN_ALBUM = "ALBUM.MARK_HIDDEN_ALBUM"
 };

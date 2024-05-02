@@ -5,6 +5,11 @@
   grid-template-columns: 1fr 1fr auto;
   align-items: center;
 
+  &--hidden {
+    background: rgba(79, 79, 79, 0.5);
+    border-radius: 4px;
+  }
+
   &--show-additional-column {
     grid-template-columns: 1fr 1fr 1fr auto;
   }
@@ -65,15 +70,28 @@
 
     h5,
     &-artists-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 3px;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: unset;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
-      display: -webkit-box;
       text-decoration: none;
       word-break: break-all;
     }
   }
 
+  &__song-table-row {
+    transition: all 2s ease;
+
+    &--hidden {
+      background: rgba(79, 79, 79, 0.5);
+    }
+
+    &--searched {
+      background: rgba(82, 196, 72, 0.5);
+    }
+  }
 }

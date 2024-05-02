@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   AccessTime,
   AddCircleOutline,
@@ -6,6 +6,7 @@ import {
   CastOutlined,
   ContentCopyOutlined,
   DeleteOutlineOutlined,
+  Explicit,
   Favorite,
   FavoriteBorder,
   MoreHoriz,
@@ -14,8 +15,8 @@ import {
   PlayArrowOutlined,
   PlaylistAddOutlined
 } from '@mui/icons-material';
-import { Avatar, Dropdown, Table, TableColumnsType, Tooltip, Typography } from 'antd';
-import { Link as RouterLink } from 'react-router-dom';
+import { Avatar, Dropdown, Table, Tooltip, Typography } from 'antd';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import {
   GetSongsOptions,
   GetSongsRequestData,
@@ -61,8 +62,15 @@ export function SongTableComponent({
   offsetHeader?: number;
 }) {
   const [offset, setOffset] = useState(0);
+  const [searchedSongVisited, setSearchedSongVisited] = useState<boolean>(false);
+  const [searchedSongShowed, setSearchedSongShowed] = useState<boolean>(false);
   const [shouldShowAlbumColumn, setShouldShowAlbumColumn] = useState<boolean>(window.innerWidth > 950);
   const [hoveredSongId, setHoveredSongId] = useState<string>('');
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const searchedSongRef = useRef<HTMLDivElement>(null);
+  const lastSongRef = useRef<HTMLDivElement>(null);
 
   const { ref, inView } = useInView({ threshold: 0 });
 
@@ -73,7 +81,6 @@ export function SongTableComponent({
   const songsQueue = useSelector(queueSelectors.queue);
   const songQueueId = useSelector(queueSelectors.songQueueId);
   const isQueueLoading = useSelector(queueSelectors.isQueueLoading);
-  const isEditSongPlaylistsModalOpen = useSelector(playlistSelectors.isEditSongPlaylistsModalOpen);
 
   const dispatch = useDispatch();
   const pauseSong = () => dispatch(queueActions.pauseSong());
@@ -156,6 +163,17 @@ export function SongTableComponent({
   }, [inView]);
 
   useEffect(() => {
+    if (!searchedSongShowed && searchParams.get("songId")) {
+      if (searchedSongRef.current) {
+        searchedSongRef.current.scrollIntoView({ behavior: 'smooth' });
+        setSearchedSongShowed(true);
+      } else {
+        lastSongRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [searchedSongRef, searchParams, songs]);
+
+  useEffect(() => {
     clearSongs();
     if (songsSourceOptions || search) {
       getSongs({
@@ -208,14 +226,23 @@ export function SongTableComponent({
           className={`song__wrapper ${!songsSourceOptions?.albumId ? 'song__wrapper--with-cover' : 'song__wrapper--without-cover'}`}
           ref={(index + 2 === songs?.length && isMoreSongsForLoading) ? ref : null}
           key={record.songId}>
-          <div className="song__play-button" style={{ justifyContent: hoveredSongId === record.songId ? 'normal' : 'end' }}>
-            {hoveredSongId === record.songId ? renderPlayButton(record) : <Text>{index + 1}</Text>}
+          <div
+            className="song__play-button"
+            style={{ justifyContent: (hoveredSongId === record.songId && !record.hidden) ? 'normal' : 'end' }}>
+            {(hoveredSongId === record.songId && !record.hidden) ? renderPlayButton(record) : <Text>{index + 1}</Text>}
           </div>
           {!songsSourceOptions?.albumId && <Avatar shape='square' size={48} src={record?.coverImageUrl} />}
-          <div className="song__credentials">
+          <div
+            className="song__credentials"
+            ref={record.songId === searchParams.get("songId") ?
+              searchedSongRef :
+              (index + 1 === songs?.length) ?
+                lastSongRef :
+                null}>
             <Title className="m-0" level={5}>{record?.name}</Title>
             <div>
               <Text className='song__credentials-artists-wrapper'>
+                {record?.explicit ? <Tooltip title='Explicit'><Explicit fontSize="small" /></Tooltip> : <></>}
                 {record?.artists
                   ?.map<React.ReactNode>(artist => <RouterLink key={artist.name} to={`/artist/${artist.id}`}>{artist.name}</RouterLink>)
                   .reduce((prev, curr) => [prev, ', ', curr])}
@@ -257,7 +284,7 @@ export function SongTableComponent({
     const renderLikeButton = (record: SongInfoResponseData) => {
       if (songsSourceOptions?.playlistId) {
         return (
-          <Tooltip title={`Add song ${record.name} to playlist`}>
+          <Tooltip title={record.hidden ? 'Song currently unavailable' : `Add song ${record.name} to playlist`}>
             {hoveredSongId === record.songId ?
               record.playlistIds?.length ?
                 <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
@@ -267,7 +294,7 @@ export function SongTableComponent({
         );
       }
       return (
-        <Tooltip title={`Add song ${record.name} to playlist`}>
+        <Tooltip title={record.hidden ? 'Song currently unavailable' : `Add song ${record.name} to playlist`}>
           {record.playlistIds?.length ?
             <Favorite sx={{ color: listenerProfileTypePalete.base }} /> :
             hoveredSongId === record.songId ?
@@ -281,13 +308,14 @@ export function SongTableComponent({
       align: 'center',
       width: '50px',
       dataIndex: 'like',
-      render: (value, record, index) => (<div
-        className="song-player__additional-controller-icon-wrapper cursor-pointer"
-        onClick={() => openEditSongPlaylistsModal({
-          editPlaylistsSong: record
-        })}>
-        {renderLikeButton(record)}
-      </div>),
+      render: (value, record, index) => (record.hidden ? <></> :
+        <div
+          className="song-player__additional-controller-icon-wrapper cursor-pointer"
+          onClick={() => openEditSongPlaylistsModal({
+            editPlaylistsSong: record
+          })}>
+          {renderLikeButton(record)}
+        </div>),
       key: 'like'
     };
 
@@ -367,11 +395,11 @@ export function SongTableComponent({
       dataIndex: 'duration',
       render: (value, record) =>
         <Tooltip title={`More options for song ${record.name}`}>
-          <div className="song-player__additional-controller-icon-wrapper cursor-pointer">
+          {record.hidden ? <></> : <div className="song-player__additional-controller-icon-wrapper cursor-pointer">
             {hoveredSongId === record.songId ? <Dropdown menu={{ items: generateMenuItems(record) }} trigger={['click']}>
               <MoreHoriz sx={{ color: 'white' }} />
             </Dropdown> : <div></div>}
-          </div>
+          </div>}
         </Tooltip>,
       key: 'duration'
     };
@@ -494,16 +522,29 @@ export function SongTableComponent({
     ];
   };
 
+  const onMouseEnterSongRow = (songId: string) => {
+    setHoveredSongId(songId);
+    if (!searchedSongVisited && songId === searchParams.get("songId")) {
+      setSearchedSongVisited(true);
+    }
+  }
+
   return (
     <>
       <Table
         dataSource={songs?.map(song => ({ ...song, key: song.songId }))}
         columns={shouldShowAlbumColumn ? renderTableColumnsOnBigDevice() : renderTableColumnsOnSmallDevice()}
         onRow={(record) => ({
-          onMouseEnter: () => setHoveredSongId(record.songId || ''),
+          onMouseEnter: () => onMouseEnterSongRow(record.songId || ''),
           onMouseLeave: () => setHoveredSongId('')
         })}
         loading={!songs?.length && isSongsLoading}
+        rowClassName={(record, index) =>
+          record.hidden ? 'song__song-table-row song__song-table-row--hidden' :
+            (!searchedSongVisited && record.songId === searchParams.get("songId")) ?
+              'song__song-table-row song__song-table-row--searched' :
+              'song__song-table-row song__song-table-row--visible'
+        }
         pagination={false}
         bordered={false}
         sticky={{ offsetHeader }} />

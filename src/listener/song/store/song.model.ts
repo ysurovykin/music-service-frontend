@@ -26,6 +26,8 @@ export type SongInfoResponseData = {
   lyricsBackgroundShadow?: string;
   songUrl?: string;
   playlistIds?: Array<string>;
+  hidden?: boolean;
+  explicit?: boolean;
 }
 
 export type GetSongByIdRequestData = {

@@ -49,17 +49,22 @@ export function HeaderComponent({
   const pageHistoryIndex = window?.history?.state?.idx;
   const pagesForwardCount = window?.history?.length - window?.history?.state?.idx;
 
+  const switchProfileTypeFunction = () => {
+    switchProfileType({
+      newProfileType: 'artist',
+      userId: userId!,
+      shouldCreateNew: !hasArtistProfile
+    });
+    navigate('/');
+  }
+
   const items: MenuProps['items'] = [
     {
       label: <RouterLink to={'/profile'}><div className='header__dropdown-item'><p>Profile</p> <Person /></div></RouterLink>,
       key: '0',
     },
     {
-      label: <div className='header__dropdown-item' onClick={() => switchProfileType({
-        newProfileType: 'artist',
-        userId: userId!,
-        shouldCreateNew: !hasArtistProfile
-      })}>
+      label: <div className='header__dropdown-item' onClick={() => switchProfileTypeFunction()}>
         <p>{hasArtistProfile ? 'Switch to Artist profile' : 'Create Artist Profile'}</p> <SwitchAccountOutlined />
       </div>,
       key: '1',

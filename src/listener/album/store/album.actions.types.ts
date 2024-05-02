@@ -171,6 +171,11 @@ export type LoadMoreAlbumsFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type MarkHiddenAlbumActionType = {
+  type: typeof AlbumActionTypes.MARK_HIDDEN_ALBUM;
+  payload: string;
+};
+
 export type AlbumActions =
   | GetAlbumsByArtistIdStartActionType
   | GetAlbumsByArtistIdSuccessActionType
@@ -205,4 +210,5 @@ export type AlbumActions =
   | GetAlbumsFailedActionType
   | LoadMoreAlbumsStartActionType
   | LoadMoreAlbumsSuccessActionType
-  | LoadMoreAlbumsFailedActionType;
+  | LoadMoreAlbumsFailedActionType
+  | MarkHiddenAlbumActionType;

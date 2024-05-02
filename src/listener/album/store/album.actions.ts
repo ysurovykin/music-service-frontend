@@ -34,6 +34,7 @@ import {
   LoadMoreAlbumsStartActionType,
   LoadMoreAlbumsSuccessActionType,
   LoadMoreAlbumsFailedActionType,
+  MarkHiddenAlbumActionType
 } from "./album.actions.types";
 import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse, GetListenerTopAlbumsThisMonthRequest, GetListenerTopAlbumsThisMonthResponse } from "./album.model";
 
@@ -139,6 +140,8 @@ export const loadMoreAlbumsSuccessAction = (response: GetAlbumsResponse):
 export const loadMoreAlbumsFailedAction = (error: ActionFailedError):
   LoadMoreAlbumsFailedActionType => ({ type: AlbumActionTypes.LOAD_MORE_ALBUMS_FAILED, payload: error });
 
+export const markHiddenAlbumAction = (albumId: string):
+  MarkHiddenAlbumActionType => ({ type: AlbumActionTypes.MARK_HIDDEN_ALBUM, payload: albumId });
 
 export const albumActions = {
   getAlbumsByArtistId: (artistId: string) => getAlbumsByArtistIdStartAction(artistId),
@@ -175,5 +178,6 @@ export const albumActions = {
   loadMoreAlbums: (request: GetAlbumsRequest) => loadMoreAlbumsStartAction(request),
   loadMoreAlbumsSuccess: (response: GetAlbumsResponse) => loadMoreAlbumsSuccessAction(response),
   loadMoreAlbumsFailed: (error: ActionFailedError) => loadMoreAlbumsFailedAction(error),
+  markHiddenAlbumAction: (albumId: string) => markHiddenAlbumAction(albumId)
 }
 
