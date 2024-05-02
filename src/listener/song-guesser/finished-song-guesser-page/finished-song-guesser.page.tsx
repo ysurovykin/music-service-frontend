@@ -265,8 +265,8 @@ export function FinishedSongGuesserDetailsPage() {
   }
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground() }} className="finished-song-guesser-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground() }} className="finished-song-guesser-page user-group-page">
         <HeaderComponent
           element={renderHeaderComponent()}
           showHeader={!inView} />

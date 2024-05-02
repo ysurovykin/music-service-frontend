@@ -40,8 +40,8 @@ export function ArtistLikedSongsPage() {
   }, [artistId]);
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground(backgroundColor) }} className="artist-songs-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground(backgroundColor) }} className="artist-songs-page user-group-page">
         <HeaderComponent
           text={name || ''}
           showHeader={!inView}

@@ -23,7 +23,7 @@ export function HeaderComponent({
   isHomePage?: boolean,
 }) {
   const navigate = useNavigate();
-  const userName = useSelector(userSelectors.name);
+  const artistName = useSelector(artistProfileSelectors.name);
   const userId = useSelector(userSelectors.userId);
   const profileImageUrl = useSelector(artistProfileSelectors.profileImageUrl);
   const hasListenerProfile = useSelector(userSelectors.hasListenerProfile);
@@ -81,12 +81,12 @@ export function HeaderComponent({
           </div>
           <Dropdown overlayStyle={{ width: '170px' }} menu={{ items }} trigger={['click']}>
             <div className='header__icon-wrapper--active'>
-              <Tooltip title={userName}>
+              <Tooltip title={artistName}>
                 <Avatar
                   className='header__avatar'
                   size={'small'}
                   src={profileImageUrl}
-                  style={profileImageUrl ? {} : { background: artistProfileTypePalete.base }}>{userName?.charAt(0)}</Avatar>
+                  style={profileImageUrl ? {} : { background: artistProfileTypePalete.base }}>{artistName?.charAt(0)}</Avatar>
               </Tooltip>
             </div>
           </Dropdown>

@@ -30,7 +30,7 @@
     background: rgb(33, 33, 33);
   }
 
-  &__library-pins {
+  &__library-albums {
     overflow-y: auto;
     scrollbar-gutter: auto;
     display: flex;
@@ -50,6 +50,14 @@
     display: flex;
     align-items: center;
     gap: 5px;
+  }
+
+  &__button {
+    cursor: pointer;
+
+    &:hover {
+      color: rgba(255, 255, 255, 0.5019607843)
+    }
   }
 
 }

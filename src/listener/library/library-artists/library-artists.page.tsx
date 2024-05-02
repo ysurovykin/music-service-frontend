@@ -66,8 +66,8 @@ export function LibraryArtistsPage() {
   }
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground() }} className="library-artists-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground() }} className="library-artists-page user-group-page">
         <HeaderComponent
           showHeader={true}
           element={renderSearchInput()} />

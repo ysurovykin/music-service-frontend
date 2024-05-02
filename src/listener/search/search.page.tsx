@@ -240,8 +240,8 @@ export function SearchPage() {
   }
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground() }} className="search-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground() }} className="search-page user-group-page">
         <HeaderComponent
           showHeader={true}
           element={renderSearchInput()}

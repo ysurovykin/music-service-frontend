@@ -61,6 +61,8 @@
   }
 
   &__avatar {
+    display: flex;
+    align-items: center;
     width: 28px;
     height: 28px;
     left: 50%;

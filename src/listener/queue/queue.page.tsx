@@ -25,8 +25,8 @@ export function QueuePage() {
   }, [songQueueId, queue])
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y' >
-      <div style={{ background: getBackground() }} className="listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y' >
+      <div style={{ background: getBackground() }} className="user-group-page">
         <HeaderComponent 
           showHeader={!inView} />
         <div className='queue-page'>

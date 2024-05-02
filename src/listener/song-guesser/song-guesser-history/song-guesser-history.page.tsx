@@ -257,8 +257,8 @@ export function SongGuesserHistoryPage() {
   }
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground() }} className="song-guesser-history-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground() }} className="song-guesser-history-page user-group-page">
         <HeaderComponent
           text='Guesser History'
           showHeader={!inView} />

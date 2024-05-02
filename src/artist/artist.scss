@@ -1,4 +1,13 @@
+@import 'home/home.page.scss';
+
+@import 'profile/profile.page.scss';
+@import 'profile/change-subscription-modal/change-subscription.modal.scss';
+@import 'profile/edit-profile-modal/edit-profile.modal.scss';
+
 @import 'components/artist-router/artist.router.scss';
 @import 'components/header/header.component.scss';
 @import 'components/sidebar/sidebar.component.scss';
-@import 'home/home.page.scss';
+
+@import 'artist-album/artist-album.page.scss';
+@import 'artist-album/album-card/album-card.component.scss';
+@import 'artist-album/album-modal/album.modal.scss';

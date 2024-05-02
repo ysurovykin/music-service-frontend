@@ -141,8 +141,8 @@ export function ArtistPage() {
   ];
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground(backgroundColor) }} className="artist-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground(backgroundColor) }} className="artist-page user-group-page">
         <HeaderComponent
           text={name || ''}
           background={backgroundColor}

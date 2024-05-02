@@ -71,8 +71,8 @@ export function LibraryListenerSongRadiosPage() {
 
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground() }} className="library-listener-song-radios-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground() }} className="library-listener-song-radios-page user-group-page">
         <HeaderComponent
           showHeader={true}
           element={renderSearchInput()} />

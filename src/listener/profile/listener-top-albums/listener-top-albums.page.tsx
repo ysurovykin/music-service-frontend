@@ -66,8 +66,8 @@ export function ListenerTopAlbumsPage() {
   }
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground() }} className="listener-top-albums-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground() }} className="listener-top-albums-page user-group-page">
         <HeaderComponent
           showHeader={true}
           element={renderSearchInput()} />

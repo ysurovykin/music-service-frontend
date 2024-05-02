@@ -12,10 +12,10 @@
   }
 
   &-wrapper {
-      z-index: 1;
-      height: 64px;
-      position: sticky;
-      top: 0;
+    z-index: 1;
+    height: 64px;
+    position: sticky;
+    top: 0;
   }
 
   &__background {
@@ -39,6 +39,17 @@
   &__background-shadow {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  &__avatar {
+    display: flex;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    position: absolute;
   }
 
   &__icon-wrapper {
@@ -89,9 +100,4 @@
   //   transition: all 0.5s ease;
   // }
 
-  &__play-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 }

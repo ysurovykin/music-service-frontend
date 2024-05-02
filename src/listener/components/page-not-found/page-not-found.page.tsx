@@ -12,8 +12,8 @@ export function PageNotFoundPage() {
   const name = useSelector(listenerSelectors.name);
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground(backgroundColor) }} className="page-not-found-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground(backgroundColor) }} className="page-not-found-page user-group-page">
         <HeaderComponent
           text={name || ''}
           background={backgroundColor}

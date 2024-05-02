@@ -136,8 +136,8 @@ export function ProfilePage() {
   }, [artistInView]);
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground(backgroundColor || 'rgb(17, 102, 11)') }} className="profile-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground(backgroundColor || 'rgb(17, 102, 11)') }} className="profile-page user-group-page">
         <HeaderComponent
           text={name || ''}
           background={backgroundColor || 'rgb(17, 102, 11)'}

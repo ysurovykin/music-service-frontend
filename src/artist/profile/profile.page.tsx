@@ -34,8 +34,8 @@ export function ProfilePage() {
   const openChangeSubscriptionModal = () => dispatch(artistProfileActions.openChangeSubscriptionModal());
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground(backgroundColor || 'rgb(35, 69, 174)') }} className="profile-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground(backgroundColor || 'rgb(35, 69, 174)') }} className="profile-page user-group-page">
         <HeaderComponent
           text={name || ''}
           background={backgroundColor || 'rgb(35, 69, 174)'}

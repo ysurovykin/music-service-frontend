@@ -53,8 +53,8 @@ export function PlaylistPage() {
   }, [playlistId]);
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground(backgroundColor) }} className="playlist-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground(backgroundColor) }} className="playlist-page user-group-page">
         <HeaderComponent
           text={name || ''}
           background={backgroundColor}

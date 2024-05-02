@@ -128,8 +128,8 @@ export function LibraryPage() {
   }, [songRadioInView]);
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground() }} className="library-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground() }} className="library-page user-group-page">
         <HeaderComponent text="Your Library" showHeader={!inView} />
         <div className="library-page-wrapper">
           <Title ref={ref} className="mt-0" level={1}>Your Library</Title>

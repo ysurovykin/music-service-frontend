@@ -11,6 +11,7 @@ import { ReactNode } from 'react';
 import { queueActions } from '../../queue/store/queue.actions';
 import { GetSongsSortingOptions } from '../../song/store/song.model';
 import { SwitchProfileTypeRequestData } from '../../../user/store/user.model';
+import { listenerSelectors } from '../../store/listener.selectors';
 
 const { Text, Title } = Typography;
 
@@ -36,7 +37,7 @@ export function HeaderComponent({
   isHomePage?: boolean,
 }) {
   const navigate = useNavigate();
-  const userName = useSelector(userSelectors.name);
+  const listenerName = useSelector(listenerSelectors.name);
   const userId = useSelector(userSelectors.userId);
   const hasArtistProfile = useSelector(userSelectors.hasArtistProfile);
 
@@ -122,11 +123,11 @@ export function HeaderComponent({
           </div>
           <Dropdown overlayStyle={{ width: '170px' }} menu={{ items }} trigger={['click']}>
             <div className='header__icon-wrapper--active'>
-              <Tooltip title={userName}>
+              <Tooltip title={listenerName}>
                 <Avatar
                   className='header__avatar'
                   size={'small'}
-                  style={{ background: listenerProfileTypePalete.base }}>{userName?.charAt(0)}</Avatar>
+                  style={{ background: listenerProfileTypePalete.base }}>{listenerName?.charAt(0)}</Avatar>
               </Tooltip>
             </div>
           </Dropdown>

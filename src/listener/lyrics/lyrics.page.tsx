@@ -95,12 +95,12 @@ export function LyricsPage() {
   }
 
   return (
-    <div className='listener-group-page__wrapper'>
+    <div className='user-group-page__wrapper'>
       <div
-        className="listener-group-page__wrapper custom-scroll-y"
+        className="user-group-page__wrapper custom-scroll-y"
         style={{ background: currentlyPlayingSong?.backgroundColor }} >
         <div
-          className="lyrics-page listener-group-page"
+          className="lyrics-page user-group-page"
           style={currentlyPlayingSong?.lyricsBackgroundShadow ? { background: currentlyPlayingSong.lyricsBackgroundShadow } : {}}>
           <HeaderComponent showHeader={false} />
           <div className="lyrics-page__content">

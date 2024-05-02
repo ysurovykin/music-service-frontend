@@ -40,8 +40,8 @@ export function HomePage() {
   }, [backgroundColor])
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <animated.div style={{ background: background }} className="home-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <animated.div style={{ background: background }} className="home-page user-group-page">
         <HeaderComponent
           background={backgroundColor}
           showHeader={!inView}

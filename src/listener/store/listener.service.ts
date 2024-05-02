@@ -60,9 +60,9 @@ export default class ListenerService {
         });
     }
 
-    static async changeSubscription(listenerId: string, request: ChangeSubscriptionRequestData): Promise<AxiosResponse<void>> {
-        return await api.post<void>('/listener/change-subscription', { ...request }, {
-            params: { listenerId: listenerId }
+    static async changeSubscription(userId: string, request: ChangeSubscriptionRequestData): Promise<AxiosResponse<void>> {
+        return await api.post<void>('/user/change-subscription', { ...request }, {
+            params: { userId }
         });
     }
 

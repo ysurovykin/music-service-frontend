@@ -21,8 +21,8 @@ export function SongGuesserPage() {
   const openGuesserStatsModal = () => dispatch(songGuesserActions.openGuesserStatsModal());
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground() }} className="song-guesser-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground() }} className="song-guesser-page user-group-page">
         <HeaderComponent
           text={''}
           showHeader={false} />

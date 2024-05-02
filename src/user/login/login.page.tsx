@@ -39,7 +39,7 @@ export function LoginPage() {
         <Form
           className="login-page__form"
           initialValues={{
-            artistProfile: (profileType || localStorage.getItem('profileType') || ProfileTypeEnum.listener) === ProfileTypeEnum.listener ? false : true,
+            artistProfile: (profileType || ProfileTypeEnum.listener) === ProfileTypeEnum.listener ? false : true,
             remember: true
           }}
           form={form}

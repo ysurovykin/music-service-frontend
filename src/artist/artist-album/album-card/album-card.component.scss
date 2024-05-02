@@ -1,0 +1,57 @@
+.album-card {
+  width: 160px;
+  background-color: #282828;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+  position: relative;
+
+  &:hover {
+    background-color: #505050;
+  }
+
+  &__title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    &-wrapper {
+      margin-top: 8px;
+      width: 128px;
+    }
+  }
+
+  &__artist-info-wrapper {
+    width: 128px;
+  }
+
+  &__info {
+    margin-top: 4px;
+    width: 128px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__close-icon-wrapper {
+    display: none;
+  }
+
+  &:hover > &__close-icon-wrapper {
+    display: block;
+    cursor: pointer;
+    width: 24px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 1;
+  }
+}

@@ -244,21 +244,9 @@ export function ChangeSubscriptionModal() {
           <Divider style={{ margin: '10px' }} />
           <Title className="m-0" level={4}>Artist profile</Title>
           <ul className="change-subscription-modal__ul">
-            <li className="change-subscription-modal__li"><Title className="m-0" level={5}>Your top monthly content limitation</Title></li>
             <ul className="change-subscription-modal__ul">
-              <li className="change-subscription-modal__li"><Text>Most listened songs: <span className="change-subscription-modal__current-value">20</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>50</Title></Text></li>
-              <li className="change-subscription-modal__li"><Text>Most listened artists: <span className="change-subscription-modal__current-value">5</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>10</Title></Text></li>
-              <li className="change-subscription-modal__li"><Text>Most listened albums: <span className="change-subscription-modal__current-value">5</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>10</Title></Text></li>
-            </ul>
-            <li className="change-subscription-modal__li"><Title className="m-0" level={5}>Song radio limitation</Title></li>
-            <ul className="change-subscription-modal__ul">
-              <li className="change-subscription-modal__li"><Text>Radio song generation limit: <span className="change-subscription-modal__current-value">1 per day</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>Unlimited</Title></Text></li>
-              <li className="change-subscription-modal__li"><Text>Radio song count: <span className="change-subscription-modal__current-value">20</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>50</Title></Text></li>
-            </ul>
-            <li className="change-subscription-modal__li"><Title className="m-0" level={5}>Recomendations</Title></li>
-            <ul className="change-subscription-modal__ul">
-              <li className="change-subscription-modal__li"><Text>Different recomendation sections count: <span className="change-subscription-modal__current-value">2</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>4</Title></Text></li>
-              <li className="change-subscription-modal__li"><Text>Section`s recomendations count: <span className="change-subscription-modal__current-value">5</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>10</Title></Text></li>
+              <li className="change-subscription-modal__li"><Text>Maximum albums: <span className="change-subscription-modal__current-value">1</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>10</Title></Text></li>
+              <li className="change-subscription-modal__li"><Text>Maximum song in album: <span className="change-subscription-modal__current-value">8</span> <Title className="m-0 change-subscription-modal__new-value--paid" level={5}>16</Title></Text></li>
             </ul>
           </ul>
         </div>

@@ -29,8 +29,8 @@ export function ListenerTopSongsPage() {
   const generateQueue = (request: GenerateQueueRequestData) => dispatch(queueActions.generateQueue(request));
 
   return (
-    <div className='listener-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground(backgroundColor || 'rgb(17, 102, 11)') }} className="listener-top-songs-page listener-group-page">
+    <div className='user-group-page__wrapper custom-scroll-y'>
+      <div style={{ background: getBackground(backgroundColor || 'rgb(17, 102, 11)') }} className="listener-top-songs-page user-group-page">
         <HeaderComponent
           text={name || ''}
           showHeader={!inView}
