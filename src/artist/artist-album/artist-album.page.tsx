@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { artistAlbumActions } from './store/artist-album.actions';
 import { useSelector } from 'react-redux';
 import { artistAlbumSelectors } from './store/artist-album.selectors';
-import { Avatar, Dropdown, Tooltip, Typography } from 'antd';
+import { Dropdown, Tooltip, Typography } from 'antd';
 import { HeaderComponent } from '../components/header/header.component';
 import { formatPlaylistTime, getBackground, renderPlaylistIcon } from '../../helpers/react/listener-page.helper';
 import { useInView } from 'react-intersection-observer';
-import { ContentCopyOutlined, Favorite, FavoriteBorder, MoreHoriz, PlayArrow, PlaylistAdd, PlaylistAddCheck, QuizOutlined, VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material';
-import { DOMAIN, listenerProfileTypePalete } from '../../config';
+import { ContentCopyOutlined, MoreHoriz, VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material';
+import { DOMAIN } from '../../config';
 import { MenuProps } from 'antd/lib';
 import { showNotification } from '../../helpers/react/redux.helper';
 import { artistProfileSelectors } from '../store/artist-profile.selectors';
-import { renderTextWithToolTip } from '../../helpers/react/form.helper';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
@@ -23,7 +22,7 @@ export function AlbumPage() {
   const { albumId } = useParams<{ albumId: string }>();
 
   const name = useSelector(artistAlbumSelectors.name);
-  const date = useSelector(artistAlbumSelectors.date);
+  const hidden = useSelector(artistAlbumSelectors.hidden);
   const albumCoverImageUrl = useSelector(artistAlbumSelectors.coverImageUrl);
   const backgroundColor = useSelector(artistAlbumSelectors.backgroundColor);
   const songsCount = useSelector(artistAlbumSelectors.songsCount);
@@ -33,6 +32,8 @@ export function AlbumPage() {
   const dispatch = useDispatch()
   const getAlbumData = (albumId: string) => dispatch(artistAlbumActions.getAlbumById(albumId));
   const openEditAlbumModal = () => dispatch(artistAlbumActions.openEditAlbumModal());
+  const hideAlbum = (albumId: string) => dispatch(artistAlbumActions.hideAlbum(albumId));
+  const unhideAlbum = (albumId: string) => dispatch(artistAlbumActions.unhideAlbum(albumId));
 
   useEffect(() => {
     if (albumId) {
@@ -54,18 +55,18 @@ export function AlbumPage() {
       </div>,
       key: '0',
     },
-    (true ? {
+    (hidden ? {
       label: <div
         className='dropdown-item'
-        onClick={() => { }}>
-        <VisibilityOffOutlined /><p>Hide album</p><Tooltip title={'This option will temporarily remove the album and all its songs from users\` recommendations and remove the ability to view it and play its songs for users. You can always change its visibility'}> <QuestionCircleOutlined /></Tooltip>
+        onClick={() => unhideAlbum(albumId!)}>
+        <VisibilityOutlined /><p>Unhide album</p><Tooltip title={'This option will return the album and all its songs to users\` recommendations and return the ability to view it and play its songs. You can always change its visibility'}> <QuestionCircleOutlined /></Tooltip>
       </div>,
       key: '1',
     } : {
       label: <div
         className='dropdown-item'
-        onClick={() => { }}>
-        <VisibilityOutlined /><p>Unhide album</p><Tooltip title={'This option will return the album and all its songs to users\` recommendations and return the ability to view it and play its songs. You can always change its visibility'}> <QuestionCircleOutlined /></Tooltip>
+        onClick={() => hideAlbum(albumId!)}>
+        <VisibilityOffOutlined /><p>Hide album</p><Tooltip title={'This option will temporarily remove the album and all its songs from users\` recommendations and remove the ability to view it and play its songs for users. You can always change its visibility'}> <QuestionCircleOutlined /></Tooltip>
       </div>,
       key: '1',
     })

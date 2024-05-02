@@ -1,5 +1,15 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse, GetListenerTopAlbumsThisMonthRequest, GetListenerTopAlbumsThisMonthResponse } from "./album.model";
+import {
+  AlbumActionTypes,
+  AlbumFullResponseData,
+  AlbumInfoResponseData,
+  GetAlbumsInListenerLibraryRequest,
+  GetAlbumsInListenerLibraryResponse,
+  GetAlbumsRequest,
+  GetAlbumsResponse,
+  GetListenerTopAlbumsThisMonthRequest,
+  GetListenerTopAlbumsThisMonthResponse
+} from "./album.model";
 
 export type GetAlbumsByArtistIdStartActionType = {
   type: typeof AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID;

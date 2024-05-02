@@ -96,6 +96,36 @@ export type EditAlbumFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type HideAlbumStartActionType = {
+  type: typeof AlbumActionTypes.HIDE_ALBUM;
+  payload: string;
+};
+
+export type HideAlbumSuccessActionType = {
+  type: typeof AlbumActionTypes.HIDE_ALBUM_SUCCESS;
+  payload: undefined;
+};
+
+export type HideAlbumFailedActionType = {
+  type: typeof AlbumActionTypes.HIDE_ALBUM_FAILED;
+  payload: ActionFailedError;
+};
+
+export type UnhideAlbumStartActionType = {
+  type: typeof AlbumActionTypes.UNHIDE_ALBUM;
+  payload: string;
+};
+
+export type UnhideAlbumSuccessActionType = {
+  type: typeof AlbumActionTypes.UNHIDE_ALBUM_SUCCESS;
+  payload: undefined;
+};
+
+export type UnhideAlbumFailedActionType = {
+  type: typeof AlbumActionTypes.UNHIDE_ALBUM_FAILED;
+  payload: ActionFailedError;
+};
+
 export type ArtistAlbumActions =
   | GetAlbumByIdStartActionType
   | GetAlbumByIdSuccessActionType
@@ -115,4 +145,10 @@ export type ArtistAlbumActions =
   | CreateAlbumFailedActionType
   | EditAlbumStartActionType
   | EditAlbumSuccessActionType
-  | EditAlbumFailedActionType;
+  | EditAlbumFailedActionType
+  | HideAlbumStartActionType
+  | HideAlbumSuccessActionType
+  | HideAlbumFailedActionType
+  | UnhideAlbumStartActionType
+  | UnhideAlbumSuccessActionType
+  | UnhideAlbumFailedActionType;

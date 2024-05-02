@@ -1,6 +1,6 @@
 import api from "../../../helpers/http/api.helper";
 import { AxiosResponse } from "axios";
-import { AlbumInfoResponseData, CreateAlbumRequestData, EditAlbumRequestData, GetAlbumsRequest, GetAlbumsResponse } from "./artist-album.model";
+import { AlbumInfoResponseData, GetAlbumsRequest, GetAlbumsResponse } from "./artist-album.model";
 
 export default class ArtistAlbumService {
 
@@ -32,5 +32,13 @@ export default class ArtistAlbumService {
             },
             params: { artistId }
         });
+    }
+
+    static async hideAlbum(artistId: string, albumId: string): Promise<AxiosResponse<void>> {
+        return await api.post<void>(`/album/hide/${albumId}`, {}, { params: { artistId } });
+    }
+
+    static async unhideAlbum(artistId: string, albumId: string): Promise<AxiosResponse<void>> {
+        return await api.post<void>(`/album/hide/${albumId}`, {}, { params: { artistId } });
     }
 }

@@ -18,7 +18,9 @@ const isCreateAlbumModalOpen = createSelector(artistAlbumState, album => album?.
 const isCreateAlbumLoading = createSelector(artistAlbumState, album => album?.isCreateAlbumLoading);
 const isEditAlbumModalOpen = createSelector(artistAlbumState, album => album?.isEditAlbumModalOpen);
 const isEditAlbumLoading = createSelector(artistAlbumState, album => album?.isEditAlbumLoading);
-const hiden = createSelector(artistAlbumState, album => album.hiden);
+const hidden = createSelector(artistAlbumState, album => album.hidden);
+const isHideAlbumLoading = createSelector(artistAlbumState, album => album.isHideAlbumLoading);
+const isUnhideAlbumLoading = createSelector(artistAlbumState, album => album.isUnhideAlbumLoading);
 
 export const artistAlbumSelectors = {
   albumId,
@@ -36,5 +38,7 @@ export const artistAlbumSelectors = {
   isCreateAlbumLoading,
   isEditAlbumModalOpen,
   isEditAlbumLoading,
-  hiden
+  hidden,
+  isHideAlbumLoading,
+  isUnhideAlbumLoading
 };

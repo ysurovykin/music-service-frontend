@@ -13,7 +13,9 @@ export const artistAlbumState: ArtistAlbumState = {
   isCreateAlbumModalOpen: undefined,
   isCreateAlbumLoading: undefined,
   isEditAlbumLoading: undefined,
-  isEditAlbumModalOpen: undefined
+  isEditAlbumModalOpen: undefined,
+  isHideAlbumLoading: undefined,
+  isUnhideAlbumLoading: undefined,
 };
 
 export interface ArtistAlbumState extends AlbumFullResponseData {
@@ -25,13 +27,15 @@ export interface ArtistAlbumState extends AlbumFullResponseData {
   isCreateAlbumModalOpen?: boolean,
   isEditAlbumLoading?: boolean,
   isEditAlbumModalOpen?: boolean
+  isHideAlbumLoading?: boolean,
+  isUnhideAlbumLoading?: boolean,
 }
 
 export type AlbumInfoResponseData = {
   albumId?: string;
   name?: string;
   date?: Date;
-  hiden?: boolean;
+  hidden?: boolean;
   coverImageUrl?: string;
   backgroundColor?: string;
 }
@@ -89,4 +93,13 @@ export enum AlbumActionTypes {
   EDIT_ALBUM = "ARTIST_ALBUM.EDIT_ALBUM_START",
   EDIT_ALBUM_SUCCESS = "ARTIST_ALBUM.EDIT_ALBUM_SUCCESS",
   EDIT_ALBUM_FAILED = "ARTIST_ALBUM.EDIT_ALBUM_FAILED",
+
+  HIDE_ALBUM = "ALBUM.HIDE_ALBUM_START",
+  HIDE_ALBUM_SUCCESS = "ALBUM.HIDE_ALBUM_SUCCESS",
+  HIDE_ALBUM_FAILED = "ALBUM.HIDE_ALBUM_FAILED",
+
+  UNHIDE_ALBUM = "ALBUM.UNHIDE_ALBUM_START",
+  UNHIDE_ALBUM_SUCCESS = "ALBUM.UNHIDE_ALBUM_SUCCESS",
+  UNHIDE_ALBUM_FAILED = "ALBUM.UNHIDE_ALBUM_FAILED",
+
 };

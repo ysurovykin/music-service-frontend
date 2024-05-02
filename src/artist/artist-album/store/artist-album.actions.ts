@@ -19,6 +19,12 @@ import {
   EditAlbumStartActionType,
   EditAlbumSuccessActionType,
   EditAlbumFailedActionType,
+  HideAlbumStartActionType,
+  HideAlbumSuccessActionType,
+  HideAlbumFailedActionType,
+  UnhideAlbumStartActionType,
+  UnhideAlbumSuccessActionType,
+  UnhideAlbumFailedActionType
 } from "./artist-album.actions.types";
 import { AlbumActionTypes, AlbumFullResponseData, CreateAlbumRequestData, EditAlbumRequestData, GetAlbumsRequest, GetAlbumsResponse } from "./artist-album.model";
 
@@ -79,6 +85,24 @@ export const editAlbumSuccessAction = ():
 export const editAlbumFailedAction = (error: ActionFailedError):
   EditAlbumFailedActionType => ({ type: AlbumActionTypes.EDIT_ALBUM_FAILED, payload: error });
 
+export const hideAlbumStartAction = (albumId: string):
+  HideAlbumStartActionType => ({ type: AlbumActionTypes.HIDE_ALBUM, payload: albumId });
+
+export const hideAlbumSuccessAction = ():
+  HideAlbumSuccessActionType => ({ type: AlbumActionTypes.HIDE_ALBUM_SUCCESS, payload: undefined });
+
+export const hideAlbumFailedAction = (error: ActionFailedError):
+  HideAlbumFailedActionType => ({ type: AlbumActionTypes.HIDE_ALBUM_FAILED, payload: error });
+
+export const unhideAlbumStartAction = (albumId: string):
+  UnhideAlbumStartActionType => ({ type: AlbumActionTypes.UNHIDE_ALBUM, payload: albumId });
+
+export const unhideAlbumSuccessAction = ():
+  UnhideAlbumSuccessActionType => ({ type: AlbumActionTypes.UNHIDE_ALBUM_SUCCESS, payload: undefined });
+
+export const unhideAlbumFailedAction = (error: ActionFailedError):
+  UnhideAlbumFailedActionType => ({ type: AlbumActionTypes.UNHIDE_ALBUM_FAILED, payload: error });
+
 export const artistAlbumActions = {
   getAlbumById: (albumId: string) => getAlbumByIdStartAction(albumId),
   getAlbumByIdSuccess: (response: AlbumFullResponseData) => getAlbumByIdSuccessAction(response),
@@ -99,5 +123,11 @@ export const artistAlbumActions = {
   editAlbum: (request: EditAlbumRequestData) => editAlbumStartAction(request),
   editAlbumSuccess: () => editAlbumSuccessAction(),
   editAlbumFailed: (error: ActionFailedError) => editAlbumFailedAction(error),
+  hideAlbum: (albumId: string) => hideAlbumStartAction(albumId),
+  hideAlbumSuccess: () => hideAlbumSuccessAction(),
+  hideAlbumFailed: (error: ActionFailedError) => hideAlbumFailedAction(error),
+  unhideAlbum: (albumId: string) => unhideAlbumStartAction(albumId),
+  unhideAlbumSuccess: () => unhideAlbumSuccessAction(),
+  unhideAlbumFailed: (error: ActionFailedError) => unhideAlbumFailedAction(error),
 }
 

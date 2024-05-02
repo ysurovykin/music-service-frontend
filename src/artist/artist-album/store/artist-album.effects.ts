@@ -7,6 +7,8 @@ import {
   EditAlbumStartActionType,
   GetAlbumByIdStartActionType,
   GetAlbumsStartActionType,
+  HideAlbumStartActionType,
+  UnhideAlbumStartActionType,
 } from './artist-album.actions.types';
 import { userSelectors } from '../../../user/store/user.selectors';
 import { AxiosError } from 'axios';
@@ -24,6 +26,10 @@ export const artistAlbumEffects = [
   takeEvery(AlbumActionTypes.CREATE_ALBUM_FAILED, handleError),
   takeEvery(AlbumActionTypes.EDIT_ALBUM, editAlbum),
   takeEvery(AlbumActionTypes.EDIT_ALBUM_FAILED, handleError),
+  takeEvery(AlbumActionTypes.HIDE_ALBUM, hideAlbum),
+  takeEvery(AlbumActionTypes.HIDE_ALBUM_FAILED, handleError),
+  takeEvery(AlbumActionTypes.UNHIDE_ALBUM, unhideAlbum),
+  takeEvery(AlbumActionTypes.UNHIDE_ALBUM_FAILED, handleError),
 ];
 
 function* getAlbumById(action: GetAlbumByIdStartActionType) {
@@ -99,6 +105,30 @@ function* loadMoreAlbums(action: GetAlbumsStartActionType) {
   } catch (e) {
     const error = e as AxiosError;
     yield put(artistAlbumActions.loadMoreAlbumsFailed({ error }));
+  }
+}
+
+function* hideAlbum(action: HideAlbumStartActionType) {
+  try {
+    const artistId: string = yield select(userSelectors.userId);
+    yield ArtistAlbumService.hideAlbum(artistId, action.payload);
+    yield put(artistAlbumActions.hideAlbumSuccess());
+    yield showNotification('success', 'Album and it songs were hidden');
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(artistAlbumActions.hideAlbumFailed({ error }));
+  }
+}
+
+function* unhideAlbum(action: UnhideAlbumStartActionType) {
+  try {
+    const artistId: string = yield select(userSelectors.userId);
+    yield ArtistAlbumService.unhideAlbum(artistId, action.payload);
+    yield put(artistAlbumActions.unhideAlbumSuccess());
+    yield showNotification('success', 'Album and it songs are visible now');
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(artistAlbumActions.unhideAlbumFailed({ error }));
   }
 }
 

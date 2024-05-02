@@ -18,7 +18,7 @@ export const artistAlbumReducer = (state = artistAlbumState, action: ArtistAlbum
         date: action.payload.date,
         coverImageUrl: action.payload.coverImageUrl,
         backgroundColor: action.payload.backgroundColor,
-        hiden: action.payload.hiden,
+        hidden: action.payload.hidden,
         songsCount: action.payload.songsCount,
         songsTimeDuration: action.payload.songsTimeDuration,
       }
@@ -112,7 +112,6 @@ export const artistAlbumReducer = (state = artistAlbumState, action: ArtistAlbum
         isEditAlbumModalOpen: false
       }
     }
-
     case AlbumActionTypes.EDIT_ALBUM: {
       return {
         ...state,
@@ -130,6 +129,44 @@ export const artistAlbumReducer = (state = artistAlbumState, action: ArtistAlbum
       return {
         ...state,
         isEditAlbumLoading: false
+      }
+    }
+    case AlbumActionTypes.HIDE_ALBUM: {
+      return {
+        ...state,
+        isHideAlbumLoading: true
+      }
+    }
+    case AlbumActionTypes.HIDE_ALBUM_SUCCESS: {
+      return {
+        ...state,
+        isHideAlbumLoading: false,
+        hidden: true
+      }
+    }
+    case AlbumActionTypes.HIDE_ALBUM_FAILED: {
+      return {
+        ...state,
+        isHideAlbumLoading: false
+      }
+    }
+    case AlbumActionTypes.UNHIDE_ALBUM: {
+      return {
+        ...state,
+        isUnhideAlbumLoading: true
+      }
+    }
+    case AlbumActionTypes.UNHIDE_ALBUM_SUCCESS: {
+      return {
+        ...state,
+        isUnhideAlbumLoading: false,
+        hidden: false
+      }
+    }
+    case AlbumActionTypes.UNHIDE_ALBUM_FAILED: {
+      return {
+        ...state,
+        isUnhideAlbumLoading: false
       }
     }
     default: {
