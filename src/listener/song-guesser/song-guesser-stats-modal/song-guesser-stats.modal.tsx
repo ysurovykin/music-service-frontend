@@ -104,10 +104,10 @@ export function SongGuesserStatsModal() {
             <Title style={{ textAlign: 'center' }} level={3}>Record guessers</Title>
             <Divider className="m-0" style={{ background: 'white' }} />
             <div>
-              <Title className="m-0" level={5}>Most correct: {songGuesserStats?.mostCorrectGuesser.guesserArtistName} - {songGuesserStats?.mostCorrectGuesser.guesserSongName} ( <span style={{ color: listenerProfileTypePalete.base }}>{songGuesserStats?.mostCorrectGuesser.guesses}</span> )</Title>
-              <Title className="m-0" level={5}>Most incorrect: {songGuesserStats?.mostIncorrectGuesser.guesserArtistName} - {songGuesserStats?.mostIncorrectGuesser.guesserSongName} ( <span style={{ color: '#cc2d2d' }}>{songGuesserStats?.mostIncorrectGuesser.guesses}</span> )</Title>
-              <Title className="m-0" level={5}>Most close: {songGuesserStats?.mostCloseGuesser.guesserArtistName} - {songGuesserStats?.mostCloseGuesser.guesserSongName} ( <span style={{ color: '#c4cc2d' }}>{songGuesserStats?.mostCloseGuesser.guesses}</span> )</Title>
-              <Title className="m-0" level={5}>Most skipped: {songGuesserStats?.mostSkippedGuesser.guesserArtistName} - {songGuesserStats?.mostSkippedGuesser.guesserSongName} ( <span style={{ color: '#ff7875' }}>{songGuesserStats?.mostSkippedGuesser.guesses}</span> )</Title>
+              <Title className="m-0" level={5}>Most correct: {songGuesserStats?.mostCorrectGuesser?.guesserArtistName} - {songGuesserStats?.mostCorrectGuesser?.guesserSongName} ( <span style={{ color: listenerProfileTypePalete.base }}>{songGuesserStats?.mostCorrectGuesser?.guesses}</span> )</Title>
+              <Title className="m-0" level={5}>Most incorrect: {songGuesserStats?.mostIncorrectGuesser?.guesserArtistName} - {songGuesserStats?.mostIncorrectGuesser?.guesserSongName} ( <span style={{ color: '#cc2d2d' }}>{songGuesserStats?.mostIncorrectGuesser?.guesses}</span> )</Title>
+              <Title className="m-0" level={5}>Most close: {songGuesserStats?.mostCloseGuesser?.guesserArtistName} - {songGuesserStats?.mostCloseGuesser?.guesserSongName} ( <span style={{ color: '#c4cc2d' }}>{songGuesserStats?.mostCloseGuesser?.guesses}</span> )</Title>
+              <Title className="m-0" level={5}>Most skipped: {songGuesserStats?.mostSkippedGuesser?.guesserArtistName} - {songGuesserStats?.mostSkippedGuesser?.guesserSongName} ( <span style={{ color: '#ff7875' }}>{songGuesserStats?.mostSkippedGuesser?.guesses}</span> )</Title>
             </div>
           </div>
         </div>

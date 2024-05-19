@@ -22,27 +22,7 @@
   &__credits {
     display: flex;
     flex-direction: column;
-  }
-
-  &__playlist-name {
-    margin-bottom: 20px;
-  }
-
-  &__playlist-description {
-    resize: none !important;
-    height: 120px !important;
-
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent; //rgb(33, 33, 33)
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #707070;
-    }
+    gap: 20px;
   }
 
   &__edit-cover-button {
@@ -73,33 +53,7 @@
     display: none;
   }
 
-  &__color-picker {
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
-
-    &-wrapper {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-  
-      &:hover {
-        background-color: #70707050;
-      }
-    }
-
-    &-dropdown {
-      background-color: transparent !important;
-      cursor: pointer !important;
-
-      &-item {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 5px;
-      }
-    }
+  &__album-release-date {
+    width: 100%;
   }
 }

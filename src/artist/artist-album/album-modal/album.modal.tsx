@@ -1,11 +1,12 @@
 import React, { memo, useEffect, useMemo, useRef, useState } from "react";
-import { Avatar, Button, Dropdown, Form, Input, MenuProps, Modal, Tooltip, Typography } from "antd";
+import { Avatar, Button, DatePicker, Dropdown, Form, Input, MenuProps, Modal, Tooltip, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Delete, FormatColorFill, MoreHoriz, Photo } from "@mui/icons-material";
 import { CreateAlbumRequestData, EditAlbumRequestData } from "../store/artist-album.model";
+import dayjs from 'dayjs';
 import { userSelectors } from "../../../user/store/user.selectors";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 type CreateAlbumRequestFunction = (request: CreateAlbumRequestData) => void;
 type EditAlbumRequestFunction = (request: EditAlbumRequestData) => void;
@@ -186,6 +187,16 @@ export const AlbumModal = memo(function AlbumModal({
             value={name}
             maxLength={50}
             onChange={(event) => setName(event.target.value)} />
+          <div>
+            <Text>Album release date</Text>
+            <DatePicker
+              className="album-modal__album-release-date"
+              placeholder='Album release date'
+              onChange={(event) => console.log(event)} //TODO ADD TO PAYLOAD
+              disabledDate={(current) => current && current < dayjs().endOf('day')}
+              showToday={false}
+              format={'DD/MM/YYYY'} />
+          </div>
         </div>
       </div>
     </Modal >

@@ -2,6 +2,7 @@ import api from "../../helpers/http/api.helper";
 import { AxiosResponse } from "axios";
 import {
     ArtistProfileInfoResponseData,
+    ArtistStatsResponseData,
     ChangeSubscriptionRequestData,
 } from "./artist-profile.model";
 
@@ -25,4 +26,7 @@ export default class ArtistProfileService {
         });
     }
 
+    static async getArtistStats(artistProfileId: string): Promise<AxiosResponse<ArtistStatsResponseData>> {
+        return await api.get<ArtistStatsResponseData>(`/artist-profile/stats/${artistProfileId}`);
+    }
 }

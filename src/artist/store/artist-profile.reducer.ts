@@ -89,6 +89,26 @@ export const artistProfileReducer = (state = artistProfileState, action: ArtistP
         isSubscriptionChangingLoading: false
       }
     }
+    case ArtistProfileActionTypes.GET_ARTIS_STATS: {
+      return {
+        ...state,
+        isArtistStatsLoading: true
+      }
+    }
+    case ArtistProfileActionTypes.GET_ARTIS_STATS_SUCCESS: {
+      return {
+        ...state,
+        isArtistStatsLoading: false,
+        generalStats: action.payload.generalStats,
+        advancedStats: action.payload.advancedStats
+      }
+    }
+    case ArtistProfileActionTypes.GET_ARTIS_STATS_FAILED: {
+      return {
+        ...state,
+        isArtistStatsLoading: false
+      }
+    }
     default: {
       return { ...state }
     }

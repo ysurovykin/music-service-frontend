@@ -9,6 +9,9 @@ export const artistProfileState: ArtistProfileState = {
   isSubscriptionChangingLoading: undefined,
   isEditProfileModalOpen: undefined,
   isEditProfileLoading: undefined,
+  isArtistStatsLoading: undefined,
+  generalStats: undefined,
+  advancedStats: undefined,
 };
 
 export interface ArtistProfileState {
@@ -22,6 +25,9 @@ export interface ArtistProfileState {
   isSubscriptionChangingLoading?: boolean;
   isEditProfileModalOpen?: boolean;
   isEditProfileLoading?: boolean;
+  isArtistStatsLoading?: boolean;
+  generalStats?: ArtistGeneralStats;
+  advancedStats?: ArtistAdvancedStats;
 }
 
 export type ArtistProfileInfoResponseData = {
@@ -52,6 +58,26 @@ export type ChangeSubscriptionRequestData = {
   profileType: string;
 }
 
+export type ArtistGeneralStats = {
+  followers?: number;
+  listeners?: number;
+  songsCount?: number;
+  songsDuration?: number;
+  likes?: number;
+}
+
+export type ArtistAdvancedStats = {
+  plays?: number;
+  playsDynamics?: string;
+  songRadios?: number;
+  songGuessers?: number;
+}
+
+export type ArtistStatsResponseData = {
+  generalStats?: ArtistGeneralStats;
+  advancedStats?: ArtistAdvancedStats;
+}
+
 export enum ArtistProfileActionTypes {
   GET_ARTIS_PROFILE_BY_ID = "ARTIS_PROFILE.GET_ARTIS_PROFILE_BY_ID_START",
   GET_ARTIS_PROFILE_BY_ID_SUCCESS = "ARTIS_PROFILE.GET_ARTIS_PROFILE_BY_ID_SUCCESS",
@@ -70,4 +96,8 @@ export enum ArtistProfileActionTypes {
   EDIT_PROFILE = "ARTIS_PROFILE.EDIT_PROFILE_START",
   EDIT_PROFILE_SUCCESS = "ARTIS_PROFILE.EDIT_PROFILE_SUCCESS",
   EDIT_PROFILE_FAILED = "ARTIS_PROFILE.EDIT_PROFILE_FAILED",
+
+  GET_ARTIS_STATS = "ARTIS_PROFILE.GET_ARTIS_STATS_START",
+  GET_ARTIS_STATS_SUCCESS = "ARTIS_PROFILE.GET_ARTIS_STATS_SUCCESS",
+  GET_ARTIS_STATS_FAILED = "ARTIS_PROFILE.GET_ARTIS_STATS_FAILED",
 };

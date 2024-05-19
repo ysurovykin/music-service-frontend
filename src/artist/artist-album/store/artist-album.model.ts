@@ -16,6 +16,8 @@ export const artistAlbumState: ArtistAlbumState = {
   isEditAlbumModalOpen: undefined,
   isHideAlbumLoading: undefined,
   isUnhideAlbumLoading: undefined,
+  albumStats: undefined,
+  isAlbumStatsLoading: undefined,
 };
 
 export interface ArtistAlbumState extends AlbumFullResponseData {
@@ -29,6 +31,8 @@ export interface ArtistAlbumState extends AlbumFullResponseData {
   isEditAlbumModalOpen?: boolean
   isHideAlbumLoading?: boolean,
   isUnhideAlbumLoading?: boolean,
+  albumStats?: Array<AlbumStatsResponseData>,
+  isAlbumStatsLoading?: boolean
 }
 
 export type AlbumInfoResponseData = {
@@ -49,6 +53,24 @@ export type GetAlbumsRequest = {
 export type GetAlbumsResponse = {
   albums: Array<AlbumInfoResponseData>;
   isMoreAlbumsForLoading: boolean;
+}
+
+export type AlbumGeneralStats = {
+  songsCount?: number;
+  songsTimeDuration?: number;
+  likes?: number;
+}
+
+export type AlbumAdvancedStats = {
+  plays?: number;
+  playsDynamics?: string;
+  songRadios?: number;
+  songGuessers?: number;
+}
+
+export type AlbumStatsResponseData = AlbumInfoResponseData & {
+  generalStats: AlbumGeneralStats;
+  advancedStats: AlbumAdvancedStats;
 }
 
 export type AlbumFullResponseData = AlbumInfoResponseData & {
@@ -94,12 +116,15 @@ export enum AlbumActionTypes {
   EDIT_ALBUM_SUCCESS = "ARTIST_ALBUM.EDIT_ALBUM_SUCCESS",
   EDIT_ALBUM_FAILED = "ARTIST_ALBUM.EDIT_ALBUM_FAILED",
 
-  HIDE_ALBUM = "ALBUM.HIDE_ALBUM_START",
-  HIDE_ALBUM_SUCCESS = "ALBUM.HIDE_ALBUM_SUCCESS",
-  HIDE_ALBUM_FAILED = "ALBUM.HIDE_ALBUM_FAILED",
+  HIDE_ALBUM = "ARTIST_ALBUM.HIDE_ALBUM_START",
+  HIDE_ALBUM_SUCCESS = "ARTIST_ALBUM.HIDE_ALBUM_SUCCESS",
+  HIDE_ALBUM_FAILED = "ARTIST_ALBUM.HIDE_ALBUM_FAILED",
 
-  UNHIDE_ALBUM = "ALBUM.UNHIDE_ALBUM_START",
-  UNHIDE_ALBUM_SUCCESS = "ALBUM.UNHIDE_ALBUM_SUCCESS",
-  UNHIDE_ALBUM_FAILED = "ALBUM.UNHIDE_ALBUM_FAILED",
+  UNHIDE_ALBUM = "ARTIST_ALBUM.UNHIDE_ALBUM_START",
+  UNHIDE_ALBUM_SUCCESS = "ARTIST_ALBUM.UNHIDE_ALBUM_SUCCESS",
+  UNHIDE_ALBUM_FAILED = "ARTIST_ALBUM.UNHIDE_ALBUM_FAILED",
 
+  GET_ALBUMS_STATS = "ARTIST_ALBUM.GET_ALBUMS_STATS",
+  GET_ALBUMS_STATS_SUCCESS = "ARTIST_ALBUM.GET_ALBUMS_STATS_SUCCESS",
+  GET_ALBUMS_STATS_FAILED = "ARTIST_ALBUM.GET_ALBUMS_STATS_FAILED",
 };

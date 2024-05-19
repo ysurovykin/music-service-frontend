@@ -6,47 +6,8 @@
     align-items: center;
   }
 
-  &__cover-wrapper {
-    width: 160px;
-    height: 160px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__cover-shadow {
-    width: 160px;
-    height: 160px;
-    border-radius: 6px;
-    background-color: rgba(0, 0, 0, 0.5);
-    position: absolute;
-  }
-
-  &__play-button {
-    font-size: 48px !important;
-    position: absolute;
-  }
-
   &__credits {
     align-self: flex-end;
-  }
-
-  &__top-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 0px 20px 20px 20px;
-  }
-
-  &__content {
-    display: flex;
-    gap: 20px;
-
-    &-wrapper {
-      width: 100%;
-      margin-bottom: 20px;
-    }
   }
 
   &__loader-wrapper {
@@ -72,5 +33,63 @@
   &__change-subscription-button {
     background-color: transparent;
     padding: 0px 12px !important;
+  }
+
+  &__stats {
+    border: 1px solid white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px;
+  }
+
+  &__general-stats-section {
+    &-title {
+      text-align: center;
+      padding: 5px;
+    }
+
+    &-content {
+      padding: 10px;
+    }
+  }
+
+  &__advanced-stats-section {
+    &-title {
+      text-align: center;
+      padding: 5px;
+    }
+
+    &-content {
+      padding: 10px;
+    }
+  }
+
+  &__info-data {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__plays-dynamics {
+    &--positive {
+      color: #52c448;
+    }
+
+    &--negative {
+      color: #cc2d2d
+    }
+  }
+
+  &__subscription-required {
+    &-wrapper {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+    }
+
+    &-text {
+      padding: 30px 0px;
+    }
   }
 }

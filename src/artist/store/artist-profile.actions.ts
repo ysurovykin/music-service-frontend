@@ -12,11 +12,15 @@ import {
   CloseChangeSubscriptionModalActionType,
   ChangeSubscriptionStartActionType,
   ChangeSubscriptionSuccessActionType,
-  ChangeSubscriptionFailedActionType
+  ChangeSubscriptionFailedActionType,
+  GetArtistStatsStartActionType,
+  GetArtistStatsSuccessActionType,
+  GetArtistStatsFailedActionType,
 } from "./artist-profile.actions.types";
 import {
   ArtistProfileActionTypes,
   ArtistProfileInfoResponseData,
+  ArtistStatsResponseData,
   ChangeSubscriptionRequestData,
   EditProfileRequestData,
 } from "./artist-profile.model"
@@ -30,7 +34,7 @@ export const getArtistProfileByIdSuccessAction = (response: ArtistProfileInfoRes
 export const getArtistProfileByIdFailedAction = (error: ActionFailedError):
   GetArtistProfileByIdFailedActionType => ({ type: ArtistProfileActionTypes.GET_ARTIS_PROFILE_BY_ID_FAILED, payload: error });
 
-  export const openEditProfileModalAction = ():
+export const openEditProfileModalAction = ():
   OpenEditProfileModalActionType => ({ type: ArtistProfileActionTypes.OPEN_EDIT_PROFILE_MODAL, payload: undefined });
 
 export const closeEditProfileModalAction = ():
@@ -60,6 +64,15 @@ export const changeSubscriptionSuccessAction = ():
 export const changeSubscriptionFailedAction = (error: ActionFailedError):
   ChangeSubscriptionFailedActionType => ({ type: ArtistProfileActionTypes.CHANGE_SUBSCRIPTION_FAILED, payload: error });
 
+export const getArtistStatsStartAction = (artistId: string):
+  GetArtistStatsStartActionType => ({ type: ArtistProfileActionTypes.GET_ARTIS_STATS, payload: artistId });
+
+export const getArtistStatsSuccessAction = (response: ArtistStatsResponseData):
+  GetArtistStatsSuccessActionType => ({ type: ArtistProfileActionTypes.GET_ARTIS_STATS_SUCCESS, payload: response });
+
+export const getArtistStatsFailedAction = (error: ActionFailedError):
+  GetArtistStatsFailedActionType => ({ type: ArtistProfileActionTypes.GET_ARTIS_STATS_FAILED, payload: error });
+
 export const artistProfileActions = {
   getArtistProfileById: (artistId: string) => getArtistProfileByIdStartAction(artistId),
   getArtistProfileByIdSuccess: (response: ArtistProfileInfoResponseData) => getArtistProfileByIdSuccessAction(response),
@@ -74,5 +87,8 @@ export const artistProfileActions = {
   changeSubscription: (request: ChangeSubscriptionRequestData) => changeSubscriptionStartAction(request),
   changeSubscriptionSuccess: () => changeSubscriptionSuccessAction(),
   changeSubscriptionFailed: (error: ActionFailedError) => changeSubscriptionFailedAction(error),
+  getArtistStats: (artistId: string) => getArtistStatsStartAction(artistId),
+  getArtistStatsSuccess: (response: ArtistStatsResponseData) => getArtistStatsSuccessAction(response),
+  getArtistStatsFailed: (error: ActionFailedError) => getArtistStatsFailedAction(error),
 }
 

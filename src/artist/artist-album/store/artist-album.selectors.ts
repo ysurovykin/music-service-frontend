@@ -21,6 +21,8 @@ const isEditAlbumLoading = createSelector(artistAlbumState, album => album?.isEd
 const hidden = createSelector(artistAlbumState, album => album.hidden);
 const isHideAlbumLoading = createSelector(artistAlbumState, album => album.isHideAlbumLoading);
 const isUnhideAlbumLoading = createSelector(artistAlbumState, album => album.isUnhideAlbumLoading);
+const albumStats = createSelector(artistAlbumState, album => album.albumStats);
+const isAlbumStatsLoading = createSelector(artistAlbumState, album => album.isAlbumStatsLoading);
 
 export const artistAlbumSelectors = {
   albumId,
@@ -40,5 +42,7 @@ export const artistAlbumSelectors = {
   isEditAlbumLoading,
   hidden,
   isHideAlbumLoading,
-  isUnhideAlbumLoading
+  isUnhideAlbumLoading,
+  albumStats,
+  isAlbumStatsLoading
 };

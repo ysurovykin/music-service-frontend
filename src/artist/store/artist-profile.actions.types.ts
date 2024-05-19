@@ -2,6 +2,7 @@ import { ActionFailedError } from "../../helpers/react/redux.helper";
 import {
   ArtistProfileActionTypes,
   ArtistProfileInfoResponseData,
+  ArtistStatsResponseData,
   ChangeSubscriptionRequestData,
   EditProfileRequestData,
 } from "./artist-profile.model";
@@ -71,6 +72,21 @@ export type ChangeSubscriptionFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type GetArtistStatsStartActionType = {
+  type: typeof ArtistProfileActionTypes.GET_ARTIS_STATS;
+  payload: string;
+};
+
+export type GetArtistStatsSuccessActionType = {
+  type: typeof ArtistProfileActionTypes.GET_ARTIS_STATS_SUCCESS;
+  payload: ArtistStatsResponseData;
+};
+
+export type GetArtistStatsFailedActionType = {
+  type: typeof ArtistProfileActionTypes.GET_ARTIS_STATS_FAILED;
+  payload: ActionFailedError;
+};
+
 export type ArtistProfileActions =
   | GetArtistProfileByIdStartActionType
   | GetArtistProfileByIdSuccessActionType
@@ -84,4 +100,7 @@ export type ArtistProfileActions =
   | CloseChangeSubscriptionModalActionType
   | ChangeSubscriptionStartActionType
   | ChangeSubscriptionSuccessActionType
-  | ChangeSubscriptionFailedActionType;
+  | ChangeSubscriptionFailedActionType
+  | GetArtistStatsStartActionType
+  | GetArtistStatsSuccessActionType
+  | GetArtistStatsFailedActionType;

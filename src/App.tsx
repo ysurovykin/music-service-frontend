@@ -125,6 +125,23 @@ function App() {
             Collapse: {
               contentBg: currentPalete.backgroundAccent,
               colorTextHeading: '#ffffff',
+            },
+            DatePicker: {
+              colorBgContainer: currentPalete.backgroundAccent,
+              colorBgElevated: currentPalete.backgroundAccent,
+              colorTextHeading: '#ffffff',
+              colorText: '#ffffff',
+              colorTextDescription: 'grey',
+              colorTextPlaceholder: 'grey',
+              colorPrimary: currentPalete.base,
+              activeBorderColor: currentPalete.base,
+              colorIconHover: '#ffffff',
+              colorIcon: '#ffffff',
+            },
+            Upload: {
+              actionsColor: '#ffffff',
+              colorText: '#ffffff',
+              colorTextDescription: '#ffffff',
             }
           },
           token: {

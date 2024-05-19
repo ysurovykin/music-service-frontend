@@ -13,6 +13,9 @@ const isSubscriptionChangingLoading = createSelector(artistProfileState, artistP
 const isChangeSubscriptionModalOpen = createSelector(artistProfileState, artistProfile => artistProfile?.isChangeSubscriptionModalOpen);
 const isEditProfileModalOpen = createSelector(artistProfileState, artistProfile => artistProfile?.isEditProfileModalOpen);
 const isEditProfileLoading = createSelector(artistProfileState, artistProfile => artistProfile?.isEditProfileLoading);
+const generalStats = createSelector(artistProfileState, artistProfile => artistProfile?.generalStats);
+const advancedStats = createSelector(artistProfileState, artistProfile => artistProfile?.advancedStats);
+const isArtistStatsLoading = createSelector(artistProfileState, artistProfile => artistProfile?.isArtistStatsLoading);
 
 export const artistProfileSelectors = {
   isArtistProfileLoading,
@@ -25,4 +28,7 @@ export const artistProfileSelectors = {
   isChangeSubscriptionModalOpen,
   isEditProfileModalOpen,
   isEditProfileLoading,
+  generalStats,
+  advancedStats,
+  isArtistStatsLoading,
 };

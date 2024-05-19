@@ -274,6 +274,7 @@ export function SongPlayerComponent() {
   const changePlayerCurrentPlayTime = (value: number) => {
     if (audioPlayer.current) {
       audioPlayer.current.currentTime = value;
+      updateCurrentSongAllPlayTime();
       setPlayTime(value);
       dispatchEvent(new CustomEvent('SERVICE_EVENT.PLAY_TIME_CHANGED', {
         detail: {
@@ -652,25 +653,30 @@ export function SongPlayerComponent() {
   };
 
   return (
-    <div style={{ display: isSongPlayerLoading ? 'none' : 'grid' }} className="song-player__wrapper">
+    <>
       <audio
         src={currentlyPlayingSong?.songUrl}
         ref={audioPlayer}
         muted={muted} />
-      <div className="song-player">
-        <div className="song-player__info">
-          {renderSongInfo()}
-        </div>
+      {songsQueue?.length ?
+        <div style={{ display: isSongPlayerLoading ? 'none' : 'grid' }} className="song-player__wrapper">
 
-        <div className="song-player__controllers">
-          {renderSongControllers()}
-        </div>
+          <div className="song-player">
+            <div className="song-player__info">
+              {renderSongInfo()}
+            </div>
 
-        <div className="song-player__additional-controllers">
-          {renderSongAdditionalControllers()}
-        </div>
-      </div>
-    </div>
+            <div className="song-player__controllers">
+              {renderSongControllers()}
+            </div>
+
+            <div className="song-player__additional-controllers">
+              {renderSongAdditionalControllers()}
+            </div>
+          </div>
+        </div> : 
+        <></>}
+    </>
   );
 
 };

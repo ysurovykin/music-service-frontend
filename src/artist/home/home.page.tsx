@@ -8,17 +8,22 @@ import { userSelectors } from "../../user/store/user.selectors";
 import { getBackground } from "../../helpers/react/listener-page.helper";
 import { HeaderComponent } from "../components/header/header.component";
 import { artistProfileSelectors } from "../store/artist-profile.selectors";
+import { AlbumStatisticsComponent } from "./album-statistics/album-statistics.component";
+import { artistAlbumSelectors } from "../artist-album/store/artist-album.selectors";
+import { artistAlbumActions } from "../artist-album/store/artist-album.actions";
 
 const { Title } = Typography;
 
 export function HomePage() {
   const { ref, inView } = useInView({ threshold: 0 });
+  const [backgroundColor, setBackgroundColor] = useState<string>('rgba(70, 70, 70, 1)');
 
   const navigate = useNavigate();
 
   const userId = useSelector(userSelectors.userId);
+  const subscription = useSelector(artistProfileSelectors.subscription);
   const name = useSelector(artistProfileSelectors.name);
-  const [backgroundColor, setBackgroundColor] = useState<string>('rgba(70, 70, 70, 1)');
+  const albumStats = useSelector(artistAlbumSelectors.albumStats);
 
   const [{ background }, api] = useSpring(() => ({
     background: getBackground(backgroundColor),
@@ -28,10 +33,11 @@ export function HomePage() {
   }));
 
   const dispatch = useDispatch();
-  
+  const getAlbumsStats = (artistId: string) => dispatch(artistAlbumActions.getAlbumsStats(artistId));
+
   useEffect(() => {
     if (userId) {
-     
+      getAlbumsStats(userId)
     }
   }, [userId])
 
@@ -52,6 +58,11 @@ export function HomePage() {
             ref={ref}>
             Hi, {name}
           </Title>
+          {albumStats?.map(albumStat =>
+            <AlbumStatisticsComponent
+              album={albumStat}
+              subscription={subscription!} />
+          )}
         </div>
       </animated.div>
     </div>

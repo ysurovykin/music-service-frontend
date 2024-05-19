@@ -12,6 +12,7 @@ import { EditProfileModal } from '../../profile/edit-profile-modal/edit-profile.
 import { CreateAlbumModal } from '../../artist-album/create-album-modal/create-album.modal';
 import { EditAlbumModal } from '../../artist-album/edit-album-modal/edit-album.modal';
 import { AlbumPage } from '../../artist-album/artist-album.page';
+import { UploadArtistSongModal } from '../../artist-song/upload-artist-song-modal/upload-artist-song.modal';
 
 export default function ArtistProfileRouter() {
   const userId = useSelector(userSelectors.userId);
@@ -40,6 +41,7 @@ export default function ArtistProfileRouter() {
       <EditProfileModal />
       <CreateAlbumModal />
       <EditAlbumModal />
+      <UploadArtistSongModal />
     </>
   );
 }

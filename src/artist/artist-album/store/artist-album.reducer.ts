@@ -169,6 +169,26 @@ export const artistAlbumReducer = (state = artistAlbumState, action: ArtistAlbum
         isUnhideAlbumLoading: false
       }
     }
+    
+    case AlbumActionTypes.GET_ALBUMS_STATS: {
+      return {
+        ...state,
+        isAlbumStatsLoading: true
+      }
+    }
+    case AlbumActionTypes.GET_ALBUMS_STATS_SUCCESS: {
+      return {
+        ...state,
+        isAlbumStatsLoading: false,
+        albumStats: action.payload
+      }
+    }
+    case AlbumActionTypes.GET_ALBUMS_STATS_FAILED: {
+      return {
+        ...state,
+        isAlbumStatsLoading: false
+      }
+    }
     default: {
       return { ...state }
     }

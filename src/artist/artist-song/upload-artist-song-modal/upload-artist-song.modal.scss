@@ -1,0 +1,31 @@
+.upload-artist-song-modal {
+  &__cancel-button {
+    color: #ffffff;
+    background: transparent;
+  }
+
+  &__song-info-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__song-data-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 10px;
+  }
+
+  &__delete-uploaded-file {
+    cursor: pointer;
+  }
+
+  &__song-details-section {
+    margin-top: 10px;
+    display: grid;
+    gap: 10px
+  }
+
+}

@@ -1,4 +1,4 @@
-.album-page {
+.artist-album-page {
   &__info {
     display: flex;
     gap: 20px;
@@ -35,5 +35,9 @@
 
   &__credits {
     align-self: flex-end;
+  }
+
+  &__add-song-button {
+    background: transparent;
   }
 }

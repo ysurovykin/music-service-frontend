@@ -4,7 +4,7 @@ import { useParams, Link as RouterLink } from 'react-router-dom';
 import { artistAlbumActions } from './store/artist-album.actions';
 import { useSelector } from 'react-redux';
 import { artistAlbumSelectors } from './store/artist-album.selectors';
-import { Dropdown, Tooltip, Typography } from 'antd';
+import { Button, Divider, Dropdown, Tooltip, Typography } from 'antd';
 import { HeaderComponent } from '../components/header/header.component';
 import { formatPlaylistTime, getBackground, renderPlaylistIcon } from '../../helpers/react/listener-page.helper';
 import { useInView } from 'react-intersection-observer';
@@ -14,6 +14,7 @@ import { MenuProps } from 'antd/lib';
 import { showNotification } from '../../helpers/react/redux.helper';
 import { artistProfileSelectors } from '../store/artist-profile.selectors';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { ArtistSongTableComponent } from '../artist-song/artist-song-table.component';
 
 const { Title } = Typography;
 
@@ -27,7 +28,6 @@ export function AlbumPage() {
   const backgroundColor = useSelector(artistAlbumSelectors.backgroundColor);
   const songsCount = useSelector(artistAlbumSelectors.songsCount);
   const songsTimeDuration = useSelector(artistAlbumSelectors.songsTimeDuration);
-  const subscription = useSelector(artistProfileSelectors.subscription);
 
   const dispatch = useDispatch()
   const getAlbumData = (albumId: string) => dispatch(artistAlbumActions.getAlbumById(albumId));
@@ -74,16 +74,16 @@ export function AlbumPage() {
 
   return (
     <div className='user-group-page__wrapper custom-scroll-y'>
-      <div style={{ background: getBackground(backgroundColor) }} className="album-page user-group-page">
+      <div style={{ background: getBackground(backgroundColor) }} className="artist-album-page user-group-page">
         <HeaderComponent
           text={name || ''}
           showHeader={!inView}
           background={backgroundColor} />
-        <div className='album-page__info'>
-          <div className='album-page__cover-wrapper'>
+        <div className='artist-album-page__info'>
+          <div className='artist-album-page__cover-wrapper'>
             {renderPlaylistIcon(160, 'absolute', albumCoverImageUrl, undefined, backgroundColor, name)}
           </div>
-          <div className='album-page__credits'>
+          <div className='artist-album-page__credits'>
             <Title className='m-0' level={5}>Album</Title>
             <Title
               className='mt-0 cursor-pointer'
@@ -92,7 +92,7 @@ export function AlbumPage() {
               onClick={() => openEditAlbumModal()}>
               {name}
             </Title>
-            <div className='album-page__info-section'>
+            <div className='artist-album-page__info-section'>
               <Title className='m-0' level={5}>
                 {songsCount} songs, {formatPlaylistTime(songsTimeDuration!)}
               </Title>
@@ -103,6 +103,17 @@ export function AlbumPage() {
               </Tooltip>
             </div>
           </div>
+        </div>
+        <div className='artist-album-page__info'>
+          <div
+            className="cursor-pointer"
+            onClick={() => { }}>
+            <Button className='artist-album-page__add-song-button'>Add new song</Button>
+          </div>
+        </div>
+        <Divider className='mt-0' />
+        <div>
+          <ArtistSongTableComponent />
         </div>
       </div>
     </div >

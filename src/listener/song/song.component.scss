@@ -70,16 +70,9 @@
 
     h5,
     &-artists-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 3px;
       text-overflow: ellipsis;
       overflow: hidden;
-      white-space: unset;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      text-decoration: none;
-      word-break: break-all;
+      white-space: nowrap;
     }
   }
 

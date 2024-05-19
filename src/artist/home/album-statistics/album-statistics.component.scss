@@ -1,0 +1,56 @@
+.album-statistics-component {
+  border: 1px solid white;
+  border-radius: 8px;
+
+  &__title {
+    padding: 10px 10px 0px 10px;
+  }
+
+  &__content {
+    display: flex;
+    padding: 0px;
+  }
+
+  &__album-stats {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  &__album-general-stats-section {
+    &-title {
+      text-align: center;
+      padding: 5px;
+    }
+
+    &-content {
+      padding: 10px;
+    }
+  }
+
+  &__album-advanced-stats-section {
+    &-title {
+      text-align: center;
+      padding: 5px;
+    }
+
+    &-content {
+      padding: 10px;
+    }
+  }
+
+  &__info-data {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__plays-dynamics {
+    &--positive {
+      color: #52c448;
+    }
+
+    &--negative {
+      color: #cc2d2d
+    }
+  }
+}

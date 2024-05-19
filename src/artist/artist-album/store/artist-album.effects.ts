@@ -1,11 +1,12 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { AlbumActionTypes, AlbumInfoResponseData, GetAlbumsResponse } from './artist-album.model';
+import { AlbumActionTypes, AlbumInfoResponseData, AlbumStatsResponseData, GetAlbumsResponse } from './artist-album.model';
 import ArtistAlbumService from './artist-album.service';
 import { ErrorActionType, getErrorMessage, showNotification } from '../../../helpers/react/redux.helper';
 import {
   CreateAlbumStartActionType,
   EditAlbumStartActionType,
   GetAlbumByIdStartActionType,
+  GetAlbumStatsStartActionType,
   GetAlbumsStartActionType,
   HideAlbumStartActionType,
   UnhideAlbumStartActionType,
@@ -30,6 +31,8 @@ export const artistAlbumEffects = [
   takeEvery(AlbumActionTypes.HIDE_ALBUM_FAILED, handleError),
   takeEvery(AlbumActionTypes.UNHIDE_ALBUM, unhideAlbum),
   takeEvery(AlbumActionTypes.UNHIDE_ALBUM_FAILED, handleError),
+  takeEvery(AlbumActionTypes.GET_ALBUMS_STATS, getAlbumsStats),
+  takeEvery(AlbumActionTypes.GET_ALBUMS_STATS_FAILED, handleError),
 ];
 
 function* getAlbumById(action: GetAlbumByIdStartActionType) {
@@ -129,6 +132,16 @@ function* unhideAlbum(action: UnhideAlbumStartActionType) {
   } catch (e) {
     const error = e as AxiosError;
     yield put(artistAlbumActions.unhideAlbumFailed({ error }));
+  }
+}
+
+function* getAlbumsStats(action: GetAlbumStatsStartActionType) {
+  try {
+    const response: Array<AlbumStatsResponseData> = yield ArtistAlbumService.getAlbumsStats(action.payload);
+    yield put(artistAlbumActions.getAlbumsStatsSuccess(response));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(artistAlbumActions.getAlbumsStatsFailed({ error }));
   }
 }
 

@@ -24,9 +24,20 @@ import {
   HideAlbumFailedActionType,
   UnhideAlbumStartActionType,
   UnhideAlbumSuccessActionType,
-  UnhideAlbumFailedActionType
+  UnhideAlbumFailedActionType,
+  GetAlbumStatsStartActionType,
+  GetAlbumStatsSuccessActionType,
+  GetAlbumStatsFailedActionType,
 } from "./artist-album.actions.types";
-import { AlbumActionTypes, AlbumFullResponseData, CreateAlbumRequestData, EditAlbumRequestData, GetAlbumsRequest, GetAlbumsResponse } from "./artist-album.model";
+import {
+  AlbumActionTypes,
+  AlbumFullResponseData,
+  AlbumStatsResponseData,
+  CreateAlbumRequestData,
+  EditAlbumRequestData,
+  GetAlbumsRequest,
+  GetAlbumsResponse
+} from "./artist-album.model";
 
 export const getAlbumByIdStartAction = (albumId: string):
   GetAlbumByIdStartActionType => ({ type: AlbumActionTypes.GET_ALBUM_BY_ID, payload: albumId });
@@ -103,6 +114,15 @@ export const unhideAlbumSuccessAction = ():
 export const unhideAlbumFailedAction = (error: ActionFailedError):
   UnhideAlbumFailedActionType => ({ type: AlbumActionTypes.UNHIDE_ALBUM_FAILED, payload: error });
 
+export const getAlbumsStatsStartAction = (artistId: string):
+  GetAlbumStatsStartActionType => ({ type: AlbumActionTypes.GET_ALBUMS_STATS, payload: artistId });
+
+export const getAlbumsStatsSuccessAction = (response: Array<AlbumStatsResponseData>):
+  GetAlbumStatsSuccessActionType => ({ type: AlbumActionTypes.GET_ALBUMS_STATS_SUCCESS, payload: response });
+
+export const getAlbumsStatsFailedAction = (error: ActionFailedError):
+  GetAlbumStatsFailedActionType => ({ type: AlbumActionTypes.GET_ALBUMS_STATS_FAILED, payload: error });
+
 export const artistAlbumActions = {
   getAlbumById: (albumId: string) => getAlbumByIdStartAction(albumId),
   getAlbumByIdSuccess: (response: AlbumFullResponseData) => getAlbumByIdSuccessAction(response),
@@ -129,5 +149,8 @@ export const artistAlbumActions = {
   unhideAlbum: (albumId: string) => unhideAlbumStartAction(albumId),
   unhideAlbumSuccess: () => unhideAlbumSuccessAction(),
   unhideAlbumFailed: (error: ActionFailedError) => unhideAlbumFailedAction(error),
+  getAlbumsStats: (artistId: string) => getAlbumsStatsStartAction(artistId),
+  getAlbumsStatsSuccess: (response: Array<AlbumStatsResponseData>) => getAlbumsStatsSuccessAction(response),
+  getAlbumsStatsFailed: (error: ActionFailedError) => getAlbumsStatsFailedAction(error),
 }
 

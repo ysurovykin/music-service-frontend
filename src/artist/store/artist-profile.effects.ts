@@ -1,9 +1,10 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { ArtistProfileActionTypes, ArtistProfileInfoResponseData } from './artist-profile.model';
+import { ArtistProfileActionTypes, ArtistProfileInfoResponseData, ArtistStatsResponseData } from './artist-profile.model';
 import {
   ChangeSubscriptionStartActionType,
   EditProfileStartActionType,
   GetArtistProfileByIdStartActionType,
+  GetArtistStatsStartActionType,
 } from './artist-profile.actions.types';
 import ArtistProfileService from './artist-profile.service';
 import { artistProfileActions } from './artist-profile.actions';
@@ -19,6 +20,8 @@ export const artistProfileEffects = [
   takeEvery(ArtistProfileActionTypes.EDIT_PROFILE_FAILED, handleError),
   takeEvery(ArtistProfileActionTypes.CHANGE_SUBSCRIPTION, changeSubscription),
   takeEvery(ArtistProfileActionTypes.CHANGE_SUBSCRIPTION_FAILED, handleError),
+  takeEvery(ArtistProfileActionTypes.GET_ARTIS_STATS, getArtistStats),
+  takeEvery(ArtistProfileActionTypes.GET_ARTIS_PROFILE_BY_ID_FAILED, handleError),
 ];
 
 function* getArtistProfileById(action: GetArtistProfileByIdStartActionType) {
@@ -61,6 +64,16 @@ function* changeSubscription(action: ChangeSubscriptionStartActionType) {
   } catch (e) {
     const error = e as AxiosError;
     yield put(artistProfileActions.changeSubscriptionFailed({ error }));
+  }
+}
+
+function* getArtistStats(action: GetArtistStatsStartActionType) {
+  try {
+    const artistStats: ArtistStatsResponseData = yield ArtistProfileService.getArtistStats(action.payload);
+    yield put(artistProfileActions.getArtistStatsSuccess(artistStats));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(artistProfileActions.getArtistStatsFailed({ error }));
   }
 }
 

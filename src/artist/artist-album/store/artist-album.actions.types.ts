@@ -1,5 +1,5 @@
 import { ActionFailedError } from "../../../helpers/react/redux.helper";
-import { AlbumActionTypes, AlbumFullResponseData, CreateAlbumRequestData, EditAlbumRequestData, GetAlbumsRequest, GetAlbumsResponse } from "./artist-album.model";
+import { AlbumActionTypes, AlbumFullResponseData, AlbumStatsResponseData, CreateAlbumRequestData, EditAlbumRequestData, GetAlbumsRequest, GetAlbumsResponse } from "./artist-album.model";
 
 export type GetAlbumByIdStartActionType = {
   type: typeof AlbumActionTypes.GET_ALBUM_BY_ID;
@@ -126,6 +126,21 @@ export type UnhideAlbumFailedActionType = {
   payload: ActionFailedError;
 };
 
+export type GetAlbumStatsStartActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS_STATS;
+  payload: string;
+};
+
+export type GetAlbumStatsSuccessActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS_STATS_SUCCESS;
+  payload:  Array<AlbumStatsResponseData>;
+};
+
+export type GetAlbumStatsFailedActionType = {
+  type: typeof AlbumActionTypes.GET_ALBUMS_STATS_FAILED;
+  payload: ActionFailedError;
+};
+
 export type ArtistAlbumActions =
   | GetAlbumByIdStartActionType
   | GetAlbumByIdSuccessActionType
@@ -151,4 +166,7 @@ export type ArtistAlbumActions =
   | HideAlbumFailedActionType
   | UnhideAlbumStartActionType
   | UnhideAlbumSuccessActionType
-  | UnhideAlbumFailedActionType;
+  | UnhideAlbumFailedActionType
+  | GetAlbumStatsStartActionType
+  | GetAlbumStatsSuccessActionType
+  | GetAlbumStatsFailedActionType;

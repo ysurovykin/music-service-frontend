@@ -1,4 +1,5 @@
 @import 'home/home.page.scss';
+@import 'home/album-statistics/album-statistics.component.scss';
 
 @import 'profile/profile.page.scss';
 @import 'profile/change-subscription-modal/change-subscription.modal.scss';
@@ -11,3 +12,6 @@
 @import 'artist-album/artist-album.page.scss';
 @import 'artist-album/album-card/album-card.component.scss';
 @import 'artist-album/album-modal/album.modal.scss';
+
+@import 'artist-song/artist-song-table.component.scss';
+@import 'artist-song/upload-artist-song-modal/upload-artist-song.modal.scss';
