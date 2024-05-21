@@ -257,7 +257,13 @@ export function SongTableComponent({
       title: 'Date added',
       align: 'left',
       width: '20%',
-      render: (value, record) => moment(record.date).fromNow(),
+      render: (value, record) => {
+        if (moment(record.date).isBefore(moment().subtract(1, 'month'))) {
+          return moment(record.date).format('MMM DD, YYYY')
+        } else {
+          return moment(record.date).fromNow()
+        }
+      },
       dataIndex: 'date',
       key: 'date'
     };

@@ -34,9 +34,12 @@ import {
   LoadMoreAlbumsStartActionType,
   LoadMoreAlbumsSuccessActionType,
   LoadMoreAlbumsFailedActionType,
-  MarkHiddenAlbumActionType
+  MarkHiddenAlbumActionType,
+  GetNextAlbumReleaseStartActionType,
+  GetNextAlbumReleaseSuccessActionType,
+  GetNextAlbumReleaseFailedActionType,
 } from "./album.actions.types";
-import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse, GetListenerTopAlbumsThisMonthRequest, GetListenerTopAlbumsThisMonthResponse } from "./album.model";
+import { AlbumActionTypes, AlbumFullResponseData, AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse, GetListenerTopAlbumsThisMonthRequest, GetListenerTopAlbumsThisMonthResponse, NextAlbumReleaseType } from "./album.model";
 
 export const getAlbumsByArtistIdStartAction = (artistId: string):
   GetAlbumsByArtistIdStartActionType => ({ type: AlbumActionTypes.GET_ALBUMS_BY_ARTIST_ID, payload: artistId });
@@ -143,6 +146,15 @@ export const loadMoreAlbumsFailedAction = (error: ActionFailedError):
 export const markHiddenAlbumAction = (albumId: string):
   MarkHiddenAlbumActionType => ({ type: AlbumActionTypes.MARK_HIDDEN_ALBUM, payload: albumId });
 
+export const getNextAlbumReleaseStartAction = (artistId: string):
+  GetNextAlbumReleaseStartActionType => ({ type: AlbumActionTypes.GET_NEXT_ALBUM_RELEASE, payload: artistId });
+
+export const getNextAlbumReleaseSuccessAction = (nextAlbumRelease: NextAlbumReleaseType):
+  GetNextAlbumReleaseSuccessActionType => ({ type: AlbumActionTypes.GET_NEXT_ALBUM_RELEASE_SUCCESS, payload: nextAlbumRelease });
+
+export const getNextAlbumReleaseFailedAction = (error: ActionFailedError):
+  GetNextAlbumReleaseFailedActionType => ({ type: AlbumActionTypes.GET_NEXT_ALBUM_RELEASE_FAILED, payload: error });
+
 export const albumActions = {
   getAlbumsByArtistId: (artistId: string) => getAlbumsByArtistIdStartAction(artistId),
   getAlbumsByArtistIdSuccess: (response: Array<AlbumInfoResponseData>) => getAlbumsByArtistIdSuccessAction(response),
@@ -178,6 +190,9 @@ export const albumActions = {
   loadMoreAlbums: (request: GetAlbumsRequest) => loadMoreAlbumsStartAction(request),
   loadMoreAlbumsSuccess: (response: GetAlbumsResponse) => loadMoreAlbumsSuccessAction(response),
   loadMoreAlbumsFailed: (error: ActionFailedError) => loadMoreAlbumsFailedAction(error),
-  markHiddenAlbumAction: (albumId: string) => markHiddenAlbumAction(albumId)
+  markHiddenAlbumAction: (albumId: string) => markHiddenAlbumAction(albumId),
+  getNextAlbumRelease: (artistId: string) => getNextAlbumReleaseStartAction(artistId),
+  getNextAlbumReleaseSuccess: (nextAlbumRelease: NextAlbumReleaseType) => getNextAlbumReleaseSuccessAction(nextAlbumRelease),
+  getNextAlbumReleaseFailed: (error: ActionFailedError) => getNextAlbumReleaseFailedAction(error),
 }
 

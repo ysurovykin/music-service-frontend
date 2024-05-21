@@ -1,6 +1,6 @@
 import api from "../../../helpers/http/api.helper";
 import { AxiosResponse } from "axios";
-import { AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse, GetListenerTopAlbumsThisMonthRequest, GetListenerTopAlbumsThisMonthResponse } from "./album.model";
+import { AlbumInfoResponseData, GetAlbumsInListenerLibraryRequest, GetAlbumsInListenerLibraryResponse, GetAlbumsRequest, GetAlbumsResponse, GetListenerTopAlbumsThisMonthRequest, GetListenerTopAlbumsThisMonthResponse, NextAlbumReleaseType } from "./album.model";
 
 export default class AlbumService {
     static async getAlbumsByArtistId(listenerId: string, artistId: string): Promise<AxiosResponse<Array<AlbumInfoResponseData>>> {
@@ -50,4 +50,9 @@ export default class AlbumService {
             params: { ...request }
         });
     }
+
+    static async getNextAlbumRelease(artistId: string): Promise<AxiosResponse<NextAlbumReleaseType>> {
+        return await api.get<NextAlbumReleaseType>(`/album/next-artist-release/${artistId}`);
+    }
+
 }

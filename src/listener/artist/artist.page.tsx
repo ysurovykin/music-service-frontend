@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { artistSelectors } from './store/artist.selectors';
 import { Avatar, Button, Divider, Dropdown, Spin, Tooltip, Typography } from 'antd';
 import { HeaderComponent } from '../components/header/header.component';
-import { getBackground } from '../../helpers/react/listener-page.helper';
+import { getBackground, renderPlaylistIcon } from '../../helpers/react/listener-page.helper';
 import { useInView } from 'react-intersection-observer';
 import { ContentCopyOutlined, Info, MoreHoriz, PersonAddAlt, PersonRemove, PlayArrow, QuizOutlined } from '@mui/icons-material';
 import { DOMAIN, listenerProfileTypePalete } from '../../config';
@@ -27,6 +27,7 @@ import { ArtistCardComponent } from './artist-card/artist-card.component';
 import { listenerSelectors } from '../store/listener.selectors';
 import { songGuesserActions } from '../song-guesser/store/song-guesser.actions';
 import { OpenGuesserGameModalData } from '../song-guesser/store/song-guesser.model';
+import moment from 'moment';
 
 const { Text, Title, Link } = Typography;
 
@@ -56,11 +57,14 @@ export function ArtistPage() {
   const fansAlsoLikeArtists = useSelector(artistSelectors.fansAlsoLikeArtists);
   const isFansAlsoLikeArtistsLoading = useSelector(artistSelectors.isFansAlsoLikeArtistsLoading);
   const subscription = useSelector(listenerSelectors.subscription);
+  const nextAlbumRelease = useSelector(albumSelectors.nextAlbumRelease);
+  const isNextAlbumReleaseLoading = useSelector(albumSelectors.isNextAlbumReleaseLoading);
 
   const dispatch = useDispatch()
   const getArtistData = (artistId: string) => dispatch(artistActions.getArtistById(artistId));
   const getAlbumsByArtistId = (artistId: string) => dispatch(albumActions.getAlbumsByArtistId(artistId));
   const getAlbumsWhereArtistAppears = (artistId: string) => dispatch(albumActions.getAlbumsWhereArtistAppears(artistId));
+  const getNextAlbumRelease = (artistId: string) => dispatch(albumActions.getNextAlbumRelease(artistId));
   const followArtist = (artistId: string) => dispatch(artistActions.followArtist(artistId));
   const unfollowArtist = (artistId: string) => dispatch(artistActions.unfollowArtist(artistId));
   const clearSongs = () => dispatch(songActions.clearSongs());
@@ -83,6 +87,7 @@ export function ArtistPage() {
       getArtistData(artistId);
       getAlbumsByArtistId(artistId);
       getAlbumsWhereArtistAppears(artistId);
+      getNextAlbumRelease(artistId);
       getFansAlsoLikeArtists(artistId);
       getSongs({
         options: { artistId: artistId },
@@ -230,6 +235,17 @@ export function ArtistPage() {
             </div> : null}
           </div>
           {songs?.length ? <Divider className='m-0' /> : null}
+          {nextAlbumRelease ? <>
+            <div className='artist-page__next-album-release'>
+              {renderPlaylistIcon(160, 'relative', nextAlbumRelease.coverImageUrl, undefined, nextAlbumRelease.backgroundColor, nextAlbumRelease.name)}
+              <div>
+                <Title level={3} className='m-0'>NEW RELEASE COMING!</Title>
+                <Title level={4} className='m-0' style={{color: listenerProfileTypePalete.base}}>Album "{nextAlbumRelease.name}"</Title>
+                <Title level={5} className='m-0'>{moment(nextAlbumRelease.releaseDate).format('MMMM Do YYYY')}</Title>
+              </div>
+            </div>
+            <Divider className='m-0' />
+          </> : null}
           {albums?.length ? <>
             <Title className='m-0' level={3}>Artist albums</Title>
             <div className='artist-page__albums-wrapper custom-scroll-x'>

@@ -8,7 +8,8 @@ import {
   GetAlbumsRequest,
   GetAlbumsResponse,
   GetListenerTopAlbumsThisMonthRequest,
-  GetListenerTopAlbumsThisMonthResponse
+  GetListenerTopAlbumsThisMonthResponse,
+  NextAlbumReleaseType
 } from "./album.model";
 
 export type GetAlbumsByArtistIdStartActionType = {
@@ -186,6 +187,21 @@ export type MarkHiddenAlbumActionType = {
   payload: string;
 };
 
+export type GetNextAlbumReleaseStartActionType = {
+  type: typeof AlbumActionTypes.GET_NEXT_ALBUM_RELEASE;
+  payload: string;
+};
+
+export type GetNextAlbumReleaseSuccessActionType = {
+  type: typeof AlbumActionTypes.GET_NEXT_ALBUM_RELEASE_SUCCESS;
+  payload: NextAlbumReleaseType;
+};
+
+export type GetNextAlbumReleaseFailedActionType = {
+  type: typeof AlbumActionTypes.GET_NEXT_ALBUM_RELEASE_FAILED;
+  payload: ActionFailedError;
+};
+
 export type AlbumActions =
   | GetAlbumsByArtistIdStartActionType
   | GetAlbumsByArtistIdSuccessActionType
@@ -221,4 +237,7 @@ export type AlbumActions =
   | LoadMoreAlbumsStartActionType
   | LoadMoreAlbumsSuccessActionType
   | LoadMoreAlbumsFailedActionType
-  | MarkHiddenAlbumActionType;
+  | MarkHiddenAlbumActionType
+  | GetNextAlbumReleaseStartActionType
+  | GetNextAlbumReleaseSuccessActionType
+  | GetNextAlbumReleaseFailedActionType;

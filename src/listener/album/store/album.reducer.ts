@@ -215,6 +215,25 @@ export const albumReducer = (state = albumState, action: AlbumActions): AlbumSta
         hidden: true
       }
     }
+    case AlbumActionTypes.GET_NEXT_ALBUM_RELEASE: {
+      return {
+        ...state,
+        isNextAlbumReleaseLoading: true
+      }
+    }
+    case AlbumActionTypes.GET_NEXT_ALBUM_RELEASE_SUCCESS: {
+      return {
+        ...state,
+        isNextAlbumReleaseLoading: false,
+        nextAlbumRelease: action.payload
+      }
+    }
+    case AlbumActionTypes.GET_NEXT_ALBUM_RELEASE_FAILED: {
+      return {
+        ...state,
+        isNextAlbumReleaseLoading: false
+      }
+    }
     default: {
       return { ...state }
     }

@@ -82,4 +82,17 @@
     align-items: center;
     gap: 10px
   }
+
+  &__next-album-release {
+    width: fit-content;
+    border-radius: 8px;
+    border: 1px solid white;
+    padding: 10px 80px 10px 10px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 80px
+  }
 }

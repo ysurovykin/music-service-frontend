@@ -26,6 +26,8 @@ const topAlbumsThisMonth = createSelector(albumState, album => album?.topAlbumsT
 const isMoreTopAlbumsThisMonthForLoading = createSelector(albumState, album => album?.isMoreTopAlbumsThisMonthForLoading);
 const isTopAlbumsThisMonthLoading = createSelector(albumState, album => album?.isTopAlbumsThisMonthLoading);
 const hidden = createSelector(albumState, album => album?.hidden);
+const isNextAlbumReleaseLoading = createSelector(albumState, album => album?.isNextAlbumReleaseLoading);
+const nextAlbumRelease = createSelector(albumState, album => album?.nextAlbumRelease);
 
 export const albumSelectors = {
   albumId,
@@ -51,4 +53,6 @@ export const albumSelectors = {
   isMoreTopAlbumsThisMonthForLoading,
   isTopAlbumsThisMonthLoading,
   hidden,
+  isNextAlbumReleaseLoading,
+  nextAlbumRelease,
 };

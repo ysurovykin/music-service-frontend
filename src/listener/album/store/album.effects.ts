@@ -42,6 +42,8 @@ export const albumEffects = [
   takeEvery(AlbumActionTypes.GET_ALBUMS_FAILED, handleError),
   takeEvery(AlbumActionTypes.LOAD_MORE_ALBUMS, loadMoreAlbums),
   takeEvery(AlbumActionTypes.LOAD_MORE_ALBUMS_FAILED, handleError),
+  takeEvery(AlbumActionTypes.GET_NEXT_ALBUM_RELEASE, getNextAlbumRelease),
+  takeEvery(AlbumActionTypes.GET_NEXT_ALBUM_RELEASE_FAILED, handleError),
 ];
 
 function* getAlbumsByArtistId(action: GetAlbumsByArtistIdStartActionType) {
@@ -196,6 +198,16 @@ function* loadMoreAlbums(action: GetAlbumsStartActionType) {
   } catch (e) {
     const error = e as AxiosError;
     yield put(albumActions.loadMoreAlbumsFailed({ error }));
+  }
+}
+
+function* getNextAlbumRelease(action: GetAlbumByIdStartActionType) {
+  try {
+    const album: AlbumInfoResponseData = yield AlbumService.getNextAlbumRelease(action.payload);
+    yield put(albumActions.getNextAlbumReleaseSuccess(album));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(albumActions.getNextAlbumReleaseFailed({ error }));
   }
 }
 

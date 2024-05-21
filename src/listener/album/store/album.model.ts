@@ -24,7 +24,9 @@ export const albumState: AlbumState = {
   topAlbumsThisMonth: undefined,
   isMoreTopAlbumsThisMonthForLoading: false,
   isTopAlbumsThisMonthLoading: false,
-  hidden: undefined
+  hidden: undefined,
+  nextAlbumRelease: undefined,
+  isNextAlbumReleaseLoading: false,
 };
 
 export interface AlbumState extends AlbumFullResponseData {
@@ -41,6 +43,8 @@ export interface AlbumState extends AlbumFullResponseData {
   isMoreTopAlbumsThisMonthForLoading: boolean;
   isTopAlbumsThisMonthLoading: boolean;
   hidden?: boolean;
+  nextAlbumRelease?: NextAlbumReleaseType;
+  isNextAlbumReleaseLoading?: boolean;
 }
 
 export type AlbumSongData = {
@@ -110,6 +114,13 @@ export type AlbumFullResponseData = AlbumInfoResponseData & {
   songsTimeDuration?: number;
 }
 
+export type NextAlbumReleaseType = {
+  name?: string;
+  releaseDate?: Date;
+  coverImageUrl?: string;
+  backgroundColor?: string;
+}
+
 export enum AlbumActionTypes {
   GET_ALBUMS_BY_ARTIST_ID = "ALBUM.GET_ALBUMS_BY_ARTIST_ID_START",
   GET_ALBUMS_BY_ARTIST_ID_SUCCESS = "ALBUM.GET_ALBUMS_BY_ARTIST_ID_SUCCESS",
@@ -157,5 +168,9 @@ export enum AlbumActionTypes {
   LOAD_MORE_ALBUMS_SUCCESS = "ALBUM.LOAD_MORE_ALBUMS_SUCCESS",
   LOAD_MORE_ALBUMS_FAILED = "ALBUM.LOAD_MORE_ALBUMS_FAILED",
 
-  MARK_HIDDEN_ALBUM = "ALBUM.MARK_HIDDEN_ALBUM"
+  MARK_HIDDEN_ALBUM = "ALBUM.MARK_HIDDEN_ALBUM",
+
+  GET_NEXT_ALBUM_RELEASE = "ALBUM.GET_NEXT_ALBUM_RELEASE_START",
+  GET_NEXT_ALBUM_RELEASE_SUCCESS = "ALBUM.GET_NEXT_ALBUM_RELEASE_SUCCESS",
+  GET_NEXT_ALBUM_RELEASE_FAILED = "ALBUM.GET_NEXT_ALBUM_RELEASE_FAILED",
 };
