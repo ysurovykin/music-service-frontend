@@ -65,6 +65,7 @@ function* createAlbum(action: CreateAlbumStartActionType) {
       formData.append('image', action.payload.coverImage);
     }
     formData.append('name', action.payload.name.trim());
+    formData.append('releaseDate', JSON.stringify(action.payload.releaseDate));
     yield ArtistAlbumService.createAlbum(artistId, formData);
     yield put(artistAlbumActions.createAlbumSuccess());
     yield put(artistAlbumActions.getAlbums({ limit: 10, offset: 0 }));
@@ -83,6 +84,7 @@ function* editAlbum(action: EditAlbumStartActionType) {
       formData.append('image', action.payload.coverImage);
     }
     formData.append('albumId', action.payload.albumId);
+    formData.append('releaseDate', JSON.stringify(action.payload.releaseDate));
     formData.append('name', action.payload.name.trim());
     yield ArtistAlbumService.editAlbum(artistId, formData);
     yield put(artistAlbumActions.editAlbumSuccess());

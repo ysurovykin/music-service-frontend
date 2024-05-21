@@ -1,72 +1,97 @@
-// import { SongActionTypes, songState } from './song.model';
-// import { SongState } from './song.model';
-// import { SongActions } from './song.actions.types';
+import { ArtistSongActionTypes, artistSongState } from './artist-song.model';
+import { ArtistSongState } from './artist-song.model';
+import { SongActions } from './artist-song.actions.types';
 
-// export const songReducer = (state = songState, action: SongActions): SongState => {
-//   switch (action.type) {
-//     case SongActionTypes.GET_SONG_BY_ID_SUCCESS: {
-//       return {
-//         ...state,
-//         songs: action.payload
-//       }
-//     }
-//     case SongActionTypes.GET_SONGS: {
-//       return {
-//         ...state,
-//         isSongsLoading: true
-//       }
-//     }
-//     case SongActionTypes.GET_SONGS_SUCCESS: {
-//       return {
-//         ...state,
-//         songs: action.payload.songs,
-//         isMoreSongsForLoading: action.payload.isMoreSongsForLoading,
-//         isSongsLoading: false
-//       }
-//     }
-//     case SongActionTypes.GET_SONGS_FAILED: {
-//       return {
-//         ...state,
-//         isSongsLoading: false
-//       }
-//     }
-//     case SongActionTypes.LOAD_MORE_SONGS: {
-//       return {
-//         ...state,
-//         isSongsLoading: true
-//       }
-//     }
-//     case SongActionTypes.LOAD_MORE_SONGS_SUCCESS: {
-//       return {
-//         ...state,
-//         songs: action.payload.songs,
-//         isMoreSongsForLoading: action.payload.isMoreSongsForLoading,
-//         isSongsLoading: false
-//       }
-//     }
-//     case SongActionTypes.LOAD_MORE_SONGS_FAILED: {
-//       return {
-//         ...state,
-//         isSongsLoading: false
-//       }
-//     }
-//     case SongActionTypes.CLEAR_SONGS: {
-//       return {
-//         ...state,
-//         songs: [],
-//         isMoreSongsForLoading: true,
-//         isSongsLoading: false
-//       }
-//     }
-//     case SongActionTypes.EDIT_SONG_PLAYLISTS: {
-//       return {
-//         ...state,
-//         songs: action.payload
-//       }
-//     }
-//     default: {
-//       return { ...state }
-//     }
-//   }
-// }
-export {};
+export const artistSongReducer = (state = artistSongState, action: SongActions): ArtistSongState => {
+  switch (action.type) {
+    case ArtistSongActionTypes.GET_ARTIST_ALBUM_SONGS: {
+      return {
+        ...state,
+        isSongsLoading: true
+      }
+    }
+    case ArtistSongActionTypes.GET_ARTIST_ALBUM_SONGS_SUCCESS: {
+      return {
+        ...state,
+        songs: action.payload.songs,
+        isSongsLoading: false
+      }
+    }
+    case ArtistSongActionTypes.GET_ARTIST_ALBUM_SONGS_FAILED: {
+      return {
+        ...state,
+        isSongsLoading: false
+      }
+    }
+    case ArtistSongActionTypes.UPLOAD_SONG: {
+      return {
+        ...state,
+        isUploadSongLoading: true
+      }
+    }
+    case ArtistSongActionTypes.UPLOAD_SONG_SUCCESS: {
+      return {
+        ...state,
+        isUploadSongLoading: false,
+        isUploadSongModalOpen: false,
+      }
+    }
+    case ArtistSongActionTypes.UPLOAD_SONG_FAILED: {
+      return {
+        ...state,
+        isUploadSongLoading: false
+      }
+    }
+    case ArtistSongActionTypes.HIDE_SONG: {
+      return {
+        ...state,
+        isHideSongLoading: true
+      }
+    }
+    case ArtistSongActionTypes.HIDE_SONG_SUCCESS: {
+      return {
+        ...state,
+        isHideSongLoading: false
+      }
+    }
+    case ArtistSongActionTypes.HIDE_SONG_FAILED: {
+      return {
+        ...state,
+        isHideSongLoading: false
+      }
+    }
+    case ArtistSongActionTypes.UNHIDE_SONG: {
+      return {
+        ...state,
+        isUnhideSongLoading: true
+      }
+    }
+    case ArtistSongActionTypes.UNHIDE_SONG_SUCCESS: {
+      return {
+        ...state,
+        isUnhideSongLoading: false
+      }
+    }
+    case ArtistSongActionTypes.UNHIDE_SONG_FAILED: {
+      return {
+        ...state,
+        isUnhideSongLoading: false
+      }
+    }
+    case ArtistSongActionTypes.OPEN_UPLOAD_SONG_MODAL: {
+      return {
+        ...state,
+        isUploadSongModalOpen: true
+      }
+    }
+    case ArtistSongActionTypes.CLOSE_UPLOAD_SONG_MODAL: {
+      return {
+        ...state,
+        isUploadSongModalOpen: false
+      }
+    }
+    default: {
+      return { ...state }
+    }
+  }
+}

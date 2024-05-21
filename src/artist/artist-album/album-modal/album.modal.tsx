@@ -3,7 +3,7 @@ import { Avatar, Button, DatePicker, Dropdown, Form, Input, MenuProps, Modal, To
 import { useDispatch, useSelector } from "react-redux";
 import { Delete, FormatColorFill, MoreHoriz, Photo } from "@mui/icons-material";
 import { CreateAlbumRequestData, EditAlbumRequestData } from "../store/artist-album.model";
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { userSelectors } from "../../../user/store/user.selectors";
 
 const { Title, Text } = Typography;
@@ -20,6 +20,7 @@ export const AlbumModal = memo(function AlbumModal({
   onDone,
   albumId,
   albumName,
+  albumReleaseDate,
   coverImageUrl
 }: {
   title: string;
@@ -30,13 +31,14 @@ export const AlbumModal = memo(function AlbumModal({
   onDone: CreateAlbumRequestFunction | EditAlbumRequestFunction;
   albumId?: string;
   albumName?: string;
+  albumReleaseDate?: Date;
   coverImageUrl?: string;
 }) {
   const [isHovered, setIsHovered] = useState<boolean>();
   const [coverSrc, setCoverSrc] = useState<string>('');
   const [coverImage, setCoverImage] = useState<File>();
   const [name, setName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
+  const [releaseDate, setReleaseDate] = useState<Dayjs | null>(null);
 
   const artistId = useSelector(userSelectors.userId)
 
@@ -83,6 +85,12 @@ export const AlbumModal = memo(function AlbumModal({
   }, [albumName, isOpen]);
 
   useEffect(() => {
+    if (albumReleaseDate && isOpen) {
+      setReleaseDate(dayjs(albumReleaseDate));
+    }
+  }, [albumReleaseDate, isOpen]);
+
+  useEffect(() => {
     if (isOpen && coverImageUrl) {
       setCoverSrc(coverImageUrl);
     }
@@ -116,14 +124,15 @@ export const AlbumModal = memo(function AlbumModal({
     setCoverSrc('');
     setCoverImage(undefined);
     setName('');
-    setDescription('');
+    setReleaseDate(null);
   };
 
   const onFinish = () => {
     onDone({
       albumId: albumId!,
       name,
-      coverImage: coverImage!
+      coverImage: coverImage!,
+      releaseDate: releaseDate?.toDate()
     });
   };
 
@@ -192,7 +201,8 @@ export const AlbumModal = memo(function AlbumModal({
             <DatePicker
               className="album-modal__album-release-date"
               placeholder='Album release date'
-              onChange={(event) => console.log(event)} //TODO ADD TO PAYLOAD
+              value={releaseDate}
+              onChange={(event) => setReleaseDate(event)}
               disabledDate={(current) => current && current < dayjs().endOf('day')}
               showToday={false}
               format={'DD/MM/YYYY'} />

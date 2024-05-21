@@ -21,6 +21,7 @@ export const artistAlbumReducer = (state = artistAlbumState, action: ArtistAlbum
         hidden: action.payload.hidden,
         songsCount: action.payload.songsCount,
         songsTimeDuration: action.payload.songsTimeDuration,
+        releaseDate: action.payload.releaseDate
       }
     }
     case AlbumActionTypes.GET_ALBUM_BY_ID_FAILED: {
@@ -169,7 +170,6 @@ export const artistAlbumReducer = (state = artistAlbumState, action: ArtistAlbum
         isUnhideAlbumLoading: false
       }
     }
-    
     case AlbumActionTypes.GET_ALBUMS_STATS: {
       return {
         ...state,

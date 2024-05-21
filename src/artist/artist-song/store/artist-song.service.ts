@@ -1,19 +1,27 @@
-// import api from "../../../helpers/http/api.helper";
-// import { AxiosResponse } from "axios";
-// import { GetSongsRequestData, GetSongsResponseData, RecordSongPlayRowDataRequestData, SongInfoResponseData } from "./song.model";
+import api from "../../../helpers/http/api.helper";
+import { AxiosResponse } from "axios";
+import { GetArtistAlbumSongsResponseData, ArtistSongInfoResponseData } from "./artist-song.model";
 
-// export default class SongService {
-//     static async getSongById(listenerId: string, songId: string, playlistId?: string): Promise<AxiosResponse<SongInfoResponseData>> {
-//         return await api.get<SongInfoResponseData>(`/song/${songId}`, { params: { listenerId, playlistId } });
-//     }
+export default class ArtistSongService {
 
-//     static async getSongs(listenerId: string, request: GetSongsRequestData): Promise<AxiosResponse<GetSongsResponseData>> {
-//         return await api.get<GetSongsResponseData>('/song/songs', { params: { listenerId, ...request } });
-//     }
+  static async getArtistAlbumSongs(artistId: string, albumId: string): Promise<AxiosResponse<GetArtistAlbumSongsResponseData>> {
+    return await api.get<GetArtistAlbumSongsResponseData>(`/song/artist-album-songs/${albumId}`, { params: { artistId } });
+  }
 
-//     static async recordSongPlayRowData(listenerId: string, time: number, songId: string): Promise<AxiosResponse<void>> {
-//         return await api.post<void>('/song/record-song-play-row-data', { time: time, songId: songId }, { params: { listenerId } });
-//     }
+  static async uploadSong(request: FormData): Promise<AxiosResponse<void>> {
+    return await api.post<void>('/song/upload', request, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  }
 
-// }
-export {};
+  static async hideSong(artistId: string, songId: string): Promise<AxiosResponse<void>> {
+    return await api.post<void>(`/song/hide/${songId}`, {}, { params: { artistId } });
+  }
+
+  static async unhideSong(artistId: string, songId: string): Promise<AxiosResponse<void>> {
+    return await api.post<void>(`/song/unhide/${songId}`, {}, { params: { artistId } });
+  }
+
+}

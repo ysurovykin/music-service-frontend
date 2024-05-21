@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export const artistAlbumState: ArtistAlbumState = {
   albums: undefined,
   isAlbumsLoading: false,
@@ -42,6 +44,7 @@ export type AlbumInfoResponseData = {
   hidden?: boolean;
   coverImageUrl?: string;
   backgroundColor?: string;
+  releaseDate?: Date;
 }
 
 export type GetAlbumsRequest = {
@@ -74,6 +77,7 @@ export type AlbumStatsResponseData = AlbumInfoResponseData & {
 }
 
 export type AlbumFullResponseData = AlbumInfoResponseData & {
+  releaseDate?: Date;
   songsCount?: number;
   songsTimeDuration?: number;
 }
@@ -81,12 +85,14 @@ export type AlbumFullResponseData = AlbumInfoResponseData & {
 export type CreateAlbumRequestData = {
   name: string;
   coverImage: Blob;
+  releaseDate?: Date;
 }
 
 export type EditAlbumRequestData = {
   albumId: string;
   name: string;
   coverImage: Blob;
+  releaseDate?: Date;
 }
 
 export enum AlbumActionTypes {

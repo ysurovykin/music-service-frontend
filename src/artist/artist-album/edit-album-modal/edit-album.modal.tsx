@@ -37,6 +37,7 @@ export function EditAlbumModal() {
       onCancel={closeEditAlbumModal}
       albumId={albumId}
       coverImageUrl={album?.coverImageUrl}
+      albumReleaseDate={album?.releaseDate}
       albumName={album?.name}
     />
   );

@@ -15,6 +15,7 @@ import { showNotification } from '../../helpers/react/redux.helper';
 import { artistProfileSelectors } from '../store/artist-profile.selectors';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { ArtistSongTableComponent } from '../artist-song/artist-song-table.component';
+import { artistSongActions } from '../artist-song/store/artist-song.actions';
 
 const { Title } = Typography;
 
@@ -34,6 +35,7 @@ export function AlbumPage() {
   const openEditAlbumModal = () => dispatch(artistAlbumActions.openEditAlbumModal());
   const hideAlbum = (albumId: string) => dispatch(artistAlbumActions.hideAlbum(albumId));
   const unhideAlbum = (albumId: string) => dispatch(artistAlbumActions.unhideAlbum(albumId));
+  const openUploadSongModal = () => dispatch(artistSongActions.openUploadSongModal());
 
   useEffect(() => {
     if (albumId) {
@@ -108,12 +110,15 @@ export function AlbumPage() {
           <div
             className="cursor-pointer"
             onClick={() => { }}>
-            <Button className='artist-album-page__add-song-button'>Add new song</Button>
+            <Button
+              className='artist-album-page__add-song-button'
+              onClick={() => openUploadSongModal()}>
+              Add new song
+            </Button>
           </div>
         </div>
-        <Divider className='mt-0' />
         <div>
-          <ArtistSongTableComponent />
+          <ArtistSongTableComponent albumId={albumId!} />
         </div>
       </div>
     </div >

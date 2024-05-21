@@ -1,100 +1,93 @@
-// import { ActionFailedError } from "../../../helpers/react/redux.helper";
-// import {
-//   SongActionTypes,
-//   GetSongsRequestData,
-//   GetSongsResponseData,
-//   SongInfoResponseData,
-//   GetSongByIdRequestData,
-//   RecordSongPlayRowDataRequestData
-// } from "./song.model";
+import { ActionFailedError } from "../../../helpers/react/redux.helper";
+import {
+  ArtistSongActionTypes,
+  GetArtistAlbumSongsResponseData,
+  ArtistSongInfoResponseData,
+  UploadSongRequestData
+} from "./artist-song.model";
 
-// export type UploadSongStartActionType = {
-//   type: typeof SongActionTypes.GET_SONGS;
-//   payload: GetSongsRequestData;
-// };
+export type GetArtistAlbumSongsStartActionType = {
+  type: typeof ArtistSongActionTypes.GET_ARTIST_ALBUM_SONGS;
+  payload: string;
+};
 
-// export type UploadSongSuccessActionType = {
-//   type: typeof SongActionTypes.GET_SONGS_SUCCESS;
-//   payload: GetSongsResponseData;
-// };
+export type GetArtistAlbumSongsSuccessActionType = {
+  type: typeof ArtistSongActionTypes.GET_ARTIST_ALBUM_SONGS_SUCCESS;
+  payload: GetArtistAlbumSongsResponseData;
+};
 
-// export type UploadSongFailedActionType = {
-//   type: typeof SongActionTypes.GET_SONGS_FAILED;
-//   payload: ActionFailedError;
-// };
+export type GetArtistAlbumSongsFailedActionType = {
+  type: typeof ArtistSongActionTypes.GET_ARTIST_ALBUM_SONGS_FAILED;
+  payload: ActionFailedError;
+};
 
-// export type GetSongsStartActionType = {
-//   type: typeof SongActionTypes.GET_SONGS;
-//   payload: GetSongsRequestData;
-// };
+export type UploadSongStartActionType = {
+  type: typeof ArtistSongActionTypes.UPLOAD_SONG;
+  payload: UploadSongRequestData;
+};
 
-// export type GetSongsSuccessActionType = {
-//   type: typeof SongActionTypes.GET_SONGS_SUCCESS;
-//   payload: GetSongsResponseData;
-// };
+export type UploadSongSuccessActionType = {
+  type: typeof ArtistSongActionTypes.UPLOAD_SONG_SUCCESS;
+  payload: undefined;
+};
 
-// export type GetSongsFailedActionType = {
-//   type: typeof SongActionTypes.GET_SONGS_FAILED;
-//   payload: ActionFailedError;
-// };
+export type UploadSongFailedActionType = {
+  type: typeof ArtistSongActionTypes.UPLOAD_SONG_FAILED;
+  payload: ActionFailedError;
+};
 
-// export type LoadMoreSongsStartActionType = {
-//   type: typeof SongActionTypes.LOAD_MORE_SONGS;
-//   payload: GetSongsRequestData;
-// };
+export type HideSongStartActionType = {
+  type: typeof ArtistSongActionTypes.HIDE_SONG;
+  payload: string;
+};
 
-// export type LoadMoreSongsSuccessActionType = {
-//   type: typeof SongActionTypes.LOAD_MORE_SONGS_SUCCESS;
-//   payload: GetSongsResponseData;
-// };
+export type HideSongSuccessActionType = {
+  type: typeof ArtistSongActionTypes.HIDE_SONG_SUCCESS;
+  payload: undefined;
+};
 
-// export type LoadMoreSongsFailedActionType = {
-//   type: typeof SongActionTypes.LOAD_MORE_SONGS_FAILED;
-//   payload: ActionFailedError;
-// };
+export type HideSongFailedActionType = {
+  type: typeof ArtistSongActionTypes.HIDE_SONG_FAILED;
+  payload: ActionFailedError;
+};
 
-// export type HideAlbumStartActionType = {
-//   type: typeof SongActionTypes.HIDE_SONG;
-//   payload: string;
-// };
+export type UnhideSongStartActionType = {
+  type: typeof ArtistSongActionTypes.UNHIDE_SONG;
+  payload: string;
+};
 
-// export type HideAlbumSuccessActionType = {
-//   type: typeof SongActionTypes.HIDE_SONG_SUCCESS;
-//   payload: undefined;
-// };
+export type UnhideSongSuccessActionType = {
+  type: typeof ArtistSongActionTypes.UNHIDE_SONG_SUCCESS;
+  payload: undefined;
+};
 
-// export type HideAlbumFailedActionType = {
-//   type: typeof SongActionTypes.HIDE_SONG_FAILED;
-//   payload: ActionFailedError;
-// };
+export type UnhideSongFailedActionType = {
+  type: typeof ArtistSongActionTypes.UNHIDE_SONG_FAILED;
+  payload: ActionFailedError;
+};
 
-// export type UnhideAlbumStartActionType = {
-//   type: typeof SongActionTypes.UNHIDE_SONG;
-//   payload: string;
-// };
+export type OpenUploadSongModalActionType = {
+  type: typeof ArtistSongActionTypes.OPEN_UPLOAD_SONG_MODAL;
+  payload: undefined;
+};
 
-// export type UnhideAlbumSuccessActionType = {
-//   type: typeof SongActionTypes.UNHIDE_SONG_SUCCESS;
-//   payload: undefined;
-// };
+export type CloseUploadSongModalActionType = {
+  type: typeof ArtistSongActionTypes.CLOSE_UPLOAD_SONG_MODAL;
+  payload: undefined;
+};
 
-// export type UnhideAlbumFailedActionType = {
-//   type: typeof SongActionTypes.UNHIDE_SONG_FAILED;
-//   payload: ActionFailedError;
-// };
-
-// export type SongActions =
-//   | GetSongByIdStartActionType
-//   | GetSongByIdSuccessActionType
-//   | GetSongByIdFailedActionType
-//   | GetSongsStartActionType
-//   | GetSongsSuccessActionType
-//   | GetSongsFailedActionType
-//   | ClearSongsActionType
-//   | EditSongPlaylistsActionType
-//   | LoadMoreSongsStartActionType
-//   | LoadMoreSongsSuccessActionType
-//   | LoadMoreSongsFailedActionType
-//   | RecordSongPlayRowDataActionType;
-
-export {};
+export type SongActions =
+  | UploadSongStartActionType
+  | UploadSongSuccessActionType
+  | UploadSongFailedActionType
+  | GetArtistAlbumSongsStartActionType
+  | GetArtistAlbumSongsSuccessActionType
+  | GetArtistAlbumSongsFailedActionType
+  | HideSongStartActionType
+  | HideSongSuccessActionType
+  | HideSongFailedActionType
+  | UnhideSongStartActionType
+  | UnhideSongSuccessActionType
+  | UnhideSongFailedActionType
+  | OpenUploadSongModalActionType
+  | CloseUploadSongModalActionType;

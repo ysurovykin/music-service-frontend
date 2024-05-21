@@ -392,7 +392,7 @@ export function SongTableComponent({
     const menuColumn: ColumnProps<SongInfoResponseData> = {
       align: 'center',
       width: '75px',
-      dataIndex: 'duration',
+      dataIndex: 'menu',
       render: (value, record) =>
         <Tooltip title={`More options for song ${record.name}`}>
           {record.hidden ? <></> : <div className="song-player__additional-controller-icon-wrapper cursor-pointer">
@@ -401,7 +401,7 @@ export function SongTableComponent({
             </Dropdown> : <div></div>}
           </div>}
         </Tooltip>,
-      key: 'duration'
+      key: 'menu'
     };
 
     return {

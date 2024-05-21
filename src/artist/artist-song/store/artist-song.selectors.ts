@@ -1,15 +1,20 @@
-// import { createSelector } from "reselect";
-// import { InitialState } from "../../../redux.store";
+import { createSelector } from "reselect";
+import { InitialState } from "../../../redux.store";
 
-// const songState = (state: InitialState) => state.song;
+const artistSongState = (state: InitialState) => state.artistSong;
 
-// const songs = createSelector(songState, song => song?.songs);
-// const isSongsLoading = createSelector(songState, album => album?.isSongsLoading);
-// const isMoreSongsForLoading = createSelector(songState, album => album?.isMoreSongsForLoading);
+const artistSongs = createSelector(artistSongState, artistSong => artistSong?.songs);
+const isSongsLoading = createSelector(artistSongState, artistSong => artistSong?.isSongsLoading);
+const isHideSongLoading = createSelector(artistSongState, artistSong => artistSong?.isHideSongLoading);
+const isUnhideSongLoading = createSelector(artistSongState, artistSong => artistSong?.isUnhideSongLoading);
+const isUploadSongLoading = createSelector(artistSongState, artistSong => artistSong?.isUploadSongLoading);
+const isUploadSongModalOpen = createSelector(artistSongState, artistSong => artistSong?.isUploadSongModalOpen);
 
-// export const songSelectors = {
-//   songs,
-//   isSongsLoading,
-//   isMoreSongsForLoading
-// };
-export {};
+export const artistSongSelectors = {
+  artistSongs,
+  isSongsLoading,
+  isHideSongLoading,
+  isUnhideSongLoading,
+  isUploadSongLoading,
+  isUploadSongModalOpen,
+};

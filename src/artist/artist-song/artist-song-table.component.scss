@@ -16,8 +16,8 @@
     gap: 16px;
     align-items: center;
 
-    &--with-cover {
-      grid-template-columns: 16px 48px auto;
+    &--without-cover {
+      grid-template-columns: 16px auto;
     }
 
   }

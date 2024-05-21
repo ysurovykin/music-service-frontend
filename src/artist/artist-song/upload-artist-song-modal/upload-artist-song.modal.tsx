@@ -1,10 +1,15 @@
-import React, { useMemo, useEffect, useState } from "react";
-import { Avatar, Button, Checkbox, Divider, Input, Modal, Select, SelectProps, Table, Tag, Tooltip, Typography, Upload } from "antd";
+import React, { useMemo, useEffect, useState, useRef } from "react";
+import { Button, Checkbox, Input, InputRef, Modal, Select, SelectProps, Tag, Tooltip, Typography, Upload } from "antd";
 import { useDispatch } from "react-redux";
-import { Link as RouterLink } from 'react-router-dom';
-import { Delete } from "@mui/icons-material";
-import { songGenres, songLanguages } from "../../../config";
+import { Close, Delete } from "@mui/icons-material";
+import { artistProfileTypePalete, songGenres, songLanguages } from "../../../config";
 import { renderTitleWithToolTip } from "../../../helpers/react/form.helper";
+import { artistSongActions } from "../store/artist-song.actions";
+import { UploadSongRequestData } from "../store/artist-song.model";
+import { useSelector } from "react-redux";
+import { artistSongSelectors } from "../store/artist-song.selectors";
+import { TweenOneGroup } from 'rc-tween-one';
+import { PlusOutlined } from "@ant-design/icons";
 
 type TagRender = SelectProps['tagRender'];
 const { Text, Title } = Typography;
@@ -14,7 +19,19 @@ export const UploadArtistSongModal = () => {
   const [name, setName] = useState<string>('');
   const [selectedGenres, setSelectedGenres] = useState<Array<string>>([]);
   const [selectedLanguage, setSelectedLanguage] = useState<string>('');
+  const [explicit, setExplicit] = useState<boolean>(false);
+  const [hasCoArtists, setHasCoArtists] = useState<boolean>(false);
+  const [coArtistIds, setCoArtistIds] = useState<Array<string>>([]);
+  const [inputVisible, setInputVisible] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const inputRef = useRef<InputRef>(null);
+
+  const isUploadSongModalOpen = useSelector(artistSongSelectors.isUploadSongModalOpen);
+  const isUploadSongLoading = useSelector(artistSongSelectors.isUploadSongLoading);
+
   const dispatch = useDispatch();
+  const closeUploadSongModal = () => dispatch(artistSongActions.closeUploadSongModal());
+  const uploadSong = (request: UploadSongRequestData) => dispatch(artistSongActions.uploadSong(request));
 
   const genreOptions = useMemo(() => {
     return Object.keys(songGenres)?.map(genre => ({ label: songGenres[genre].label, value: genre }));
@@ -24,6 +41,21 @@ export const UploadArtistSongModal = () => {
     return Object.keys(songLanguages)?.map(language => ({ label: songLanguages[language].label, value: language }));
   }, [songLanguages]);
 
+  const uploadSongDisabled = useMemo(() => {
+    return !name || !selectedGenres.length || !selectedLanguage || isUploadSongLoading;
+  }, [name, selectedGenres, selectedLanguage, isUploadSongLoading]);
+
+  const uploadSongDisabledText = useMemo(() => {
+    if (!name) {
+      return 'Song name is required';
+    } else if (!selectedGenres) {
+      return 'Song must have at least one genre';
+    } else if (!selectedLanguage) {
+      return 'Song language is required';
+    } else {
+      return '';
+    }
+  }, [name, selectedGenres, selectedLanguage]);
 
   const genreTagRender: TagRender = (props) => {
     const { label, value, closable, onClose } = props;
@@ -44,27 +76,111 @@ export const UploadArtistSongModal = () => {
     );
   };
 
+  useEffect(() => {
+    if (inputVisible) {
+      inputRef.current?.focus();
+    }
+  }, [inputVisible]);
+
+  const handleClose = (removedCoartistId: string) => {
+    const newCoArtistIds = coArtistIds.filter((coartistId) => coartistId !== removedCoartistId);
+    setCoArtistIds(newCoArtistIds);
+  };
+
+  const showInput = () => {
+    setInputVisible(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputConfirm = () => {
+    if (inputValue && coArtistIds.indexOf(inputValue) === -1) {
+      setCoArtistIds([...coArtistIds, inputValue]);
+    }
+    setInputVisible(false);
+    setInputValue('');
+  };
+
+  const renderAddCoArtistSection = () => {
+    return (
+      <>
+        {inputVisible ? (
+          <Input
+            ref={inputRef}
+            type="text"
+            size="small"
+            value={inputValue}
+            onChange={handleInputChange}
+            onBlur={handleInputConfirm}
+            onPressEnter={handleInputConfirm}
+          />
+        ) : (
+          <Tag onClick={showInput} style={{ borderStyle: 'dashed', background: 'transparent', color: 'white' }}>
+            <PlusOutlined /> Coartist Id
+          </Tag>
+        )}
+        <div style={{ marginBottom: 16 }}>
+          <TweenOneGroup
+            appear={false}
+            enter={{ scale: 0.8, opacity: 0, type: 'from', duration: 100 }}
+            leave={{ opacity: 0, width: 0, scale: 0, duration: 200 }}
+            onEnd={(e) => {
+              if (e.type === 'appear' || e.type === 'enter') {
+                (e.target as any).style = 'display: inline-block';
+              }
+            }}
+          >
+            {coArtistIds.map((tag: string) => (
+              <span key={tag} style={{ display: 'inline-block' }}>
+                <Tag
+                  style={{ background: artistProfileTypePalete.base, color: 'white' }}
+                  closable
+                  onClose={(e) => {
+                    e.preventDefault();
+                    handleClose(tag);
+                  }}
+                >
+                  {tag}
+                </Tag>
+              </span>))
+            }
+          </TweenOneGroup>
+        </div>
+      </>
+    );
+  }
+
   return (
     <Modal
       title='Upload new song'
-      open={false}
+      open={isUploadSongModalOpen}
       closable={false}
-      onCancel={() => console.log()} //TODO FIX
+      onCancel={() => closeUploadSongModal()}
       width={500}
       footer={[
         <Button
           className="upload-artist-song-modal__cancel-button"
           key="cancel"
-          onClick={() => console.log()} /*TODO FIX*/>
+          onClick={() => closeUploadSongModal()}>
           Cancel
         </Button>,
-        <Tooltip key="tooltip" title={'ADD TEXT'}>
+        <Tooltip key="tooltip" title={uploadSongDisabledText}>
           <Button
             className="upload-artist-song-modal__ok-button"
             key="submit"
             type="primary"
-            disabled={false} //TODO FIX
-            onClick={() => console.log()}  /*TODO FIX*/>
+            disabled={uploadSongDisabled}
+            onClick={() => uploadSong({
+              albumId: localStorage.getItem('currentArtistAlbumId')!,
+              explicit: explicit,
+              genres: selectedGenres,
+              language: selectedLanguage,
+              name: name,
+              song: songFile!,
+              coArtistIds: hasCoArtists ? coArtistIds : undefined
+            })}>
             Upload song
           </Button>
         </Tooltip>
@@ -117,12 +233,15 @@ export const UploadArtistSongModal = () => {
             options={languageOptions}
           />
         </div>
-        <Checkbox>
+        <Checkbox
+          onChange={(event) => setExplicit(event.target.checked)}>
           Explicit
         </Checkbox>
-        <Checkbox>
+        <Checkbox
+          onChange={(event) => setHasCoArtists(event.target.checked)}>
           Song has coartists?
         </Checkbox>
+        {hasCoArtists ? renderAddCoArtistSection() : <></>}
       </div>
     </Modal>
   );
