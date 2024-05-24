@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { HeaderComponent } from "../components/header/header.component";
-import { getBackground } from "../../helpers/react/listener-page.helper";
+import { formatPlaylistTime, getBackground } from "../../helpers/react/listener-page.helper";
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from "react-redux";
 import { artistProfileTypePalete, listenerProfileTypePalete } from "../../config";
@@ -122,7 +122,7 @@ export function ProfilePage() {
               <Title
                 className="profile-page__info-data m-0"
                 level={5}>
-                {renderTitleWithToolTip('Duration', 'Total songs time duration', 5, true)} <span>{generalStats?.songsDuration}</span>
+                {renderTitleWithToolTip('Duration', 'Total songs time duration', 5, true)} <span>{formatPlaylistTime(generalStats?.songsDuration!)}</span>
               </Title>
               <Title
                 className="profile-page__info-data m-0"

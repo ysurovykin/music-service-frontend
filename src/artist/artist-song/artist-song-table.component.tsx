@@ -59,11 +59,11 @@ export const ArtistSongTableComponent = ({
               <Text className='artist-song__credentials-artists-wrapper'>
                 {record?.hidden ? <VisibilityOffOutlined fontSize="small" /> : <VisibilityOutlined fontSize="small" />}
                 {record?.explicit ? <Tooltip title='Explicit'><Explicit fontSize="small" /></Tooltip> : <></>}
-                {record?.coArtists && <div>
+                {record?.coArtists?.length ? <div>
                   <Text>Feat: </Text><Text>{record?.coArtists
                     ?.map<React.ReactNode>(artist => <Text>{artist.name}</Text>)
-                    .reduce((prev, curr) => [prev, ', ', curr])}</Text>
-                </div>}
+                    ?.reduce((prev, curr) => [prev, ', ', curr])}</Text>
+                </div> : <></>}
               </Text>
             </div>
           </div>

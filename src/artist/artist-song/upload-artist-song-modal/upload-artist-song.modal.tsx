@@ -179,7 +179,7 @@ export const UploadArtistSongModal = () => {
               language: selectedLanguage,
               name: name,
               song: songFile!,
-              coArtistIds: hasCoArtists ? coArtistIds : undefined
+              coArtistIds: hasCoArtists ? coArtistIds : []
             })}>
             Upload song
           </Button>
